@@ -2,8 +2,8 @@
 // ----
 Object.defineProperty(global, 'lib', {
   get: function(){
-    console.log("" + __dirname + path.sep + ".." + path.sep + confapp.libs);
-    return require("" + __dirname + path.sep + ".." + path.sep + confapp.libs);
+    console.log("" + __dirname + path.sep + ".." + path.sep + "../SmartCore");
+    return require("" + __dirname + path.sep + ".." + path.sep + "../SmartCore");
   }
 });
 
