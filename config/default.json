@@ -9,7 +9,7 @@
   "testdb": {
       "host": "mongo"
     , "port": 27017
-    , "dbname": "developer"
+    , "dbname": "cross"
     , "pool": 5
   },
 
@@ -24,33 +24,48 @@
         "user": "smart@gmail.com"
       , "pass": "smart"
     }
-    // "host": "mail.securemx.jp"
-    // "port": 465
-    // "secure": true
   },
 
-  "session": {
-      "timeout": 720 // 24 * 30 一个月
-    , "secret": "com.smart"
-    , "key": "smart.sid"
-  },
-
-  "cookie": {
-      "key": "smart.cookie"
-    , "secret": "com.smart"
-    , "timeout": 12
-  },
-  
   "app": {
-      "tmp": "/tmp"
+      "port": 3000
+    , "views": "views"
+    , "cookieSecret": "smartcore"
+    , "sessionSecret": "smartcore"
+    , "sessionKey": "smartcore.sid"
+    , "sessionTimeout": 720 // 24 * 30 一个月
+    , "tmp": "/tmp"
     , "hmackey": "smart"
+    , "i18n": {
+      "cache": "memory"
+      , "lang": "zh"
+      , "category": "cross"
+    }
+    , "ignoreAuth": [
+      "^\/stylesheets"
+      , "^\/javascripts"
+      , "^\/vendor"
+      , "^\/images"
+      , "^\/video"
+      , "^\/$"
+      , "^\/simplelogin.*"
+      , "^\/simplelogout.*"
+      , "^\/login.*"
+      , "^\/register.*"
+    ]
     , "workpath": "/Users/lilin/developer/nodejs/smart/tmp"
     , "analyzer": "java -jar /Users/lilin/Desktop/analyzer.jar"
-    , "scissors": ""
     , "queue": "true"
-    , "port": 3000
     , "timeout": 30
-    , "libs": "../SmartCore"
+  },
+
+  "log": {
+    "fluent": {
+      "enable": "false"
+      , "tag": "node"
+      , "host": "10.2.8.228"
+      , "port": 24224
+      , "timeout": 3.0
+    }
   },
   
   "thumbq" : {
