@@ -1,13 +1,13 @@
 {  
   "db": {
-       "host": "127.0.0.1"
+       "host": "mongo"
     , "port": 27017
-    , "dbname": "smart"
+    , "dbname": "cross"
     , "pool": 5
   },
 
   "testdb": {
-      "host": "127.0.0.1"
+      "host": "mongo"
     , "port": 27017
     , "dbname": "developer"
     , "pool": 5
@@ -62,7 +62,7 @@
     , "thumb_queue":"smartThumb"
   },
   "mq": {
-      "host": "127.0.0.1"
+      "host": "mq"
     , "port": 5672
     , "user": "guest"
     , "password": "guest"
@@ -70,14 +70,14 @@
     , "notification_queue": "SmartNotification"
   },
   "mq_photo": {
-      "host": "127.0.0.1"
+      "host": "mq"
     , "port": 5672
     , "user": "guest"
     , "password": "guest"
     , "queue": "smartPhoto"
   },
   "mq_apn": {
-      "host": "127.0.0.1"
+      "host": "mq"
     , "port": 5672
     , "user": "guest"
     , "password": "guest"
