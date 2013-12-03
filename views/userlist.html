@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title><%= title %></title>
+
+    <% include common/required.html %>
+
+    <script type='text/javascript' src='/javascripts/menu.model.js'></script>
+    <script type='text/javascript' src='/javascripts/menu.view.js'></script>
+    <script type='text/javascript' src='/javascripts/searcher.model.js'></script>
+    <script type='text/javascript' src='/javascripts/searcher.view.js'></script>
+    <script type='text/javascript' src='/javascripts/sidemenu.model.js'></script>
+    <script type='text/javascript' src='/javascripts/sidemenu.view.js'></script>
+
+    <script type="text/javascript" src="/javascripts/user/user.js"></script>
+    <script type="text/javascript" src="/javascripts/user/userlist.view.js"></script>
+    <script type="text/javascript" src="/javascripts/user/user.model.js"></script>
+    <link rel="stylesheet" href="/stylesheets/userlist.css">
+  </head>
+  <body>
+    <% include common/navbar.html %>
+
+    <section>
+      <article>
+        <% include common/sidemenu.html %>
+      </article>
+
+      <div id="maincontents">
+        <div id="informations">
+          <h3><%= i('user.label.title') %></h3>
+          <p><%= i('user.label.sugestion') %></p>
+        </div>
+
+        <ul class="nav nav-tabs" style="height:37px;">
+          <li class="active"><a id="all" href="#1" data-toggle="tab"><%= i('user.tab.alluser') %></a></li>
+        </ul>
+
+        <div class="tab-content">
+          <div id="1" class="tab-pane active">
+            <div id="allFilter" class="btn-toolbar">
+              <div class="btn-group">
+                <a class="btn" href="javascript://">All</a>
+              </div>
+              <div class="btn-group">
+                <a class="btn" href="javascript://">A</a>
+                <a class="btn" href="javascript://">B</a>
+                <a class="btn" href="javascript://">C</a>
+                <a class="btn" href="javascript://">D</a>
+                <a class="btn" href="javascript://">E</a>
+                <a class="btn" href="javascript://">F</a>
+                <a class="btn" href="javascript://">G</a>
+                <a class="btn" href="javascript://">H</a>
+                <a class="btn" href="javascript://">I</a>
+                <a class="btn" href="javascript://">J</a>
+                <a class="btn" href="javascript://">K</a>
+                <a class="btn" href="javascript://">L</a>
+                <a class="btn" href="javascript://">M</a>
+                <a class="btn" href="javascript://">N</a>
+                <a class="btn" href="javascript://">O</a>
+                <a class="btn" href="javascript://">P</a>
+                <a class="btn" href="javascript://">Q</a>
+                <a class="btn" href="javascript://">R</a>
+                <a class="btn" href="javascript://">S</a>
+                <a class="btn" href="javascript://">T</a>
+                <a class="btn" href="javascript://">U</a>
+                <a class="btn" href="javascript://">V</a>
+                <a class="btn" href="javascript://">W</a>
+                <a class="btn" href="javascript://">X</a>
+                <a class="btn" href="javascript://">Y</a>
+                <a class="btn" href="javascript://">Z</a>
+              </div>
+            </div>
+            <table class="table table-hover">
+              <thead>
+                <tr>
+                  <th></th>
+                  <th><%= i('user.header.name') %></th>
+                  <th width="150px"><%= i('user.header.title') %></th>
+                  <th><%= i('user.header.email') %></th>
+                  <th></th>
+                </tr>
+              </thead>
+              <tbody id="allUsers"></tbody>
+            </table>
+          </div>
+
+          <!-- <div class="pagination pagination-centered">
+            <ul>
+              <li class="disabled"><a href="#">上一页</a></li>
+              <li><a href="#" class="active">1</a></li>
+              <li class="disabled"><a href="#">下一页</a></li>
+            </ul>
+          </div> -->
+        </div>
+      </div>
+
+      <footer>
+        <p>Copyright © 2012, Cross Corporation. All Rights Reserved.</p>
+      </footer>
+
+    </section>
+
+    <script type="text/template" id="user-template">
+      <tr>
+        <td>
+          <a href="/user/{{ id }}"><img class="img-rounded" src="{{ photo }}"></a>
+        </td>
+        <td><a href="/user/{{ id }}">{{ name }}</a></td>
+        <td>{{ title }}</td>
+        <td>{{ mail }}</td>
+        <td style="text-align: right">
+          <a class="btn btn-small hidden" name="unfollow" uid="{{id}}" id="unfollow_{{id}}"><%= i('user.option.unfollow') %></a>
+          <a class="btn btn-small btn-success hidden" name="follow" uid="{{id}}" id="follow_{{id}}"><%= i('user.option.follow') %></a>
+          <a class="btn btn-small btn-success hidden" name="privatemsg" uid="{{id}}" id="privatemsg_{{id}}"><%= i('user.option.sentPrivateMsg') %></a> 
+        </td>
+      </tr>
+    </script>
+  </body>
+</html>

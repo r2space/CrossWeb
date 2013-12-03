@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title><%= title %></title>
+
+    <% include common/required.html %>
+
+    <script src='/javascripts/menu.model.js'></script>
+    <script src='/javascripts/menu.view.js'></script>
+    <script src='/javascripts/searcher.model.js'></script>
+    <script src='/javascripts/searcher.view.js'></script>
+
+    <script src="/javascripts/shortmail/shortmail.js"></script>
+    <script src="/javascripts/shortmail/shortmail.view.js"></script>
+    <script src="/javascripts/shortmail/shortmail.model.js"></script>
+    <script src='/javascripts/sidemenu.model.js'></script>
+    <script src='/javascripts/sidemenu.view.js'></script>
+
+    <link rel="stylesheet" href="/stylesheets/userlist.css">
+
+  </head>
+  <body>
+
+    <% include common/navbar.html %>
+
+    <section>
+      <article>
+        <% include common/sidemenu.html %>
+      </article>
+    
+      <div id="mail-story" class="container-fluid">
+        <div class="row-fluid">
+
+          <div class="span6" style="width:550px; margin-left: 20px;">
+            <div>
+              <p style="text-align: center;"><a id="showEarlier" date=""><%= i('shortmail.option.earlierMsg') %></a></p>
+            </div>
+            <hr>
+            <div id="mails-container"></div>
+            <div>
+              <textarea class="input-xxlarge  " style="margin-bottom: 10px;margin-left: 60px;width: 490px;" id="send_private_msg" rows="3" placeholder="<%= i('shortmail.message.placeholder') %>"></textarea>
+              <div class="pull-right">
+                <a id="reply_mail" class="btn btn-small btn-primary create-btn "><%= i('shortmail.option.sent') %></a>
+              </div>
+            </div> 
+          </div>
+        </div>
+      </div>
+
+      <footer>
+        <p>Copyright © 2012, Cross Corporation. All Rights Reserved.</p>
+      </footer>
+    </section>
+
+    <script type="text/template" id="mailtemplate"> 
+      <div style="margin-bottom: 0">
+        <$ _.each(users, function(user){ $>
+
+        <dl class="dl-horizontal">        
+          <dt>
+            <img src="/picture/{{ user.photo.small }}">
+          </dt>
+          <dd>
+            <a href="/shortmail/{{ user._id }}" id="{{ user._id }}"> 
+              {{ user.name.name_zh }}
+            </a>
+          </dd>        
+        </dl>
+        <hr>
+        <$ }); $>
+      </div>
+    </script>
+    
+    <script type="text/template" id="maillist-template">  
+      <dl class="maillist">
+      </dl>
+    </script>
+
+    <script type="text/template" id="maillist-user-template">
+      <dt class="mail-face" style="float: left">
+        <a href="/user/{{ uid }}"><img src="{{ uphoto }}" style="max-width:30px"></a>
+        <div style="position: relative;top: -55px;left: 70px;margin-top: 10px;">
+          <a href="/user/{{ uid }}" id="{{ uid }}" class="">{{ uname }}</a>
+        </div>
+      </dt>
+    </script>
+
+    <script type="text/template" id="maillist-content-template">
+      <dd class="mail-content" id="mail-{{ mid }}">
+        <p class="mail-info" style="float:right;margin-bottom: 0px;">
+          <span style="color: #BBB;margin-left: 10px;">{{ time }}</span>
+        </p>
+        <p style="margin-top: 10px;margin-bottom: 10px;margin-left: 60px; margin-left: 60px;word-wrap: break-word;">
+          {{ content }}
+        </p>
+      </dd>
+    </script>
+
+    <script type="text/template" id="shortmail-users-template">
+      <li class="{{active}}">
+        <a uid="{{uid}}" > {{uname}}
+          <$ if (unread) { $><span class="label label-important">{{unread}}</span><$ } $>
+        </a>
+      </li>
+    </script>
+
+    <script type="text/template" id="user-template">
+      <tr>
+        <td>
+          <a href="/user/{{ id }}"><img class="img-rounded" src="{{ photo }}"></a>
+        </td>
+        <td><a href="/user/{{ id }}">{{ name }}</a></td>
+        <td>{{ title }}</td>
+        <td  style="max-width: 280px;overflow: hidden;text-overflow: ellipsis;"><a href="/shortmail/{{ id }}">{{ lastMail }}</a></td>
+        <td>
+          <$ if (unread) { $>
+          <span class="label label-important">
+            {{ unread }}
+          </span>
+          <$ } $>
+        </td>
+        <td style="text-align: right">
+          <$ if (!self) { $>
+          <a class="btn btn-small btn-success" name="privatemsg" uid="{{id}}"><%= i('shortmail.option.sentPrivateMsg') %></a>
+          <$ } $>
+        </td>
+      </tr>
+    </script>
+    
+  </body>
+</html>

@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title><%= title %></title>
+    <% include ../common/required.html %>
+
+    <script type="text/javascript">
+    function hello() {
+      $('#myModal').modal('show');
+      return;
+    }
+
+    function show() {
+      $( "#dialog-confirm" ).dialog("open");
+    }
+
+    function showpopover() {
+      popover($("#aaa"), "aaa", "bbb");
+    }
+
+    function popover(toggle, title, content) {
+      toggle.popover({
+          "title": title
+        , "content": content
+        , "trigger": "manual"
+        , "placement": "bottom"
+      });
+
+      toggle.popover('show');
+      setTimeout(function(){toggle.popover('destroy')}, 800);
+    }
+
+    var dlg;
+    $(function() {
+
+      dlg = $( "#dialog-confirm" ).dialog({
+          resizable: false,
+          height:200,
+          modal: true,
+          autoOpen: false,
+          buttons: {
+              "发送": function() {
+                $( this ).dialog( "close" );
+              },
+              "Cancel": function() {
+                $( this ).dialog( "close" );
+              }
+          }
+      });
+
+      <!-- 对应是jquery ui 1.8.22的按钮不显示的BUG -->
+      $('div.ui-dialog button.ui-button').each(function() {
+        $(this).children('.ui-button-text').html($(this).attr('text'));
+      });
+
+      $("#send").bind("click", function(){
+        var userid = $("#userid").val()
+          , message = $("#msg").val()
+          , csrftoken = $("#_csrf").val();
+
+        $.ajax({
+            url: "/message/privateMessage.json"
+          , async: false
+          , type: "POST"
+          , data: {
+            "_id": userid, "msg": message, "_csrf": csrftoken
+          }
+          , success: function(data, type) {
+            $('#myModal').modal('hide')
+          }
+          , error: function(jqXHR, textStatus, errorThrown) {
+            alert(errorThrown);
+          }
+        });
+
+      });
+
+    });
+    </script>
+  </head>
+
+  <boyd>
+    <input type="hidden" id="_csrf" name="_csrf" value="<%= token %>" />
+    <input type="hidden" id="userid" name="userid" value="<%= userid %>" />
+
+    <br />
+    <br />
+    <br />
+    <br />
+    <br />
+    <br />
+    <br />
+    <br />
+    <br />
+    <br />
+    <a href="#" onclick="hello(); return false;">发送私信 bootstrep</a>
+    <br />
+    <a href="#" onclick="show(); return false;">发送私信 jqueryui</a>
+    <br />
+    <a href="#" id="aaa" onclick="showpopover(); return false;">显示popover</a>
+
+
+    <!-- 消息栏 bootstrep -->
+    <div id="myModal" class="modal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true" style="display: none; width: 310px;">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+        <h3 id="myModalLabel"><i class='icon-envelope-alt'></i>&nbsp;发送私信</h3>
+      </div>
+      <div class="modal-body">
+        <textarea id="msg" style="width: 260px; height: 70px; "></textarea>
+      </div>
+      <div class="modal-footer">
+        <button class="btn" data-dismiss="modal" aria-hidden="true">取消</button>
+        <button id="send" class="btn btn-primary">发送</button>
+      </div>
+    </div>
+
+    <!-- 消息栏 jqueryui -->
+    <div id="dialog-confirm" title="发送私信">
+      <textarea id="msg1" style="width: 260px; height: 70px; margin-top: 10px; margin-bottom: 0px;">aaa</textarea>
+    </div>
+
+  </body>
+</html>

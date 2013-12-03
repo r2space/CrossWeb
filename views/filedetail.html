@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title><%= title %></title>
+
+    <% include common/required.html %>
+
+    <script type='text/javascript' src='/javascripts/menu.model.js'></script>
+    <script type='text/javascript' src='/javascripts/menu.view.js'></script>
+    <script type='text/javascript' src='/javascripts/searcher.model.js'></script>
+    <script type='text/javascript' src='/javascripts/searcher.view.js'></script>
+    <script type='text/javascript' src='/javascripts/sidemenu.model.js'></script>
+    <script type='text/javascript' src='/javascripts/sidemenu.view.js'></script>
+    
+    <script type='text/javascript' src='/javascripts/files/files.js'></script>
+    
+    <script type='text/javascript' src='/javascripts/files/filedetail.view.js'></script>
+    <script type='text/javascript' src='/javascripts/files/files.model.js'></script>
+
+    <link rel='stylesheet' href='/stylesheets/files.css' />
+    <link rel='stylesheet' href='/stylesheets/filedetail.css' />
+    <link rel='stylesheet' href='/stylesheets/userlist.css' />
+  </head>
+  
+  <body>
+    <input type="hidden" id="fileid" name="fileid" value="<%= fileid %>">
+    <input type="file" id="uploadfile" fid="<%= fileid %>" style="display: none" />
+    <% include common/navbar.html %>
+    
+    <section>
+      <article>
+        <% include common/sidemenu.html %>
+      </article>
+
+      <div id="maincontents">
+
+        <div id="informations">
+          <div id="file_image"><img onerror="this.src='/images/filetype/default.png';this.onerror = null;
+" /></div>
+          <div id="brief">
+            <h3 id="file_name"></h3>
+            <p><a id="file_owner"></a>(<%= i('file.header.owner') %>)</p>
+          </div>
+
+          <div id="operations">
+            <a id="follow_btn" class="btn btn-tofollow hide"><%= i('file.option.follow') %></a>
+            <a id="unfollow_btn" class="btn btn-tofollow hide"><%= i('file.option.unfollow') %></a>
+            <a id="fileupdate_btn" class="btn btn-primary"><%= i('file.option.uploadnew') %></a>
+          </div>
+        </div>
+
+        <ul class="nav nav-tabs" style="height: 50px;">
+          <li class="active"><a id="showHistory" target="application" href="#1" data-toggle="tab"><%= i('file.tab.history') %>(<span id="historyCount"></span>)</a></li>
+          <!-- <li><a id="showFollower" target="image" href="#2" data-toggle="tab">关注者()</a></li> -->
+        </ul>
+
+        <div class="tab-content">
+          <div id="1" class="tab-pane active">
+            <table class="filelist table table-bordered table-hover">
+              <thead>
+                <tr>
+                  <th>Ver</th>
+                  <th><%= i('file.header.type') %></th>
+                  <th><%= i('file.header.name') %></th>
+                  <th><%= i('file.header.updater') %></th>
+                  <th><%= i('file.header.lastModifyDate') %></th>
+                </tr>
+              </thead>
+              <tbody id="historylist"></tbody>
+            </table>
+          </div>
+          <div id="2" class="tab-pane">
+            <table class="table table-hover">
+              <thead>
+                <tr>
+                  <th></th>
+                  <th><%= i('user.header.name') %></th>
+                  <th><%= i('user.header.title') %></th>
+                  <th></th>
+                  <th></th>
+                </tr>
+              </thead>
+              <tbody id="followerlist"></tbody>
+            </table>
+          </div>
+          
+          <!-- <div class="pagination pagination-centered">
+            <ul>
+              <li class="disabled"><a href="#">上一页</a></li>
+              <li><a href="#" class="active">1</a></li>
+              <li class="disabled"><a href="#">下一页</a></li>
+            </ul>
+          </div> -->
+        </div>
+
+      </div>
+      
+      <footer>
+        <p>Copyright © 2012, Cross Corporation. All Rights Reserved.</p>
+      </footer>
+    </section>
+
+    <!-- component view template -->
+    <script type="text/template" id="file-history-template">
+      <tr>
+        <td style="text-align: right;">{{ver}}</td>
+        <td><img src="/images/filetype/{{ extension }}.png" style="width: 30px;" onerror="this.src='/images/filetype/default.png';this.onerror = null;"/></td>
+
+        <td><a href="/file/download.json?_id={{downloadId}}">{{ title }}</a></td>
+        <td style="max-width: 60px;overflow: hidden;text-overflow: ellipsis;"><a href="/user/{{uid}}">{{ author }}</a></td>
+        <td>{{ at }}</td>
+      </tr>
+    </script>
+    <script type="text/template" id="file-follower-template">
+      <tr>
+        <td>
+          <a href="/user/{{ id }}"><img class="img-rounded" src="{{ photo }}"></a>
+        </td>
+        <td><a href="/user/{{ id }}">{{ name }}</a></td>
+        <td>{{ title }}</td>
+        <td>{{ lastMessage }}</td>
+        <td style="text-align: right">
+          <!--<$ if (!self && followed) { $>
+          <a class="btn btn-small" name="unfollow" uid="{{id}}"><%= i('user.option.unfollow') %></a>
+          <a class="btn btn-small btn-success" name="privatemsg" uid="{{id}}"><%= i('user.option.sentPrivateMsg') %></a>
+          <$ } else if (!self && !followed) { $>
+          <a class="btn btn-small btn-success" name="follow" uid="{{id}}"><%= i('user.option.follow') %></a>
+          <a class="btn btn-small btn-success" name="privatemsg" uid="{{id}}"><%= i('user.option.sentPrivateMsg') %></a>
+          <$ } $>-->
+        </td>
+      </tr>
+    </script>
+
+  </body>
+</html>

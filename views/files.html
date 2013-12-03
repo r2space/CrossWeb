@@ -1,0 +1,167 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title><%= title %></title>
+
+    <% include common/required.html %>
+
+    <script type='text/javascript' src='/javascripts/menu.model.js'></script>
+    <script type='text/javascript' src='/javascripts/menu.view.js'></script>
+    <script type='text/javascript' src='/javascripts/searcher.model.js'></script>
+    <script type='text/javascript' src='/javascripts/searcher.view.js'></script>
+    <script type='text/javascript' src='/javascripts/sidemenu.model.js'></script>
+    <script type='text/javascript' src='/javascripts/sidemenu.view.js'></script>
+    
+    <script type='text/javascript' src='/javascripts/files/files.js'></script>
+    <script type='text/javascript' src='/javascripts/files/files.model.js'></script>
+    <script type='text/javascript' src='/javascripts/files/files.view.js'></script>
+
+    <link rel='stylesheet' href='/stylesheets/files.css' />
+  </head>
+  
+  <body>
+
+    <% include common/navbar.html %>
+    
+    <section>
+      <article>
+        <% include common/sidemenu.html %>
+      </article>
+      
+      <div id="maincontents">
+
+        <div id="opera">
+         <!--  <a id="create" class="btn btn-small" href="#" style="align:right">新建模板</a> -->
+          <a id="selectFile" class="btn btn-small btn-success" href="#" style="align:right"><%= i('file.uploadfile') %></a>
+          <input type="file" id="uploadfile" style="display: none" multiple="multiple" />
+        </div>
+
+        <ul class="nav nav-tabs" style="height: 37px;">
+          <li class="active"><a id="showFiles" target="application" href="#1" data-toggle="tab"><%= i('file.tab.file') %></a></li>
+          <li><a id="showImages" target="image" href="#2" data-toggle="tab"><%= i('file.tab.image') %></a></li>
+          <li><a id="showVideos" target="video" href="#3" data-toggle="tab"><%= i('file.tab.video') %></a></li>
+          <li><a id="showAudios" target="audio" href="#4" data-toggle="tab"><%= i('file.tab.audio') %></a></li>
+          <!-- <li><a id="showNotes" target="note" href="#5" data-toggle="tab">文书</a></li> -->
+        </ul>
+
+        <div class="tab-content">
+          <div id="1" class="tab-pane active">
+            <table class="filelist table table-bordered table-hover">
+              <thead>
+                <tr>
+                  <th><%= i('file.header.type') %></th>
+                  <th><%= i('file.header.name') %></th>
+                  <!-- <th>Group</th> -->
+                  <th><%= i('file.header.lastModifyDate') %></th>
+                  <th><%= i('file.header.option') %></th>
+                </tr>
+              </thead>
+              <tbody id="docs"></tbody>
+            </table>
+          </div>
+          <div id="2" class="tab-pane">
+            <table class="filelist table table-bordered table-hover">
+              <thead>
+                <tr>
+                  <th><%= i('file.header.type') %></th>
+                  <th><%= i('file.header.name') %></th>
+                  <!-- <th>Group</th> -->
+                  <th><%= i('file.header.lastModifyDate') %></th>
+                  <th><%= i('file.header.option') %></th>
+                </tr>
+              </thead>
+              <tbody id="images"></tbody>
+            </table>
+          </div>
+          <div id="3" class="tab-pane">
+            <table class="filelist table table-bordered table-hover">
+              <thead>
+                <tr>
+                  <th><%= i('file.header.type') %></th>
+                  <th><%= i('file.header.name') %></th>
+                  <!-- <th>Group</th> -->
+                  <th><%= i('file.header.lastModifyDate') %></th>
+                  <th><%= i('file.header.option') %></th>
+                </tr>
+              </thead>
+              <tbody id="videos"></tbody>
+            </table>
+          </div>
+          <div id="4" class="tab-pane">
+            <table class="filelist table table-bordered table-hover">
+              <thead>
+                <tr>
+                  <th><%= i('file.header.type') %></th>
+                  <th><%= i('file.header.name') %></th>
+                  <!-- <th>Group</th> -->
+                  <th><%= i('file.header.lastModifyDate') %></th>
+                  <th><%= i('file.header.option') %></th>
+                </tr>
+              </thead>
+              <tbody id="audios"></tbody>
+            </table>
+          </div>
+          <div id="5" class="tab-pane">
+            <table class="filelist table table-bordered table-hover">
+              <thead>
+                <tr>
+                  <th><%= i('file.header.type') %></th>
+                  <th><%= i('file.header.name') %></th>
+                  <!-- <th>Group</th> -->
+                  <th><%= i('file.header.lastModifyDate') %></th>
+                  <th><%= i('file.header.option') %></th>
+                </tr>
+              </thead>
+              <tbody id="notes"></tbody>
+            </table>
+          </div>
+          <div id="file_page_container" class="pagination pagination-centered">
+          </div>
+          <div id="fileHistory" style="position: absolute;display:none;">
+            <table class="table table-bordered table-hover" style="background-color: white;">
+              <thead>
+                <tr>
+                  <th><%= i('file.header.type') %></th>
+                  <th><%= i('file.header.name') %></th>
+                  <th  style="max-width: 60px;overflow: hidden;text-overflow: ellipsis;"><%= i('file.header.updater') %></th>
+                  <th><%= i('file.header.lastModifyDate') %></th>
+                </tr>
+              </thead>
+              <tbody id="historylist"></tbody>
+            </table>
+          </div>
+        </div>
+
+      </div>
+      
+      <footer>
+        <p>Copyright © 2012, Cross Corporation. All Rights Reserved.</p>
+      </footer>
+    </section>
+
+    <!-- component view template -->
+    <script type="text/template" id="files-template">
+      <tr id="{{fid}}">
+        <td><img src="/images/filetype/{{ extension }}.png" onerror="this.src='/images/filetype/default.png';this.onerror = null;"/></td>
+        <td><a href="/file/{{fid}}">{{ name }}</a></td>
+        <!-- // <td>{{ gid }}</td> -->
+        <td>{{ on }}</td>
+        <td>
+          <!-- // <a name="history" class="btn btn-small btn-success" fid="{{fid}}">履历</a> -->
+          <a name="update" class="btn btn-small btn-success" fid="{{fid}}"><%= i('file.option.update') %></a>
+          <a name="download" class="btn btn-small btn-success" downloadId="{{downloadId}}" href="/file/download.json?_id={{downloadId}}"><%= i('file.option.download') %></a>
+        </td>
+      </tr>
+    </script>
+    <script type="text/template" id="files-history-template">
+      <tr>
+        <td><img src="/images/filetype/{{ extension }}.png" style="width: 30px;" onerror="this.src='/images/filetype/default.png';this.onerror = null;"/></td>
+
+        <td><a href="/file/download.json?_id={{downloadId}}">{{ title }}</a></td>
+        <td style="max-width: 60px;overflow: hidden;text-overflow: ellipsis;">{{ author }}</td>
+        <td>{{ at }}</td>
+      </tr>
+    </script>
+
+  </body>
+</html>

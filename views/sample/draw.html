@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title><%= title %></title>
+    <link rel='stylesheet' href='/stylesheets/style.css' />
+    <script type='text/javascript' src='/javascripts/jquery-1.7.2.min.js'></script>
+    <script type="text/javascript">
+    
+    var imageArray = new Array();
+    imageArray.push({x:50, y:10});
+    imageArray.push({x:250, y:50});
+    imageArray.push({x:250, y:120});
+    imageArray.push({x:250, y:190});
+    imageArray.push({x:450, y:190});
+    
+    function ondraw(ctx) {
+      
+      var img = new Image();
+      img.src = "/images/p.png?" + new Date().getTime();
+      img.onload = function() {
+        for (var i = 0; i < imageArray.length; i++) {
+          ctx.drawImage(img, imageArray[i].x, imageArray[i].y);
+        }
+      }
+      
+      // ---- line
+      ctx.lineWidth = 1;
+      
+      ctx.shadowBlur = 2;
+      ctx.shadowColor = "#000000";
+      
+      ctx.strokeStyle = 'rgb(192, 80, 77)';
+      
+      ctx.moveTo(100, 40);
+      ctx.bezierCurveTo(130, 40, 220, 80, 250, 80);
+
+      ctx.moveTo(300, 80);
+      ctx.bezierCurveTo(330, 80, 420, 220, 450, 220);
+
+      ctx.stroke();
+    }
+
+    $(document).ready(function() {
+      var canvas = document.getElementById('tutorial');
+      if (canvas.getContext){
+        ondraw(canvas.getContext('2d'));
+      }
+    });
+
+    function dragstart(event) {
+      var source = document.getElementById(event.target.id);
+      event.dataTransfer.setData("text", event.target.id);
+    }
+    function drop(event) {
+      event.preventDefault();
+      imageArray.push({x:event.offsetX, y:event.offsetY});
+      var canvas = document.getElementById('tutorial');
+      if (canvas.getContext){
+        ondraw(canvas.getContext('2d'));
+      }
+    }
+    function dragover(event) {
+      event.preventDefault();
+    }
+    </script>
+    <style type="text/css">
+    canvas { 
+      border: 1px solid #aaa;
+    }
+    </style>
+
+  </head>
+  <body>
+    <input type="hidden" name="_csrf" value="<%= token %>" />
+
+    <canvas id="tutorial" width="550" height="300" ondragover="dragover(event);" ondrop="drop(event);"></canvas>
+    <img src="/images/p.png" draggable="true">
+    <img src="/images/c.png" draggable="true">
+  </body>
+</html>

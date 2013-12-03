@@ -1,0 +1,241 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title><%= title %></title>
+    <link rel='stylesheet' href='/vendor/datatables/css/jquery.dataTables.css' />
+    <script type='text/javascript' src='/vendor/jquery-1.9.1.min.js'></script>
+    <script type='text/javascript' src='/vendor/datatables/js/jquery.dataTables.js'></script>
+    <script type="text/javascript">
+      $(document).ready(function() {
+        /*$('#table_id').dataTable({
+          "bServerSide": true,
+          "sAjaxSource": "/master/group.json"
+        });*/
+      });
+
+      function updateGroup(){
+        var time = Date.now();
+        var group = {"_id": $("#groupId").val(), "name": "fs"+time, "editby": "50514054705efe0823000008", "editat": time};
+        $.ajax({url:"/group/update.json",type:"put",data:{"group": group} , success:function(result){
+          1+1;
+        }});
+      }
+
+      function getGroupList(){
+        $.get("/group/list.json", {"gids": "508113bcee3e5dcd1c000007, 125[], ,507e4e7377a1b55347000007","uid":$("#uid").val(), "firstLetter": $("#firstLetter").val(), "start": $("#start").val(), "count": $("#count").val()}, function(result){
+          var abc = result.groups;
+        });
+      }
+
+      function deleteGroup(){
+        $.get("/group/delete.json", {"_id": $("#groupId").val()}, function(res){
+          1+1;
+        });
+      }
+
+      function sendGroupMessage(){
+        $.post("/message/createMessage.json", {"content": $("#gmessage").val(), "gid": $("#groupId").val()}, function(result){
+          1+1;
+        });
+      }
+
+      function joinGroup(id){
+        var uids = "";
+        var gid = "508113bcee3e5dcd1c000007";
+        if(id == "join1"){
+          var checkedBox = $("input[type=checkbox]:checked");
+          for(var i = 0; i < checkedBox.length; i++){
+            uids += $(checkedBox[i]).attr("value");
+            if(i < checkedBox.length-1){
+              uids += ",";
+            }
+          }
+          $.post("/group/join.json", {"gid": gid, "uids": uids}, function(result){
+            1+1;
+          });
+        }else{
+          $.post("/group/join.json", {"gid": gid}, function(result){
+            1+1;
+          });
+        }
+      }
+
+      function removeMember(id){
+        var uids = "";
+        var gid = "508113bcee3e5dcd1c000007";
+        if(id == "remove1"){
+          var checkedBox = $("input[type=checkbox]:checked");
+          for(var i = 0; i < checkedBox.length; i++){
+            uids += $(checkedBox[i]).attr("value");
+            if(i < checkedBox.length-1){
+              uids += ",";
+            }
+          }
+          $.post("/group/leave.json", {"gid": gid, "uids": uids}, function(result){
+            1+1;
+          });
+        }else{
+          $.post("/group/leave.json", {"gid": gid}, function(result){
+            1+1;
+          });
+        }
+      }
+
+      function getTopic(){
+        $.get("/topic/get.json", {"tid": $("#topicId").val()}, function(result){
+          1;
+          var topic = result;
+          topic.title += "_forUpdate";
+          $.post("/topic/update.json", {"topic": topic}, function(result){
+            1;
+          });
+        });
+      }
+
+      function getTopicList(){
+        $.get("/topic/list.json", {"uid": $("#uid2").val(), "firstLetter": $("#firstLetter2").val(), "start": $("#start2").val(), "count": $("#count2").val()}, function(result){
+          1;
+        });
+      }
+
+      function deleteTopic(){
+        $.post("/topic/delete.json", {"tid": $("#topicId").val()}, function(result){
+          1;
+        });
+      }
+
+      function joinTopic(id){
+        var uids = "";
+        var tid = "507fcc2d90d37e1410000007";
+        if(id == "join11"){
+          var checkedBox = $("input[type=checkbox]:checked");
+          for(var i = 0; i < checkedBox.length; i++){
+            uids += $(checkedBox[i]).attr("value");
+            if(i < checkedBox.length-1){
+              uids += ",";
+            }
+          }
+          $.post("/topic/addMember.json", {"tid": tid, "uids": uids}, function(result){
+            1+1;
+          });
+        }else{
+          $.post("/topic/addMember.json", {"tid": tid}, function(result){
+            1+1;
+          });
+        }
+      }
+
+      function removeMemberFromTopic(id){
+        var uids = "";
+        var tid = "507fcc2d90d37e1410000007";
+        if(id == "remove11"){
+          var checkedBox = $("input[type=checkbox]:checked");
+          for(var i = 0; i < checkedBox.length; i++){
+            uids += $(checkedBox[i]).attr("value");
+            if(i < checkedBox.length-1){
+              uids += ",";
+            }
+          }
+          $.post("/topic/removeMember.json", {"tid": tid, "uids": uids}, function(result){
+            1+1;
+          });
+        }else{
+          $.post("/topic/removeMember.json", {"tid": tid}, function(result){
+            1+1;
+          });
+        }
+      }
+
+      function getProfileMessage(){
+        $.get("/message/profileMessage.json", {"timeline": Date.now()}, function(result){
+          1;
+        });
+      }
+    </script>
+  </head>
+  <body>
+    <input type="hidden" name="_csrf" value="<%= token %>" />
+    <table id="table_id">
+      <thead>
+        <tr>
+          <th style="width:50px;">_id</th>
+          <th>delete</th>
+          <th>docid</th>
+          <th>createat</th>
+          <th>createby</th>
+          <th>editat</th>
+          <th>editby</th>
+        </tr>
+      </thead>
+      <tbody></tbody>
+    </table>
+<br />
+<form name='createGroupForm' method='post' action='/group/create.json'>
+  <table>
+    <tr><td><label>名称：</label></td><td><input type='text' id='name' name='name'/></td></tr>
+    <tr><td><label>描述：</label></td><td><input type='text' id='description' name='description'/></td></tr>
+    <tr><td><label>私有公有：</label></td><td><input type='text' id='category' name='category'/></td></tr>
+    <tr><td><label>成员：</label></td><td><input type='text' id='member' name='member' value=""/></td></tr>
+  </table>
+  <input type="hidden" name="_csrf" value="<%= token %>"/>
+  <input type='submit' value='新建组'/>
+</form>
+<br /><hr />
+<p>管理组： <input type="text" name="groupId" id="groupId" value=""/><input type="button" name="updateGG" id="updateGG" value="删除之" onclick="deleteGroup();"/><input type="button" name="updateg" id="updateg" value="更新组" onclick="updateGroup();"/><p>
+<br /><hr />
+<p>======================================================</p>
+<input type="text" id="firstLetter" name="firstLetter" value="a"/>
+<input type="text" id="start" name="start" value="1"/>
+<input type="text" id="count" name="count" value="5"/>
+<input type="text" id="uid" name="uid" value="50514054705efe0823000008"/>
+<input type="button" value="得到组列表" id="getGroupList" onclick="getGroupList();"/>
+<p>======================================================</p>
+<textarea id="gmessage" rows=4 cols=10></textarea><input type="button" onclick="sendGroupMessage();" value="发送群消息"/>
+<br />
+  <input type="checkbox" id="sh" value="50514054705efe0823000008">沈华</input>
+  <input type="checkbox" id="lh" value="505140e060b550402400000c">罗浩</input>
+  <input type="checkbox" id="gg" value="505140ed60b550402400000d">刚哥</input>
+  <input type="checkbox" id="dy" value="505140c960b550402400000a">大爷</input>
+  <input type="checkbox" id="lwx" value="505c092e54f35e414c000008">李文先</input>
+  <input type="checkbox" id="dj" value="505140d560b550402400000b">丹姐</input>
+  <input type="button" id="join1" value="加入SSDB组织" onclick="joinGroup(this.id)"/>
+  <input type="button" id="remove1" value="请出SSDB组织" onclick="removeMember(this.id)"/>
+  <input type="button" id="join11" value="加入Smart话题" onclick="joinTopic(this.id)"/>
+  <input type="button" id="remove11" value="请出Smart话题" onclick="removeMemberFromTopic(this.id)"/>
+  <br />
+  <p>======================================================</p>
+  <input type="button" id="join2" value="把自己加入SSDB组织" onclick="joinGroup(this.id)"/>
+  <input type="button" id="remove2" value="让自己离开SSDB组织" onclick="removeMember(this.id)"/>
+  <input type="button" id="join22" value="把自己加入Smart话题" onclick="joinTopic(this.id)"/>
+  <input type="button" id="remove22" value="让自己离开Smart话题" onclick="removeMemberFromTopic(this.id)"/>
+  <br />
+  <hr />
+<form name='createTopicForm' method='post' action='/topic/create.json'>
+  <table>
+    <tr><td><label>标题：</label></td><td><input type='text' id='title' name='title'/></td></tr>
+    <tr><td><label>摘要：</label></td><td><input type='text' id='abstract' name='abstract'/></td></tr>
+    <tr><td><label>内容：</label></td><td><input type='text' id='content' name='content'/></td></tr>
+    <!--<tr><td><label>关键词(逗号分隔)：</label></td><td><input type='text' id='keyword' name='keyword'/></td></tr>-->
+    <tr><td><label>类别(0.公开, 1.私密)：</label></td><td><input type='text' id='category' name='category'/></td></tr>
+    <tr><td><label>状态(0~5)：</label></td><td><input type='text' id='status' name='status'/></td></tr>
+  </table>
+  <input type="hidden" name="_csrf" value="<%= token %>"/>
+  <input type='submit' value='新建话题'/>
+</form>
+<p>======================================================</p>
+<input type="text" id="firstLetter2" name="firstLetter2" value="a"/>
+<input type="text" id="start2" name="start2" value="1"/>
+<input type="text" id="count2" name="count2" value="5"/>
+<input type="text" id="uid2" name="uid2" value="50514054705efe0823000008"/>
+<input type="button" value="得到话题列表" onclick="getTopicList();"/>
+<br />
+<p>======================================================</p>
+<p>管理组： <input type="text" name="topicId" id="topicId" value=""/>
+<input type="button" value="得到某个话题" onclick="getTopic();"/><input type="button" name="updateT" id="updateT" value="删除话题" onclick="deleteTopic();"/><p>
+<input type="button" value="取得用户主页所有消息" onclick="getProfileMessage();"/>
+  </body>
+</html>
+
+
+
+

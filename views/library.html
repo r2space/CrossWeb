@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title><%= title %></title>
+
+    <% include common/required.html %>
+    <link rel='stylesheet' href='/stylesheets/files.css' />
+
+    <script type='text/javascript' src='/javascripts/menu.model.js'></script>
+    <script type='text/javascript' src='/javascripts/menu.view.js'></script>
+    <script type='text/javascript' src='/javascripts/searcher.model.js'></script>
+    <script type='text/javascript' src='/javascripts/searcher.view.js'></script>
+    <script type='text/javascript' src='/javascripts/sidemenu.model.js'></script>
+    <script type='text/javascript' src='/javascripts/sidemenu.view.js'></script>
+    
+<!--
+    <script type='text/javascript' src='/javascripts/files/files.js'></script>
+    <script type='text/javascript' src='/javascripts/files/files.model.js'></script>
+    <script type='text/javascript' src='/javascripts/files/files.view.js'></script>
+-->
+
+  </head>
+  
+  <body>
+
+    <% include common/navbar.html %>
+    
+    <section>
+      <article id="left">
+        <% include common/sidemenu.html %>
+      
+        <div id="docbody">
+          <div id="opera">
+            <a id="delete" href="#" style="align:right"><%= i('library.html.button.delete') %><!-- 删除 --></a>
+            <a id="copy" href="#" style="align:right"><%= i('library.html.button.copy') %><!-- 拷贝 --></a>
+            <a id="create" href="#" style="align:right"><%= i('library.html.button.create') %><!-- 新建模板 --></a>
+            <a id="delete" href="#" style="align:right"><%= i('library.html.button.detail') %><!-- 详细检索 --></a>
+          </div>
+          <table id="table-01" class="table table-bordered table-hover">
+            <thead>
+              <tr>
+                <th><%= i('library.html.label.type') %><!-- Type --></th>
+                <th><%= i('library.html.label.name') %><!-- Name --></th>
+                <th><%= i('library.html.label.group') %><!-- Group --></th>
+                <th><%= i('library.html.label.lastmodifiedby') %><!-- Last Modified By --></th>
+                <th><%= i('library.html.label.lastmodifiedon') %><!-- Last Modified On --></th>
+                <th><%= i('library.html.label.operation') %><!-- Operation --></th>
+              </tr>
+            </thead>
+            <tbody id="filelist"></tbody>
+          </table>
+          <div id="pagination" class="pagination">
+            <ul>
+              <li><a href="prev" id="page_prev"><%= i('library.html.buuton.prev') %><!-- Prev --></a></li>
+              <li class="active"><a href="page 1" id="page_1">1</a></li>
+              <li><a href="page 2" id="page_2">2</a></li>
+              <li><a href="page 3" id="page_3">3</a></li>
+              <li><a href="page 4" id="page_4">4</a></li>
+              <li><a href="next" id="page_next"><%= i('library.html.next.next') %><!-- Next --></a></li>
+            </ul>
+          </div>
+        </div>
+      </article>
+      
+    </section>
+
+    <footer>
+      <p>Copyright © 2012, Cross Corporation. All Rights Reserved.</p>
+    </footer>
+
+    <!-- component view template -->
+    <script type="text/template" id="files-template">
+    <$ _.each(rows, function(row){ $>
+      <tr id="{{ row._id }}">
+        <td style="font-size: 16px; text-align: center;">
+          <$ if (type === "template") { $>
+          <i class="icon-copy icon-large"></i>
+          <$ } else { $>
+          <i class="icon-file icon-large"></i>
+          <$ } $>
+        </td>
+
+        <td>{{ row.title }}</td>
+        <td>{{ row.group }}</td>
+        <td>{{ row.by }}</td>
+        <td>{{ row.at }}</td>
+        <td>
+          <a href="#" name="edit"><%= i('library.html.label.edit') %><!--编辑--></a>
+          <$ if (type === "template") { $>
+          <a href="#" name="createdocument"><%= i('library.html.label.createdocument') %><!--创建文件--></a>
+          <$ } else { $>
+          <a href="#" name="view"><%= i('library.html.label.view') %><!--查看--></a>
+          <$ } $>
+        </td>
+      </tr>
+    <$ }); $>
+    </script>
+
+
+  </body>
+</html>

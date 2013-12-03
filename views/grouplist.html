@@ -1,0 +1,268 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title><%= title %></title>
+
+    <% include common/required.html %>
+
+    <script type='text/javascript' src='/javascripts/menu.model.js'></script>
+    <script type='text/javascript' src='/javascripts/menu.view.js'></script>
+    <script type='text/javascript' src='/javascripts/searcher.model.js'></script>
+    <script type='text/javascript' src='/javascripts/searcher.view.js'></script>
+    <script type='text/javascript' src='/javascripts/sidemenu.model.js'></script>
+    <script type='text/javascript' src='/javascripts/sidemenu.view.js'></script>
+
+    <script type='text/javascript' src="/javascripts/group/group.js"></script>
+    <script type='text/javascript' src="/javascripts/group/grouplist.view.js"></script>
+    <script type='text/javascript' src="/javascripts/group/group.model.js"></script>
+
+    <link rel="stylesheet" href="/stylesheets/grouplist.css">
+
+  </head>
+  <body>
+
+    <% include common/navbar.html %>
+
+    <section>
+      <article>
+        <% include common/sidemenu.html %>
+      </article>
+
+      <div id="maincontents">
+        <div id="informations">
+          <h3 id="group-title"><%= i('group.grouplist.label.title') %></h3>
+          <p id="group-sugestion"><%= i('group.grouplist.label.sugestion') %></p>
+          <div id="operations">
+            <a id="create-btn" href="#create-group-modal" class="btn btn-success pull-right" data-toggle="modal"><%= i('group.grouplist.button.create') %></a>
+          </div>
+        </div>
+
+        <ul class="nav nav-tabs" style="height:37px;">
+          <li class="active"><a id="all" href="#1" data-toggle="tab"><%= i('group.grouplist.tab.all') %></a></li>
+          <li><a id="group" href="#2" data-toggle="tab"><%= i('group.grouplist.tab.group') %></a></li>
+          <li><a id="department" href="#3" data-toggle="tab"><%= i('group.grouplist.tab.department') %></a></li>
+        </ul>
+
+        <div class="tab-content">
+          <div id="1" class="tab-pane active">
+
+            <div id="allFilter" class="btn-toolbar">
+              <div class="btn-group">
+                <a class="btn" href="javascript://">All</a>
+              </div>
+              <div class="btn-group">
+                <a class="btn" href="javascript://">A</a>
+                <a class="btn" href="javascript://">B</a>
+                <a class="btn" href="javascript://">C</a>
+                <a class="btn" href="javascript://">D</a>
+                <a class="btn" href="javascript://">E</a>
+                <a class="btn" href="javascript://">F</a>
+                <a class="btn" href="javascript://">G</a>
+                <a class="btn" href="javascript://">H</a>
+                <a class="btn" href="javascript://">I</a>
+                <a class="btn" href="javascript://">J</a>
+                <a class="btn" href="javascript://">K</a>
+                <a class="btn" href="javascript://">L</a>
+                <a class="btn" href="javascript://">M</a>
+                <a class="btn" href="javascript://">N</a>
+                <a class="btn" href="javascript://">O</a>
+                <a class="btn" href="javascript://">P</a>
+                <a class="btn" href="javascript://">Q</a>
+                <a class="btn" href="javascript://">R</a>
+                <a class="btn" href="javascript://">S</a>
+                <a class="btn" href="javascript://">T</a>
+                <a class="btn" href="javascript://">U</a>
+                <a class="btn" href="javascript://">V</a>
+                <a class="btn" href="javascript://">W</a>
+                <a class="btn" href="javascript://">X</a>
+                <a class="btn" href="javascript://">Y</a>
+                <a class="btn" href="javascript://">Z</a>
+              </div>
+            </div>
+
+            <table class="table table-hover">
+              <thead>
+                <tr>
+                  <th width="30px"><%= i('group.grouplist.th.type') %></th>
+                  <th width="300px"><%= i('group.grouplist.th.name') %></th>
+                  <th><%= i('group.grouplist.th.secure') %></th>
+                  <th><%= i('group.grouplist.th.membercnt') %></th>
+                  <th><%= i('group.grouplist.th.uptdate') %></th>
+                  <th></th>
+                </tr>
+              </thead>
+              <tbody id="allContainer"></tbody>
+            </table>
+          </div>
+
+          <div id="2" class="tab-pane">
+
+            <div id="groupFilter" class="btn-toolbar">
+              <div class="btn-group">
+                <a class="btn" href="javascript://">All</a>
+              </div>
+              <div class="btn-group">
+                <a class="btn" href="javascript://">A</a>
+                <a class="btn" href="javascript://">B</a>
+                <a class="btn" href="javascript://">C</a>
+                <a class="btn" href="javascript://">D</a>
+                <a class="btn" href="javascript://">E</a>
+                <a class="btn" href="javascript://">F</a>
+                <a class="btn" href="javascript://">G</a>
+                <a class="btn" href="javascript://">H</a>
+                <a class="btn" href="javascript://">I</a>
+                <a class="btn" href="javascript://">J</a>
+                <a class="btn" href="javascript://">K</a>
+                <a class="btn" href="javascript://">L</a>
+                <a class="btn" href="javascript://">M</a>
+                <a class="btn" href="javascript://">N</a>
+                <a class="btn" href="javascript://">O</a>
+                <a class="btn" href="javascript://">P</a>
+                <a class="btn" href="javascript://">Q</a>
+                <a class="btn" href="javascript://">R</a>
+                <a class="btn" href="javascript://">S</a>
+                <a class="btn" href="javascript://">T</a>
+                <a class="btn" href="javascript://">U</a>
+                <a class="btn" href="javascript://">V</a>
+                <a class="btn" href="javascript://">W</a>
+                <a class="btn" href="javascript://">X</a>
+                <a class="btn" href="javascript://">Y</a>
+                <a class="btn" href="javascript://">Z</a>
+              </div>
+            </div>
+            
+            <table class="table table-hover">
+              <thead>
+                <tr>
+                  <th width="30px"><%= i('group.grouplist.th.type') %></th>
+                  <th width="300px"><%= i('group.grouplist.th.name') %></th>
+                  <th><%= i('group.grouplist.th.secure') %></th>
+                  <th><%= i('group.grouplist.th.membercnt') %></th>
+                  <th><%= i('group.grouplist.th.uptdate') %></th>
+                  <th></th>
+                </tr>
+              </thead>
+              <tbody id="groupContainer"></tbody>
+            </table>
+          </div>
+
+          <div id="3" class="tab-pane">
+
+            <div id="departmentFilter" class="btn-toolbar">
+              <div class="btn-group">
+                <a class="btn" href="javascript://">All</a>
+              </div>
+              <div class="btn-group">
+                <a class="btn" href="javascript://">A</a>
+                <a class="btn" href="javascript://">B</a>
+                <a class="btn" href="javascript://">C</a>
+                <a class="btn" href="javascript://">D</a>
+                <a class="btn" href="javascript://">E</a>
+                <a class="btn" href="javascript://">F</a>
+                <a class="btn" href="javascript://">G</a>
+                <a class="btn" href="javascript://">H</a>
+                <a class="btn" href="javascript://">I</a>
+                <a class="btn" href="javascript://">J</a>
+                <a class="btn" href="javascript://">K</a>
+                <a class="btn" href="javascript://">L</a>
+                <a class="btn" href="javascript://">M</a>
+                <a class="btn" href="javascript://">N</a>
+                <a class="btn" href="javascript://">O</a>
+                <a class="btn" href="javascript://">P</a>
+                <a class="btn" href="javascript://">Q</a>
+                <a class="btn" href="javascript://">R</a>
+                <a class="btn" href="javascript://">S</a>
+                <a class="btn" href="javascript://">T</a>
+                <a class="btn" href="javascript://">U</a>
+                <a class="btn" href="javascript://">V</a>
+                <a class="btn" href="javascript://">W</a>
+                <a class="btn" href="javascript://">X</a>
+                <a class="btn" href="javascript://">Y</a>
+                <a class="btn" href="javascript://">Z</a>
+              </div>
+            </div>
+            
+            <table class="table table-hover">
+              <thead>
+                <tr>
+                  <th width="30px"><%= i('group.grouplist.th.type') %></th>
+                  <th width="300px"><%= i('group.grouplist.th.name') %></th>
+                  <th><%= i('group.grouplist.th.secure') %></th>
+                  <th><%= i('group.grouplist.th.membercnt') %></th>
+                  <th><%= i('group.grouplist.th.uptdate') %></th>
+                  <th></th>
+                </tr>
+              </thead>
+              <tbody id="departmentContainer"></tbody>
+            </table>
+          </div>
+
+        </div>
+
+        <!-- <div class="pagination pagination-centered">
+          <ul>
+            <li class="disabled"><a href="#">上一页</a></li>
+            <li><a href="#" class="active">1</a></li>
+            <li class="disabled"><a href="#">下一页</a></li>
+          </ul>
+        </div> -->
+      </div>
+
+
+      <footer>
+        <p>Copyright © 2012, Cross Corporation. All Rights Reserved.</p>
+      </footer>
+    </section>
+
+    <div class="modal" id="create-group-modal" role="dialog"aria-hidden="true" style="display:none;">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+        <h3 ><%= i('group.grouplist.button.create') %></h3>
+      </div>
+      <div class="modal-body">
+          <fieldset>
+            <div>
+              <label for="grouName"><%= i('group.grouplist.label.name') %></label>
+              <div><input type="text" class="input-xlarge" id="groupName"></div>
+            </div>
+            <div>
+              <label for="groupLetter"><%= i('group.grouplist.label.letter') %><!-- 组群名称拼音--></label>
+              <div><input type="text" class="input-xlarge" id="groupLetter"></div>
+            </div>
+            <div>
+              <label for="groupDescription"><%= i('group.grouplist.label.description') %></label>
+              <div><textarea class="input-xlarge" rows="3" id="groupDescription"></textarea></div>
+            </div>
+          </fieldset>
+        </form>
+      </div>
+      <div class="modal-footer">
+        <button class="btn" data-dismiss="modal" aria-hidden="true"><%= i('group.grouplist.button.cancel') %></button>
+        <button class="btn btn-primary" id="createGroup"><%= i('group.grouplist.button.save') %></button>
+      </div>
+    </div>
+
+    <script type="text/template" id="group-template">
+      <tr>
+        <td>
+          <$ if (type == "1") { $>
+          <i class="icon-group icon-large"></i>
+          <$ } else { $>
+          <i class="icon-sitemap icon-large"></i>
+          <$ } $>
+        </td>
+        <td><a href="/group/{{ id }}">{{ name }}</a></td>
+        <td>{{ secure == 1 ? "<%= i('group.grouplist.secure.1') %>":"<%= i('group.grouplist.section.2') %>" }}</td>
+        <td>{{ members }}</td>
+        <td>{{ lastModify }}</td>
+        <td style="text-align: right">
+          <$ if (type == "1") { $>
+          <a class="btn btn-small btn-success" gid="{{id}}" joined="{{ joined }}">
+            {{ joined ? "<%= i('group.grouplist.button.leavel') %>" : "<%= i('group.grouplist.button.join') %>" }}
+          </a>
+          <$ } $>
+        </td>
+      </tr>
+    </script>
+  </body>
+</html>

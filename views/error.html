@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title><%= title %></title>
+
+    <% include common/required.html %>
+
+    <script type='text/javascript' src='/javascripts/menu.model.js'></script>
+    <script type='text/javascript' src='/javascripts/menu.view.js'></script>
+    <script type='text/javascript' src='/javascripts/searcher.model.js'></script>
+    <script type='text/javascript' src='/javascripts/searcher.view.js'></script>
+    <script type='text/javascript' src='/javascripts/finder.model.js'></script>
+    <script type='text/javascript' src='/javascripts/finder.view.js'></script>
+    <script type='text/javascript' src='/javascripts/sidemenu.model.js'></script>
+    <script type='text/javascript' src='/javascripts/sidemenu.view.js'></script>
+
+  </head>
+  <body>
+    
+    <% include common/navbar.html %>
+    
+    <section>
+      <div style="text-align: center;">
+        <img src="/images/popy_sdb_attent.gif">
+      </div>
+      <div style="text-align: center;color: #CA6868;">
+       <%= message %>
+      </div>
+    </section>
+
+  </body>
+</html>

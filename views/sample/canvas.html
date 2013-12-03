@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title><%= title %></title>
+    <link rel='stylesheet' href='/stylesheets/style.css' />
+    <script type='text/javascript' src='/javascripts/jquery-1.7.2.min.js'></script>
+    <script type="text/javascript">
+      function drawBasic(){
+        var canvas = document.getElementById('tutorial');
+        if (canvas.getContext){
+          var ctx = canvas.getContext('2d');
+
+          // 四角
+          ctx.fillRect(50, 50, 200, 100);
+          ctx.strokeRect(200,20,180,260);
+
+          // 輪郭線による描画
+          ctx.beginPath();
+          ctx.moveTo(50,50);
+          ctx.lineTo(360,200);
+          ctx.lineTo(140,250);
+          ctx.closePath();
+          ctx.stroke();
+        }
+      }
+    </script>
+    <script type="text/javascript">
+      const NUM = 100;
+      const WIDTH = 320;
+      const HEIGHT = 240;
+      var speedX = new Array(NUM);
+      var speedY = new Array(NUM);
+      var locX = new Array(NUM);
+      var locY = new Array(NUM);
+      var radius = new Array(NUM);
+      var r =  new Array(NUM);
+      var g =  new Array(NUM);
+      var b =  new Array(NUM);
+      var ctx;
+      
+      $(document).ready(init);
+
+      function init(){
+        drawBasic();
+        var canvas = document.getElementById('tutorial2');
+        if (canvas.getContext) {
+          ctx = canvas.getContext('2d');
+          for(var i = 0; i < NUM; i++){
+            speedX[i] = Math.random() * 8.0 - 4.0;
+            speedY[i] = Math.random() * 8.0 - 4.0;
+            locX[i] = WIDTH / 2;
+            locY[i] = HEIGHT / 2;
+            radius[i] = Math.random() * 8.0 + 1.0;
+            r[i] = Math.floor(Math.random() * 64);
+            g[i] = Math.floor(Math.random() * 64);
+            b[i] = Math.floor(Math.random() * 64);
+          }
+          setInterval(draw, 33);
+        }
+      }
+
+      function draw(){
+        ctx.globalCompositeOperation = "source-over";
+        ctx.fillStyle = "rgba(8,8,12,.1)";
+        ctx.fillRect(0, 0, WIDTH, HEIGHT);
+        ctx.globalCompositeOperation = "lighter";
+
+        for(var i = 0; i < NUM; i++){
+          // 位置を更新
+          locX[i] += speedX[i];
+          locY[i] += speedY[i];
+
+          if(locX[i] < 0 || locX[i] > WIDTH){
+            speedX[i] *= -1.0;
+          }
+
+          if(locY[i] < 0 || locY[i] > HEIGHT){
+            speedY[i] *= -1.0;
+          }
+
+          // 更新した座標で円を描く
+          ctx.beginPath();
+          ctx.fillStyle = 'rgb(' + r[i] + ',' + g[i] + ',' + b[i] + ')';
+          ctx.arc(locX[i], locY[i], radius[i], 0, Math.PI*2.0, true);
+          ctx.fill();
+        }
+      }
+    </script>
+    <style type="text/css">
+      canvas { border: 1px solid #999; }
+      #tutorial2 {
+        background-color:#000;
+        border: 1px solid #999;
+      }
+    </style>
+  </head>
+  <body>
+    <input type="hidden" name="_csrf" value="<%= token %>" />
+    <canvas id="tutorial2" width="320" height="240"></canvas>
+    <canvas id="tutorial" width="400" height="300"></canvas>
+  </body>
+</html>

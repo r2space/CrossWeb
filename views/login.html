@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html>
+  <head>
+
+    <title><%= title %></title>
+    <link rel='stylesheet' href='/stylesheets/smart.css' />
+    <link rel='stylesheet' href='/stylesheets/login.css' />
+    <script type='text/javascript' src='/vendor/jquery-1.9.1.min.js'></script>
+    <script type='text/javascript' src='/vendor/jquery.jrumble.1.3.min.js'></script>
+    <script type='text/javascript' src='/javascripts/login/login.js'></script>
+
+  </head>
+  <body>
+    
+    <section>
+      <article id="area" style="position: absolute;">
+        <header>
+          <hgroup>
+            <h1></h1>
+            <h2></h2>
+          </hgroup>
+        </header>
+      </article>
+    </section>
+
+    <div id="container-demo">
+      <div class="bubble">
+        <h4 class="rectangle">Smart</h4>
+        <div class="triangle-l"></div>
+        <div class="triangle-r"></div>
+
+        <form id="loginform" method="post" action="/login">
+          <input type="hidden" id="_csrf" name="_csrf" value="<%= csrftoken %>" />
+          <input type="hidden" name="_method" value="post" />
+          <p id="detail">
+            <input type="text" id="name" name="name" value="" placeholder="Email" />
+            <input type="password" id="pass" name="pass" value="" placeholder="Password" />
+          </p>
+          <p style="text-align:center;">
+            <a href="/login">About</a>&nbsp;&nbsp;&nbsp;
+            <a href="#" onclick="javascript:login(); return false;">Login</a>
+          </p>
+        </form>
+
+      </div>    
+    </div>
+    
+    <footer>
+      <p>Copyright © 2012, Cross Corporation. All Rights Reserved.</p>
+    </footer>
+  </body>
+</html>

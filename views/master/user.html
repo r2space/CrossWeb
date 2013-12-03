@@ -1,0 +1,299 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title><%= title %></title>
+    <link rel='stylesheet' href='/vendor/datatables/css/jquery.dataTables.css' />
+    <script type='text/javascript' src='/vendor/jquery-1.9.1.min.js'></script>
+    <script type='text/javascript' src='/vendor/datatables/js/jquery.dataTables.js'></script>
+    <script type='text/javascript' src='/vendor/Jcrop/js/jquery.Jcrop.js'></script>
+
+    <link rel="stylesheet" href="/vendor/Jcrop/css/jquery.Jcrop.css" type="text/css" />
+    
+    <script type="text/javascript">
+      $(document).ready(function() {
+        /*$('#table_id').dataTable({
+          "bServerSide": true,
+          "sAjaxSource": "/master/user.json"
+        });*/
+        //绑定上传图片事件
+        $("#photo").bind("change", function () {
+          var files = this.files;
+          uploadPic(files);
+        });
+      });
+      function getUserInfo(){
+        $.get('/user/get.json', {_id : $('#search_uid').val()}, function(result){
+          var a = result.user;
+          a.address.city = "丹东";
+          $.post("/user/update.json", {"user": a}, function(aa){
+            var aaa = aa.user.address.city;
+          });
+        });
+      }
+
+      function publishMessage(){
+        $.post('/message/create.json', {content: $('#msg_content').val(), uid: "luohao"}, function(result){
+          var a = result;
+        });
+      }
+
+      function getMessageList(){
+        $.get('/message/list.json', {uid: $('#createby').val(), gid:"5080c1ae49ce165c03000007", start: $('#startnum').val(), count: $('#count').val()}, function(result){
+          var msgid = result ? result[0]._id : "";
+          $.post("/message/delete.json", {"mid": msgid}, function(result){
+            1+1;
+          });
+        });
+      }
+      function getMessage(id){
+        $.get("/message/get.json", {"_id": id}, function(result){
+          console.log(result);
+        });
+      }
+      function uploadPic(files){
+        var pid;
+        var fd = new FormData();
+
+        for (var i = 0; i < files.length; i++) {
+          fd.append("files", files[i]);
+        }
+        //fd.append("_csrf", "<%= token %>");
+        $.ajax({
+          url: "/user/upload_photo.json"
+          , type: "POST"
+          , async: false
+          , data: fd
+          , processData: false
+          , contentType: false
+        }).done(function(result) {
+          var fid = result.fid;
+          $("#fid").val(fid);
+          var jcrop_api, boundx, boundy;
+          $("#prevImg").attr("src", "/picture/"+fid);
+          $("#smallImg").attr("src", "/picture/"+fid);
+          $("#prevImg").Jcrop({
+            onChange: updatePreview,
+            onSelect: updatePreview,
+            bgColor: 'black',
+            bgOpacity: .4,
+            aspectRatio: 1
+          },function(){
+            // Use the API to get the real image size
+            var bounds = this.getBounds();
+            boundx = bounds[0];
+            boundy = bounds[1];
+            // Store the API in the jcrop_api variable
+            jcrop_api = this;
+          });
+
+          function updatePreview(c)
+          {
+            if (parseInt(c.w) > 0) {
+              $("#px").val(c.x);
+              $("#py").val(c.y);
+              $("#pw").val(c.w);
+              var rx = 100 / c.w;
+              var ry = 100 / c.h;
+
+              $('#smallImg').css({
+                width: Math.round(rx * boundx) + 'px',
+                height: Math.round(ry * boundy) + 'px',
+                marginLeft: '-' + Math.round(rx * c.x) + 'px',
+                marginTop: '-' + Math.round(ry * c.y) + 'px'
+              });
+            }
+          };
+        });
+        //return res;
+      }
+      function getSmallPhoto(){
+        $.post("/user/set_photo.json", {"fid": $("#fid").val(), "uid": "sh", "x": $("#px").val(), 
+            "y": $("#py").val(), "width": $("#pw").val()}, function(result){
+        });
+      }
+      function lookAtPhoto(){
+        $.get('/user/get.json', {_id : "50514054705efe0823000008"}, function(result){
+          var photo = result.user.photo;
+          var big = photo.big;
+          var middle = photo.middle;
+          var small = photo.small;
+
+          $("#big").attr("src", "/picture/"+big);
+          $("#middle").attr("src", "/picture/"+middle);
+          $("#small").attr("src", "/picture/"+small);
+        });
+      }
+      function getUserId(){
+        var a = "<%=loginId%>";
+        alert(a);
+      }
+
+      function getUserList(){
+        $.get("/user/list.json", {"uids": "[], ,50514054705efe0823000008,50514054705efe08230000,50514054705efe082300j008", "firstLetter": $("#fletter").val(), "start": $("#start2").val(), "count": $("#count2").val()}, function(result){
+          var abc = result.userList;
+        });
+      }
+
+      function followMe(uid){
+        $.post("/user/follow.json", {"uid": uid}, function(result){
+          alert(result.msg);
+        });
+      }
+
+      function unfollowMe(uid){
+        $.post("/user/unfollow.json", {"uid": uid}, function(result){
+          alert(result.msg);
+        });
+      }
+
+      function getTopic(){
+        $.get("/topic/get.json", function(result){
+          1;
+        });
+      }
+      function repostMessage(id){
+        $.post("/message/create.json", {"originalmid": id}, function(result){
+          console.log(result.toString());
+        });
+      }
+    </script>
+  </head>
+  <body>
+    <input type="hidden" name="_csrf" value="<%= token %>" />
+    <input type="hidden" id="uid" name="uid" value="<%= user.id %>">
+    <table id="table_id">
+      <thead>
+        <tr>
+          <th style="width:50px;">_id</th>
+          <th>active</th>
+          <th>userid</th>
+          <th>createat</th>
+          <th>createby</th>
+          <th>editat</th>
+          <th>editby</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>row 1 data 1</td>
+          <td>row 1 data 2</td>
+          <td>etc</td>
+          <td>etc</td>
+          <td>etc</td>
+          <td>etc</td>
+          <td>etc</td>
+        </tr>
+        <tr>
+          <td>row 2 data 1</td>
+          <td>row 2 data 2</td>
+          <td>etc</td>
+          <td>etc</td>
+          <td>etc</td>
+          <td>etc</td>
+          <td>etc</td>
+        </tr>
+      </tbody>
+    </table>
+<form name='createUserForm' method='post' action='/user/create.json'>
+  <table>
+    <tr><td><label>姓名：</label></td><td><input type='text' id='uname' name='uname'/></td></tr>
+    <tr><td><label>密码：</label></td><td><input type='password' id='password' name='password'/></td></tr>
+    <tr><td><label>确认密码：</label></td><td><input type='password' id='password2' name='password2'/></td></tr>
+    <tr><td><label>email：</label></td><td><input type='text' id='email' name='email'/></td></tr>
+    <tr><td><label>Tel：</label></td><td><input type='text' id='tel' name='tel'/></td></tr>
+  </table>
+  <input type="hidden" name="_csrf" value="<%= token %>"/>
+  <input type='submit' value='注册' onclick='createSubmit();'/>
+</form>
+<br />
+<br />
+<table>
+<tr><td>用户名：</td><td><input type="text" id="search_uid" name="search_uid"/></td><td><a href="/user/get.json">abcd</a></td>
+  <td><input type='button' value='获取用户基本信息' onclick='getUserInfo();'/></td></tr>
+</table>
+<br />
+<br />
+<textarea rows="5" cols="60" id='msg_content' name='msg_content'></textarea>
+<input type='button' value='发布' onclick='publishMessage();'/>
+<br />
+<hr />
+<div id='msg_display' name='msg_display'></div>
+<input type="text" id="createby" name="createby" value="shenhua"/>
+<input type="text" id="startnum" name="startnum" value="1"/>
+<input type="text" id="count" name="count" value="5"/>
+<input type="button" value="得到消息" id="getmsg" onclick="getMessageList();"/>
+<div id="image_area">  
+  <table>
+      <tr>
+        <td>
+          <img src="#" id="prevImg" alt="ffff" />
+        </td>
+        <td>
+          <div style="width:100px;height:100px;overflow:hidden;">
+            <img src="#" id="smallImg" alt="ssssssss" class="jcrop-preview" />
+          </div>
+        </td>
+      </tr>
+    </table>
+</div>
+<div>
+  <input type="file" id="photo" name="photo"/>
+</div>
+<hr />
+<div>
+  <input type="button" id="sPhoto" value="设置头像" onclick="getSmallPhoto();"/>
+</div>
+<div>
+  <input type="hidden" id="fid" name="fid"/>
+  <input type="hidden" id="px" name="px"/>
+  <input type="hidden" id="py" name="py"/>
+  <input type="hidden" id="pw" name="pw"/>
+</div>
+<div>
+  <input type="button" onclick="lookAtPhoto();" value="得到三个头像"/>
+  <table>
+    <tr><td><img src="#" id="big" name="big"/></td><td><img src="#" id="middle" name="middle"/></td>
+      <td><img src="#" id="small" name="small"/></td></tr>
+  </table>
+</div>
+<hr />
+<input type="button" value="得到当前用户ID" onclick="getUserId();"/>
+<p>======================================================</p>
+<input type="text" id="fletter" name="fletter" value="L"/>
+<input type="text" id="start2" name="start2" value="1"/>
+<input type="text" id="count2" name="count2" value="5"/>
+<input type="button" value="得到用户列表" id="getUserList" onclick="getUserList();"/>
+<p>======================================================</p>
+<table cellpadding="5px" cellspacing="5px">
+  <tr>
+    <td align=center><input type="button" onclick="followMe('505c092e54f35e414c000008');" value="关注李文先"/></td>
+    <td align=center><input type="button" onclick="followMe('50514054705efe0823000008');" value="关注沈华"/></td>
+    <td align=center><input type="button" onclick="followMe('505140c960b550402400000a');" value="关注大爷"/></td>
+    <td align=center><input type="button" onclick="followMe('505140ed60b550402400000d');" value="关注刚哥"/></td>
+    <td align=center><input type="button" onclick="followMe('505140e060b550402400000c');" value="关注罗浩"/></td>
+    <td align=center><input type="button" onclick="followMe('505140d560b550402400000b');" value="关注丹姐"/></td>
+  </tr>
+  <tr>
+    <td align=center><input type="button" onclick="unfollowMe('505c092e54f35e414c000008');" value="取消关注李文先"/></td>
+    <td align=center><input type="button" onclick="unfollowMe('50514054705efe0823000008');" value="取消关注沈华"/></td>
+    <td align=center><input type="button" onclick="unfollowMe('505140c960b550402400000a');" value="取消关注大爷"/></td>
+    <td align=center><input type="button" onclick="unfollowMe('505140ed60b550402400000d');" value="取消关注刚哥"/></td>
+    <td align=center><input type="button" onclick="unfollowMe('505140e060b550402400000c');" value="取消关注罗浩"/></td>
+    <td align=center><input type="button" onclick="unfollowMe('505140d560b550402400000b');" value="取消关注丹姐"/></td>
+  </tr>
+</table>
+<hr />
+<input type="button" onclick="getTopic();" value="获取topic"/>
+<p>======================================================</p>
+<form method="post" action="/message/addReply.json">
+<input type="text" name="content" value="知道真相的我眼泪掉下来"/>
+<input type="text" name="to" value="505c092e54f35e414c000008"/>
+<input type="text" name="mid" value="50893ac8de4b75601f00000a"/>
+<input type="submit" value="提交回复"/>
+</form>
+<p>======================================================</p>
+<input type="button" value="转发" onclick="repostMessage('505c092e54f35e414c000008')"/>
+<p>======================================================</p>
+<input type="button" value="得到一条消息" onclick="getMessage('5089fc1ed50b847c00000008')"/>
+  </body>
+</html>

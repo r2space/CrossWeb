@@ -1,0 +1,30 @@
+body {
+  padding-left: 0px;
+  padding-right: 0px;
+  font: 12px "Lucida Grande", Helvetica, Arial, sans-serif;
+  background-color: #888888;
+}
+#a1 {
+  display: none;
+}
+#a2 {
+  display: none;
+}
+#a3 {
+  display: none;
+}
+/*article {
+
+  margin: 0 auto;
+  width: 1020px;
+
+  section {
+    
+    margin: 0 auto;
+    width: 796px;
+    height: 2266px;
+    background: #fff;
+  
+  }
+}
+*/

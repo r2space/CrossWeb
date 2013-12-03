@@ -1,0 +1,160 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta content="text/html;charset=UTF-8" http-equiv="Content-Type">
+    <meta charset="utf-8">
+    <title><%= title %></title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Welcome to SSDB">
+    <meta name="author" content="">
+
+    <% include common/required.html %>
+
+    <script type='text/javascript' src='/javascripts/menu.model.js'></script>
+    <script type='text/javascript' src='/javascripts/menu.view.js'></script>
+    <script type='text/javascript' src='/javascripts/searcher.model.js'></script>
+    <script type='text/javascript' src='/javascripts/searcher.view.js'></script>
+    <script type='text/javascript' src='/javascripts/sidemenu.model.js'></script>
+    <script type='text/javascript' src='/javascripts/sidemenu.view.js'></script>
+
+    <script type="text/javascript" src="/javascripts/message/message.api.js"></script>
+    <script type="text/javascript" src="/javascripts/message/message.view.js"></script>
+    <script type="text/javascript" src="/javascripts/message/message.model.js"></script>
+
+    <script src="/javascripts/topic/topic.js"></script>
+    <script src="/javascripts/topic/topic.view.js"></script>
+    <script src="/javascripts/topic/topic.model.js"></script>
+
+    <!-- Le styles -->
+    <style type="text/css">
+      body {
+        padding-bottom: 40px;
+      }
+      #join-btn {
+        min-width: 60px;
+      }
+    </style>
+
+    <!-- Le HTML5 shim, for IE6-8 support of HTML5 elements -->
+    <!--[if lt IE 9]>
+      <script src="http://html5shim.googlecode.com/svn/trunk/html5.js"></script>    <![endif]-->
+    <!-- Le fav and touch icons -->
+    <link rel="shortcut icon" href="ico/favicon.ico">
+    <link rel="apple-touch-icon-precomposed" sizes="144x144" href="ico/apple-touch-icon-144-precomposed.png">
+    <link rel="apple-touch-icon-precomposed" sizes="114x114" href="ico/apple-touch-icon-114-precomposed.png">
+    <link rel="apple-touch-icon-precomposed" sizes="72x72" href="ico/apple-touch-icon-72-precomposed.png">
+    <link rel="apple-touch-icon-precomposed" href="ico/apple-touch-icon-57-precomposed.png">
+  </head>
+  <body>
+
+    <% include common/navbar.html %>
+
+    <section style="padding-top: 20px; margin: 0 auto; width: 1000px;">
+      <article id = "left">
+        <% include common/sidemenu.html %>
+      </article>
+      <div class="container-fluid">
+        <div class="row-fluid">
+          <div class="span6" style="width:550px; margin-left: 20px;"></div>
+          <!-- <div class="span3"> -->
+            <!-- <div class="well sidebar-nav span3" style="width: 230px;">
+              <ul class="nav nav-list" >
+                <li class="nav-header">话题成员</li>
+                <li><a href="javascript://">People1</a></li>
+                <li><a href="javascript://">People2</a></li>
+                <li><a href="javascript://">People3</a></li>
+                <li><a href="javascript://">People4</a></li>
+                <li><a href="javascript://">People5</a></li>
+              </ul>
+            </div> -->
+            <!--/.well --> 
+          <!-- </div> -->
+          <div class="span9">
+            <div class="well">
+              <div class="row-fluid">
+                <div class="span4">
+                  <h3 id="topic-name"></h3>
+                  <p id="topic-public"><em></em></p>
+                  <p id="topic-description"></p>
+                </div>
+                <div class="span4 pull-right" >
+                  <a class="btn btn-primary btn-tojoin hide" id="join-btn">申请加入</a>
+                  <a href="#create-topic-modal" class="btn hide" id="edit-btn" data-toggle="modal">话题设置</a>
+                </div>
+                <div class="modal" id="create-topic-modal" role="dialog"aria-hidden="true" style="display:none;">
+                  <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+                    <h3 >创建话题</h3>
+                  </div>
+                  <div class="modal-body">
+                    <form class="form-horizontal">
+                      <fieldset>
+                        <div class="control-group" id="topic-name">
+                          <label class="control-label" for="input01">话题名称</label>
+                          <div class="controls">
+                            <input type="text" class="input-xlarge" id="topic-name-input">
+                          </div>
+                        </div>
+                        <div class="control-group" id="topic-description">
+                          <label class="control-label" for="textarea">简介</label>
+                          <div class="controls">
+                            <textarea class="input-xlarge" id="topic-description-textarea" rows="3"></textarea>
+                          </div>
+                        </div>
+                        <div class="control-group">
+                          <label class="control-label">公开范围</label>
+                          <div class="controls">
+                            <form>
+                            <label class="topic-public">
+                              <input name="radio" type="radio" value="0">
+                              <strong>公开</strong> — <em>所有人可见</em>
+                            </label>
+                            <label class="topic-public">
+                              <input name="radio" type="radio" value="1">
+                              <strong>私密</strong> — <em>话题成员可见</em>
+                            </label>
+                            </form>
+                          </div>
+                        </div>
+                        <div class="alert alert-info hide" id="message-save-success">
+                          <strong>保存成功！</strong>话题设置已更新成功。
+                        </div>
+                      </fieldset>
+                    </form>
+                  </div>
+                  <div class="modal-footer">
+                    <button class="btn" data-dismiss="modal" aria-hidden="true">取消</button>
+                    <button class="btn btn-primary" id="topic-save-btn">保存</button>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="tabbable">
+                <ul class="nav nav-tabs">
+                  <li class="active"><a href="#1" data-toggle="tab">言论</a></li>
+                  <li><a href="#2" data-toggle="tab">Files</a></li>
+                  <li><a href="#3" data-toggle="tab">揭示板</a></li>
+                </ul>
+                <div class="tab-content">
+                  <div class="tab-pane active" id="1">
+                    <div style="width:550px;">
+                    </div>
+                  </div>
+                  <div class="tab-pane" id="2">
+                    <p>TODO Files .</p>
+                  </div>
+                  <div class="tab-pane" id="3">
+                    <p>TODO Files .</p>
+                  </div>
+                </div>
+              </div>
+          </div>
+        </div>
+        <hr>
+        <footer>
+          <p>Copyright © 2012, Cross Corporation. All Rights Reserved.</p>
+        </footer>
+      </div>
+    </section>
+  </body>
+</html>

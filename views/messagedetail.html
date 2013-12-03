@@ -1,0 +1,200 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title><%= title %></title>
+
+    <% include common/required.html %>
+
+    <script type='text/javascript' src='/javascripts/menu.model.js'></script>
+    <script type='text/javascript' src='/javascripts/menu.view.js'></script>
+    <script type='text/javascript' src='/javascripts/searcher.model.js'></script>
+    <script type='text/javascript' src='/javascripts/searcher.view.js'></script>
+    <script type='text/javascript' src='/javascripts/finder.model.js'></script>
+    <script type='text/javascript' src='/javascripts/finder.view.js'></script>
+    <script type='text/javascript' src='/javascripts/sidemenu.model.js'></script>
+    <script type='text/javascript' src='/javascripts/sidemenu.view.js'></script>
+
+    <script src="/javascripts/message/message.js"></script>
+    <script src="/javascripts/message/messagedetail.view.js"></script>
+
+    <link rel="stylesheet" href="/stylesheets/messagedetail.css">
+    <link href="/stylesheets/message.css" rel="stylesheet">
+
+  </head>
+  <body>
+    
+    <% include common/navbar.html %>
+    
+    <section>
+
+       <article id="left">
+        <% include common/sidemenu.html %>
+      </article>
+
+      <div id="maincontents">
+        <div id="informations">
+          <div id="user_image"><img /></div>
+          <div id="brief">
+            <h3 id="user_name"></h3>
+            <p id="user_title"></p>
+          </div>
+
+          <div id="operations">
+            <a id="send_message_btn" class="btn btn-primary hide"><%= i('shortmail.option.sentPrivateMsg') %></a>
+            <a id="follow_btn" class="btn btn-tofollow hide"><%= i('user.option.follow') %></a>
+            <a id="unfollow_btn" class="btn btn-tofollow hide"><%= i('user.option.unfollow') %></a>
+            <a id="edit_btn" class="btn btn-primary hide"><%= i('user.option.editInfo') %></a>
+          </div>
+        </div>
+        
+        <div id="messages-container" style="width:550px"></div>
+        
+      </div>
+      <footer>
+        <p>Copyright © 2012, Cross Corporation. All Rights Reserved.</p>
+      </footer>
+    </section>
+
+    <script type="text/template" id="message-template">
+
+      <dl style="background-color: #EEF; margin-bottom: 1px;">
+        <dt><%= i('message.detail.label.range') %></dt>
+        <dd style="margin-left:20px;">{{ rangeGroup }}</dd>
+        <dt><%= i('message.detail.label.content') %></dt>
+        <dd style="margin-left:20px;">{{ content }}</dd>
+        <dt><%= i('message.detail.label.notice') %></dt>
+        <dd style="margin-left:20px;">{{ atAccounts }}</dd>
+      </dl>
+
+      <dl id="attach_container_{{ mid }}" style="margin-bottom: 1px;"/>
+
+      <dl>
+        <dd style="margin-left:0px;">
+          <div style="margin-bottom: 6px;">
+            <span style="color: #BBB;">{{time}}</span>
+            <span class="pull-right">
+              <a class="hidden" href="javascript://" id="delete_{{mid}}"><%= i('message.list.button.delete') %></a>
+              <a href="javascript://" class="hide"><%= i('message.list.button.totop') %></a>
+              <a href="javascript://" class="hide"><%= i('message.list.button.good') %></a>
+              <a href="javascript://" id="forwardMsg_{{mid}}">
+                <%= i('message.list.button.forward') %>({{ forwardNums }})
+              </a>
+              <a href="javascript://" class="hide"><%= i('message.list.button.mark') %></a>
+              <a href="javascript://" id="fetchreply_{{mid}}" class="toggle-replies">
+                <%= i('message.list.button.reply') %>({{ replyNums }})
+              </a>
+          </div>
+          <div id="replyBox_{{ mid }}" style="border-width: 1px;border-style:solid;padding: 10px 20px 10px;border-radius: 3px;border-color: #d9d9d9;">
+            <div style="margin: -18px 0 0 500px;">
+              <em style="font-family: 'SimSun';font-size: 12px;line-height: 1.231;display: block;height: 12px;color: #d9d9d9;font-style: normal;font-weight: normal;">◆</em>
+              <span style="margin: -11px 0 0;width: 22px;font-family: 'SimSun';overflow: hidden;font-size: 12px;line-height: 1.231;display: block;height: 12px;color: #fafafa;font-style: normal;font-weight: normal;">◆</span>
+            </div>
+            <p style="margin-bottom: -7px;">
+              <textarea id="reply_{{ mid }}" style="width:493px" rows="2" placeholder="<%= i('message.list.button.reply') %>" range={{ range}}></textarea>
+            </p>
+            <p style="margin-bottom: 5px;text-align: right;">
+              <a id="replyButton_{{ mid }}" class="btn btn-mini btn-warning"><%= i('message.list.button.reply') %></a>
+            </p>
+            <div id="replyarea_{{ mid }}"></div>
+
+            <div id="page_container_{{ mid }}" class="pagination pagination-centered pagination-mini">
+            </div>
+
+          </div>
+
+          <div id="forwardBox_{{ mid }}" class="hidden" style="border-width: 1px;border-style:solid;padding: 10px 20px 10px;border-radius: 3px;border-color: #d9d9d9;">
+            <div style="margin: -18px 0 0 460px;">
+              <em style="font-family: 'SimSun';font-size: 12px;line-height: 1.231;display: block;height: 12px;color: #d9d9d9;font-style: normal;font-weight: normal;">◆</em>
+              <span style="margin: -11px 0 0;width: 22px;font-family: 'SimSun';overflow: hidden;font-size: 12px;line-height: 1.231;display: block;height: 12px;color: #fafafa;font-style: normal;font-weight: normal;">◆</span>
+            </div>
+            <p style="margin-bottom: -7px;">
+              <!-- textBox --> 
+              <div class="textBox" style="margin-top: 7px;border-color: #d9d9d9;">
+                <textarea id="textBoxMsg-selector-{{ mid }}" class="comment" style="width:493px;" rows="2" placeholder="<%= i('message.list.button.forward') %>"></textarea>
+                <div id="textBoxNotice-selector-{{ mid }}" class="users">
+                  <input id="keywordsText-selector-{{ mid }}" scope="1" placeholder="<%= i('message.list.placeholder.notice') %>" />
+                </div>
+              </div>
+            </p>
+            <div class="publish">
+              <span id="selectedscope-selector-{{ mid }}" uid="1"><%= i('message.list.selector.scope') %></span>
+              <a id="scopesetter-selector-{{ mid }}"><i class="icon-caret-down" style="padding: 5px;"></i></a>
+              <ul id="scope-selector-{{ mid }}" class="scope">
+                <li><a href="#" uid="1"><%= i('message.list.selector.scope') %></a></li>
+                <li class="divider"></li>
+              </ul>
+              <a id="forwardButton_{{ mid }}" class="btn btn-mini btn-warning"><%= i('message.list.button.forward') %></a>
+            </div>
+            <div id="forwardarea_{{ mid }}"></div>
+
+            <div id="page_forward_{{ mid }}" class="pagination pagination-centered pagination-mini">
+            </div>
+
+          </div>
+
+        </dd>
+      </dl>
+    </script>
+
+    <script type="text/template" id="message-scope-template">
+      <li><a uid="{{id}}">{{name}}</a></li>
+    </script>
+
+    <script type="text/template" id="selected-user-template">
+      <ol>
+        <li uid="{{uid}}" type="{{type}}">
+          <span>{{uname}}</span><a uid="{{uid}}"><i class="icon-remove"></i></a>
+        </li>
+      </ol>
+    </script>
+
+    <script type="text/template" id="reply-template">
+    <hr>
+    <p style="margin-bottom: 1px;">
+      <img src="{{ uphoto }}" style="width:30px; height:30px;">
+      <span><a href="/user/{{ uid }}">{{ uname }}</a> : {{ content }}</span>
+      <p style="color: #BBB;">{{ time }}  </p>
+    </p>
+    </script>
+
+    <script type="text/template" id="forward-template">
+    <hr>
+    <p style="margin-bottom: 1px;">
+      <img src="{{ uphoto }}" style="width:30px; height:30px;">
+      <a href="/user/{{ uid }}">{{ uname }}</a>{{rangeGroup}} : {{ content }} {{at}}
+      <br/><a href="/message/{{mid}}" style="color: #BBB;">{{ time }}</a>
+    </p>
+    </script>
+
+    <script type="text/template" id="image-template">
+    <img data-img="{{ image }}" src="/images/loading.gif" id="{{ id }}" style="margin-bottom: 3px;opacity:0;">
+    </script>
+
+    <script type="text/template" id="doc-template">
+    <div style="margin-bottom: 1px;">
+      <img src="{{ image }}" style="width:20px;"><a href="/file/download.json?_id={{ id }}">{{ name }}</a>
+    </div>
+    </script>
+
+    <script type="text/template" id="document-template">
+    <div style="margin-bottom: 1px;">
+      <img src="{{ image }}" style="width:20px;" onerror="this.src='/images/filetype/default.png';this.onerror = null;">
+      <a href="/file/download.json?_id={{ downloadId }}">{{ name }}</a>
+      <!-- //<a title="查看" href="/file/{{ id }}"><i class="icon-eye-open"></i></a>
+      // <a id="file_fl_{{id}}" title="关注" href="#"><i class="icon-star-empty"></i></a>
+      // <a id="file_unfl_{{id}}" title="取消关注" href="#"><i class="icon-star"></i></a> -->
+      <a title="<%= i('message.list.button.download') %>" href="/file/download.json?_id={{ downloadId }}"><i class="icon-download-alt"></i></a>
+    </div>
+    </script>
+
+    <script type="text/template" id="video-template">
+    <div>{{name}} <a href="/file/download.json?_id={{ id }}"><%= i('message.list.button.download') %></a></div>
+    <div class="video">
+      <video id="a" width="550" controls>
+        <source src="{{ image }}" />
+      </video>
+    </div>
+    </script>
+
+  </body>
+</html>

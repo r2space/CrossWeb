@@ -1,0 +1,41 @@
+#searchresult {
+  width: 1020px;
+  margin: 0 auto;
+}
+#searchresult table {
+  margin-left: 169px;
+  margin-top: 0px;
+  width: 228px;
+  border-spacing: 0px;
+  position: absolute;
+  z-index: 0;
+  vertical-align: middle;
+  border-right: 1px solid rgba(0, 0, 0, 0.1);
+}
+#searchresult td {
+  border-left: 1px solid rgba(0, 0, 0, 0.1);
+  border-bottom: 1px solid rgba(0, 0, 0, 0.1);
+  background-color: #e8ffe8;
+  padding-top: 5px;
+  height: 40px;
+}
+#searchresult td div {
+  margin-left: 5px;
+  width: 32px;
+}
+#maincontents {
+  width: 700px;
+  margin-left: 180px;
+  min-height: 400px;
+}
+table.filelist th {
+  background: #F5F5F5;
+  text-align: center;
+}
+table.filelist img {
+  width: 30px;
+}
+#opera {
+  text-align: right;
+  margin-right: 5px;
+}

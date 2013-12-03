@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title><%= title %></title>
+
+    <% include common/required.html %>
+
+    <script type='text/javascript' src='/javascripts/menu.model.js'></script>
+    <script type='text/javascript' src='/javascripts/menu.view.js'></script>
+    <script type='text/javascript' src='/javascripts/searcher.model.js'></script>
+    <script type='text/javascript' src='/javascripts/searcher.view.js'></script>
+    <script type='text/javascript' src='/javascripts/sidemenu.model.js'></script>
+    <script type='text/javascript' src='/javascripts/sidemenu.view.js'></script>
+
+    <script type='text/javascript' src="/javascripts/fulltextsearch/fulltextsearch.js"></script>
+    <script type='text/javascript' src="/javascripts/fulltextsearch/fulltextsearch.view.js"></script>
+    <script type='text/javascript' src="/javascripts/fulltextsearch/fulltextsearch.model.js"></script>
+
+    <link rel="stylesheet" href="/stylesheets/fulltextsearch.css">
+
+  </head>
+  <body>
+
+    <% include common/navbar.html %>
+    <input type="hidden" id="keywords" value="<%= keywords %>">
+
+    <section>
+      <article>
+        <% include common/sidemenu.html %>
+      </article>
+
+      <div id="maincontents">
+        <div id="resultMsg"></div>
+        <ul id="resultlist" style="margin:10px 0 0 0"></ul>
+
+        <div id="messagelist-user" class="pagination pagination-centered">
+        </div>
+      </div>
+
+      <footer>
+        <p>Copyright © 2012, Cross Corporation. All Rights Reserved.</p>
+      </footer>
+    </section>
+
+     <script type="text/template" id="solr-template">
+      <li>
+        <div class="box">
+          <div class="box_top">
+            <a href="{{url}}">{{title}}</a>
+            <span style="color: #999;">(<%= i('fulltextsearch.html.label.score') %>:{{score}})</span>
+            <span style="float: right;">[{{type}}]</span>
+          </div>
+          <div class="box_content">{{content}}</div>
+          <div class="box_bottom hidden">
+            <a><%= i('fulltextsearch.html.button.follow') %><!--关注--></a>
+            <a><%= i('fulltextsearch.html.button.unfollow') %><!--取消关注--></a>
+          </div>
+        </div>
+      </li>
+    </script>
+
+    <script type="text/template" id="search-user-template">
+      <li>
+        <div class="box">
+          <div class="box_top">
+            <a href="/user/{{ id }}"><img src="{{ photo }}"></a>
+            <span>{{name}}</span>
+          </div>
+          <div class="box_content">{{addition}}</div>
+          <div class="box_bottom hidden">
+            <a><%= i('fulltextsearch.html.button.follow') %><!--关注--></a>
+            <a><%= i('fulltextsearch.html.button.unfollow') %><!--取消关注--></a>
+            <a href="/user/{{ id }}"><%= i('fulltextsearch.html.button.detail') %><!--详细--></a>
+          </div>
+        </div>
+      </li>
+    </script>
+
+    <script type="text/template" id="search-group-template">
+      <li>
+        <div class="box">
+          <div class="box_top">
+            <a href="/group/{{ id }}"><img src="{{ photo }}"></a>
+            <span>{{name}}</span>
+          </div>
+          <div class="box_content">{{addition}}</div>
+          <div class="box_bottom hidden">
+            <a><%= i('fulltextsearch.html.button.add') %><!--参加--> </a>
+            <a><%= i('fulltextsearch.html.button.quit') %><!--退出--></a>
+            <a href="/group/{{ id }}"><%= i('fulltextsearch.html.button.detail') %><!--详细--></a>
+          </div>
+        </div>
+      </li>
+    </script>
+
+    <script type="text/template" id="search-message-template">
+      <li>
+        <div class="box">
+          <div class="box_top">
+            <a href="/user/{{ uid }}"><img src="{{ photo }}"></a>
+            <span>{{name}}</span>
+          </div>
+          <div class="box_content">{{addition}}</div>
+          <div class="box_bottom">
+            <a href="/message/">
+            <%= i('fulltextsearch.html.button.detail') %><!--详细--></a>
+          </div>
+        </div>
+      </li>
+    </script>
+
+    <script type="text/template" id="search-file-template">
+      <li>
+        <div class="box">
+          <div class="box_top">
+            <a href="/file/{{ id }}"><img src="{{ photo }}"></a>
+            <span>{{name}}</span>
+          </div>
+          <div class="box_content">
+            <span><%= i('fulltextsearch.html.label.length') %><!--大小：-->{{length}}</span>
+            <span><%= i('fulltextsearch.html.label.date') %><!--更新日：-->{{date}}</span>
+          </div>
+          <div class="box_bottom hidden">
+            <a href="/file/{{ id }}"><%= i('fulltextsearch.html.button.detail') %><!--详细--></a>
+            <a href="/file/download.json?_id={{ id }}"><%= i('fulltextsearch.html.button.sugestion') %><!--下载--></a>
+            <a><%= i('fulltextsearch.html.button.follow') %><!--关注--></a>
+            <a><%= i('fulltextsearch.html.button.unfollow') %><!--取消关注--></a>
+          </div>
+        </div>
+      </li>
+    </script>
+
+  </body>
+</html>

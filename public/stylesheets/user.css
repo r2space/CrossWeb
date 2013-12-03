@@ -1,0 +1,211 @@
+/* */
+#maincontents {
+  width: 700px;
+  margin-left: 180px;
+}
+#informations {
+  height: 100px;
+  min-height: 20px;
+  padding: 19px;
+  margin-bottom: 20px;
+  background-color: #f5f5f5;
+  border: 1px solid #e3e3e3;
+  -webkit-border-radius: 4px;
+  -moz-border-radius: 4px;
+  border-radius: 4px;
+}
+/* 用户名 */
+#brief {
+  position: relative;
+  top: -80px;
+  left: 110px;
+}
+/* 操作按钮 */
+#operations {
+  position: relative;
+  top: -160px;
+  left: 535px;
+  width: 200px;
+}
+/* 用户头像 */
+#user_image {
+  width: 100px;
+  height: 100px;
+}
+#user_image img {
+  -webkit-border-radius: 4px;
+  -moz-border-radius: 4px;
+  border-radius: 4px;
+  width: 100px;
+}
+#userdetail dl {
+  padding-left: 15px;
+  padding-right: 15px;
+  display: block;
+  margin-bottom: 20px;
+  font-size: 21px;
+  line-height: 40px;
+  color: #333333;
+  border: 0;
+  /*border-bottom: 1px solid #e5e5e5;*/
+
+}
+#userdetail dl legend {
+  font-size: 18px;
+}
+#userdetail dl dt {
+  font-size: 12px;
+  font-weight: bold;
+  line-height: 20px;
+  padding-left: 10px;
+}
+#userdetail dl dd {
+  padding-left: 40px;
+  font-size: 12px;
+  text-decoration: underline;
+}
+/* Messages */
+.message {
+  font: 12px "Lucida Grande", Helvetica, Arial, sans-serif;
+}
+.message .message-face {
+  float: left;
+}
+.message .message-content {
+  margin-left: 60px;
+  width: 480px;
+  word-wrap: break-word;
+}
+.message .reply-area {
+  margin-left: 60px;
+  margin-right: 10px;
+  padding: 15px 15px 0px;
+  border: 1px solid #E5E5E5;
+}
+.message .reply-area .reply-angle {
+  position: relative;
+  display: block;
+  width: 8px;
+  height: 8px;
+  font-size: 0;
+  background: white;
+  border-left: 1px solid #E5E5E5;
+  border-top: 1px solid #E5E5E5;
+  top: -20px;
+  left: 447px;
+}
+.message .reply-area .diamond {
+  -ms-filter: "progid:DXImageTransform.Microsoft.Matrix(M11=0.7071067811865475, M12=-0.7071067811865477, M21=0.7071067811865477, M22=0.7071067811865475, SizingMethod='auto expand')";
+  filter: progid:DXImageTransform.Microsoft.Matrix(M11=0.7071067811865475, M12=-0.7071067811865477, M21=0.7071067811865477, M22=0.7071067811865475, SizingMethod='auto expand');
+  -moz-transform: rotate(45deg);
+  -o-transform: rotate(45deg);
+  -webkit-transform: rotate(45deg);
+  -ms-transform: rotate(45deg);
+  transform: rotate(45deg);
+}
+.message .reply-area .create-reply .create-reply-to strong {
+  margin: 0px 4px;
+}
+.message .reply-area .create-reply .create-reply-to a {
+  color: black;
+  text-decoration: none;
+}
+.message .reply-area .create-reply .create-reply-content {
+  width: 436px;
+}
+.message .reply-area .create-reply a {
+  margin-bottom: 5px;
+}
+.message .reply-area .replies-pagination .pager {
+  margin: 10px 0px;
+}
+.message .reply-area .replies-pagination .pager li a {
+  padding: 2px 5px;
+  -moz-border-radius: 5px;
+  -webkit-border-radius: 5px;
+  border-radius: 5px;
+}
+.message hr {
+  margin: 10px 0px;
+}
+.reply {
+  width: 474px;
+  height: 16px;
+  font-size: 12px;
+  border: 1px solid #EEE;
+  outline: none;
+  padding-left: 3px;
+  padding-bottom: 2px;
+}
+#filelist {
+  padding-left: 10px;
+  padding-right: 10px;
+}
+/*--------------------------*/
+/*.tabs-left{
+  padding-top: 20px;
+}
+#original-photo {
+  width: 300px;
+  height: 300px;
+  display:block;
+  float: left;
+  margin-left: 90px;
+  margin-right: 20px;
+  margin-bottom: 20px;
+  clear: right;
+
+  padding: 4px;
+  background-color: #fff;
+  border: 1px solid #ccc;
+  border: 1px solid rgba(0, 0, 0, 0.2);
+  -webkit-box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+  -moz-box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+}
+#target-photo {
+  max-width: 300px;
+  max-height: 300px;
+}
+.jcrop-holder img {
+  vertical-align:middle;
+}
+#preview-area {
+  margin-left: 30px;
+}
+#preview-big {
+  width: 180px;
+  height: 180px;
+  overflow: hidden;
+  margin-left: 15px;
+  margin-right: 20px;
+  margin-top: 15px;
+  float: left;
+}
+#preview-middle {
+  max-width: 50px;
+  max-height: 50px;
+  overflow: hidden;
+  margin-top: 35px;
+}
+#preview-small {
+  max-width: 30px;
+  max-height: 30px;
+  overflow: hidden;
+  margin-top: 35px;
+}
+.photo-label {
+  margin-top: 10px;
+}
+.form-actions {
+  clear: both;
+}
+
+
+#follow-btn {
+  min-width: 60px;
+}
+.dl-horizontal dd, .dl-horizontal dt{
+  font-size: 16px;
+  line-height: 40px;
+}*/

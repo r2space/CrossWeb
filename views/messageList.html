@@ -1,0 +1,306 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title><%= title %></title>
+
+    <% include common/required.html %>
+
+    <script src='/javascripts/menu.model.js'></script>
+    <script src='/javascripts/menu.view.js'></script>
+    <script src='/javascripts/searcher.model.js'></script>
+    <script src='/javascripts/searcher.view.js'></script>
+
+
+    <script src="/javascripts/messagelist/messagelist.js"></script>
+    <script src="/javascripts/messagelist/messagelist.view.js"></script>
+    <script src="/javascripts/messagelist/messagelist.model.js"></script>
+
+
+    <link href="/stylesheets/message.css" rel="stylesheet">
+
+
+    <style type="text/css">
+      #container-main{
+        padding: 0px 0px 0px 169px;
+      }
+      .dl-horizontal dt { width: 32px; }
+      .dl-horizontal dd { margin-left: 40px; }
+    </style>
+  </head>
+  <body>
+    <input id="type" type='hidden' value='<%= type %>'>
+    <% include common/navbar.html %>
+    
+    <section>
+      <article>
+        <% include common/sidemenu_mail.html %>
+      </article>
+      <div id="container-main" class="container-fluid">
+        <div class="row-fluid">
+
+          <!--/span-->
+<!--           <div class="span2" id="mail-sorted-by-uid" style="margin-left: 20px;">
+            <div style="font-weight:bold;font-size: 12pt">
+              <p>私信</p>
+            </div>
+            <hr>
+          </div> -->
+          <div class="span6" style="width:550px; margin-left: 20px;">
+            <div>
+            </div>
+            <hr>
+            <div id="mails-container">
+            </div>
+
+              <div id="messages-container">
+                  <!--正在努力为你读取......--><%= i('message.list.label.replyloading') %>
+              </div>
+
+
+              <div id="messagelist-home" class="pagination pagination-centered">
+              </div>
+
+          
+          </div>
+        </div>
+      </div>
+
+      <footer>
+        <p>Copyright © 2012, Cross Corporation. All Rights Reserved.</p>
+      </footer>
+    </section>
+
+  <script type="text/template" id="mailtemplate"> 
+    <div style="margin-bottom: 0">
+      <$ _.each(users, function(user){ $>
+
+      <dl class="dl-horizontal">        
+        <dt>
+          <img src="/image/{{ user.photo.small }}">
+        </dt>
+        <dd>
+          <a href="/shortmail/{{ user._id }}" id="{{ user._id }}"> 
+            {{ user.name.name_zh }}
+          </a>
+        </dd>        
+      </dl>
+      <hr>
+      <$ }); $>
+    </div>
+  </script>
+  
+  <script type="text/template" id="maillist-template">  
+    <dl class="maillist">
+    </dl>
+  </script>
+
+  <script type="text/template" id="maillist-user-template">
+    <dt class="mail-face" style="float: left">
+      <a href="/user/{{ uid }}"><img src="/picture/514ff4cdf107d4181c000011" style="max-width:30px"></a>
+      <div style="position: relative;top: -55px;left: 70px;margin-top: 10px;">
+        <a href="/user/{{ uid }}" id="{{ uid }}" class="">{{ uname }}</a>
+      </div>
+    </dt>
+  </script>
+
+  <script type="text/template" id="maillist-content-template">
+    <dd class="mail-content" id="mail-{{ mid }}">
+      <p class="mail-info" style="float:right;margin-bottom: 0px;">
+        <span style="color: #BBB;margin-left: 10px;">{{ time }}</span>
+      </p>
+      <p style="margin-top: 10px;margin-bottom: 10px;margin-left: 60px; margin-left: 60px;word-wrap: break-word;">
+        {{ content }}
+      </p>
+    </dd>
+  </script>
+
+  <script type="text/template" id="msg-content-template">
+    <dl class="message" id="message-{{ mid }}">
+        <dt class="message-face">
+          <a href="/user/{{uid}} "><img src="{{ uphoto }}" style="width: 56px;"></a>
+        </dt>
+        <dd class="message-content">
+          <p style="background-color: #EEF; margin-bottom: 1px;">
+            <a href="/user/{{uid}}" id="{{uid}}" class="userLink">{{ uname }}</a>:
+             <!--提到我--><%= i('message.list.lable.atme') %>   （{{ time }}）<br/>
+             
+          </p>
+          <p id="attach_container_{{ mid }}" style="margin-bottom: 1px;"></p>
+          <p class="message-info">
+            <span style="color: #BBB;"><!--在微博中提到我--><%= i('message.list.lable.atmemsg') %> 
+             #<a href="/message/{{mid}}" id="" class="userLink">{{ title }}</a>#</span>
+            <span class="pull-right">
+              <a href="/message/{{mid}}" id="delete_{{ mid }}"><!--回复--><%= i('message.list.button.replymsg') %></a>
+          </a></span>
+          </p>
+        </dd>
+        <a href="javascript://" id="fetchreply_51527ae461c7e27819000009" class="toggle-replies">
+        <hr>
+        </a>
+      </dl>
+  </script>
+
+  <script type="text/template" id="msg-reply-content-template">
+    <dl class="message" id="message-{{ mid }}">
+        <dt class="message-face">
+          <a href="/user/{{uid}} "><img src="{{ uphoto }}" style="width: 56px;"></a>
+        </dt>
+        <dd class="message-content">
+          <p style="background-color: #EEF; margin-bottom: 1px;">
+            <a href="/user/{{uid}}" id="{{uid}}" class="userLink">{{ uname }}</a>:
+             <!--回复我--><%= i('message.list.lable.replyme') %> （{{ time }}）<br/>
+             
+          </p>
+          <p id="attach_container_{{ mid }}" style="margin-bottom: 1px;"></p>
+          <p class="message-info">
+            <span style="color: #BBB;"><!--回复我的微博 内容--><%= i('message.list.button.replycontent') %>
+             #<a href="/message/{{mid}}" id="" class="userLink">{{ title }}</a>#</span>
+            <span class="pull-right">
+              <a href="/message/{{mid}}" id="delete_{{ mid }}"><!--回复--><%= i('message.list.button.replymsg') %></a>
+          </a></span>
+          </p>
+        </dd>
+        <a href="javascript://" id="fetchreply_51527ae461c7e27819000009" class="toggle-replies">
+        <hr>
+        </a>
+      </dl>
+  </script>
+
+  <script type="text/template" id="msg-box-content-template">
+    <dl class="message" id="message-{{ mid }}">
+        <dt class="message-face">
+          <a href="/user/{{uid}} "><img src="{{ uphoto }}" style="width: 56px;"></a>
+        </dt>
+        <dd class="message-content">
+          <p style="background-color: #EEF; margin-bottom: 1px;">
+            <a href="/user/{{uid}}" id="{{uid}}" class="userLink">{{ uname }}</a>:
+             <!--回复--><%= i('message.list.label.replymsg') %> #{{tcontent}}# <br>
+             <span style="color: #BBB">（{{ time }}）</span><br/>
+             
+          </p>
+          <p id="attach_container_{{ mid }}" style="margin-bottom: 1px;"></p>
+          <p class="message-info">
+            <span style="color: #BBB;">
+            <a href="/message/{{mid}}" id="delete_{{ mid }}"><!--回复内容-->
+            <%= i('message.list.label.replycontent') %>#{{content }}#</a>
+
+          </a></span>
+          </p>
+        </dd>
+        <a href="javascript://" id="fetchreply_51527ae461c7e27819000009" class="toggle-replies">
+        <hr>
+        </a>
+      </dl>
+  </script>
+
+  <script type="text/template" id="msg-follow-content-template">
+    <dl class="message" id="message-{{ mid }}">
+        <dt class="message-face">
+          <a href="/user/{{uid}} "><img src="{{ uphoto }}" style="width: 56px;"></a>
+        </dt>
+        <dd class="message-content">
+          <p style="background-color: #EEF; margin-bottom: 1px;">
+            <a href="/user/{{uid}}" id="{{uid}}" class="userLink">{{ uname }}</a>:
+             <!--关注我--><%= i('ctrl.notifiction.js.label.follow') %>（{{ time }}）<br/>
+             
+          </p>
+          <p id="attach_container_{{ mid }}" style="margin-bottom: 1px;"></p>
+          <p class="message-info">
+            <span style="color: #BBB;">
+            <a href="/user/{{mid}}" id="delete_{{ mid }}"><!--查看--><%= i('message.list.button.viewuser') %></a>
+
+          </a></span>
+          </p>
+        </dd>
+        <a href="javascript://" id="fetchreply_51527ae461c7e27819000009" class="toggle-replies">
+        <hr>
+        </a>
+      </dl>
+  </script>
+
+
+  <script type="text/template" id="msg-join-content-template">
+    <dl class="message" id="message-{{ mid }}">
+        <dt class="message-face">
+          <a href="/user/{{uid}} "><img src="{{ uphoto }}" style="width: 56px;"></a>
+        </dt>
+        <dd class="message-content">
+          <p style="background-color: #EEF; margin-bottom: 1px;">
+            <a href="/user/{{uid}}" id="{{uid}}" class="userLink">{{ uname }}</a>:
+             <!--回复我--><%= i('message.list.lable.replyme') %> （{{ time }}）<br/>
+             
+          </p>
+          <p id="attach_container_{{ mid }}" style="margin-bottom: 1px;"></p>
+          <p class="message-info">
+            <span style="color: #BBB;"><!--回复我的微博 内容--><%= i('message.list.button.replycontent') %>
+             #<a href="/message/{{mid}}" id="" class="userLink">{{ title }}</a>#</span>
+            <span class="pull-right">
+              <a href="/message/{{mid}}" id="delete_{{ mid }}"><!--回复--><%= i('message.list.button.replymsg') %></a>
+          </a></span>
+          </p>
+        </dd>
+        <a href="javascript://" id="fetchreply_51527ae461c7e27819000009" class="toggle-replies">
+        <hr>
+        </a>
+      </dl>
+  </script>
+
+
+  <script type="text/template" id="msg-invite-content-template">
+    <dl class="message" id="message-{{ mid }}">
+        <dt class="message-face">
+          <a href="/user/{{uid}} "><img src="{{ uphoto }}" style="width: 56px;"></a>
+        </dt>
+        <dd class="message-content">
+          <p style="background-color: #EEF; margin-bottom: 1px;">
+            <a href="/user/{{uid}}" id="{{uid}}" class="userLink">{{ uname }}</a>:
+             <!--邀请--><%= i('notifiction.js.label.invite') %> （{{ time }}）<br/>
+             
+          </p>
+          <p id="attach_container_{{ mid }}" style="margin-bottom: 1px;"></p>
+          <p class="message-info">
+            <span style="color: #BBB;"><!--消息：--><%= i('message.list.lable.msg') %>
+                <a href="/group/{{mid}}" id="" class="userLink">
+                <%= i('notifiction.label.sinvite')%>{{ title }}#</a></span>
+                <!--我被加入#-->
+            <span class="pull-right">
+              <a href="/group/{{mid}}" id="delete_{{ mid }}"><!--查看--><%= i('message.list.button.viewuser') %></a>
+          </a></span>
+          </p>
+        </dd>
+        <a href="javascript://" id="fetchreply_51527ae461c7e27819000009" class="toggle-replies">
+        <hr>
+        </a>
+      </dl>
+  </script>
+
+  <script type="text/template" id="msg-remove-content-template">
+    <dl class="message" id="message-{{ mid }}">
+        <dt class="message-face">
+          <a href="/user/{{uid}} "><img src="{{ uphoto }}" style="width: 56px;"></a>
+        </dt>
+        <dd class="message-content">
+          <p style="background-color: #EEF; margin-bottom: 1px;">
+            <a href="/user/{{uid}}" id="{{uid}}" class="userLink">{{ uname }}</a>:
+             <!--移除--><%= i('notifiction.js.label.remove') %> （{{ time }}）<br/>
+             
+          </p>
+          <p id="attach_container_{{ mid }}" style="margin-bottom: 1px;"></p>
+          <p class="message-info">
+            <span style="color: #BBB;"><!--消息：--><%= i('message.list.lable.msg') %>
+                <a href="/group/{{mid}}" id="" class="userLink">
+                <%= i('notifiction.label.sremove')%>{{ title }}<%= i('notifiction.label.eremove')%></a></span>
+                <!-- 我被移除 -->
+            <span class="pull-right">
+              <a href="/group/{{mid}}" id="delete_{{ mid }}"><!--查看--><%= i('message.list.button.viewuser') %></a>
+          </a></span>
+          </p>
+        </dd>
+        <a href="javascript://" id="fetchreply_51527ae461c7e27819000009" class="toggle-replies">
+        <hr>
+        </a>
+      </dl>
+  </script>
+    
+  </body>
+</html>

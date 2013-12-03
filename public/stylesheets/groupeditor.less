@@ -1,0 +1,62 @@
+
+#maincontents {
+  width:700px;
+  margin-left: 150px;
+
+  ul {
+    height: 300px;
+  }
+}
+
+/* 操作按钮 */
+#operators {
+  text-align: right;
+  padding-top: 20px;
+}
+
+/* 输入框 */
+fieldset {
+  padding: 0;
+  margin: 0;
+  border: 0;
+
+  div {
+    margin-bottom: 10px;
+
+    label {
+      float: left;
+      width: 160px;
+      padding-top: 5px;
+      text-align: right;
+    }
+
+    div {
+      margin-left: 180px;
+    }
+  }
+}
+
+#preview {}
+#preview-big {.preview(180px, 180px, 225px);}
+#preview-middle {.preview(50px, 50px, 75px);}
+#preview-small {.preview(30px, 30px, 0px);}
+
+.preview(@width, @height, @left) {
+  width: @width;
+  height: @height;
+  border: solid 1px #EEE;
+  margin-top: 5px;
+  overflow: hidden;
+}
+.dragging {
+  -webkit-box-shadow: inset 0 0 0 rgba(0, 0, 0, 0.1), 0 1px 3px;
+}
+
+
+input[type="radio"] {
+  height: 20px;
+  padding: 4px 6px;
+  margin-bottom: 10px;
+}
+
+

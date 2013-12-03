@@ -1,0 +1,388 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title><%= title %></title>
+
+    <% include common/required.html %>
+
+    <script type='text/javascript' src='/javascripts/menu.model.js'></script>
+    <script type='text/javascript' src='/javascripts/menu.view.js'></script>
+    <script type='text/javascript' src='/javascripts/searcher.model.js'></script>
+    <script type='text/javascript' src='/javascripts/searcher.view.js'></script>
+    <script type='text/javascript' src='/javascripts/sidemenu.model.js'></script>
+    <script type='text/javascript' src='/javascripts/sidemenu.view.js'></script>
+    <script type='text/javascript' src='/javascripts/finder.model.js'></script>
+    <script type='text/javascript' src='/javascripts/finder.view.js'></script>
+
+    <script type="text/javascript" src="/javascripts/message/message.js"></script>
+    <script type="text/javascript" src="/javascripts/message/message.view.js"></script>
+    <script type="text/javascript" src="/javascripts/message/message.model.js"></script>
+    <script type="text/javascript" src="/javascripts/message/reply.model.js"></script>
+    <script type="text/javascript" src="/vendor/lightbox/lightbox.js"></script>
+    
+
+    <link href="/vendor/lightbox/lightbox.css" rel="stylesheet">
+    <link href="/stylesheets/message.css" rel="stylesheet">
+    <script type="text/javascript">
+      // $(document).ready(function(){
+      //   Alertify.dialog.confirm("Message", function () {
+      //         // user clicked "ok"
+      //     }, function () {
+      //         // user clicked "cancel"
+      //     });
+         
+      // });     
+      
+      
+      var msg_timeline  = new Date().getTime();
+
+      setInterval("alertMsg()",5000);
+      //Message Home  显示新消息
+      function alertMsg(){
+        $.ajax({
+
+          url: "/message/list/unread.json?timeline="+msg_timeline,
+          type: "GET",
+          success: function(result) {
+
+            if(result.data.items.total > 0){
+              var text = "<%= i('message.html.label.alertmsg') %>";
+              $("#alert-msg").html(text.replace(/x/,result.data.items.total));
+              $("#alert-msg").css("display","block");
+            }
+          }
+        });
+     };
+    </script>
+    <style type="text/css">
+      #container-main{
+        padding: 0px 0px 0px 169px;
+      }
+      #alert-msg {
+        display: none;
+        text-align: center;
+        cursor: pointer;
+      }
+      #lasyimages {
+        opacity:0;
+      }
+
+
+    </style>
+  </head>
+  <body>
+
+    <% include common/navbar.html %>
+
+    <section>
+      <article id="left">
+        <% include common/sidemenu.html %>
+      </article>
+
+      <div id="container-main" class="container-fluid">
+        <div class="row-fluid">
+
+          <!--/span-->
+          <div class="span6" style="width:550px; margin-left: 20px;">
+
+            <div id="messagearea">
+
+              <!-- 消息的分类 -->
+              <ul id="msgtype" class="messageType">
+                <li><a title="<%= i('message.list.type.text') %>" id="textBox"><i class="icon-pencil icon-2x"></i></a></li>
+                <li><a title="<%= i('message.list.type.image') %>" id="imageBox"><i class="icon-picture icon-2x"></i></a></li>
+                <li><a title="<%= i('message.list.type.file') %>" id="fileBox"><i class="icon-file icon-2x"></i></a></li>
+                <li><a title="<%= i('message.list.type.video') %>" id="videoBox"><i class="icon-film icon-2x"></i></a></li>
+                <li><a title="<%= i('message.list.type.document') %>" id="documentBox"><i class="icon-folder-open-alt icon-2x"></i></a></li>
+                <input type="file" id="uploadfile" style="display: none" multiple="multiple" accept="image/*" />
+              </ul>
+
+              <!-- 消息输入框 -->
+              <div class="textBox">
+                <textarea id="textBoxMsg" class="comment" rows="3" placeholder="<%= i('message.list.placeholder.text') %>"></textarea>
+                <div id="textBoxNotice" class="users">
+                  <input id="keywordsText" scope="1" placeholder="<%= i('message.list.placeholder.notice') %>" />
+                </div>
+              </div>
+
+              <!-- 图片选择 -->
+              <div class="imageBox">
+                <div id="imageBoxerContainer"></div>
+                <div id="imageBoxSelector" class="image selector">
+                  <span><%= i('message.list.selector.image') %></span>
+                </div>
+                <textarea id="imageBoxMsg" class="comment" rows="3" placeholder="<%= i('message.list.placeholder.text') %>"></textarea>
+                <div id="imageBoxNotice" class="users">
+                  <input id="keywordsImage" scope="1" placeholder="<%= i('message.list.placeholder.notice') %>" />
+                </div>
+              </div>
+
+              <!-- 文件选择 -->
+              <div class="fileBox">
+                <div id="fileBoxerContainer"></div>
+                <div id="fileBoxSelector" class="file selector">
+                  <span><%= i('message.list.selector.file') %></span>
+                </div>
+                <textarea id="fileBoxMsg" class="comment" rows="3" placeholder="<%= i('message.list.placeholder.text') %>"></textarea>
+                <div id="fileBoxNotice" class="users">
+                  <input id="keywordsFile" scope="1" placeholder="<%= i('message.list.placeholder.notice') %>" />
+                </div>
+              </div>
+
+              <!-- 视频 -->
+              <div class="videoBox">
+                <div id="videoBoxSelector" class="document selector">
+                  <span><%= i('message.list.selector.video') %></span>
+                </div>
+                <!--
+                <div class="video">
+                  <video id="a" width="400" controls>
+                    <source src="/video/Z1262980545.mp4" />
+                  </video>
+                </div>
+                -->
+                <textarea id="videoBoxMsg" class="comment" rows="3" placeholder="<%= i('message.list.placeholder.text') %>"></textarea>
+                <div id="videoBoxNotice" class="users">
+                  <input id="keywordsVideo" scope="1" placeholder="<%= i('message.list.placeholder.notice') %>" />
+                </div>
+              </div>
+
+              <!-- 已经上传的文件选择 -->
+              <div class="documentBox">
+                <div id="documentBoxerContainer"></div>
+                <div id="documentBoxSelector" class="document selector" href="#document-selector" data-toggle="modal">
+                  <span><%= i('message.list.selector.document') %></span>
+                </div>
+                <textarea id="documentBoxMsg" class="comment" rows="3" placeholder="<%= i('message.list.placeholder.text') %>"></textarea>
+                <div id="documentBoxNotice" class="users">
+                  <input id="keywordsDocument" scope="1" placeholder="<%= i('message.list.placeholder.notice') %>" />
+                </div>
+              </div>
+
+
+              <!-- 消息选项 -->
+              <div class="publish">
+                <span id="selectedscope" uid="1"><%= i('message.list.selector.scope') %></span>
+                <a id="scopesetter"><i class="icon-caret-down" style="padding: 5px;"></i></a>
+                <ul id="scope" class="scope">
+                  <li><a href="#" uid="1"><%= i('message.list.selector.scope') %></a></li>
+                  <li class="divider"></li>
+                </ul>
+                <a id="publish" class="btn btn-small btn-primary"><%= i('message.list.button.send') %></a>
+                <a id="cancel" class="btn btn-small hidden"><%= i('message.list.button.cancel') %></a>
+              </div>
+
+            </div>
+
+            <br>
+
+            <div id="alert-msg" class="alert alert-success">
+                你有x条新消息
+            </div>
+
+            <hr />
+            <!-- 消息一览 -->
+            <div id="messages-container"></div>
+
+            <div id="messagelist-home" class="pagination pagination-centered">
+            </div>
+
+          </div>
+        </div>
+      </div>
+
+    </section>
+
+
+    <!-- 用户选择 -->
+    <div class="modal" id="select_user_dlg" role="dialog" aria-hidden="true" style="display:none;">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+        <h3><%= i('message.list.label.selectuser') %></h3>
+      </div>
+      <div class="modal-body">
+        <span id="selecteduser1" class="bbb" style="border-bottom: 0">
+          <ol>
+            <li>
+              <span>ddd</span>
+              <a href="#"><i class="icon-remove"></i></a>
+            </li>
+          </ol>
+        </span>
+      </div>
+      <div class="modal-footer">
+        <button class="btn" data-dismiss="modal" aria-hidden="true"><%= i('message.list.button.yes') %></button>
+      </div>
+    </div>
+    
+
+    <footer>
+      <p>Copyright © 2012, Cross Corporation. All Rights Reserved.</p>
+    </footer>
+
+    <div class="modal" id="document-selector" role="dialog"aria-hidden="true" style="display:none;">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+        <h3 ><%= i('message.list.label.selectdoc') %></h3>
+      </div>
+      <div class="modal-body">
+          <fieldset>
+            <table class="table table-hover">
+              <thead>
+                <tr>
+                  <th><%= i('message.list.document.type') %></th>
+                  <th><%= i('message.list.document.name') %></th>
+                  <th><%= i('message.list.document.update') %></th>
+                  <th></th>
+                </tr>
+              </thead>
+              <tbody id="message-documentlist">
+              </tbody>
+            </table>
+          </fieldset>
+      </div>
+      <div class="modal-footer">
+        <button class="btn" data-dismiss="modal" aria-hidden="true"><%= i('message.list.button.cancel') %></button>
+        <button class="btn btn-primary" id="setDocument"><%= i('message.list.button.select') %></button>
+      </div>
+    </div>
+
+    <% include messageSelector.html %>
+
+    <script type="text/template" id="message-image-template">
+      <div class="image{{index == 0 ? ' first' : ''}}">
+        <img id="{{id}}" src="">
+      </div>
+    </script>
+    <script type="text/template" id="message-file-template">
+      <div class="file"><img src="{{src}}" title="{{title}}" onerror="this.src='/images/filetype/default.png';this.onerror = null;"></div>
+    </script>
+    <script type="text/template" id="message-document-template">
+      <div class="document"><img src="{{src}}" title="{{title}}" onerror="this.src='/images/filetype/default.png';this.onerror = null;"></div>
+    </script>
+
+    <script type="text/template" id="message-scope-template">
+      <li><a uid="{{id}}">{{name}}</a></li>
+    </script>
+
+
+    <script type="text/template" id="message-documentlist-template">
+      <tr fid="{{fid}}">
+        <td><img src="/images/filetype/{{ extension }}.png" style="width: 30px;" onerror="this.src='/images/filetype/default.png';this.onerror = null;"/></td>
+        <td>{{ filename }}</td>
+        <td>{{ at }}</td>
+        <td><input type="checkbox" name="file-selected" id="doc_{{fid}}" value="{{ fid }}" extension="{{ extension }}" filename="{{ filename }}"></td>
+      </tr>
+    </script>
+
+    <script type="text/template" id="attach-template">
+      <li>
+        <img src="/images/filetype/{{ extension }}.png">
+        <div style="white-space: nowrap;width: 40px;overflow:hidden;text-overflow:ellipsis;">{{ filename }}</div>
+        <a><img name="msg-attach" src="/images/x_8px.png" fid="{{ fid }}" ></a>
+      </li>
+    </script>
+
+    <script type="text/template" id="user-template">
+      <ol>
+        <li uid="{{uid}}" type="{{type}}">
+          <span>{{uname}}</span><a uid="{{uid}}"><i class="icon-remove"></i></a>
+        </li>
+      </ol>
+    </script>
+
+    <script type="text/template" id="message-template">
+      <dl class="message" id="message-{{ mid }}">
+        <dt class="message-face">
+          <a href="/user/{{ uid }}"><img src="{{ uphoto }}" style="width: 56px;"></a>
+        </dt>
+        <dd class="message-content">
+          <p style="background-color: #EEF; margin-bottom: 1px;">
+            <a href="/user/{{ uid }}" id="{{ uid }}" class="userLink">{{ uname }}</a>{{ rangeGroup }} : {{ content }}
+            <br/>
+            {{ atAccounts }}
+          </p>
+          <p id="attach_container_{{ mid }}" style="margin-bottom: 1px;">
+          </p>
+          <p class="message-info">
+            <a href="/message/{{mid}}" style="color: #BBB;">{{time}}</a>
+            <span class="pull-right">
+              <a class="hidden" href="javascript://" id="delete_{{mid}}"><%= i('message.list.button.delete') %></a>
+              <a href="javascript://" class="hide"><%= i('message.list.button.totop') %></a>
+              <a href="javascript://" class="hide"><%= i('message.list.button.good') %></a>
+              <a href="#message-selector" id="forwardMsg_{{mid}}" data-toggle="modal"><%= i('message.list.button.forward') %>({{ forwardNums }})</a>
+              <a href="javascript://" class="hide"><%= i('message.list.button.mark') %></a>
+              <a href="javascript://" id="fetchreply_{{mid}}" class="toggle-replies">
+                <%= i('message.list.button.reply') %>({{ replyNums }})</a>
+          </p>
+          <div id="replyBox_{{ mid }}" class="hidden" style="border-width: 1px;border-style:solid;padding: 10px 20px 10px;border-radius: 3px;border-color: #d9d9d9;">
+            <div style="margin: -18px 0 0 435px;">
+              <em style="font-family: 'SimSun';font-size: 12px;line-height: 1.231;display: block;height: 12px;color: #d9d9d9;font-style: normal;font-weight: normal;">◆</em>
+              <span style="margin: -11px 0 0;width: 22px;font-family: 'SimSun';overflow: hidden;font-size: 12px;line-height: 1.231;display: block;height: 12px;color: #fafafa;font-style: normal;font-weight: normal;">◆</span>
+            </div>
+            <p style="margin-bottom: -7px;">
+              <textarea id="reply_{{ mid }}" style="width:424px" rows="1" placeholder="<%= i('message.list.button.reply') %>" range={{ range}}></textarea>
+            </p>
+            <p style="margin-bottom: 5px;text-align: right;">
+              <a id="replyButton_{{ mid }}" class="btn btn-mini btn-warning"><%= i('message.list.button.reply') %></a>
+            </p>
+            <div id="replyarea_{{ mid }}"></div>
+
+
+            <div id="reply-more_{{ mid }}" style="display:none">
+              <hr>
+              <p style="margin-bottom: 1px;text-align:right">
+                <a href="/message/{{mid}}"><%= i('message.list.button.morereply') %></a>
+              </p>
+              </hr>
+            </div>
+          </div>
+        </dd>
+        <hr>
+      </dl>
+    </script>
+
+    <script type="text/template" id="reply-template">
+    <hr>
+    <p style="margin-bottom: 1px;">
+      <img src="{{ uphoto }}" style="width:30px; height:30px;">
+      <span><a href="/user/{{ uid }}">{{ uname }}</a> : {{ content }} </span>
+      <p style="color: #BBB;">{{ time }}  </p>
+    </p>
+    </script>
+
+    <script type="text/template" id="image-template">
+    <a href="{{ image }}" rel="lightbox[{{ mid }}]"><img data-img="{{ image }}" src="/images/loading.gif" id="{{ id }}" style="margin-bottom: 3px;opacity:0;"></a>
+    
+    </script>
+
+    <script type="text/template" id="doc-template">
+    <div style="margin-bottom: 1px;">
+      <img src="{{ image }}" style="width:20px;" onerror="this.src='/images/filetype/default.png';this.onerror = null;"><a href="/file/download.json?_id={{ id }}">{{ name }}</a>
+    </div>
+    </script>
+
+    <script type="text/template" id="document-template">
+    <div style="margin-bottom: 1px;">
+      <img src="{{ image }}" style="width:20px;" onerror="this.src='/images/filetype/default.png';this.onerror = null;">
+      <a href="/file/download.json?_id={{ downloadId }}">{{ name }}</a>
+      <!-- //<a title="查看" href="/file/{{ id }}"><i class="icon-eye-open"></i></a>
+      // <a id="file_fl_{{id}}" title="关注" href="#"><i class="icon-star-empty"></i></a>
+      // <a id="file_unfl_{{id}}" title="取消关注" href="#"><i class="icon-star"></i></a> -->
+      <a title="<%= i('message.list.button.download') %>" href="/file/download.json?_id={{ downloadId }}"><i class="icon-download-alt"></i></a>
+    </div>
+    </script>
+
+    <script type="text/template" id="video-template">
+    <div>{{name}} <a href="/file/download.json?_id={{ id }}"><%= i('message.list.button.download') %></a></div>
+    <div class="video">
+      <video id="a" width="400" controls>
+        <source src="{{ image }}" />
+      </video>
+    </div>
+    </script>
+
+
+    
+  </body>
+</html>

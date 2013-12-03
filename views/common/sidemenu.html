@@ -1,0 +1,25 @@
+
+<aside id="sidemenu"></aside>
+
+<script type="text/template" id="sidemenu-template">
+<ul>
+<$ _.each(menus, function(menu){ $>
+		
+	<$ if (menu.submenus) { $>
+	<li><a item="{{ menu.item }}" href="#" class="group">{{ menu.title }}</a></li>
+		<li><ul>
+		<$ _.each(menu.submenus, function(submenu){ $>
+			<li title="{{ submenu.title }}">
+				<a item="{{ submenu.item }}" type="{{ submenu.type }}" href="#">{{ submenu.title }}
+				<$ if (submenu.notice) { $><span class="label label-important">{{submenu.notice}}</span><$ } $>
+				</a>
+			</li>
+		<$ }); $>
+		</ul></li>
+	<$ } else { $>
+		<li><a item="{{ menu.item }}" href="#" >{{ menu.title }}</a></li>
+	<$ } $>
+	
+<$ }); $>
+<ul>
+</script>

@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title><%= title %></title>
+
+    <% include common/required.html %>
+
+    <script type='text/javascript' src='/javascripts/menu.model.js'></script>
+    <script type='text/javascript' src='/javascripts/menu.view.js'></script>
+    <script type='text/javascript' src='/javascripts/searcher.model.js'></script>
+    <script type='text/javascript' src='/javascripts/searcher.view.js'></script>
+
+    <script src="/javascripts/group/group.js"></script>
+    <script src="/javascripts/group/groupeditor.view.js"></script>
+    <script src="/javascripts/group/group.model.js"></script>
+
+    <link rel="stylesheet" href="/stylesheets/groupeditor.css">
+
+  </head>
+  <body>
+
+    <% include common/navbar.html %>
+    <input type="hidden" id="groupid" name="groupid" value="<%= groupid %>">
+
+    <section>
+
+      <div id="maincontents" class="tabbable tabs-left">
+        <ul class="nav nav-tabs">
+          <li class="active"><a id="basicInfo" href="#1" data-toggle="tab"><%= i('group.groupedit.tab.basicinfo') %></a></li>
+          <li><a id="groupPhoto" href="#2" data-toggle="tab"><%= i('group.groupedit.tab.photo') %></a></li>
+        </ul>
+
+        <div class="tab-content">
+          <div class="tab-pane active" id="1">
+            <fieldset>
+              <legend><%= i('group.groupedit.tab.basicinfo') %></legend>
+              <div>
+                <label for="group-name"><%= i('group.groupedit.label.name') %></label>
+                <div><input type="text" class="input-xlarge" id="group-name"></div>
+              </div>
+              <div>
+                <label for="group-letter"><%= i('group.groupedit.label.letter') %></label>
+                <div><input type="text" class="input-xlarge" id="group-letter"></div>
+              </div>
+              <div>
+                <label for="group-type"><%= i('group.groupedit.label.type') %></label>
+                <div><input type="text" class="input-xlarge" id="group-type" disabled="disabled"></div>
+              </div>
+              <div>
+                <label><%= i('group.groupedit.label.secure') %></label>
+                <div>
+                  <div id="groupType" class="btn-group" style="margin-left: 0px;">
+                    <button id="setPublic" class="btn"><%= i('group.groupedit.secure.1') %></button>
+                    <button id="setPrivate" class="btn"><%= i('group.groupedit.secure.2') %></button>
+                  </div>
+                </div>
+              </div>
+              <div>
+                <label for="group-description"><%= i('group.groupedit.label.memo') %></label>
+                <div><textarea class="input-xlarge" id="group-description" rows="3"></textarea></div>
+              </div>
+              <div>
+                <label for="group-name"><%= i('group.groupedit.label.category') %></label>
+                <div><input type="text" class="input-xlarge" id="group-category"></div>
+              </div>
+            </fieldset>
+          </div>
+
+          <div class="tab-pane" id="2">
+            <legend><%= i('group.groupedit.tab.photo') %></legend>
+
+            <div id="photoDiv" style="float:left">
+                <div style="width:300px;" draggable="false" id="jcropDiv">
+                 <img src="/images/user.png" id="jcropPhoto">
+                </div>
+                <img src="/images/user.png" id="realPhoto" style="display:none;max-width:none;">
+                <div id="operators">
+                  <a id="selectFile" class="btn"><%= i('group.groupedit.button.selectfile') %></a>
+                  <input type="file" id="uploadfile" style="display: none" accept="image/*" />
+                  <input type="hidden" id="jcropData"/>
+                </div>
+            </div>
+
+            <hr width="1" size="300" color="#e5e5e5" style="float:left;margin-left:30px">
+            
+            <div id="preview" style="float:left;margin-left:30px">
+              <div id="preview-small">
+                <img src="/images/user.png" id="smallPhoto" style="width:30px;height:30px">
+              </div>
+              <div id="preview-middle">
+                <img src="/images/user.png" id="middlePhoto" style="width:50px;height:50px">
+              </div>
+              <div id="preview-big">
+                <img src="/images/user.png" id="bigPhoto" style="width:180px;height:180px">
+              </div>
+            </div>
+          </div>
+
+        </div>
+
+        <div id="operators">
+          <a id="saveInfo" class="btn btn-primary"><%= i('group.groupedit.button.save') %></a>
+          <a id="selectFile" class="btn" style="display: none"><%= i('group.groupedit.button.selectfile') %></a>
+          <a id="cancel" class="btn"><%= i('group.groupedit.button.cancel') %></a>
+          <input type="file" id="uploadfile" style="display: none" multiple="multiple" accept="image/*" />
+        </div>
+
+      </div>
+
+      <footer>
+        <p>Copyright © 2012, Cross Corporation. All Rights Reserved.</p>
+      </footer>
+    </section>
+
+  </body>
+</html>

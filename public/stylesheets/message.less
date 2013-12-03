@@ -1,0 +1,482 @@
+
+/* 选择消息类型的工具条 */
+ul.messageType {
+
+  display: table;
+  margin: 0 0 0px 0;
+
+  /*-webkit-box-shadow: inset 0 0 0 rgba(0, 0, 0, 0.1), 0 1px 2px;*/
+
+  li {
+    -webkit-border-radius: 6px;
+    text-align: center;
+
+    pointer: cursor;
+    display: table-cell;
+    white-space: nowrap;
+    width: 80px;
+    /*height: 30px;*/
+
+    /*background-color: #eee;*/
+
+    a {
+      cursor: pointer;
+      text-decoration: none;
+      color: #222;
+      position: relative;
+    }
+    i:hover {
+      color: #b561de;
+    }
+  }
+}
+
+/* 用户选择框 */
+.users {
+  display: inline-block;
+  background-color: white;
+  width: 100%;
+/*    border-bottom: 1px solid #CCC;
+  border-left: 1px solid #CCC;
+  border-right: 1px solid #CCC;
+*/
+  border-top: 1px solid #EEE;
+  padding: 0;
+  /*margin-bottom: 5px;*/
+
+  ol {
+    display: inline;
+    vertical-align: middle;
+    margin: 0;
+    padding: 0;
+    list-style-type: none;
+  }
+  li {
+    display: inline-block;
+    vertical-align: baseline;
+    margin: 2px;
+    white-space: nowrap;
+    border-radius: 4px;
+    background-image: -webkit-gradient(linear, 0% 0%, 0% 100%, from(#FEFEFE), to(#EBEBEB));
+    border: 1px solid #CCC;
+    padding: 0;
+  }
+  li span {
+    display: inline-block;
+    border-right: 1px solid #ccc;
+    color: #39c;
+    padding: 6px 4px 6px 6px;
+    line-height: 10px;
+    vertical-align: middle;
+    margin: 0;
+  }
+  li a {
+    line-height: 1px;
+    margin: 0 3px 0 0;
+  }
+  input {
+    outline: none;
+    height: 30px;
+    width: 150px;
+    margin: 0;
+    border: 0px;
+    background-color: white;
+    padding: 0;
+    padding-left: 5px;
+  }
+  input::-webkit-input-placeholder {
+    text-indent: 3px;
+    text-shadow: none;
+    font-size: 12px;
+  }
+}
+
+/* 消息框 */
+div.textBox {
+
+  /*-webkit-box-shadow: inset 0 0 0 rgba(0, 0, 0, 0.1), 0 1px 2px;*/
+  border: 1px solid #000;
+  /*display: none;*/
+}
+
+
+div.imageBox {
+
+  /*-webkit-box-shadow: inset 0 0 0 rgba(0, 0, 0, 0.1), 0 1px 2px;*/
+  border: 1px solid #000;
+  /*display: inline-block*/;
+  display: none;
+
+  .image {
+    float: left;
+    margin-left: 6px;
+    margin-top: 6px;
+    border: 1px dotted #999;
+    width: 263px;
+
+    img {
+      width: 100%;
+    }
+
+    .trash {
+      background-color: black;
+      color: white;
+      width: 25px;
+      height: 25px;
+      line-height: 25px;
+      text-align: center;
+      margin-left: 5px;
+      margin-top: 5px;
+      cursor: pointer;
+    }
+  }
+
+  .selector {
+    width: 534px;
+    height: 50px;
+    line-height: 50px;
+    text-align: center;
+    cursor: pointer;
+    margin-bottom: 6px;
+  }
+
+  .first {
+    width: 534px;
+  }
+}
+
+div.fileBox {
+  /*-webkit-box-shadow: inset 0 0 0 rgba(0, 0, 0, 0.1), 0 1px 2px;*/
+  border: 1px solid #000;
+  display: none;
+  .file {
+    float: left;
+    margin-left: 6px;
+    margin-top: 6px;
+    border: 1px dotted #999;
+    width: 127px;
+  }
+
+  .selector {
+    height: 127px;
+    line-height: 127px;
+    text-align: center;
+    cursor: pointer;
+    margin-bottom: 6px;
+  }
+}
+
+div.videoBox {
+  border: 1px solid #000;
+  display: none;
+  .video {
+    text-align: center;
+    margin-top: 5px;
+  }
+  .selector {
+    width: 534px;
+    height: 50px;
+    line-height: 50px;
+    text-align: center;
+    cursor: pointer;
+    border: 1px dotted #999;
+    margin-left: 6px;
+    margin-top: 6px;
+    margin-bottom: 6px;
+  }
+}
+
+div.documentBox {
+  border: 1px solid #000;
+  display: none;
+
+  .document {
+    float: left;
+    margin-left: 6px;
+    margin-top: 6px;
+    border: 1px dotted #999;
+    width: 127px;
+  }
+
+  .selector {
+    height: 127px;
+    line-height: 127px;
+    text-align: center;
+    cursor: pointer;
+    margin-bottom: 6px;
+  }
+}
+
+
+
+textarea.comment {
+  width: 536px;
+  resize: none;
+  -webkit-border-radius: 0px;
+  border: 0;
+
+  height: auto;
+  margin: 0;
+}
+
+
+hr {
+  margin: 10px 0;
+  border: 0;
+  border-top: 1px solid #eeeeee;
+  border-bottom: 1px solid #ffffff;
+}
+
+/* 发布，取消按钮 */
+div.publish {
+  padding-top: 5px;
+  width: 100%;
+  text-align: right;
+
+  /* 公开范围 */
+  .scope {
+    position: absolute;
+    min-width: 160px;
+    top: 270px;
+    left: 700px;
+    z-index: 1;
+    float: left;
+
+    display: none;
+
+    padding: 5px 0;
+    margin: 2px 0 0;
+    list-style: none;
+    background-color: #ffffff;
+    border: 1px solid #ccc;
+    border: 1px solid rgba(0, 0, 0, 0.2);
+
+    -webkit-border-radius: 6px;
+    -moz-border-radius: 6px;
+    border-radius: 6px;
+
+    -webkit-box-shadow: 0 5px 10px rgba(0, 0, 0, 0.2);
+    -moz-box-shadow: 0 5px 10px rgba(0, 0, 0, 0.2);
+    box-shadow: 0 5px 10px rgba(0, 0, 0, 0.2);
+
+    -webkit-background-clip: padding-box;
+    -moz-background-clip: padding;
+    background-clip: padding-box;
+
+    li {
+      line-height: 20px;
+
+      a {
+        display: block;
+        padding: 3px 20px;
+        clear: both;
+        font-weight: normal;
+        line-height: 20px;
+        color: #333333;
+        white-space: nowrap;
+
+        text-decoration: none;
+      }
+      a:hover {
+        color: #fff;
+        background-color: #0088cc;
+        cursor: pointer;
+      }
+    }
+
+    .divider {
+      height: 1px;
+      margin: 3px 1px;
+      overflow: hidden;
+      background-color: #e5e5e5;
+      border-bottom: 1px solid #ffffff;
+    }
+  }
+
+}
+
+.reply {
+  width: 474px;
+  height: 16px;
+  font-size: 12px;
+  border: 1px solid #EEE;
+  outline: none;
+  padding-left: 3px;
+  padding-bottom: 2px;
+}
+
+
+.messages-toggle{
+  clear: both;
+  padding-top: 10px;
+  text-align:center;
+  .setting {
+    font-size: 24px;
+    padding: 4px 6px;
+    text-decoration: none;
+    color: #b9b9b9;
+  }
+}
+
+#messages-container {
+  width: 550px;
+}
+
+.message-info {
+  font-size: 12px;
+}
+.message {
+  clear: right;
+}
+.message {
+  /* 消息头像 */
+  .message-face {
+    float: left;
+  }
+  /* 消息正文 */
+  .message-content {
+    margin-left: 60px;
+    width: 480px;
+    word-wrap: break-word;
+  }
+  /* 消息评论 */
+  .reply-area {
+    margin-left: 60px;
+    margin-right: 10px;
+    padding: 15px 15px 0px;
+    border: 1px solid #E5E5E5;
+    /* 评论箭头 */
+    .reply-angle{
+      position: relative;
+      display:block;
+      width:8px;
+      height:8px;
+      font-size:0;
+      background: white; 
+      border-left:1px solid #E5E5E5;
+      border-top:1px solid #E5E5E5;
+      top:-20px;
+      left:447px;
+    }
+    .diamond{
+      -ms-filter: "progid:DXImageTransform.Microsoft.Matrix(M11=0.7071067811865475, M12=-0.7071067811865477, M21=0.7071067811865477, M22=0.7071067811865475, SizingMethod='auto expand')";
+      filter: progid:DXImageTransform.Microsoft.Matrix(
+        M11=0.7071067811865475,
+        M12=-0.7071067811865477,
+        M21=0.7071067811865477,
+        M22=0.7071067811865475,
+        SizingMethod='auto expand'
+      );
+      -moz-transform: rotate(45deg);
+      -o-transform: rotate(45deg);
+      -webkit-transform: rotate(45deg);
+      -ms-transform: rotate(45deg);
+      transform:rotate(45deg);
+    }
+    /* 新建评论 */
+    .create-reply {
+      .create-reply-to {
+        strong {margin: 0px 4px;}
+        a {
+          color: black;
+          text-decoration: none;
+        }
+      }
+      .create-reply-content {
+        width: 436px;
+      }
+      a {
+        margin-bottom: 5px;
+      }
+    }
+    .reply {
+      margin-bottom: 0px;
+      /* 评论头像 */
+      .reply-face {
+        float: left;
+      }
+      /* 评论正文 */
+      .reply-content {
+        margin-left: 40px;
+        width: 396px;
+        word-wrap: break-word;
+        p {
+          margin: 0px;
+        }
+      }
+    }
+    /* pager */
+    .replies-pagination .pager {
+      margin: 10px 0px;
+      li a {
+        padding: 2px 5px;
+        -moz-border-radius: 5px;
+        -webkit-border-radius: 5px;
+        border-radius: 5px;
+      }
+    }
+  }
+  /* 消息之间的分割线 */
+  hr {
+    margin: 10px 0px;
+  }
+} 
+/* pager */
+.messages-pagination .pager {
+  margin: 0px 0px;
+  li a {
+    -moz-border-radius: 5px;
+    -webkit-border-radius: 5px;
+    border-radius: 5px;
+  }
+}
+
+
+/* 图片缩略 */
+/*
+<div class="gallery">
+  <ul id="message-attach" >
+  </ul>
+</div>
+*/
+.gallery{
+  margin: 0;
+  padding: 0;
+}
+.gallery ul{
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  border-left: 1px solid #CCC;
+  border-right: 1px solid #CCC;
+  height: 30px;
+  width: 542px;
+}
+.gallery li {
+  float: right;
+  width: 32px;
+  height: 24px;
+  margin: 0 7px 0 0;
+  border: 3px solid #EEE;
+
+  position: relative;
+  z-index: 10;
+
+  -webkit-box-shadow: 3px 3px 3px #BBB;
+  -webkit-transform: scale(1.0) rotate(8deg) translate(-6px, -3px);
+}
+.gallery li img {
+  width: 32px;
+  height: 24px;
+  z-index: 11;
+}
+.gallery li a img {
+  margin-left: 7px;
+  cursor: pointer;
+  position: absolute;
+  top: -10px;
+  left: 16px;
+  width: 21px;
+  height: 21px;
+  z-index: 9;
+}

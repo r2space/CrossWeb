@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title><%= title %></title>
+    <link rel='stylesheet' href='/stylesheets/style.css' />
+    <link rel='stylesheet' href='/javascripts/datatables/css/jquery.dataTables.css' />
+    <script type='text/javascript' src='/javascripts/jquery-1.9.1.min.js'></script>
+    <script type='text/javascript' src='/javascripts/datatables/js/jquery.dataTables.js'></script>
+    <script type="text/javascript">
+      $(document).ready(function() {
+        $('#table_id').dataTable({
+          "bServerSide": true,
+          "sAjaxSource": "/datatable.json"
+        });
+      });
+    </script>
+  </head>
+  <body>
+    <input type="hidden" name="_csrf" value="<%= token %>" />
+    <table id="table_id">
+      <thead>
+        <tr>
+          <th style="width:50px;">_id</th>
+          <th>active</th>
+          <th>userid</th>
+          <th>createat</th>
+          <th>createby</th>
+          <th>editat</th>
+          <th>editby</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>row 1 data 1</td>
+          <td>row 1 data 2</td>
+          <td>etc</td>
+          <td>etc</td>
+          <td>etc</td>
+          <td>etc</td>
+          <td>etc</td>
+        </tr>
+        <tr>
+          <td>row 2 data 1</td>
+          <td>row 2 data 2</td>
+          <td>etc</td>
+          <td>etc</td>
+          <td>etc</td>
+          <td>etc</td>
+          <td>etc</td>
+        </tr>
+      </tbody>
+    </table>
+
+  </body>
+</html>
+
+
+
+

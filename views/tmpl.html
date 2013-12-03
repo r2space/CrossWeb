@@ -1,0 +1,277 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title><%= title %></title>
+
+    <% include common/required.html %>
+    <link rel='stylesheet' href='/stylesheets/tmpl.css' />
+    
+    <script type='text/javascript' src='/javascripts/document/tmpl.js'></script>
+    <script type='text/javascript' src='/javascripts/document/component.model.js'></script>
+    <script type='text/javascript' src='/javascripts/document/component.view.js'></script>
+    <script type='text/javascript' src='/javascripts/document/finder.model.js'></script>
+    <script type='text/javascript' src='/javascripts/document/finder.view.js'></script>
+    <script type='text/javascript' src='/javascripts/document/toolbar.model.js'></script>
+    <script type='text/javascript' src='/javascripts/document/toolbar.view.js'></script>
+
+    <script type='text/javascript' src='/javascripts/document/panel.model.js'></script>
+    <script type='text/javascript' src='/javascripts/document/panel.view.js'></script>
+    <script type='text/javascript' src='/javascripts/document/panel/graph.js'></script>
+    <script type='text/javascript' src='/javascripts/document/panel/grid.js'></script>
+    <script type='text/javascript' src='/javascripts/document/panel/text.js'></script>
+    <script type='text/javascript' src='/javascripts/document/panel/label.js'></script>
+    <script type='text/javascript' src='/javascripts/document/panel/image.js'></script>
+    <script type='text/javascript' src='/javascripts/document/panel/video.js'></script>
+    
+    <script type='text/javascript' src='/javascripts/document/board.model.js'></script>
+    <script type='text/javascript' src='/javascripts/document/board.view.js'></script>
+    <script type='text/javascript' src='/javascripts/document/setting.model.js'></script>
+    <script type='text/javascript' src='/javascripts/document/setting.view.js'></script>
+
+  </head>
+  <body>
+    <input type="hidden" id="_csrf" name="_csrf" value="<%= token %>" />
+    <input type="hidden" id="docid" name="docid" value="<%= docid %>" />
+    <input type="hidden" id="tmplid" name="tmplid" value="<%= tmplid %>" />
+    
+    <header>
+      <!-- <div> -->
+        <input id="title" name="title" placeholder="请输入标题" />
+        <div id="line"></div>
+      <!-- </div> -->
+    </header>
+
+    <div id="operation">
+      <ul>
+        <li><a id="publish" href="publish"><i class="icon-cloud"></i></a></li>
+        <li><a id="save" href="save"><i class="icon-save"></i></a></li>
+        <li><a id="print" href="print"><i class="icon-print"></i></a></li>
+        <li><a id="undo" href="undo"><i class="icon-undo"></i></a></li>
+        <li><a id="close" href="close"><i class="icon-signout"></i></a></li>
+      </ul>
+    </div>
+
+    <div id="panel" class="popover right">
+      <h3 class="popover-title">组件</h3>
+      <div class="popover-content">
+        <ul>
+          <li id="label">
+            <img src="/images/label.png" />
+            <div><font>Label</font> - 显示静态文字用的文本框。</div>
+          </li>
+          <li id="text">
+            <img src="/images/text.png" />
+            <div><font>Text</font> - 接受用户输入的可编辑文本框。</div>
+          </li>
+          <hr />
+          <li id="graph">
+            <img src="/images/grid.png" />
+            <div><font>Graph</font> - 图表。</div>
+          </li>
+          <li id="grid">
+            <img src="/images/grid.png" />
+            <div><font>Grid</font> - 表格。</div>
+          </li>
+          <li id="image">
+            <img src="/images/text.png" />
+            <div><font>Image</font> - 图片。</div>
+          </li>
+          <li id="video">
+            <img src="/images/text.png" />
+            <div><font>Video</font> - 视频。</div>
+          </li>
+          <hr />
+          <li id="button">
+            <img src="/images/button.png" />
+            <div><font>Checkbox</font> - Intercepts touch events.</div>
+          </li>
+          <li id="switch">
+            <img src="/images/switch.png" />
+            <div><font>switch</font> - Displays an element showing the boolean value.</div>
+          </li>
+<!--           <li id="select">
+            <img src="/images/text.png" />
+            <div><font>Select</font> - Select.</div>
+          </li>
+          <li id="date">
+            <img src="/images/text.png" />
+            <div><font>Date</font> - Grid.</div>
+          </li>
+          <li id="link">
+            <img src="/images/text.png" />
+            <div><font>Link</font> - Grid.</div>
+          </li> -->
+          <li id="link">
+            <img src="/images/text.png" />
+            <div><font>Shape</font> - 形状,MAP</div>
+          </li>
+        </ul>
+      </div>
+    </div>
+
+    <article id="main">
+      <section>
+        <div id="board"></div>
+      </section>
+    </article>
+    
+    <nav id="toolbar">
+      <ul>
+        <li><a href="#" id="textExpander" title="Text"></a></li>
+        <li><a href="#" id="optionExpander" title="Options"></a></li>
+        <li>
+          <a href="#" id="arrangeExpander" title="Arrange"></a>
+          <ul id="arrangeList">
+            <li><a href="#" id="arrangeForwards" title="Forwards"></a></li>
+            <li><a href="#" id="arrangeBackwards" title="Backwards"></a></li>
+          </ul>
+        </li>
+        <li>
+          <a href="#" id="alignmentExpander" title="Alignment"></a>
+          <ul id="alignmentList">
+            <li><a href="#" id="alignLeft" title="Left"></a></li>
+            <li><a href="#" id="alignCenter" title="Center"></a></li>
+            <li><a href="#" id="alignRight" title="Right"></a></li>
+            <li><a href="#" id="alignTop" title="Top"></a></li>
+            <li><a href="#" id="alignMiddle" title="Middle"></a></li>
+            <li><a href="#" id="alignBottom" title="Bottom"></a></li>
+          </ul>
+        </li>
+        <li><a href="#" id="clone" title="Clone"></a></li>
+        <li><a href="#" id="delete" title="Delete"></a></li>
+      </ul>
+    </nav>
+    
+    <div id="setting">
+      <div id="accordion">
+      	<h3><a href="#">View</a></h3>
+      	<div>
+      		<table>
+      		  <tr><th>Text</th><td><input id="setting_text" size="13" /></td></tr>
+      		  <tr><th>Color</th><td><input id="setting_color" size="13" /></td></tr>
+      		  <tr>
+      		    <th>Font</th>
+      		    <td>
+      		      <select id="setting_font">
+      		        <option>ＭＳ ゴシック</option>
+      		        <option>ＭＳ 明朝</option>
+      		        <option>Helvetica</option>
+      		      </select>
+      		    </td>
+      		  </tr>
+      		  <tr><th>Size</th>
+      		    <td>
+      		      <select id="setting_font_size">
+      		        <option>10px</option>
+      		        <option>12px</option>
+      		        <option>14px</option>
+      		      </select>
+      		    </td>
+      		  </tr>
+      		  <tr><th>BgColor</th><td><input id="setting_bgcolor" size="13" /></td></tr>
+      		  <tr><th>Height</th><td><input id="setting_height" size="13" /></td></tr>
+      		  <tr><th>Width</th><td><input id="setting_width" size="13" /></td></tr>
+      		  <tr><th>Border</th><td><input id="setting_border" size="13" /></td></tr>
+            <tr><th>Connect</th><td><input id="setting_doc" size="13" /></td></tr>
+      		  <tr><th>Opacity</th><td><input size="6" /></td></tr>
+      		  <tr><th>Style</th><td><input size="6" /></td></tr>
+      		  <tr><th>Size</th><td><input size="6" /></td></tr>
+      		  <tr><th>Aligment</th><td><input size="6" /></td></tr>
+      		  <tr><th>Opacity</th><td><input size="13" /></td></tr>
+      		  <tr><th>Radius</th><td><input size="13" /></td></tr>
+      		</table>
+      	</div>
+      	<h3><a href="#">Control</a></h3>
+      	<div>
+      		<table>
+      		  <tr><th>Filter</th><td><input size="13" /></td></tr>
+      		  <tr><th>Sort</th><td><input size="13" /></td></tr>
+      		  <tr><th>Format</th><td>&nbsp;</td></tr>
+      		  <tr><th>Calcul</th><td>sum,avg</td></tr>
+      		</table>
+      	</div>
+      	<h3><a href="#" id="model">Model</a></h3>
+      	<div>
+      	  <p>Connected document:</p>
+      		<p id="selectedDocument"></p>
+      		<hr />
+      		<p>Bounded column:</p>
+      		<p id="selectedColumn"></p>
+      		<hr />
+      		<a href="#" id="modelmore">connect...</a>
+      	</div>
+      </div>
+    </div>
+    
+    <div id="dialog" title="Basic dialog">
+    	<span>search</span><input />
+    	<div id="doclist"></div>
+    	<div id="collist" style="display:none;"></div>
+    </div>
+    
+    <div id="color"></div>
+    <div id="bgcolor"></div>
+    
+    <!-- finder view template -->
+    <script type="text/template" id="document-template">
+      <p>{{ title }}</p>
+    	<table border="1" cellspacing="0">
+    	  <thead>
+    	    <tr>
+    	      <th>Select</th>
+    	      <th>No.</th>
+    	      <th width="20%">Name</th>
+    	      <th width="20%">Create by</th>
+    	      <th>Create at</th>
+    	    </tr>
+    	  </thead>
+    	  <tbody id="master">
+    	    <$ _.each(data, function(row) { $>
+          <tr id="{{ row.template }}">
+            <td></td>
+            <td>{{ _.indexOf(data, row) + 1 }}</td>
+            <td>{{ row.title }}</td>
+            <td>{{ row.by }}</td>
+            <td>{{ row.at }}</td>
+          </tr>
+          <$ }); $>
+        </tbody>
+      </table>
+    </script>
+    
+    <script type="text/template" id="column-template">
+  	  <p>{{ title }}</p>
+    	<table border="1" cellspacing="0">
+    	  <thead>
+    	    <tr>
+    	      <th>Select</th>
+    	      <th>No.</th>
+    	      <th width="20%">Name</th>
+    	      <th width="20%">Type</th>
+    	      <th>Description</th>
+    	      <th>Move</th>
+    	    </tr>
+    	  </thead>
+    	  <tbody id="master">
+    	    <$ _.each(data, function(row) { $>
+          <tr>
+            <td><input type="checkbox" /></td>
+            <td>{{ _.indexOf(data, row) + 1 }}</td>
+            <td>{{ row.key }}</td>
+            <td>{{ row.type }}</td>
+            <td>{{ row.description }}</td>
+            <td><a href="#">up</a></td>
+          </tr>
+          <$ }); $>
+    	  </tbody>
+    	</table>
+    	<a href="#" id="back">Back</a>&nbsp;&nbsp;
+    	<a href="#" id="closefinder">Ok</a>
+    </script>
+
+    <!-- component view template -->
+    <% include common/component.html %>
+  	
+  </body>
+</html>
+

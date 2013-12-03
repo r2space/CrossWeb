@@ -1,0 +1,257 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta content="text/html;charset=UTF-8" http-equiv="Content-Type">
+    <meta charset="utf-8">
+    <title><%= title %></title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Welcome to SSDB">
+    <meta name="author" content="">
+
+    <% include common/required.html %>
+
+    <script type='text/javascript' src='/javascripts/menu.model.js'></script>
+    <script type='text/javascript' src='/javascripts/menu.view.js'></script>
+    <script type='text/javascript' src='/javascripts/searcher.model.js'></script>
+    <script type='text/javascript' src='/javascripts/searcher.view.js'></script>
+    <script type='text/javascript' src='/javascripts/sidemenu.model.js'></script>
+    <script type='text/javascript' src='/javascripts/sidemenu.view.js'></script>
+
+    <script src="/javascripts/topic/topic.js"></script>
+    <script src="/javascripts/topic/topic.view.js"></script>
+    <script src="/javascripts/topic/topic.model.js"></script>
+
+    <link rel="stylesheet" href="/stylesheets/topiclist.css">
+
+    <!-- Le HTML5 shim, for IE6-8 support of HTML5 elements -->
+    <!--[if lt IE 9]>
+      <script src="http://html5shim.googlecode.com/svn/trunk/html5.js"></script>    <![endif]-->
+    <!-- Le fav and touch icons -->
+    <link rel="shortcut icon" href="ico/favicon.ico">
+    <link rel="apple-touch-icon-precomposed" sizes="144x144" href="ico/apple-touch-icon-144-precomposed.png">
+    <link rel="apple-touch-icon-precomposed" sizes="114x114" href="ico/apple-touch-icon-114-precomposed.png">
+    <link rel="apple-touch-icon-precomposed" sizes="72x72" href="ico/apple-touch-icon-72-precomposed.png">
+    <link rel="apple-touch-icon-precomposed" href="ico/apple-touch-icon-57-precomposed.png">
+  </head>
+  <body>
+    <input type="hidden" id="_csrf" name="_csrf" value="<%= token %>" />
+
+    <% include common/navbar.html %>
+    <section style="padding-top: 20px; margin: 0 auto; width: 1000px;">
+      <article id = "left">
+        <% include common/sidemenu.html %>
+      </article>
+
+      <div class="container-fluid">
+        <div class="row-fluid">
+          <div class="span6" style="width:550px; margin-left: 20px;"></div>
+          <!-- <div class="span3">
+            <div class="well sidebar-nav span3" style="width: 230px;">
+              <ul class="nav nav-list" >
+                <li class="nav-header">您最近活跃的话题</li>
+                <li><a href="javascript://">Topic1</a></li>
+                <li><a href="javascript://">Topic2</a></li>
+                <li><a href="javascript://">Topic3</a></li>
+                <li><a href="javascript://">Topic4</a></li>
+                <li><a href="javascript://">Topic5</a></li>
+              </ul>
+            </div> -->
+            <!--/.well --> 
+          <!-- </div> -->
+          <div class="span9">
+            <div class="well">
+              <div class="row-fluid">
+                <h3 id="topic-title"><!--话题--><%= i('topiclist.html.label.title') %></h3>
+                <a href="#create-topic-modal" class="btn btn-success pull-right" id="create-btn" data-toggle="modal">
+                  <!--创建话题--><%= i('topiclist.html.btn.create') %></a>
+                <div class="modal" id="create-topic-modal" role="dialog"aria-hidden="true" style="display:none;">
+                  <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+                    <h3 ><!--创建话题--><%= i('topiclist.html.label.create') %></h3>
+                  </div>
+                  <div class="modal-body">
+                    <form class="form-horizontal">
+                      <fieldset>
+                        <div class="control-group" id="topic-name">
+                          <label class="control-label" for="input01">
+                            <!--话题名称--><%= i('topiclist.html.label.name') %>
+                          </label>
+                          <div class="controls">
+                            <input type="text" class="input-xlarge" id="topic-name-input">
+                          </div>
+                        </div>
+                        <div class="control-group" id="topic-description">
+                          <label class="control-label" for="textarea">
+                            <!--简介--><%= i('topiclist.html.label.description') %>
+                          </label>
+                          <div class="controls">
+                            <textarea class="input-xlarge" id="topic-description-textarea" rows="3"></textarea>
+                          </div>
+                        </div>
+                        <div class="control-group">
+                          <label class="control-label">
+                            <!--公开范围--><%= i('topiclist.html.label.group') %>
+                          </label>
+                          <div class="controls">
+                            <form>
+                            <label class="topic-public">
+                              <input name="radio" type="radio" checked="checked" value="1">
+                              <strong><!--公开--><%= i('topiclist.html.label.public') %></strong> — 
+                              <em><!--所有人可见--><%= i('topiclist.html.label.allpublic') %></em>
+                            </label>
+                            <label class="topic-public">
+                              <input name="radio" type="radio" value="0">
+                              <strong><!--私密--><%= i('topiclist.html.label.private') %></strong> — 
+                              <em><!--话题成员可见--><%= i('topiclist.html.label.publicto') %></em>
+                            </label>
+                            </form>
+                          </div>
+                        </div>
+                      </fieldset>
+                    </form>
+                  </div>
+                  <div class="modal-footer">
+                    <button class="btn" data-dismiss="modal" aria-hidden="true">
+                      <%= i('topiclist.html.label.cancel') %><!-- 取消 --></button>
+                    <button class="btn btn-primary" id="topic-save-btn">
+                      <%= i('topiclist.html.label.save') %><!-- 保存 --></button>
+                  </div>
+                </div>
+                <p id="topic-sugestion">
+                  <%= i('topiclist.html.label.sugestion') %>
+                  <!-- 如果您希望临时就某件事展开讨论，您可以通过创建话题来帮助你们更好的交流。 --></p>
+              </div>
+            </div>
+            <div class="tabbable">
+                <ul class="nav nav-tabs">
+                  <li class="active"><a href="#1" data-toggle="tab">
+                    <%= i('topiclist.html.label.sugestion') %><!-- 推荐话题 --></a></li>
+                  <li><a href="#2" data-toggle="tab">全部话题</a></li>
+                  <li><a href="#3" data-toggle="tab">我的话题</a></li>
+                </ul>
+                <div class="tab-content">
+                  <div class="tab-pane active" id="1">
+                    <p>TODO 推荐.</p>
+                  </div>
+                  <div class="tab-pane" id="2">
+                    <div class="btn-toolbar letter-chart" id="letter-filter-all">
+                      <div class="btn-group">
+                        <a class="btn" href="javascript://">All</a>
+                        <a class="btn" href="javascript://">A</a>
+                        <a class="btn" href="javascript://">B</a>
+                        <a class="btn" href="javascript://">C</a>
+                        <a class="btn" href="javascript://">D</a>
+                        <a class="btn" href="javascript://">E</a>
+                        <a class="btn" href="javascript://">F</a>
+                        <a class="btn" href="javascript://">G</a>
+                        <a class="btn" href="javascript://">H</a>
+                        <a class="btn" href="javascript://">I</a>
+                        <a class="btn" href="javascript://">J</a>
+                        <a class="btn" href="javascript://">K</a>
+                        <a class="btn" href="javascript://">L</a>
+                        <a class="btn" href="javascript://">M</a>
+                        <a class="btn" href="javascript://">N</a>
+                        <a class="btn" href="javascript://">O</a>
+                        <a class="btn" href="javascript://">P</a>
+                        <a class="btn" href="javascript://">Q</a>
+                        <a class="btn" href="javascript://">R</a>
+                        <a class="btn" href="javascript://">S</a>
+                        <a class="btn" href="javascript://">T</a>
+                        <a class="btn" href="javascript://">U</a>
+                        <a class="btn" href="javascript://">V</a>
+                        <a class="btn" href="javascript://">W</a>
+                        <a class="btn" href="javascript://">X</a>
+                        <a class="btn" href="javascript://">Y</a>
+                        <a class="btn" href="javascript://">Z</a>
+                      </div>
+                    </div>
+                    <table class="table table-hover">
+                      <thead>
+                        <tr>
+                          <th>话题</th>
+                          <th>Messages</th>
+                          <th>组员</th>
+                          <th></th>
+                        </tr>
+                      </thead>
+                      <tbody id="all-topics-container">
+                      </tbody>
+                    </table>
+                    <div class="all-topics-pagination">
+                      <ul class="pager">
+                        <li><a class="previous-page-btn hide" href="javascript://">上一页</a></li>
+                        <li><a class="next-page-btn " href="javascript://">下一页</a></li>
+                      </ul>
+                    </div>
+                  </div>
+                  <div class="tab-pane" id="3">
+                    <div class="btn-toolbar letter-chart" id="letter-filter-my">
+                      <div class="btn-group">
+                        <a class="btn" href="javascript://">All</a>
+                        <a class="btn" href="javascript://">A</a>
+                        <a class="btn" href="javascript://">B</a>
+                        <a class="btn" href="javascript://">C</a>
+                        <a class="btn" href="javascript://">D</a>
+                        <a class="btn" href="javascript://">E</a>
+                        <a class="btn" href="javascript://">F</a>
+                        <a class="btn" href="javascript://">G</a>
+                        <a class="btn" href="javascript://">H</a>
+                        <a class="btn" href="javascript://">I</a>
+                        <a class="btn" href="javascript://">J</a>
+                        <a class="btn" href="javascript://">K</a>
+                        <a class="btn" href="javascript://">L</a>
+                        <a class="btn" href="javascript://">M</a>
+                        <a class="btn" href="javascript://">N</a>
+                        <a class="btn" href="javascript://">O</a>
+                        <a class="btn" href="javascript://">P</a>
+                        <a class="btn" href="javascript://">Q</a>
+                        <a class="btn" href="javascript://">R</a>
+                        <a class="btn" href="javascript://">S</a>
+                        <a class="btn" href="javascript://">T</a>
+                        <a class="btn" href="javascript://">U</a>
+                        <a class="btn" href="javascript://">V</a>
+                        <a class="btn" href="javascript://">W</a>
+                        <a class="btn" href="javascript://">X</a>
+                        <a class="btn" href="javascript://">Y</a>
+                        <a class="btn" href="javascript://">Z</a>
+                      </div>
+                    </div>
+                    <table class="table table-hover">
+                      <thead>
+                        <tr>
+                          <th>话题</th>
+                          <th>Messages</th>
+                          <th>组员</th>
+                          <th></th>
+                        </tr>
+                      </thead>
+                      <tbody id="my-topics-container">
+                      </tbody>
+                    </table>
+                    <div class="my-topics-pagination">
+                      <ul class="pager">
+                        <li><a class="previous-page-btn hide" href="javascript://">上一页</a></li>
+                        <li><a class="next-page-btn " href="javascript://">下一页</a></li>
+                      </ul>
+                    </div>
+                  </div>
+                </div>
+              </div>
+          </div>
+          </div>
+        <hr>
+        <footer>
+          <p>Copyright © 2012, Cross Corporation. All Rights Reserved.</p>
+        </footer>
+      </div>
+    </section>
+    <script type="text/template" id="topic-template">
+      <tr id="topic-{{ id }}">
+          <td class="topic-name"><a  href="/topic/{{ id }}">{{ gname }}</a></td>
+          <td class="topic-messages-count">{{ g_msg_count }}</td>
+          <td class="topic-members-count">{{ g_member_count }}</td>
+          <td class="topic-action"><a class="btn btn-primary btn-small btn-tojoin">申请加入</a></td>
+        </tr>
+    </script>
+  </body>
+</html>

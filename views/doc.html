@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title><%= title %></title>
+    
+    <% include common/required.html %>
+    <link rel='stylesheet' media="screen" href='/stylesheets/doc.css' />
+    <link rel='stylesheet' media="print" href='/stylesheets/doc_print.css' />
+    
+    <!-- Application script -->
+    <script type='text/javascript' src='/javascripts/document/doc.js'></script>
+
+    <script type='text/javascript' src='/javascripts/document/board.model.js'></script>
+    <script type='text/javascript' src='/javascripts/document/board.view.js'></script>
+    <script type='text/javascript' src='/javascripts/document/component.model.js'></script>
+    <script type='text/javascript' src='/javascripts/document/component.view.js'></script>
+    <script type='text/javascript' src='/javascripts/document/panel/graph.js'></script>
+    <script type='text/javascript' src='/javascripts/document/panel/grid.js'></script>
+    <script type='text/javascript' src='/javascripts/document/panel/text.js'></script>
+    <script type='text/javascript' src='/javascripts/document/panel/label.js'></script>
+
+  </head>
+  <body>
+    <input type="hidden" id="_csrf" name="_csrf" value="<%= token %>" />
+    <input type="hidden" id="docid" name="docid" value="<%= docid %>" />
+    <input type="hidden" id="tmplid" name="tmplid" value="<%= tmplid %>" />
+
+    <header>
+      <div>
+        <input id="title" /><div id="line"><div><!-- <div id="createat">2012/09/25 09:00</div> -->
+      </div>
+
+    </header>
+
+    <div id="operation">
+      <ul>
+        <li><a id="publish" href="#"><i class="icon-save"></i></a></li>
+        <li><a id="undo" href="undo"><i class="icon-undo"></i></a></li>
+        <li><a id="close" href="close"><i class="icon-signout"></i></a></li>
+      </ul>
+    </div>
+
+    <article id="docediter">
+      <section id="board">
+
+        <div id="history" class="popover right">
+          <h3 class="popover-title"><i class="icon-pencil"></i>最近更新</h3>
+          <div class="popover-content">
+            <ul>
+              <li>
+                Published 5 seconds ago
+                <br />
+                by <a>ll</a>
+              </li>
+              <li><hr /></li>
+              <li>
+                Published 1 month ago
+                <br />
+                by <a>ddd</a>
+              </li>
+            </ul>
+          </div>
+        </div>
+
+      </section>
+
+    </article>
+
+
+<!--         操作
+          Go to page
+          Undo to
+
+        Draft auto saved
+        Saving…
+
+        Attach File
+        Add Topic
+
+        Publish
+ -->
+
+    <div id="size" class="popover right">
+      <!-- <div class="arrow"></div> -->
+      <h3 class="popover-title">size</h3>
+      <div class="popover-content">
+        <label><input type="radio" name="size" value="1" w="667" h="2865">B5（667x2865px）</label>
+        <label><input type="radio" name="size" value="2" w="796" h="2266">A4（796x2266px）</label>
+        <label><input type="radio" name="size" value="3" w="1125" h="3194">A3（1125x3194px）</label>
+        <label><input type="radio" name="size" value="4" w="640" h="1136">iPhone5（640x1136px）</label>
+        <label><input type="radio" name="size" value="5" w="1536" h="2048">iPad3（1536x2048px）</label>
+        <label><input type="radio" name="size" value="6" w="900" h="1440">MBA13.3（900x1440px）</label>
+      </div>
+    </div>
+
+    <div id="layout" class="popover right">
+      <!-- <div class="arrow"></div> -->
+      <h3 class="popover-title">layout</h3>
+      <div class="popover-content">
+        <label><input type="radio" name="layout" value="1">Print Layout View</label>
+        <label><input type="radio" name="layout" value="2">Notebook Layout View</label>
+        <label><input type="radio" name="layout" value="3">Auto</label>
+      </div>
+    </div>
+
+
+    <% include common/component.html %>
+    
+  </body>
+</html>
+

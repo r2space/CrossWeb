@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title><%= title %></title>
+    <script type='text/javascript' src='/vendor/jquery-1.8.2.min.js'></script>
+    <style type="text/css" media="screen">
+    body {
+      /*text-align:center;*/
+    }
+    #item1, #item2, #item3 {
+      width:32px;
+      height:32px;
+      border:2px;
+      solid: #4C4C4C;
+      -webkit-border-radius: 5px;
+      -webkit-box-shadow: 0px 0px 4px #333;
+    }
+    #target {
+      width:600px;
+      height:100px;
+      background-color:#aaa;
+      /*float:right;*/
+      position: absolute;
+      top: 100px;
+      left: 300px;
+    }
+    #file {
+      width:600px;
+      height:100px;
+      background-color:#aaa;
+      position: absolute;
+      top: 210px;
+      left: 300px;
+    }
+    </style>
+    <script type="text/javascript">
+    function dragstart(event) {
+      var source = document.getElementById(event.target.id);
+      event.dataTransfer.setData("text", event.target.id);
+      event.dataTransfer.setDragImage($('#sampleText')[0], 50, 10);
+    }
+    
+    function drop(event) {
+      var id = event.dataTransfer.getData("text");
+      var target = document.getElementById(event.target.id);
+      console.log(event);
+      
+      jQuery('<input/>', {
+        type: "text",
+        value: "lalala",
+        style: "position: absolute; left:" + (event.offsetX - 40) + "px; top: " + (event.offsetY - 10) + "px;"
+      }).appendTo('#' + event.target.id);
+      
+      console.log(target.innerHTML);
+      event.preventDefault();
+    }
+    function dragover(event) {
+      event.preventDefault();
+    }
+    
+    function dropfile(event) {
+      var files = event.dataTransfer.files;
+      uploadFiles(files);
+      event.preventDefault();
+    }
+    
+    function uploadFiles(files) {
+      var fd = new FormData();
+      for (var i = 0; i < files.length; i++) {
+        console.log(files[i]);
+        fd.append("files", files[i]);
+      }
+      fd.append("_csrf", "<%= token %>");
+      
+      $.ajax({
+        url: "/upload",
+        type: "POST",
+        data: fd,
+        processData: false,
+        contentType: false
+      });
+    }
+    $(function () {
+      $("#form").bind("change", function () {
+        var files = this.files;
+        uploadFiles(files);
+      });
+    });
+    
+    </script>
+  </head>
+  <body>
+    <input type="hidden" name="_csrf" value="<%= token %>" />
+    
+    <section>
+      <div id="target" ondragover="dragover(event);" ondrop="drop(event);">item</div>
+      <div id="file" ondragover="dragover(event);" ondrop="dropfile(event);">file</div>
+      <input id="form" type="file" multiple="multiple" />
+    </section>
+    <nav>
+      <h1>Items</h1>
+      <ul>
+        <li><div id="item1" draggable="true" ondragstart="dragstart(event);"></div></li>
+        <li><div id="item2" draggable="true" ondragstart="dragstart(event);"></div></li>
+        <li><div id="item3" draggable="true" ondragstart="dragstart(event);"></div></li>
+      </ul>
+    </nav>
+    
+    <section>
+      <input id="sampleText" type="text" value="lalala" />
+      <input id="sampleCheck" type="checkbox" /><label for="sampleCheck">Male</label>
+    </section>
+    
+  </body>
+</html>

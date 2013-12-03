@@ -1,0 +1,35 @@
+body {
+  padding-bottom: 40px;
+  min-height: 1000px;
+}
+#topic-title {
+  float: left;
+}
+#create-btn {
+  float: right;
+  margin-top: 15px;
+  margin-right: 40px;
+  margin-bottom: 15px;
+}
+#topic-sugestion {
+  clear: both;
+}
+.letter-chart {
+  margin-left: 10px;
+  margin-top: 0px;
+}
+.letter-chart .btn-group .btn {
+  padding: 4px 7px;
+}
+.topic-action a {
+  margin-left: 5%;
+  min-width: 58px;
+}
+.pager {
+  margin: 0px 0px;
+}
+.pager li a {
+  -moz-border-radius: 5px;
+  -webkit-border-radius: 5px;
+  border-radius: 5px;
+}

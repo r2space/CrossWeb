@@ -1,0 +1,320 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title><%= title %></title>
+
+    <% include common/required.html %>
+
+    <script type='text/javascript' src='/javascripts/menu.model.js'></script>
+    <script type='text/javascript' src='/javascripts/menu.view.js'></script>
+    <script type='text/javascript' src='/javascripts/searcher.model.js'></script>
+    <script type='text/javascript' src='/javascripts/searcher.view.js'></script>
+    <script type='text/javascript' src='/javascripts/sidemenu.model.js'></script>
+    <script type='text/javascript' src='/javascripts/sidemenu.view.js'></script>
+
+
+    <script type='text/javascript' src="/javascripts/group/group.js"></script>
+    <script type='text/javascript' src="/javascripts/group/group.view.js"></script>
+    <script type='text/javascript' src="/javascripts/group/group.model.js"></script>
+
+    <script type='text/javascript' src='/javascripts/finder.model.js'></script>
+    <script type='text/javascript' src='/javascripts/finder.view.js'></script>
+    <script type="text/javascript" src="/vendor/lightbox/lightbox.js"></script>
+
+    <link href="/vendor/lightbox/lightbox.css" rel="stylesheet">
+
+    <link rel="stylesheet" href="/stylesheets/group.css">
+    <link href="/stylesheets/message.css" rel="stylesheet">
+
+  </head>
+  <body>
+
+    <% include common/navbar.html %>
+    <input type="hidden" id="groupid" name="groupid" value="<%= groupid %>">
+
+    <section>
+
+      <article>
+        <% include common/sidemenu.html %>
+      </article>
+
+      <div id="maincontents">
+        <div id="informations">
+
+          <div id="groupImage"><img /></div>
+          <div id="brief">
+            <h3 id="group-name"></h3>
+            <p id="group-public"></p>
+          </div>
+          <div id="operations">
+            <a id="editGroup" class="btn" href="/groupeditor/<%= groupid %>"><%= i('group.groupview.button.edit') %></a>
+            <a id="join-btn" uid="<%= user._id %>" class="btn btn-primary" name="add"><%= i('group.groupview.button.join') %></a>
+            <a id="leave-btn" uid="<%= user._id %>" class="btn btn-primary" name="remove"><%= i('group.groupview.button.leave') %></a>
+          </div>
+        </div>
+
+        <ul class="nav nav-tabs" style="height:37px;">
+          <li class="active"><a id="showMessage" href="#3" data-toggle="tab"><%= i('group.groupview.tab.message') %></a></li>
+          <li><a id="showMember" href="#1" data-toggle="tab"><%= i('group.groupview.tab.members') %></a></li>
+          <li><a id="showAllUser" href="#2" data-toggle="tab"><%= i('group.groupview.tab.alluser') %></a></li>
+          
+          <!--
+          <li><a id="showFiles" href="#4" data-toggle="tab">文件</a></li>
+          -->
+        </ul>
+        <div class="tab-content">
+          <div class="tab-pane" id="1">
+            <div class="btn-group">
+              <a class="btn" href="javascript://">All</a>
+            </div>
+            <div class="btn-group">
+              <a class="btn" href="javascript://">A</a>
+              <a class="btn" href="javascript://">B</a>
+              <a class="btn" href="javascript://">C</a>
+              <a class="btn" href="javascript://">D</a>
+              <a class="btn" href="javascript://">E</a>
+              <a class="btn" href="javascript://">F</a>
+              <a class="btn" href="javascript://">G</a>
+              <a class="btn" href="javascript://">H</a>
+              <a class="btn" href="javascript://">I</a>
+              <a class="btn" href="javascript://">J</a>
+              <a class="btn" href="javascript://">K</a>
+              <a class="btn" href="javascript://">L</a>
+              <a class="btn" href="javascript://">M</a>
+              <a class="btn" href="javascript://">N</a>
+              <a class="btn" href="javascript://">O</a>
+              <a class="btn" href="javascript://">P</a>
+              <a class="btn" href="javascript://">Q</a>
+              <a class="btn" href="javascript://">R</a>
+              <a class="btn" href="javascript://">S</a>
+              <a class="btn" href="javascript://">T</a>
+              <a class="btn" href="javascript://">U</a>
+              <a class="btn" href="javascript://">V</a>
+              <a class="btn" href="javascript://">W</a>
+              <a class="btn" href="javascript://">X</a>
+              <a class="btn" href="javascript://">Y</a>
+              <a class="btn" href="javascript://">Z</a>
+            </div>
+            <table class="table table-hover">
+              <thead>
+                <tr>
+                  <th></th>
+                  <th><%= i('group.groupview.th.name') %></th>
+                  <th><%= i('group.groupview.th.title') %></th>
+                  <th><%= i('group.groupview.th.mail') %></th>
+                  <th></th>
+                </tr>
+              </thead>
+              <tbody id="groupMember"></tbody>
+            </table>
+          </div>
+          <div class="tab-pane" id="2">
+            <div class="btn-group">
+              <a class="btn" href="javascript://">All</a>
+            </div>
+            <div class="btn-group">
+              <a class="btn" href="javascript://">A</a>
+              <a class="btn" href="javascript://">B</a>
+              <a class="btn" href="javascript://">C</a>
+              <a class="btn" href="javascript://">D</a>
+              <a class="btn" href="javascript://">E</a>
+              <a class="btn" href="javascript://">F</a>
+              <a class="btn" href="javascript://">G</a>
+              <a class="btn" href="javascript://">H</a>
+              <a class="btn" href="javascript://">I</a>
+              <a class="btn" href="javascript://">J</a>
+              <a class="btn" href="javascript://">K</a>
+              <a class="btn" href="javascript://">L</a>
+              <a class="btn" href="javascript://">M</a>
+              <a class="btn" href="javascript://">N</a>
+              <a class="btn" href="javascript://">O</a>
+              <a class="btn" href="javascript://">P</a>
+              <a class="btn" href="javascript://">Q</a>
+              <a class="btn" href="javascript://">R</a>
+              <a class="btn" href="javascript://">S</a>
+              <a class="btn" href="javascript://">T</a>
+              <a class="btn" href="javascript://">U</a>
+              <a class="btn" href="javascript://">V</a>
+              <a class="btn" href="javascript://">W</a>
+              <a class="btn" href="javascript://">X</a>
+              <a class="btn" href="javascript://">Y</a>
+              <a class="btn" href="javascript://">Z</a>
+            </div>
+            <table class="table table-hover">
+              <thead>
+                <tr>
+                  <th></th>
+                  <th><%= i('group.groupview.th.name') %></th>
+                  <th><%= i('group.groupview.th.title') %></th>
+                  <th><%= i('group.groupview.th.mail') %></th>
+                  <th></th>
+                </tr>
+              </thead>
+              <tbody id="allUser"></tbody>
+            </table>
+          </div>
+          <div class="tab-pane active" id="3">
+            <div id="messages-container"></div>
+            <div id="messagelist-group"class="pagination pagination-centered">
+            </div>
+          </div>
+          <div class="tab-pane" id="4">
+            <table class="table table-bordered table-hover">
+              <thead>
+                <tr>
+                  <th>Type</th>
+                  <th>Name</th>
+                  <th>Group</th>
+                  <th>Last Modified On</th>
+                </tr>
+              </thead>
+              <tbody id="file-container"></tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+
+      <footer>
+        <p>Copyright © 2012, Cross Corporation. All Rights Reserved.</p>
+      </footer>
+    </section>
+
+    <!-- 上传图片 -->
+    <div class="modal" id="upload-group-image" role="dialog" aria-hidden="true" style="display:none;">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+        <h3><%= i('group.groupview.upload.photo') %></h3>
+      </div>
+      <div class="modal-body">
+        <div id="original-photo">
+          <img id="target-photo">
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button class="btn" data-dismiss="modal" aria-hidden="true"><%= i('group.groupview.button.yes') %></button>
+      </div>
+    </div>
+
+    <script type="text/template" id="user-template">
+      <tr>
+        <td>
+          <a href="/user/{{ id }}"><img class="img-rounded" src="{{ photo }}"></a>
+        </td>
+        <td><a href="/user/{{ id }}">{{ name }}</a></td>
+        <td>{{ title }}</td>
+        <td>{{ mail }}</td>
+        <$ if (groupType == 1) { $>
+        <td style="text-align: right">
+          <$ if (member) { $>
+          <a class="btn btn-small btn-success" name="remove" uid="{{id}}">{{ self ? "<%= i('group.groupview.button.leave') %>" : "<%= i('group.groupview.button.remove') %>" }}</a>
+          <$ } else { $>
+          <a class="btn btn-small btn-success" name="add" uid="{{id}}">{{ self ? "<%= i('group.groupview.button.join') %>" : "<%= i('group.groupview.button.add') %>" }}</a>
+          <$ } $>
+        </td>
+         <$ } $>
+      </tr>
+    </script>
+
+    <script type="text/template" id="files-template">
+    <tr id="{{ _id }}">
+      <td style="font-size: 16px; text-align: center;">
+        <$ if (type === "template") { $>
+        <i class="icon-copy icon-large"></i>
+        <$ } else { $>
+        <i class="icon-file icon-large"></i>
+        <$ } $>
+      </td>
+
+      <td>{{ title }}</td>
+      <td>{{ group }}</td>
+      <td>{{ at }}</td>
+    </tr>
+    </script>
+
+    <script type="text/template" id="message-template">
+      <dl class="message" id="message-{{ mid }}">
+        <dt class="message-face">
+          <a href="/user/{{ uid }}"><img src="{{ uphoto }}" style="width: 56px;"></a>
+        </dt>
+        <dd class="message-content">
+          <p style="background-color: #EEF; margin-bottom: 1px;">
+            <a href="/user/{{ uid }}" id="{{ uid }}" class="userLink">{{ uname }}</a>{{ rangeGroup }} : {{ content }}
+            <br/>
+            {{ atAccounts }}
+          </p>
+          <p id="attach_container_{{ mid }}" style="margin-bottom: 1px;">
+          </p>
+          <p class="message-info">
+            <a href="/message/{{mid}}" style="color: #BBB;">{{time}}</a>
+            <span class="pull-right">
+              <a class="hidden" href="javascript://" id="delete_{{mid}}"><%= i('message.list.button.delete') %></a>
+              <a href="javascript://" class="hide"><%= i('message.list.button.totop') %></a>
+              <a href="javascript://" class="hide"><%= i('message.list.button.good') %></a>
+              <a href="#message-selector" id="forwardMsg_{{mid}}" data-toggle="modal"><%= i('message.list.button.forward') %>({{ forwardNums }})</a>
+              <a href="javascript://" class="hide"><%= i('message.list.button.mark') %></a>
+              <a href="javascript://" id="fetchreply_{{mid}}" class="toggle-replies">
+                <%= i('message.list.button.reply') %>({{ replyNums }})</a>
+          </p>
+          <div id="replyBox_{{ mid }}" class="hidden" style="border-width: 1px;border-style:solid;padding: 10px 20px 10px;border-radius: 3px;border-color: #d9d9d9;">
+            <div style="margin: -18px 0 0 435px;">
+              <em style="font-family: 'SimSun';font-size: 12px;line-height: 1.231;display: block;height: 12px;color: #d9d9d9;font-style: normal;font-weight: normal;">◆</em>
+              <span style="margin: -11px 0 0;width: 22px;font-family: 'SimSun';overflow: hidden;font-size: 12px;line-height: 1.231;display: block;height: 12px;color: #fafafa;font-style: normal;font-weight: normal;">◆</span>
+            </div>
+            <p style="margin-bottom: -7px;">
+              <textarea id="reply_{{ mid }}" style="width:424px" rows="1" placeholder="<%= i('message.list.button.reply') %>" range={{ range}}></textarea>
+            </p>
+            <p style="margin-bottom: 5px;text-align: right;">
+              <a id="replyButton_{{ mid }}" class="btn btn-mini btn-warning"><%= i('message.list.button.reply') %></a>
+            </p>
+            <div id="replyarea_{{ mid }}"></div>
+          </div>
+        </dd>
+        <hr>
+      </dl>
+    </script>
+
+    <script type="text/template" id="reply-template">
+    <hr>
+    <p style="margin-bottom: 1px;">
+      <img src="{{ uphoto }}" style="width:30px; height:30px;">
+      <span><a href="/user/{{ uid }}">{{ uname }}</a> : {{ content }}</span>
+      <p style="color: #BBB;">{{ time }}  </p>
+    </p>
+    </script>
+
+    <script type="text/template" id="image-template">
+      <a href="{{ image }}" rel="lightbox[{{ mid }}]">
+      <img data-img="{{ image }}" src="/images/loading.gif" id="{{ id }}" style="margin-bottom: 3px;opacity:0;"></a>
+
+    </script>
+
+    <script type="text/template" id="doc-template">
+    <div style="margin-bottom: 1px;">
+      <img src="{{ image }}" style="width:20px;"><a href="/file/download.json?_id={{ id }}">{{ name }}</a>
+    </div>
+    </script>
+
+    <script type="text/template" id="document-template">
+    <div style="margin-bottom: 1px;">
+      <img src="{{ image }}" style="width:20px;" onerror="this.src='/images/filetype/default.png';this.onerror = null;">
+      <a href="/file/download.json?_id={{ downloadId }}">{{ name }}</a>
+      <!-- //<a title="查看" href="/file/{{ id }}"><i class="icon-eye-open"></i></a>
+      // <a id="file_fl_{{id}}" title="关注" href="#"><i class="icon-star-empty"></i></a>
+      // <a id="file_unfl_{{id}}" title="取消关注" href="#"><i class="icon-star"></i></a> -->
+      <a title="<%= i('message.list.button.download') %>" href="/file/download.json?_id={{ downloadId }}"><i class="icon-download-alt"></i></a>
+    </div>
+    </script>
+
+    <script type="text/template" id="video-template">
+    <div>{{name}} <a href="/file/download.json?_id={{ id }}"><%= i('message.list.button.download') %></a></div>
+    <div class="video">
+      <video id="a" width="400" controls>
+        <source src="{{ image }}" />
+      </video>
+    </div>
+    </script>
+
+    <% include messageSelector.html %>
+
+  </body>
+</html>

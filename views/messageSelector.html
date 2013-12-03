@@ -1,0 +1,209 @@
+<script type="text/javascript">
+
+var messageSelector = {
+
+target : "",
+fetchMessage : "",
+
+initializeForwardBox : function (fetchMessage){
+  this.fetchMessage = fetchMessage;
+  this.initializeScopeArea();
+  this.initializeFinder();
+  $("#messageSelectorButton").on("click", this.sendMessage);
+},
+
+sendMessage : function () {
+  if(!messageSelector.target){
+    alert("╮(╯▽╰)╭，转发发生了bug。问题已知，解决未知。请你再重新转发一次吧~");
+    return false;
+  }
+  var range = $("#selectedscope-selector").attr("uid")
+    , content = _.escape($("#textBoxMsg-selector").val())
+    , tousers = []
+    , togroups = [];
+ 
+  _.each($("#textBoxNotice-selector li"), function(u) {
+    var type = $(u).attr("type");
+    if(type == "user") {
+      tousers.push($(u).attr("uid"));
+    } else {
+      togroups.push($(u).attr("uid"));
+    }
+  });
+
+  var url = "/message/forward.json"
+    , fd = new FormData();
+
+  // fd.append("content", content);
+  // fd.append("target", messageSelector.target);
+  // fd.append("range", range);
+  // fd.append("tousers", tousers);
+  // fd.append("togroups", togroups);
+
+  var msg = {};
+  msg["content"] = content;
+  msg["target"] = messageSelector.target;
+  msg["range"] = range;
+
+  var at = {
+    "users": tousers,
+    "groups": togroups
+  };
+  msg["at"] = at;
+
+
+  smart.dopost(url, msg, function(err, result){
+    messageSelector.fetchMessage();
+    //alert("信息成功转发");
+    $("#message-selector").modal('hide');
+    $("#textBoxMsg-selector").val("");
+    $("#keywordsText-selector").val("");
+    $("#textBoxNotice-selector").find("ol").remove();
+    $("#selectedscope-selector").attr("uid", "1");
+    $("#selectedscope-selector").html("<%= i('message.list.selector.scope') %>");
+  });
+
+  return false;
+},
+
+fetchMessageData : function (mid) {
+  this.target = mid;
+  //$("#textBoxMsg-selector").val($("#textBoxMsg-selector").val() + "--" +this.target);
+  // var url = "/message/get.json?mid=" + mid;
+  
+  // smart.doget(url, function(err, message){
+  //   var kind = message.contentType
+  //   , content = "【转发】" + message.content
+  //   , range = message.range
+  //   , groups = message.at.groups
+  //   , users = message.at.users
+
+  //   , msgbox = $("#" + kind + "Msg-selector")
+  //   , scope = $("#selectedscope-selector")
+  //   ;
+
+  //   msgbox.val(content);
+
+  //   _.each($("#scope-selector a"), function(s) {
+  //     var uid = $(s).attr("uid");
+  //     if(uid == range){
+  //       scope.html($(s).html());
+  //       scope.attr("uid",range);
+  //     }
+  //   });
+  // });
+
+},
+
+initializeScopeArea : function () {
+  // 获取部门/组
+  var url = "/group/list.json?joined=true&uid=" + smart.uid();
+  smart.doget(url, function(err, result){
+    var scope = $("#scope-selector")
+      , tmpl = $("#message-scope-template").html();
+
+    _.each(result.items, function(g) {
+      scope.append(_.template(tmpl, {"name": g.name.name_zh, "id": g._id}));
+    });
+
+    // 选择发布消息的范围
+    $("#scope-selector a").on("click", function() {
+     var uid =$(event.target).attr("uid");
+      if(uid != "1"){
+        $("#_findresult").hide();
+        $("#keywordsText-selector").val("");
+        $("#keywordsText-selector").attr("scope",uid);
+        $("#textBoxNotice-selector").find("ol").remove();
+      }     
+      $("#selectedscope-selector").attr("uid", $(event.target).attr("uid"));
+      $("#selectedscope-selector").html($(event.target).html());
+      $("#scope-selector").hide();
+      return false;
+    });
+  });
+
+  // 显示设定消息的下拉框
+  $("#scopesetter-selector").bind("click", function() {
+    var anchor = $(event.target)
+      , selector = $("#message-selector")
+      , scope = $("#scope-selector");
+
+    scope.css("top", anchor.offset().top - selector.offset().top + 25);
+    scope.css("left", anchor.offset().left - selector.offset().left - 25);
+    scope.show();
+
+    return false;
+  });
+
+  // 关闭消息范围指定菜单
+  $(document).bind("click", function() {
+    $("#scope-selector").hide();
+  });
+},
+
+initializeFinder : function () {
+  finder.view.onUserSelected = this.onUserSelectedCallback;
+  finder.view.bindSearchBox($("#keywordsText-selector"));
+},
+
+onUserSelectedCallback: function(uid, uname, type, src){
+
+  var tmpl = $("#selected-user-template").html()
+    , container = src.parent()
+    , item = _.template(tmpl, {"uid": uid, "uname": uname, "type": type});
+
+  item = item.replace(/\n/g, "").replace(/^[ ]*/, "");
+  $(item).insertBefore(src);
+
+  // 设定光标
+  src.val("").focus();
+
+  // 删除用户按钮的事件绑定
+  $(".users a").on("click", function(){
+    $(event.target).parent().parent().remove(); return false;
+  });
+}
+
+};
+</script>
+
+<script type="text/template" id="message-scope-template">
+  <li><a uid="{{id}}">{{name}}</a></li>
+</script>
+
+<script type="text/template" id="selected-user-template">
+  <ol>
+    <li uid="{{uid}}" type="{{type}}">
+      <span>{{uname}}</span><a uid="{{uid}}"><i class="icon-remove"></i></a>
+    </li>
+  </ol>
+</script>
+
+<div class="modal" id="message-selector" role="dialog" aria-hidden="true" style="display:none;">
+  <div class="modal-header">
+    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+    <h3><%= i('message.list.button.forward') %></h3>
+  </div>
+  <div class="modal-body">
+      <!-- textBox --> 
+      <div class="textBox">
+        <textarea id="textBoxMsg-selector" class="comment" style="width:500px;" rows="3" placeholder="<%= i('message.list.placeholder.text') %>"></textarea>
+        <div id="textBoxNotice-selector" class="users">
+          <input id="keywordsText-selector" scope="1" placeholder="<%= i('message.list.placeholder.notice') %>" />
+        </div>
+      </div>
+
+  </div>
+  <div class="modal-footer">
+  <div class="publish">
+    <span id="selectedscope-selector" uid="1"><%= i('message.list.selector.scope') %></span>
+    <a id="scopesetter-selector"><i class="icon-caret-down" style="padding: 5px;"></i></a>
+    <ul id="scope-selector" class="scope">
+      <li><a href="#" uid="1"><%= i('message.list.selector.scope') %></a></li>
+      <li class="divider"></li>
+    </ul>
+    <button class="btn btn-warning" id="messageSelectorButton"><%= i('message.list.button.forward') %></button>
+    <button class="btn" data-dismiss="modal" aria-hidden="true"><%= i('message.list.button.cancel') %></button>
+  </div>
+  </div>
+</div>

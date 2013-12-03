@@ -1,0 +1,23 @@
+{
+  "appenders": [
+    {
+        "category": "operation"
+      , "type": "file"
+      , "filename": "logs/operation.log"
+    },
+    {
+        "category": "application"
+      , "type": "file"
+      , "filename": "logs/application.log"
+    },
+    {
+        "category": "audit"
+      , "type": "file"
+      , "filename": "logs/audit.log"
+    }
+  ],
+  
+  "levels": {
+    "tests": "ERROR"
+  }
+}

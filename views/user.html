@@ -1,0 +1,427 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title><%= title %></title>
+
+    <% include common/required.html %>
+
+    <script type='text/javascript' src='/javascripts/menu.model.js'></script>
+    <script type='text/javascript' src='/javascripts/menu.view.js'></script>
+    <script type='text/javascript' src='/javascripts/searcher.model.js'></script>
+    <script type='text/javascript' src='/javascripts/searcher.view.js'></script>
+    <script type='text/javascript' src='/javascripts/sidemenu.model.js'></script>
+    <script type='text/javascript' src='/javascripts/sidemenu.view.js'></script>
+    <script type='text/javascript' src='/javascripts/finder.model.js'></script>
+    <script type='text/javascript' src='/javascripts/finder.view.js'></script>
+
+    <script type="text/javascript"  src="/javascripts/user/user.js"></script>
+    <script type="text/javascript"  src="/javascripts/user/user.view.js"></script>
+    <script type="text/javascript"  src="/javascripts/user/user.model.js"></script>
+    <script type="text/javascript" src="/vendor/lightbox/lightbox.js"></script>
+
+    <link href="/vendor/lightbox/lightbox.css" rel="stylesheet">
+    <link rel="stylesheet" href="/stylesheets/user.css">
+    <link rel="stylesheet" href="/stylesheets/userlist.css">
+    <link href="/stylesheets/message.css" rel="stylesheet">
+    <style type="text/css">
+      #userdetail dt { float: left; }
+      .hide {display: none;}
+    </style>
+
+  </head>
+  <body>
+
+    <% include common/navbar.html %>
+
+    <section>
+      <article>
+        <% include common/sidemenu.html %>
+      </article>
+
+      <div id="maincontents">
+        <div id="informations">
+          <div id="user_image"><img /></div>
+          <div id="brief">
+            <h3 id="user_name"></h3>
+            <p id="user_title"></p>
+          </div>
+
+          <div id="operations">
+            <a id="edit_btn" class="btn btn-primary hide"><%= i('user.option.editInfo') %></a>
+            <a id="send_message_btn" class="btn btn-success hide"><%= i('user.option.sentPrivateMsg') %></a>
+            <a id="follow_btn" class="btn btn-success hide"><%= i('user.option.follow') %></a>
+            <a id="unfollow_btn" class="btn btn-tofollow hide"><%= i('user.option.unfollow') %></a>
+          </div>
+        </div>
+
+        <ul class="nav nav-tabs" style="height:37px;">
+          <li class="active"><a id="showMessage" href="#2" data-toggle="tab"><%= i('user.tab.messages') %></a></li>
+          <li><a href="#userdetail" data-toggle="tab"><%= i('user.tab.info') %></a></li>
+          <li><a id="showFollowing" href="#3" data-toggle="tab"><%= i('user.tab.follings') %>(<span id="followingCount">0</span>)</a></li>
+          <li><a id="showFollower" href="#4" data-toggle="tab"><%= i('user.tab.followers') %>(<span id="followerCount">0</span>)</a></li>
+          <li><a id="showGroups" href="#5" data-toggle="tab"><%= i('user.tab.joinedGroups') %></a></li>
+          <!-- <li><a id="showFiles" href="#6" data-toggle="tab">Files</a></li> -->
+        </ul>
+        <div class="tab-content">
+          <div id="userdetail" class="tab-pane">
+            <dl>
+              <legend><%= i('user.info') %></legend>
+              <dt><%= i('user.info.name') %>：</dt>
+              <dd id="basic_user_name"></dd>
+              <dt><%= i('user.info.birthday') %>：</dt>
+              <dd id="basic_user_birthday">_</dd>
+              <dt><%= i('user.info.address') %>：</dt>
+              <dd id="basic_user_address"></dd>
+              <dt><%= i('user.info.summary') %>：</dt>
+              <dd id="basic_user_bio">_</dd>
+              <br />
+
+              <legend><%= i('user.contact') %></legend>
+              <dt><%= i('user.info.mobile') %>：</dt>
+              <dd id="basic_user_mobile"></dd>
+              <dt><%= i('user.info.email') %>：</dt>
+              <dd id="basic_user_email"></dd>
+            </dl>
+          </div>
+          <div id="2" class="tab-pane active">
+            <div id="messages-container"></div>
+            <div id="messagelist-user" class="pagination pagination-centered">
+            </div>
+          </div>
+          <div id="3" class="tab-pane">
+            <div id="followingFilter" class="btn-toolbar">
+              <div class="btn-group">
+                <a class="btn" href="javascript://">All</a>
+              </div>
+              <div class="btn-group">
+                <a class="btn" href="javascript://">A</a>
+                <a class="btn" href="javascript://">B</a>
+                <a class="btn" href="javascript://">C</a>
+                <a class="btn" href="javascript://">D</a>
+                <a class="btn" href="javascript://">E</a>
+                <a class="btn" href="javascript://">F</a>
+                <a class="btn" href="javascript://">G</a>
+                <a class="btn" href="javascript://">H</a>
+                <a class="btn" href="javascript://">I</a>
+                <a class="btn" href="javascript://">J</a>
+                <a class="btn" href="javascript://">K</a>
+                <a class="btn" href="javascript://">L</a>
+                <a class="btn" href="javascript://">M</a>
+                <a class="btn" href="javascript://">N</a>
+                <a class="btn" href="javascript://">O</a>
+                <a class="btn" href="javascript://">P</a>
+                <a class="btn" href="javascript://">Q</a>
+                <a class="btn" href="javascript://">R</a>
+                <a class="btn" href="javascript://">S</a>
+                <a class="btn" href="javascript://">T</a>
+                <a class="btn" href="javascript://">U</a>
+                <a class="btn" href="javascript://">V</a>
+                <a class="btn" href="javascript://">W</a>
+                <a class="btn" href="javascript://">X</a>
+                <a class="btn" href="javascript://">Y</a>
+                <a class="btn" href="javascript://">Z</a>
+              </div>
+            </div>
+            <table class="table table-hover">
+              <thead>
+                <tr>
+                  <th></th>
+                  <th><%= i('user.header.name') %></th>
+                  <th width="150px"><%= i('user.header.title') %></th>
+                  <th><%= i('user.header.email') %></th>
+                  <th></th>
+                </tr>
+              </thead>
+              <tbody id="followinglist"></tbody>
+            </table>
+          </div>
+          <div id="4" class="tab-pane">
+            <div id="followerFilter" class="btn-toolbar">
+              <div class="btn-group">
+                <a class="btn" href="javascript://">All</a>
+              </div>
+              <div class="btn-group">
+                <a class="btn" href="javascript://">A</a>
+                <a class="btn" href="javascript://">B</a>
+                <a class="btn" href="javascript://">C</a>
+                <a class="btn" href="javascript://">D</a>
+                <a class="btn" href="javascript://">E</a>
+                <a class="btn" href="javascript://">F</a>
+                <a class="btn" href="javascript://">G</a>
+                <a class="btn" href="javascript://">H</a>
+                <a class="btn" href="javascript://">I</a>
+                <a class="btn" href="javascript://">J</a>
+                <a class="btn" href="javascript://">K</a>
+                <a class="btn" href="javascript://">L</a>
+                <a class="btn" href="javascript://">M</a>
+                <a class="btn" href="javascript://">N</a>
+                <a class="btn" href="javascript://">O</a>
+                <a class="btn" href="javascript://">P</a>
+                <a class="btn" href="javascript://">Q</a>
+                <a class="btn" href="javascript://">R</a>
+                <a class="btn" href="javascript://">S</a>
+                <a class="btn" href="javascript://">T</a>
+                <a class="btn" href="javascript://">U</a>
+                <a class="btn" href="javascript://">V</a>
+                <a class="btn" href="javascript://">W</a>
+                <a class="btn" href="javascript://">X</a>
+                <a class="btn" href="javascript://">Y</a>
+                <a class="btn" href="javascript://">Z</a>
+              </div>
+            </div>
+            <table class="table table-hover">
+              <thead>
+                <tr>
+                  <th></th>
+                  <th><%= i('user.header.name') %></th>
+                  <th><%= i('user.header.title') %></th>
+                  <th><%= i('user.header.email') %></th>
+                  <th></th>
+                </tr>
+              </thead>
+              <tbody id="followerlist"></tbody>
+            </table>
+          </div>
+          <div id="5" class="tab-pane">
+            <div id="groupFilter" class="btn-toolbar">
+              <div class="btn-group">
+                <a class="btn" href="javascript://">All</a>
+              </div>
+              <div class="btn-group">
+                <a class="btn" href="javascript://">A</a>
+                <a class="btn" href="javascript://">B</a>
+                <a class="btn" href="javascript://">C</a>
+                <a class="btn" href="javascript://">D</a>
+                <a class="btn" href="javascript://">E</a>
+                <a class="btn" href="javascript://">F</a>
+                <a class="btn" href="javascript://">G</a>
+                <a class="btn" href="javascript://">H</a>
+                <a class="btn" href="javascript://">I</a>
+                <a class="btn" href="javascript://">J</a>
+                <a class="btn" href="javascript://">K</a>
+                <a class="btn" href="javascript://">L</a>
+                <a class="btn" href="javascript://">M</a>
+                <a class="btn" href="javascript://">N</a>
+                <a class="btn" href="javascript://">O</a>
+                <a class="btn" href="javascript://">P</a>
+                <a class="btn" href="javascript://">Q</a>
+                <a class="btn" href="javascript://">R</a>
+                <a class="btn" href="javascript://">S</a>
+                <a class="btn" href="javascript://">T</a>
+                <a class="btn" href="javascript://">U</a>
+                <a class="btn" href="javascript://">V</a>
+                <a class="btn" href="javascript://">W</a>
+                <a class="btn" href="javascript://">X</a>
+                <a class="btn" href="javascript://">Y</a>
+                <a class="btn" href="javascript://">Z</a>
+              </div>
+            </div>
+            
+            <table class="table table-hover">
+              <thead>
+                <tr>
+                  <th><%= i('group.grouplist.th.type') %></th>
+                  <th width="300px"><%= i('group.grouplist.th.groupOrDepartment') %></th>
+                  <th><%= i('group.grouplist.th.secure') %></th>
+                  <th><%= i('group.grouplist.th.membercnt') %></th>
+                  <th><%= i('group.grouplist.th.uptdate') %></th>
+                  <th></th>
+                </tr>
+              </thead>
+              <tbody id="grouplist"></tbody>
+            </table>
+          </div>
+          <div id="6" class="tab-pane">
+            <div id="">
+              <input type="file" id="uploadfile" style="display: none" />
+              <table class="table table-bordered table-hover">
+                <thead>
+                  <tr>
+                    <th>Type</th>
+                    <th>Name</th>
+                    <th>Last Modified On</th>
+                    <th>Operation</th>
+                  </tr>
+                </thead>
+                <tbody id="filelist"></tbody>
+              </table>
+              <div id="file_page_container" class="pagination pagination-centered pagination-mini">
+            </div>
+              <div id="fileHistory" style="position: absolute;">
+                <table class="table table-bordered table-hover" style="background-color: white;">
+                  <thead>
+                    <tr>
+                      <th>Type</th>
+                      <th>Name</th>
+                      <th  style="max-width: 60px;overflow: hidden;text-overflow: ellipsis;">upload User</th>
+                      <th>Last Modified On</th>
+                    </tr>
+                  </thead>
+                  <tbody id="historylist"></tbody>
+                </table>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <footer>
+        <p>Copyright © 2012, Cross Corporation. All Rights Reserved.</p>
+      </footer>
+    </section>
+  
+    <script type="text/template" id="files-template">
+    <tr id="{{ fid }}">
+      <td><img src="/images/filetype/{{ extension }}.png" onerror="this.src='/images/filetype/default.png';this.onerror = null;"/></td>
+
+      <td><a href="/file/{{fid}}">{{ title }}</a></td>
+      <td>{{ at }}</td>
+      <td>
+        <!-- // <a name="history" class="btn btn-small btn-success" fid="{{fid}}">履历</a> -->
+        <a name="update" class="btn btn-small btn-success" fid="{{fid}}"><!--更新--><%=i('file.option.update')%></a>
+        <$ if (!isowner) { $>
+          <a id="file_fl_{{fid}}" name="follow" class="btn btn-small btn-success" fid="{{fid}}" <$ if (followed) { $> style="display:none" <$ } $> ><%= i('file.option.follow') %></a>
+          <a id="file_unfl_{{fid}}" name="unfollow" class="btn btn-small btn-success" fid="{{fid}}" <$ if (!followed) { $> style="display:none" <$ } $> ><%= i('file.option.unfollow') %></a>
+        <$ } $>
+        <a name="download" class="btn btn-small btn-success" downloadId="{{downloadId}}"><%= i('file.option.download') %></a>
+      </td>
+    </tr>
+    </script>
+
+    <script type="text/template" id="files-history-template">
+      <tr>
+        <td><img src="/images/filetype/{{ extension }}.png" onerror="this.src='/images/filetype/default.png';this.onerror = null;"/></td>
+
+        <td><a href="/file/download.json?_id={{downloadId}}">{{ title }}</a></td>
+        <td style="max-width: 60px;overflow: hidden;text-overflow: ellipsis;">{{ author }}</td>
+        <td>{{ at }}</td>
+      </tr>
+    </script>
+
+    <script type="text/template" id="user-template">
+      <tr uid="{{ id }}">
+        <td>
+          <a href="/user/{{ id }}"><img class="img-rounded" src="{{ photo }}"></a>
+        </td>
+        <td><a href="/user/{{ id }}">{{ name }}</a></td>
+        <td>{{ title }}</td>
+        <td>{{ mail }}</td>
+        <td style="text-align: right">
+         <a class="btn btn-small hidden" name="unfollow" uid="{{id}}" id="{{kind}}_unfollow_{{id}}"><%= i('user.option.unfollow') %></a>
+          <a class="btn btn-small btn-success hidden" name="follow" uid="{{id}}" id="{{kind}}_follow_{{id}}"><%= i('user.option.follow') %></a>
+          <a class="btn btn-small btn-success hidden" name="privatemsg" uid="{{id}}" id="{{kind}}_privatemsg_{{id}}"><%= i('user.option.sentPrivateMsg') %></a> 
+       </td>
+      </tr>
+    </script>
+
+    <script type="text/template" id="group-template">
+      <tr>
+        <td>
+          <$ if (type == "1") { $>
+          <i class="icon-group icon-large"></i>
+          <$ } else { $>
+          <i class="icon-sitemap icon-large"></i>
+          <$ } $>
+        </td>
+        <td><a href="/group/{{ id }}">{{ groupName }}</a></td>
+        <td>{{ secure == 1 ? "<%= i('group.grouplist.secure.1') %>":"<%= i('group.grouplist.section.2') %>" }}</td>
+        <td>{{ groupMembers }}</td>
+        <td>{{ lastModify }}</td>
+        <td style="text-align: right">
+          <$ if (type == "1") { $>
+          <a id="groupbtn_{{id}}" class="btn btn-small btn-success" gid="{{id}}" joined="{{ joined }}">
+            {{ joined ? "<%= i('group.groupview.button.leave') %>" : "<%= i('group.groupview.button.join') %>" }}
+          </a>
+          <$}$>
+        </td>
+      </tr>
+    </script>
+
+    <script type="text/template" id="message-template">
+      <dl class="message" id="message-{{ mid }}">
+        <dt class="message-face">
+          <a href="/user/{{ uid }}"><img src="{{ uphoto }}" style="width: 56px;"></a>
+        </dt>
+        <dd class="message-content">
+          <p style="background-color: #EEF; margin-bottom: 1px;">
+            <a href="/user/{{ uid }}" id="{{ uid }}" class="userLink">{{ uname }}</a>{{ rangeGroup }} : {{ content }}
+            <br/>
+            {{ atAccounts }}
+          </p>
+          <p id="attach_container_{{ mid }}" style="margin-bottom: 1px;">
+          </p>
+          <p class="message-info">
+            <a href="/message/{{mid}}" style="color: #BBB;">{{time}}</a>
+            <span class="pull-right">
+              <a class="hidden" href="javascript://" id="delete_{{mid}}">删除</a>
+              <a href="javascript://" class="hide"><%= i('message.list.button.totop') %></a>
+              <a href="javascript://" class="hide"><%= i('message.list.button.good') %></a>
+              <a href="#message-selector" id="forwardMsg_{{mid}}" data-toggle="modal"><%= i('message.list.button.forward') %>({{ forwardNums }})</a>
+              <a href="javascript://" class="hide"><%= i('message.list.button.mark') %></a>
+              <a href="javascript://" id="fetchreply_{{mid}}" class="toggle-replies">
+                <%= i('message.list.button.reply') %>({{ replyNums }})</a>
+          </p>
+          <div id="replyBox_{{ mid }}" class="hidden" style="border-width: 1px;border-style:solid;padding: 10px 20px 10px;border-radius: 3px;border-color: #d9d9d9;">
+            <div style="margin: -18px 0 0 435px;">
+              <em style="font-family: 'SimSun';font-size: 12px;line-height: 1.231;display: block;height: 12px;color: #d9d9d9;font-style: normal;font-weight: normal;">◆</em>
+              <span style="margin: -11px 0 0;width: 22px;font-family: 'SimSun';overflow: hidden;font-size: 12px;line-height: 1.231;display: block;height: 12px;color: #fafafa;font-style: normal;font-weight: normal;">◆</span>
+            </div>
+            <p style="margin-bottom: -7px;">
+              <textarea id="reply_{{ mid }}" style="width:424px" rows="1" placeholder="<%= i('message.list.button.reply') %>..." range={{ range}}></textarea>
+            </p>
+            <p style="margin-bottom: 5px;text-align: right;">
+              <a id="replyButton_{{ mid }}" class="btn btn-mini btn-warning"><%= i('message.list.button.reply') %></a>
+            </p>
+            <div id="replyarea_{{ mid }}"></div>
+          </div>
+        </dd>
+        <hr>
+      </dl>
+    </script>
+
+    <script type="text/template" id="reply-template">
+    <hr>
+    <p style="margin-bottom: 1px;">
+      <img src="{{ uphoto }}" style="width:30px; height:30px;">
+      <span><a href="/user/{{ uid }}">{{ uname }}</a> : {{ content }}</span>
+      <p style="color: #BBB;">{{ time }}  </p>
+    </p>
+    </script>
+
+    <script type="text/template" id="image-template">
+    <a href="{{ image }}" rel="lightbox[{{ mid }}]">
+    <img data-img="{{ image }}" src="/images/loading.gif" id="{{ id }}" style="margin-bottom: 3px;opacity:0;">
+    </a>
+
+    </script>
+
+    <script type="text/template" id="doc-template">
+    <div style="margin-bottom: 1px;">
+      <img src="{{ image }}" style="width:20px;"><a href="/file/download.json?_id={{ id }}">{{ name }}</a>
+    </div>
+    </script>
+
+    <script type="text/template" id="video-template">
+    <div>{{name}} <a href="/file/download.json?_id={{ id }}"><%= i('message.list.button.download') %></a></div>
+    <div class="video">
+      <video id="a" width="400" controls>
+        <source src="{{ image }}" />
+      </video>
+    </div>
+    </script>
+
+    <script type="text/template" id="document-template">
+    <div style="margin-bottom: 1px;">
+      <img src="{{ image }}" style="width:20px;" onerror="this.src='/images/filetype/default.png';this.onerror = null;">
+      <a href="/file/download.json?_id={{ downloadId }}">{{ name }}</a>
+      <!-- //<a title="查看" href="/file/{{ id }}"><i class="icon-eye-open"></i></a>
+      // <a id="file_fl_{{id}}" title="关注" href="#"><i class="icon-star-empty"></i></a>
+      // <a id="file_unfl_{{id}}" title="取消关注" href="#"><i class="icon-star"></i></a> -->
+      <a title="<%= i('file.option.download') %>" href="/file/download.json?_id={{ downloadId }}"><i class="icon-download-alt"></i></a>
+    </div>
+    </script>
+
+    <% include messageSelector.html %>
+
+  </body>
+</html>
