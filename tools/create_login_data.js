@@ -12,9 +12,12 @@ var sync    = require('async')
   , path    = require("path")
   , confapp = require("config").app
   , csv     = require('csv')
-  , auth    = lib.core.auth
-  , group   = lib.mod.group
-  , user    = lib.mod.user;
+  , smart = require("smartcore")
+  , auth    = smart.framework.auth
+  , group   = smart.ctrl.group
+  , user    = smart.ctrl.user
+  , context = smart.framework.context
+  , constant  = smart.framework.constant;
 
 var operationDate = new Date();
 

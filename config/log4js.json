@@ -1,6 +1,9 @@
 {
   "appenders": [
     {
+      "type": "console"
+    },
+    {
         "category": "operation"
       , "type": "file"
       , "filename": "logs/operation.log"

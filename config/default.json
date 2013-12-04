@@ -1,13 +1,13 @@
 {  
   "db": {
-       "host": "127.0.0.1"
+       "host": "mongo"
     , "port": 27017
     , "dbname": "cross"
     , "pool": 5
   },
 
   "testdb": {
-      "host": "127.0.0.1"
+      "host": "mongo"
     , "port": 27017
     , "dbname": "cross"
     , "pool": 5
@@ -34,7 +34,7 @@
     , "sessionKey": "smartcore.sid"
     , "sessionTimeout": 720 // 24 * 30 一个月
     , "tmp": "/tmp"
-    , "hmackey": "smart"
+    , "hmackey": "smartcore"
     , "i18n": {
       "cache": "memory"
       , "lang": "zh"
@@ -92,11 +92,20 @@
     , "queue": "smartPhoto"
   },
   "mq_apn": {
-      "host": "127.0.0.1"
+      "host": "mq"
     , "port": 5672
     , "user": "guest"
     , "password": "guest"
     , "queue": "smartApn"
+  },
+  "log": {
+    "fluent": {
+      "enable": "false"
+      , "tag": "node"
+      , "host": "10.2.8.228"
+      , "port": 24224
+      , "timeout": 3.0
+    }
   }
 
 }

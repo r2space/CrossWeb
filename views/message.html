@@ -221,10 +221,10 @@
         <button class="btn" data-dismiss="modal" aria-hidden="true"><%= i('message.list.button.yes') %></button>
       </div>
     </div>
-    
+
 
     <footer>
-      <p>Copyright © 2012, Cross Corporation. All Rights Reserved.</p>
+      <p style="text-align: center;">Copyright © 2013, DA Corporation. All Rights Reserved.</p>
     </footer>
 
     <div class="modal" id="document-selector" role="dialog"aria-hidden="true" style="display:none;">
@@ -321,6 +321,7 @@
               <a href="javascript://" class="hide"><%= i('message.list.button.mark') %></a>
               <a href="javascript://" id="fetchreply_{{mid}}" class="toggle-replies">
                 <%= i('message.list.button.reply') %>({{ replyNums }})</a>
+            </span>
           </p>
           <div id="replyBox_{{ mid }}" class="hidden" style="border-width: 1px;border-style:solid;padding: 10px 20px 10px;border-radius: 3px;border-color: #d9d9d9;">
             <div style="margin: -18px 0 0 435px;">
@@ -328,7 +329,7 @@
               <span style="margin: -11px 0 0;width: 22px;font-family: 'SimSun';overflow: hidden;font-size: 12px;line-height: 1.231;display: block;height: 12px;color: #fafafa;font-style: normal;font-weight: normal;">◆</span>
             </div>
             <p style="margin-bottom: -7px;">
-              <textarea id="reply_{{ mid }}" style="width:424px" rows="1" placeholder="<%= i('message.list.button.reply') %>" range={{ range}}></textarea>
+              <textarea id="reply_{{ mid }}" style="width:424px" rows="1" placeholder="<%= i('message.list.button.reply') %>" range={{range}}></textarea>
             </p>
             <p style="margin-bottom: 5px;text-align: right;">
               <a id="replyButton_{{ mid }}" class="btn btn-mini btn-warning"><%= i('message.list.button.reply') %></a>
