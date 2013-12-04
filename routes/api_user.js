@@ -18,9 +18,10 @@ exports.guiding = function(app){
 
   // 注销
   app.get("/simplelogout", function(req, res){
-    user.logout(req, res);
+    newUser.simpleLogout(req, res);
+    //user.logout(req, res);
   });
-
+/*
   // 注册
   app.post("/register", function(req, res){
     user.register(req, res);
@@ -30,21 +31,21 @@ exports.guiding = function(app){
   app.post("/register/confirm", function(req, res){
     user.registerConfirm(req, res);
   });
-
+*/
   //获取用户基础信息
   app.get('/user/get.json', function(req, res){
-    user.getUser(req, res);
+    newUser.getUser(req, res);
   });
-
+/*
   //更新用户
   app.put('/user/update.json', function(req, res){
     user.updateUser(req, res);
   });
-
+*/
   //得到所有用户列表
   app.get("/user/list.json", function(req, res){
     console.log(__dirname);
-    user.getUserList(req, res);
+    newUser.getUserList(req, res);
   });
 
   //关注某用户

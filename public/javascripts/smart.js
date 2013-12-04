@@ -3,12 +3,12 @@
 var smart = {
   
   // The global setting
-  /*init: function() {
+  init: function() {
     _.templateSettings = {
       interpolate : /\{\{(.+?)\}\}/gim,
       evaluate: /\<\$(.+?)\$\>/gim
     };
-  }(),*/
+  }(),
   datailImageLoader:function (){
       var imgs = $("[data-img]");
       var urlArray = [];

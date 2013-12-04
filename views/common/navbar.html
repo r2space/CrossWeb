@@ -15,7 +15,7 @@
       <div id="_userbox">
         <div>
           <a href="/user" id="_userpic"><img src="<%= user.photo ? '/picture/' + user.photo.big : '/images/user.png' %>"></a>
-          <a href="/user" id="_username"><%= user.name.name_zh %></a> 
+          <a href="/user" id="_username"><%= user.userName %></a>
         </div>
         <ul>
           <li><a href="/usereditor" id="_user"><i class="icon-wrench"></i></a></li>
@@ -31,12 +31,12 @@
               <i class="icon-home icon-large"></i>
             </a>
           </li>
-          <li>
+          <!--li>
             <a id="shortmail" href="/shortmail" style="font-size: 16px;">
               <i class="icon-envelope icon-large"></i>
             </a>
             <span id="_shortmail" class="label label-important"></span>
-          </li>
+          </li-->
           <li>
             <a id="notice" href="/notice" style="font-size: 16px;">
               <i class="icon-bell icon-large"></i>
@@ -55,7 +55,7 @@
           </li>
           <li><a id="group" href="/group"><%= i('navbar.menu.group')%></a></li>
           <li><a id="user" href="/user"><%= i('navbar.menu.user')%></a></li>
-          <li><a id="files" href="/files"><%= i('navbar.menu.file')%></a></li>
+          <!--li><a id="files" href="/files"><%= i('navbar.menu.file')%></a></li-->
           <li class="hidden">
             <a id="apps" href="#"><%= i('navbar.menu.apps')%></a>
             <ul id="subapps">
