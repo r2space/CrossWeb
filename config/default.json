@@ -34,7 +34,7 @@
     , "sessionKey": "smartcore.sid"
     , "sessionTimeout": 720 // 24 * 30 一个月
     , "tmp": "/tmp"
-    , "hmackey": "smart"
+    , "hmackey": "smartcore"
     , "i18n": {
       "cache": "memory"
       , "lang": "zh"
@@ -97,6 +97,15 @@
     , "user": "guest"
     , "password": "guest"
     , "queue": "smartApn"
+  },
+  "log": {
+    "fluent": {
+      "enable": "false"
+      , "tag": "node"
+      , "host": "10.2.8.228"
+      , "port": 24224
+      , "timeout": 3.0
+    }
   }
 
 }

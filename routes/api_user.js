@@ -1,5 +1,6 @@
 
-var log = lib.core.log
+var log = smart.framework.log
+  , newUser = require("../api/user")
   , user = lib.api.user;
 
 /**
@@ -11,7 +12,8 @@ exports.guiding = function(app){
 
   // 登陆（/login与登陆画面的URL重叠，所以API使用/simplelogin）
   app.get('/simplelogin', function(req, res){
-    user.login(req, res);
+    newUser.simpleLogin(req,res);
+    //user.login(req, res);
   });
 
   // 注销
