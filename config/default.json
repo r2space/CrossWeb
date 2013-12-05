@@ -1,6 +1,6 @@
 {  
   "db": {
-       "host": "mongo"
+       "host": "10.2.3.51"
     , "port": 27017
     , "dbname": "cross"
     , "pool": 5

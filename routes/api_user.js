@@ -36,12 +36,12 @@ exports.guiding = function(app){
   app.get('/user/get.json', function(req, res){
     newUser.getUser(req, res);
   });
-/*
+
   //更新用户
   app.put('/user/update.json', function(req, res){
-    user.updateUser(req, res);
+    newUser.updateUser(req, res);
   });
-*/
+
   //得到所有用户列表
   app.get("/user/list.json", function(req, res){
     console.log(__dirname);
@@ -50,12 +50,12 @@ exports.guiding = function(app){
 
   //关注某用户
   app.put("/user/follow.json", function(req, res){
-    user.follow(req, res);
+    newUser.follow(req, res);
   });
 
   //取消关注某用户
   app.put("/user/unfollow.json", function(req, res){
-    user.unfollow(req, res);
+    newUser.unfollow(req, res);
   });
 
 };
