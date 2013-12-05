@@ -5,7 +5,6 @@ body {
 }
 header {
   /*text-align: center;*/
-
   margin-top: 15px;
   margin-left: 320px;
   height: 46px;
@@ -21,7 +20,6 @@ header input {
 }
 header #line {
   /*margin: 0 auto;*/
-
   width: 667px;
   height: 0px;
   border-top: 1px solid #c0c0c0;
@@ -88,13 +86,10 @@ header #line {
       position: relative;
       top: -40px;
     }*/
-
 }
 #panel li div {
   /*padding-left: 50px;*/
-
   /*white-space: pre-wrap;*/
-
   position: relative;
   top: -42px;
   left: 50px;
@@ -106,20 +101,15 @@ header #line {
 }
 #main {
   /*width: 1020px;*/
-
   /*margin: 0 auto;*/
-
   /*background: #dbdbdb;*/
-
 }
 #main section {
   width: 796px;
   height: 2266px;
   /*margin: 0 auto;*/
-
   margin-left: 270px;
   /*float: right;*/
-
   background-image: url("/images/user.png");
   background-repeat: no-repeat;
   background-position: right top;
@@ -128,12 +118,9 @@ header #line {
 }
 #main section #board {
   /*margin: 0 auto;*/
-
   padding: 10px;
   /*width: 595px;*/
-
   /*height: 842px;*/
-
   width: 776px;
   height: 2246px;
   box-shadow: 0px 0px 2px #666;
@@ -213,11 +200,9 @@ header #line {
   margin: 8px 0px 0px 10px;
 */
   /*border-radius: 12px 12px 12px 12px;*/
-
   height: 40px;
   width: 200px;
   /*  padding-left: 22px;*/
-
   outline: none;
   border-width: 0px;
   background: #FFF;
@@ -321,7 +306,6 @@ header #line {
   /*
     top: 250px;
     left: 400px;*/
-
   display: none;
 }
 #accordion input,
@@ -354,7 +338,6 @@ header #line {
   border-top: 1px #E3E3E3 solid;
   border-right: 1px #E3E3E3 solid;
   /*text-align: center;*/
-
 }
 #color,
 #bgcolor {
@@ -385,36 +368,28 @@ button {
 /****************************/
 .newgrid {
   /*width: 300px;*/
-
   /*position: absolute;*/
-
   top: 150px;
   left: 300px;
   background-color: #666;
   /*padding: 10px;*/
-
 }
 .newgrid table {
   /*border-spacing: 0px;*/
-
   table-layout: fixed;
   width: 100%;
   border-collapse: collapse;
   border: 1px silver solid;
   /*margin-left: 20px;*/
-
 }
 .newgrid table th {
   padding-right: 5px;
   /*border: 1px #E3E3E3 solid;*/
-
   /*border-width: 0 1px 0 0;*/
-
   text-align: center;
   font-weight: normal;
   background-color: yellow;
   /*width: 150px;*/
-
 }
 /*.newgrid table th:nth-child(1) {
   background-color: blue;
@@ -422,17 +397,13 @@ button {
 }*/
 .newgrid table td {
   /*padding: 0px;*/
-
   /*border: 1px #E3E3E3 solid;*/
-
   /*text-align: right;*/
-
   background-color: #fff;
 }
 .newgrid table span {
   outline: none;
   /*background-color: #999;*/
-
   margin: 2px;
   display: block;
   width: 100%;
