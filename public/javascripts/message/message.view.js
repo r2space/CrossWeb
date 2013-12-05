@@ -157,11 +157,14 @@
           , tmpl = $("#message-scope-template").html();
 
         _.each(result.items, function(g) {
-          scope.append(_.template(tmpl, {"name": g.name.name_zh, "id": g._id}));
+          // sl_yang
+          if (g.name && g.name.name_zh) {
+            scope.append(_.template(tmpl, {"name": g.name.name_zh, "id": g._id}));
+          }
         });
 
         // 选择发布消息的范围
-        $("#scope a").on("click", function() {
+        $("#scope a").on("click", function(event) {
           var uid =$(event.target).attr("uid");
           if(uid != "1"){
             $("#_findresult").hide();
@@ -190,7 +193,7 @@
       });
 
       // 显示设定消息的下拉框
-      $("#scopesetter").bind("click", function() {
+      $("#scopesetter").bind("click", function(event) {
         var anchor = $(event.target)
           , scope = $("#scope");
 
@@ -386,10 +389,13 @@
           });
         }
 
+        //sl_yang
+        var name = uinfo.name && uinfo.name.name_zh ? uinfo.name.name_zh : "";
+
         container.append(_.template(tmpl, {
             "mid": msg.get("_id")
           , "uid": uinfo.id
-          , "uname": uinfo.name.name_zh
+          , "uname": name
           , "time": smart.date(msg.get("createat"))
           , "uphoto": photo
           , "replyNums": msg.get("part").replyNums
