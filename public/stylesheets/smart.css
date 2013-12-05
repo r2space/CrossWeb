@@ -1,5 +1,4 @@
 @import "/vendor/bootstrap/css/bootstrap.css";
-
 @import "/vendor/fontawesome/css/font-awesome.css";
 /* 依赖Bootstrap的CSS */
 /* 全局变量 */
@@ -54,11 +53,8 @@ footer p {
   -webkit-box-shadow: inset 0 0 0 rgba(0, 0, 0, 0.1), 0 1px 3px;
   background-image: -webkit-linear-gradient(top, #ffffff, #f2f2f2);
   /*-webkit-box-shadow: inset 0 -1px 0 rgba(0, 0, 0, 0.1), 0 1px 5px;*/
-
   /*-moz-box-shadow: 0 1px 2px rgba(0,0,0,0.2);*/
-
   /* 一级菜单默认式样 */
-
 }
 #_navbar ul {
   display: table;
@@ -92,9 +88,7 @@ footer p {
 }
 #_navbar ul[rel="sam"] li {
   /* 菜单被选中时的样式 */
-
   /* 鼠标盘旋在菜单时的样式 */
-
 }
 #_navbar ul[rel="sam"] li.active a {
   border-left: 1px solid rgba(255, 255, 255, 0.1);
@@ -115,7 +109,6 @@ footer p {
 #_navbar ul[rel="sam"] li a {
   background: none repeat scroll 0% 0% #f0f0f0;
   /*background-image: -webkit-linear-gradient(top, #F0F0F0, #F2F2F2);*/
-
   background-image: -webkit-linear-gradient(top, #ffffff, #f2f2f2);
 }
 #_navbar ul[rel="sam"] li a:hover {
@@ -134,7 +127,6 @@ footer p {
   float: left;
   margin: 6px 0px 0px 10px;
   /*border-radius: 12px 12px 12px 12px;*/
-
   height: 18px;
   width: 250px;
   padding-left: 22px;
@@ -167,6 +159,23 @@ footer p {
   border-bottom: 1px solid rgba(0, 0, 0, 0.1);
   padding-left: 7px;
 }
+/* sl_yang start */
+.navcontainer {
+  width: 100%;
+  height: 46px;
+  line-height: 46px;
+  background-color: #e3e3e3;
+  text-align: center;
+}
+.navcontainer ul {
+  display: inline;
+  list-style: none;
+  text-align: center;
+}
+.navcontainer ul li {
+  display: inline;
+}
+/* sl_yang end */
 /* 通知件数小方块 */
 #_shortmail {
   position: absolute;
@@ -222,7 +231,6 @@ footer p {
       position: relative;
       top: -33px;
     }*/
-
 }
 .bucketed ul.search li.header {
   min-height: 10px;
@@ -258,7 +266,6 @@ footer p {
   background-color: #b561de;
   color: #fff;
   /*border-color: #3b5998;*/
-
 }
 .bucketed ul.search .bottom {
   min-height: 20px;
@@ -356,14 +363,12 @@ footer p {
 }
 #_userbox ul {
   /*background: #F1F1F1;*/
-
   background-image: -webkit-linear-gradient(top, #ffffff, #f2f2f2);
   float: left;
   margin: 4px 0 0 20px;
   padding: 0;
   border: 1px solid #DDD;
   /*border-radius: 3px;*/
-
   box-shadow: 0 1px 0 #FAFAFA, inset 0 1px 0 #FAFAFA;
   list-style: none;
 }
@@ -383,14 +388,12 @@ section {
   margin: 0 auto;
   margin-top: 20px;
   /*margin-left: 80px;*/
-
   width: 1000px;
 }
 /* -------------------SideMenu----------------------- */
 #sidemenu {
   width: 170px;
-  border: 1px solid rgba(0, 0, 0, 0.1);
-  float: left;
+  border: 1px solid #e3e3e3;
   -webkit-border-radius: 4px;
 }
 #sidemenu ul {
@@ -416,10 +419,8 @@ section {
   text-decoration: none;
   color: #363636;
   /*font-weight: bold;*/
-
   background: url(/images/folder-icon.png) no-repeat 12px center;
   /* 过长的字符用...截取 */
-
   overflow: hidden;
   text-overflow: ellipsis;
   white-space: nowrap;
@@ -444,13 +445,11 @@ section {
   padding-top: 10px;
   padding-bottom: 5px;
   /*padding-left: 10px;*/
-
   text-align: center;
   /*  border: 1px solid rgba(0, 0, 0, 0.1);
   width: 150px;
   height: 100px;
   -webkit-border-radius: 4px;*/
-
 }
 .pic {
   width: 40px;
@@ -529,7 +528,6 @@ section {
 #_popover .content li {
   line-height: 20px;
   /*min-height: 20px;*/
-
 }
 #_popover .content li a {
   display: block;

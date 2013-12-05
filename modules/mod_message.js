@@ -180,18 +180,31 @@ exports.list = function(option_, start_, limit_, timeline_, callback_) {
   if (!timeline_) {
     timeline_ = new Date();
   }
-
-  message.count()
-  .where("type").equals(1)
-  .or(condition)
-  .exec(function(err, count){
-    message.find(beforeCondition).setOptions(options)
-    .where("type").equals(1)
-    .or(condition)
-    .exec(function(err, messages){
-      callback_(err, {total:count, items:messages});
-    });
-  });
+  // sl_yang conditionが[]時、MongoDBError
+  if (condition.length > 0) {
+    message.count()
+      .where("type").equals(1)
+      .or(condition)
+      .exec(function(err, count){
+        message.find(beforeCondition).setOptions(options)
+          .where("type").equals(1)
+          .or(condition)
+          .exec(function(err, messages){
+            callback_(err, {total:count, items:messages});
+          });
+      });
+  } else {
+    message.count()
+      .where("type").equals(1)
+      .or(condition)
+      .exec(function(err, count){
+        message.find(beforeCondition).setOptions(options)
+          .where("type").equals(1)
+          .exec(function(err, messages){
+            callback_(err, {total:count, items:messages});
+          });
+      });
+  }
 };
 
 /**

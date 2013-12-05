@@ -51,11 +51,13 @@
           url: "/message/list/unread.json?timeline="+msg_timeline,
           type: "GET",
           success: function(result) {
-
-            if(result.data.items.total > 0){
-              var text = "<%= i('message.html.label.alertmsg') %>";
-              $("#alert-msg").html(text.replace(/x/,result.data.items.total));
-              $("#alert-msg").css("display","block");
+            // sl_yang result.dataがない時、エラーが発生した。
+            if (result.data) {
+                if(result.data.items.total > 0){
+                    var text = "<%= i('message.html.label.alertmsg') %>";
+                    $("#alert-msg").html(text.replace(/x/,result.data.items.total));
+                    $("#alert-msg").css("display","block");
+                }
             }
           }
         });
@@ -81,125 +83,124 @@
 
     <% include common/navbar.html %>
 
-    <section>
-      <article id="left">
-        <% include common/sidemenu.html %>
-      </article>
-
-      <div id="container-main" class="container-fluid">
+    <div class="container">
         <div class="row-fluid">
+          <div class="pull-left offset1" id="left">
+            <% include common/sidemenu.html %>
+          </div>
+          <div class="pull-left" style="padding-left: 20px;">
+            <div class="row-fluid">
 
-          <!--/span-->
-          <div class="span6" style="width:550px; margin-left: 20px;">
+              <!--/span-->
+              <div class="span6" style="width:550px; margin-left: 20px;">
 
-            <div id="messagearea">
+                <div id="messagearea">
 
-              <!-- 消息的分类 -->
-              <ul id="msgtype" class="messageType">
-                <li><a title="<%= i('message.list.type.text') %>" id="textBox"><i class="icon-pencil icon-2x"></i></a></li>
-                <li><a title="<%= i('message.list.type.image') %>" id="imageBox"><i class="icon-picture icon-2x"></i></a></li>
-                <!--li><a title="<%= i('message.list.type.file') %>" id="fileBox"><i class="icon-file icon-2x"></i></a></li>
-                <li><a title="<%= i('message.list.type.video') %>" id="videoBox"><i class="icon-film icon-2x"></i></a></li>
-                <li><a title="<%= i('message.list.type.document') %>" id="documentBox"><i class="icon-folder-open-alt icon-2x"></i></a></li-->
-                <input type="file" id="uploadfile" style="display: none" multiple="multiple" accept="image/*" />
-              </ul>
+                  <!-- 消息的分类 -->
+                  <ul id="msgtype" class="messageType">
+                    <li><a title="<%= i('message.list.type.text') %>" id="textBox" style="font-size:1.5em;"><i class="icon-font"></i></a></li>
+                    <li><a title="<%= i('message.list.type.image') %>" id="imageBox" style="font-size:1.5em;"><i class="icon-file"></i></a></li>
+                    <!--li><a title="<%= i('message.list.type.file') %>" id="fileBox"><i class="icon-file icon-2x"></i></a></li>
+                    <li><a title="<%= i('message.list.type.video') %>" id="videoBox"><i class="icon-film icon-2x"></i></a></li>
+                    <li><a title="<%= i('message.list.type.document') %>" id="documentBox"><i class="icon-folder-open-alt icon-2x"></i></a></li-->
+                    <input type="file" id="uploadfile" style="display: none" multiple="multiple" accept="image/*" />
+                  </ul>
 
-              <!-- 消息输入框 -->
-              <div class="textBox">
-                <textarea id="textBoxMsg" class="comment" rows="3" placeholder="<%= i('message.list.placeholder.text') %>"></textarea>
-                <div id="textBoxNotice" class="users">
-                  <input id="keywordsText" scope="1" placeholder="<%= i('message.list.placeholder.notice') %>" />
+                  <!-- 消息输入框 -->
+                  <div class="textBox">
+                    <textarea id="textBoxMsg" class="comment" rows="3" placeholder="<%= i('message.list.placeholder.text') %>"></textarea>
+                    <div id="textBoxNotice" class="users">
+                      <input id="keywordsText" scope="1" placeholder="<%= i('message.list.placeholder.notice') %>" />
+                    </div>
+                  </div>
+
+                  <!-- 图片选择 -->
+                  <div class="imageBox">
+                    <div id="imageBoxerContainer"></div>
+                    <div id="imageBoxSelector" class="image selector">
+                      <span><%= i('message.list.selector.image') %></span>
+                    </div>
+                    <!--<textarea id="imageBoxMsg" class="comment" rows="3" placeholder="<%= i('message.list.placeholder.text') %>"></textarea>-->
+                    <div id="imageBoxNotice" class="users">
+                      <input id="keywordsImage" scope="1" placeholder="<%= i('message.list.placeholder.notice') %>" />
+                    </div>
+                  </div>
+
+                  <!-- 文件选择 -->
+                  <div class="fileBox">
+                    <div id="fileBoxerContainer"></div>
+                    <div id="fileBoxSelector" class="file selector">
+                      <span><%= i('message.list.selector.file') %></span>
+                    </div>
+                    <textarea id="fileBoxMsg" class="comment" rows="3" placeholder="<%= i('message.list.placeholder.text') %>"></textarea>
+                    <div id="fileBoxNotice" class="users">
+                      <input id="keywordsFile" scope="1" placeholder="<%= i('message.list.placeholder.notice') %>" />
+                    </div>
+                  </div>
+
+                  <!-- 视频 -->
+                  <div class="videoBox">
+                    <div id="videoBoxSelector" class="document selector">
+                      <span><%= i('message.list.selector.video') %></span>
+                    </div>
+                    <!--
+                    <div class="video">
+                      <video id="a" width="400" controls>
+                        <source src="/video/Z1262980545.mp4" />
+                      </video>
+                    </div>
+                    -->
+                    <textarea id="videoBoxMsg" class="comment" rows="3" placeholder="<%= i('message.list.placeholder.text') %>"></textarea>
+                    <div id="videoBoxNotice" class="users">
+                      <input id="keywordsVideo" scope="1" placeholder="<%= i('message.list.placeholder.notice') %>" />
+                    </div>
+                  </div>
+
+                  <!-- 已经上传的文件选择 -->
+                  <div class="documentBox">
+                    <div id="documentBoxerContainer"></div>
+                    <div id="documentBoxSelector" class="document selector" href="#document-selector" data-toggle="modal">
+                      <span><%= i('message.list.selector.document') %></span>
+                    </div>
+                    <textarea id="documentBoxMsg" class="comment" rows="3" placeholder="<%= i('message.list.placeholder.text') %>"></textarea>
+                    <div id="documentBoxNotice" class="users">
+                      <input id="keywordsDocument" scope="1" placeholder="<%= i('message.list.placeholder.notice') %>" />
+                    </div>
+                  </div>
+
+
+                  <!-- 消息选项 -->
+                  <div class="publish">
+                    <span id="selectedscope" uid="1"><%= i('message.list.selector.scope') %></span>
+                    <a id="scopesetter"><i class="icon-caret-down" style="padding: 5px;"></i></a>
+                    <ul id="scope" class="scope">
+                      <li><a href="#" uid="1"><%= i('message.list.selector.scope') %></a></li>
+                      <li class="divider"></li>
+                    </ul>
+                    <a id="publish" class="btn btn-small btn-primary"><%= i('message.list.button.send') %></a>
+                    <a id="cancel" class="btn btn-small hidden"><%= i('message.list.button.cancel') %></a>
+                  </div>
+
                 </div>
+
+                <br>
+
+                <div id="alert-msg" class="alert alert-success">
+                    你有x条新消息
+                </div>
+
+                <hr />
+                <!-- 消息一览 -->
+                <div id="messages-container"></div>
+
+                <div id="messagelist-home" class="pagination pagination-centered">
+                </div>
+
               </div>
-
-              <!-- 图片选择 -->
-              <div class="imageBox">
-                <div id="imageBoxerContainer"></div>
-                <div id="imageBoxSelector" class="image selector">
-                  <span><%= i('message.list.selector.image') %></span>
-                </div>
-                <textarea id="imageBoxMsg" class="comment" rows="3" placeholder="<%= i('message.list.placeholder.text') %>"></textarea>
-                <div id="imageBoxNotice" class="users">
-                  <input id="keywordsImage" scope="1" placeholder="<%= i('message.list.placeholder.notice') %>" />
-                </div>
-              </div>
-
-              <!-- 文件选择 -->
-              <div class="fileBox">
-                <div id="fileBoxerContainer"></div>
-                <div id="fileBoxSelector" class="file selector">
-                  <span><%= i('message.list.selector.file') %></span>
-                </div>
-                <textarea id="fileBoxMsg" class="comment" rows="3" placeholder="<%= i('message.list.placeholder.text') %>"></textarea>
-                <div id="fileBoxNotice" class="users">
-                  <input id="keywordsFile" scope="1" placeholder="<%= i('message.list.placeholder.notice') %>" />
-                </div>
-              </div>
-
-              <!-- 视频 -->
-              <div class="videoBox">
-                <div id="videoBoxSelector" class="document selector">
-                  <span><%= i('message.list.selector.video') %></span>
-                </div>
-                <!--
-                <div class="video">
-                  <video id="a" width="400" controls>
-                    <source src="/video/Z1262980545.mp4" />
-                  </video>
-                </div>
-                -->
-                <textarea id="videoBoxMsg" class="comment" rows="3" placeholder="<%= i('message.list.placeholder.text') %>"></textarea>
-                <div id="videoBoxNotice" class="users">
-                  <input id="keywordsVideo" scope="1" placeholder="<%= i('message.list.placeholder.notice') %>" />
-                </div>
-              </div>
-
-              <!-- 已经上传的文件选择 -->
-              <div class="documentBox">
-                <div id="documentBoxerContainer"></div>
-                <div id="documentBoxSelector" class="document selector" href="#document-selector" data-toggle="modal">
-                  <span><%= i('message.list.selector.document') %></span>
-                </div>
-                <textarea id="documentBoxMsg" class="comment" rows="3" placeholder="<%= i('message.list.placeholder.text') %>"></textarea>
-                <div id="documentBoxNotice" class="users">
-                  <input id="keywordsDocument" scope="1" placeholder="<%= i('message.list.placeholder.notice') %>" />
-                </div>
-              </div>
-
-
-              <!-- 消息选项 -->
-              <div class="publish">
-                <span id="selectedscope" uid="1"><%= i('message.list.selector.scope') %></span>
-                <a id="scopesetter"><i class="icon-caret-down" style="padding: 5px;"></i></a>
-                <ul id="scope" class="scope">
-                  <li><a href="#" uid="1"><%= i('message.list.selector.scope') %></a></li>
-                  <li class="divider"></li>
-                </ul>
-                <a id="publish" class="btn btn-small btn-primary"><%= i('message.list.button.send') %></a>
-                <a id="cancel" class="btn btn-small hidden"><%= i('message.list.button.cancel') %></a>
-              </div>
-
             </div>
-
-            <br>
-
-            <div id="alert-msg" class="alert alert-success">
-                你有x条新消息
-            </div>
-
-            <hr />
-            <!-- 消息一览 -->
-            <div id="messages-container"></div>
-
-            <div id="messagelist-home" class="pagination pagination-centered">
-            </div>
-
           </div>
         </div>
-      </div>
-
-    </section>
-
+    </div>
 
     <!-- 用户选择 -->
     <div class="modal" id="select_user_dlg" role="dialog" aria-hidden="true" style="display:none;">
@@ -222,10 +223,9 @@
       </div>
     </div>
 
-
-    <footer>
+    <div class=".footer">
       <p style="text-align: center;">Copyright © 2013, DA Corporation. All Rights Reserved.</p>
-    </footer>
+    </div>
 
     <div class="modal" id="document-selector" role="dialog"aria-hidden="true" style="display:none;">
       <div class="modal-header">
@@ -261,9 +261,11 @@
         <img id="{{id}}" src="">
       </div>
     </script>
+
     <script type="text/template" id="message-file-template">
       <div class="file"><img src="{{src}}" title="{{title}}" onerror="this.src='/images/filetype/default.png';this.onerror = null;"></div>
     </script>
+
     <script type="text/template" id="message-document-template">
       <div class="document"><img src="{{src}}" title="{{title}}" onerror="this.src='/images/filetype/default.png';this.onerror = null;"></div>
     </script>
@@ -271,7 +273,6 @@
     <script type="text/template" id="message-scope-template">
       <li><a uid="{{id}}">{{name}}</a></li>
     </script>
-
 
     <script type="text/template" id="message-documentlist-template">
       <tr fid="{{fid}}">

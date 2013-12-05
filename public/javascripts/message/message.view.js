@@ -74,12 +74,12 @@
       var self = this;
 
       // 切换消息类型
-      $("#msgtype a").bind("click", function(){
+      $("#msgtype a").bind("click", function(event){
         $(".textBox").hide();
         $(".imageBox").hide();
-        $(".fileBox").hide();
-        $(".videoBox").hide();
-        $(".documentBox").hide();
+//        $(".fileBox").hide();
+//        $(".videoBox").hide();
+//        $(".documentBox").hide();
 
         var id = $(event.target).parent().attr("id");
         $("." + id).show();
@@ -94,54 +94,54 @@
         src.trigger('click');
       });
 
-      // 选择文件
-      $("#fileBoxSelector").bind("click", function(){
-        var src = $("#uploadfile");
-        src.attr("accept", "");
-        src.attr("multiple", "multiple");
-        src.trigger('click');
-      });
+//      // 选择文件
+//      $("#fileBoxSelector").bind("click", function(){
+//        var src = $("#uploadfile");
+//        src.attr("accept", "");
+//        src.attr("multiple", "multiple");
+//        src.trigger('click');
+//      });
+//
+//      // 选择视频
+//      $("#videoBoxSelector").bind("click", function(){
+//        var src = $("#uploadfile");
+//        src.attr("accept", "audio/*,video/*");
+//        src.removeAttr("multiple");
+//        src.trigger('click');
+//      });
 
-      // 选择视频
-      $("#videoBoxSelector").bind("click", function(){
-        var src = $("#uploadfile");
-        src.attr("accept", "audio/*,video/*");
-        src.removeAttr("multiple");
-        src.trigger('click');
-      });
-
-      // 选择文书
-      $("#documentBoxSelector").bind("click", function(){
-        var url="/file/list.json?type=all";
-        smart.doget(url, function(err,result){
-          var tmpl = $("#message-documentlist-template").html()
-          , container = $("#message-documentlist");
-
-          container.html("");
-          _.each(result.items, function(file) {
-            container.append(_.template(tmpl, {
-                fid: file._id
-              // , downloadId: file.downloadId
-              , extension: file.extension
-              , filename: file.filename
-              , at: file.uploadDate
-            }));
-          });
-
-          $("#message-documentlist tr").bind("click", function(){
-            if(event.target.type == "checkbox")
-              return;
-            var fid = $(event.target).parents("tr").attr("fid");
-            $("#doc_" + fid).trigger('click');
-          });
-        });
-      });
-
-      // 文书选择完了
-      $("#setDocument").bind("click", function(){
-        self.setDocument();
-        $("#document-selector").modal('hide');
-      });
+//      // 选择文书
+//      $("#documentBoxSelector").bind("click", function(){
+//        var url="/file/list.json?type=all";
+//        smart.doget(url, function(err,result){
+//          var tmpl = $("#message-documentlist-template").html()
+//          , container = $("#message-documentlist");
+//
+//          container.html("");
+//          _.each(result.items, function(file) {
+//            container.append(_.template(tmpl, {
+//                fid: file._id
+//              // , downloadId: file.downloadId
+//              , extension: file.extension
+//              , filename: file.filename
+//              , at: file.uploadDate
+//            }));
+//          });
+//
+//          $("#message-documentlist tr").bind("click", function(){
+//            if(event.target.type == "checkbox")
+//              return;
+//            var fid = $(event.target).parents("tr").attr("fid");
+//            $("#doc_" + fid).trigger('click');
+//          });
+//        });
+//      });
+//
+//      // 文书选择完了
+//      $("#setDocument").bind("click", function(){
+//        self.setDocument();
+//        $("#document-selector").modal('hide');
+//      });
 
     },
 

@@ -3,7 +3,6 @@ ul.messageType {
   display: table;
   margin: 0 0 0px 0;
   /*-webkit-box-shadow: inset 0 0 0 rgba(0, 0, 0, 0.1), 0 1px 2px;*/
-
 }
 ul.messageType li {
   -webkit-border-radius: 6px;
@@ -13,9 +12,7 @@ ul.messageType li {
   white-space: nowrap;
   width: 80px;
   /*height: 30px;*/
-
   /*background-color: #eee;*/
-
 }
 ul.messageType li a {
   cursor: pointer;
@@ -35,11 +32,9 @@ ul.messageType li i:hover {
   border-left: 1px solid #CCC;
   border-right: 1px solid #CCC;
 */
-
   border-top: 1px solid #EEE;
   padding: 0;
   /*margin-bottom: 5px;*/
-
 }
 .users ol {
   display: inline;
@@ -89,15 +84,36 @@ ul.messageType li i:hover {
 /* 消息框 */
 div.textBox {
   /*-webkit-box-shadow: inset 0 0 0 rgba(0, 0, 0, 0.1), 0 1px 2px;*/
-
-  border: 1px solid #000;
+  border: 1px solid #e3e3e3;
+  margin-top: 15px;
   /*display: none;*/
-
+}
+textarea:focus,
+input[type="text"]:focus,
+input[type="password"]:focus,
+input[type="datetime"]:focus,
+input[type="datetime-local"]:focus,
+input[type="date"]:focus,
+input[type="month"]:focus,
+input[type="time"]:focus,
+input[type="week"]:focus,
+input[type="number"]:focus,
+input[type="email"]:focus,
+input[type="url"]:focus,
+input[type="search"]:focus,
+input[type="tel"]:focus,
+input[type="color"]:focus,
+.uneditable-input:focus {
+  border-color: #ffffff;
+  -webkit-box-shadow: inset 0px 0px 0px #ffffff, 0 0 0px #ffffff;
+  -moz-box-shadow: inset 0 0px 0px #ffffff, 0 0 0px #ffffff;
+  box-shadow: inset 0 0px 0px #ffffff, 0 0 0px #ffffff;
+  outline: 0px;
 }
 div.imageBox {
   /*-webkit-box-shadow: inset 0 0 0 rgba(0, 0, 0, 0.1), 0 1px 2px;*/
-
-  border: 1px solid #000;
+  border: 1px solid #e3e3e3;
+  margin-top: 15px;
   /*display: inline-block*/
   display: none;
 }
@@ -135,7 +151,6 @@ div.imageBox .first {
 }
 div.fileBox {
   /*-webkit-box-shadow: inset 0 0 0 rgba(0, 0, 0, 0.1), 0 1px 2px;*/
-
   border: 1px solid #000;
   display: none;
 }
@@ -191,7 +206,7 @@ div.documentBox .selector {
   margin-bottom: 6px;
 }
 textarea.comment {
-  width: 536px;
+  width: 534px;
   resize: none;
   -webkit-border-radius: 0px;
   border: 0;
@@ -210,7 +225,6 @@ div.publish {
   width: 100%;
   text-align: right;
   /* 公开范围 */
-
 }
 div.publish .scope {
   position: absolute;
@@ -292,13 +306,9 @@ div.publish .scope .divider {
 }
 .message {
   /* 消息头像 */
-
   /* 消息正文 */
-
   /* 消息评论 */
-
   /* 消息之间的分割线 */
-
 }
 .message .message-face {
   float: left;
@@ -314,11 +324,8 @@ div.publish .scope .divider {
   padding: 15px 15px 0px;
   border: 1px solid #E5E5E5;
   /* 评论箭头 */
-
   /* 新建评论 */
-
   /* pager */
-
 }
 .message .reply-area .reply-angle {
   position: relative;
@@ -357,9 +364,7 @@ div.publish .scope .divider {
 .message .reply-area .reply {
   margin-bottom: 0px;
   /* 评论头像 */
-
   /* 评论正文 */
-
 }
 .message .reply-area .reply .reply-face {
   float: left;
