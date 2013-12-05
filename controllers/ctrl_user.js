@@ -1,13 +1,18 @@
 var notification = require("../controllers/ctrl_notification")
   , user  = smart.ctrl.user
   , async = smart.util.async
-  , _      = smart.util.underscore;;
+  , _      = smart.util.underscore
+  , context   = smart.framework.context
+  , constant  = smart.framework.constant;
 
 var FAKE_PASSWORD = "0000000000000000";
 
 exports.get = function(handler, callback) {
-
-  handler.addParams("uid", handler.params.userId);
+  if (!handler || !handler.params) {
+    handler = new context().bind({ session: { user: { _id: constant.DEFAULT_USER } } }, {});
+  }
+  handler.addParams("valid", 1);
+  handler.addParams("uid", handler.params._id);
 
   user.get(handler, function(err, result) {
 
@@ -20,9 +25,26 @@ exports.get = function(handler, callback) {
 
 };
 
-exports.getList = function(handler, callback) {
+exports.at = function(uid, callback) {
+  var handler = new context().bind({ session: { user: { _id: constant.DEFAULT_USER } } }, {});
+  handler.addParams("uid", uid);
+  handler.addParams("valid", 1);
+  user.get(handler, function(err, result) {
 
-  handler.addParams("uid", handler.params.userId);
+    if (err) {
+      return callback(err);
+    }
+    var userData = trans_user_api(result);
+    return callback(err, userData);
+  });
+
+};
+
+exports.getList = function(handler, callback) {
+  if (!handler || !handler.params) {
+    handler = new context().bind({ session: { user: { _id: constant.DEFAULT_USER } } }, {});
+  }
+  handler.addParams("valid", 1);
 
   user.getListByKeywords(handler, function(err, userResult) {
 
@@ -33,9 +55,9 @@ exports.getList = function(handler, callback) {
     var users = [];
     var uids = [];
     _.each(userResult.items, function(user) {
-
-      users.push(trans_user_api(user));
-      uids.push(user._id.toString());
+      var u = trans_user_api(user);
+      users.push(u);
+      uids.push(u._id.toString());
     });
 
     if (err) {
@@ -44,6 +66,59 @@ exports.getList = function(handler, callback) {
     return callback(err, { totalItems: userResult.totalItems, items: users });
   });
 
+};
+
+exports.getUserList = function(handler, callback){
+  //{"kind":"following", "firstLetter":"", "uid":uid_, "start":0, "limit":20}        TODO
+  if (!handler || !handler.params) {
+    handler = new context().bind({ session: { user: { _id: constant.DEFAULT_USER } } }, {});
+  }
+  handler.addParams("valid", 1);
+
+  user.getListByKeywords(handler, function(err, userResult) {
+
+    if (err) {
+      return response.send(res, err);
+    }
+
+    var users = [];
+    _.each(userResult.items, function(user) {
+      var u = trans_user_api(user);
+      users.push(u);   console.log(u);
+    });
+
+    if (err) {
+      return callback(err);
+    }
+    return callback(err, users);
+  });
+};
+
+exports.listByUids = function(uids, callback){
+
+  var handler = new context().bind({ session: { user: { _id: constant.DEFAULT_USER } } }, {});
+
+  var users = [];
+  async.forEach(uids, function(uid, cb){
+
+    handler.addParams("uid", uid);
+    user.get(handler, function(err, result) {
+
+      if (err) {
+        return callback(err);
+      }
+      var userData = trans_user_api(result);
+      users.push(userData);
+      return cb(err);
+    });
+  }, function(err){
+    callback(err, users);
+  });
+};
+
+exports.appendUser = function(source, field, callback) {
+  var code = "";
+  user.appendUser(code, source, field, callback);
 };
 
 exports.add = function(handler, callback) {
@@ -81,7 +156,7 @@ exports.update = function(handler, callback) {
  */
 exports.follow = function(handler, callback){
   var  currentuid  =  handler.params.uid;
-  var  followuid =  handler.params.userId;
+  var  followuid =  handler.params._id;
   if (!followuid) {
     return callback(new error.BadRequest(__("user.error.emptyName")));
   }
@@ -133,7 +208,7 @@ exports.follow = function(handler, callback){
  */
 exports.unfollow = function(handler, callback){
   var  currentuid  =  handler.params.uid;
-  var  followuid =  handler.params.userId;
+  var  followuid =  handler.params._id;
   if (!followuid) {
     return callback(new error.BadRequest(__("user.error.emptyName")));
   }
@@ -171,11 +246,15 @@ exports.unfollow = function(handler, callback){
 
 };
 
-// private functions : cross <=>  smartcore
+// translation functions : cross <=>  smartcore
 
 function trans_user_api(result) {
-  var userData = {};
+  // 数据混在问题 TODO sara
+  if (!result.extend || !result.extend.name_zh) {
+    return result;
+  }
 
+  var userData = {};
   if (result) {
 
     var userData = {

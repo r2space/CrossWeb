@@ -14,6 +14,8 @@ var ctrlUser    = require("../controllers/ctrl_user")
   , response    = smart.framework.response
   , _           = smart.util.underscore;
 
+var FAKE_PASSWORD = "0000000000000000";
+
 /**
  * 简易登陆实现
  * @param {Object} req 请求对象
@@ -23,8 +25,6 @@ var ctrlUser    = require("../controllers/ctrl_user")
 exports.simpleLogin = function(req, res){
 
   log.debug("user name: " + req.query.name);
-
-  // パスワードのsha256文字列を取得する
   req.query.password = auth.sha256(req.query.password);
 
   // 認証処理
@@ -36,6 +36,22 @@ exports.simpleLogin = function(req, res){
     } else {
       log.audit("login succeed.", result._id);
     }
+
+    // add cross property
+    var user =  req.session.user;
+    req.session.user.uid = user.userName;
+    req.session.user.email={
+      email1 : user.email
+    };
+    req.session.user.name = {
+      name_zh : user.extend.name_zh,
+      letter_zh: user.extend.letter_zh
+    };
+    req.session.user.tel = {
+      mobile : user.extend.mobile
+    };
+    req.session.user.following = user.extend.following;
+    req.session.user.uid = user.userName;
 
     response.send(res, err, result);
   });
@@ -49,7 +65,6 @@ exports.simpleLogin = function(req, res){
  */
 exports.simpleLogout = function(req, res){
 
-  // TODO
   res.render("login", {"title": "login"});
 };
 
@@ -220,7 +235,6 @@ exports.updatePassword = function(req, res) {
 
   });
 };
-
 
 
 

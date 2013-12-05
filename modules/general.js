@@ -1,9 +1,7 @@
-var mongo = require('mongoose')
-  , util = require('util')
-  , log = lib.core.log
-  , tools = lib.core.util
+var mongo = smart.util.mongoose
   , conn = require('./connection')
-  , dbconf = require('config').db
+  , log = smart.framework.log
+  , tools = smart.framework.util
   , schema = mongo.Schema;
 
 function model(collections, columns) {

@@ -2,13 +2,12 @@
  * ShortMail:
  * Copyright (c) 2012 Author li
  */
-
-var mongo = require('mongoose')
+var _ = smart.util.underscore
+  , mongo = smart.util.mongoose
   , conn = require('./connection')
-  , _ = require('underscore')
-  , sync = require('async')
+  , sync = smart.util.async
   , schema = mongo.Schema
-  , user = lib.mod.user;
+  , user = require("../controllers/ctrl_user");
 
 function model() {
   return conn().model('ShortMail', ShortMail);
@@ -91,7 +90,7 @@ exports.unread = function(userid_, callback_) {
         userids.push(mail.createby);
       });
 
-      user.find({"_id": {$in: userids}}, function(err, result){
+      user.listByUids(userids, function(err, result){
         mails.user = result;
         callback(err, mails);
       });
