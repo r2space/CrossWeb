@@ -1,23 +1,15 @@
-var async = require("async")
-  , amqp = lib.core.amqp
-  , _ = require("underscore")
-  // , i18n    = require('i18n')
-
-  , ctrl_notification = lib.ctrl.notification
-  , ctrl_user = lib.ctrl.user
-  , fileinfo = lib.ctrl.dbfile
-
-  // , util = lib.core.util
-  , error = lib.core.errors
-  // , log = lib.core.log
-  , process = lib.core.process
+var async = smart.util.async
+  , amqp = smart.util.amqp
+  , _ = smart.util.underscore
+  , error = smart.framework.errors
+  //, process = lib.core.process
+  , fileinfo = smart.ctrl.file
+  , ctrl_notification = require('../controllers/ctrl_notification')
+  , user = require('../controllers/ctrl_user')
+  , group = require('../controllers/ctrl_group')
   , message = require('../modules/mod_message')
-
-  // TODO: 要对应  
-  , user = lib.mod.user
-  , group = lib.mod.group
   , topic = require('../modules/mod_topic')
-  , notification = lib.mod.notification;
+  , notification = require('../modules/mod_notification');
 
 /**
  *
@@ -79,7 +71,7 @@ exports.createMessage = function(currentuid_, params_, callback_){
     
      
     // 更新全文检索索引
-    process.updateFulltextIndex(msg._id, "3", msg.content);
+    //process.updateFulltextIndex(msg._id, "3", msg.content);
     if(msg.attach.length > 0){
       var fids = [];
       for(var i =0 ;i <attach.length;i++){
@@ -216,8 +208,8 @@ exports.getMessageList = function(option_, start_, count_, callback_){
     , type = option_.type;
 
   if("user-homepage" == type) {
-    // 人的发言
-    var task_getUidsOfGroups = function(cb){
+    // 人的发言       TODO lizheng
+/*    var task_getUidsOfGroups = function(cb){
       group.getAllGroupByUid(login,function(err, groups){
         err = err ? new error.InternalServer(err) : null;
         var gids = [];
@@ -227,7 +219,7 @@ exports.getMessageList = function(option_, start_, count_, callback_){
         cb(err,{"uids":[uid_],"gids":gids});
       });
     };
-    tasks.push(task_getUidsOfGroups);
+    tasks.push(task_getUidsOfGroups); */
   } else if("group-homepage" == type) {
     // 组内的发言
     var task_getGids = function(cb){
@@ -247,8 +239,8 @@ exports.getMessageList = function(option_, start_, count_, callback_){
     };
     tasks.push(task_getUids);
 
-    // 2.相关组的发言
-    var task_getUidsOfGroups2 = function(uids, cb){
+    // 2.相关组的发言    TODO lizheng
+/*    var task_getUidsOfGroups2 = function(uids, cb){
       group.getAllGroupByUid(login,function(err, groups){
         err = err ? new error.InternalServer(err) : null;
         var gids = [];
@@ -258,7 +250,7 @@ exports.getMessageList = function(option_, start_, count_, callback_){
         cb(err,{uids:uids,range:gids});
       });
     };
-    tasks.push(task_getUidsOfGroups2);
+    tasks.push(task_getUidsOfGroups2);    */
 
     // TODO
     //3.followed文件的动态
@@ -285,7 +277,7 @@ exports.getMessageList = function(option_, start_, count_, callback_){
   // 用户信息
   var task_getUsrInfo = function(msgs, cb) {
     async.forEach(msgs.items, function(msg, cb_) {
-      ctrl_user.getUser(msg.createby, function(err, u) {
+      user.at(msg.createby, function(err, u) {
         msg.part = {"createby": {id: u._id, name: u.name, photo: u.photo, title:u.title, following:u.following, follower:u.follower}};
         cb_(err);
       });
@@ -296,8 +288,8 @@ exports.getMessageList = function(option_, start_, count_, callback_){
   };
   tasks.push(task_getUsrInfo);
 
-  // 取得范围range
-  var task_getRangeInfo = function(msgs, cb) {
+  // 取得范围range     TODO lizheng
+/*  var task_getRangeInfo = function(msgs, cb) {
     async.forEach(msgs.items, function(msg, cb_) {
       if(msg.range != "1"){
         group.at(msg.range, function(err, u) {
@@ -312,7 +304,7 @@ exports.getMessageList = function(option_, start_, count_, callback_){
       cb(err, msgs);
     });
   };
-  tasks.push(task_getRangeInfo);
+  tasks.push(task_getRangeInfo);      */
 
   // 取得提到at
   var task_getAtInfo = function(msgs, cb) {
@@ -322,7 +314,7 @@ exports.getMessageList = function(option_, start_, count_, callback_){
         function(callback) {
           var tousers = msg.at.users;
           if(tousers) {
-            user.find({"_id": {$in: tousers}}, function(err, users) {
+            user.listByUids(tousers, function(err, users) {
               var array = [];
               _.each(users,function(u){array.push({id: u._id, name: u.name, photo: u.photo});});
               msg.part.atusers = array;
@@ -335,7 +327,8 @@ exports.getMessageList = function(option_, start_, count_, callback_){
         // 获取文书的定义
         function(callback) {
           var togroups = msg.at.groups;
-          if(togroups) {
+          //if(togroups) {
+          if (false) {    // TODO lizheng
             group.getAllGroupByUid(login,function(err,viewable){
               var gids = [];
               _.each(viewable, function(g){
@@ -469,10 +462,10 @@ exports.getProfileMessage = function(uid_, start_, count_, timeline_, callback_)
         callback(err, u);
       });
     },
-    groups: function(callback){
-      group.find({"member": uid_}, function(err, groups){
+    groups: function(callback){     // TODO lizheng
+      //group.find({"member": uid_}, function(err, groups){
         callback(err, groups);
-      });
+      //});
     },
     topics: function(callback){
       topic.find({"member": uid_}, function(err, topics){
@@ -503,10 +496,10 @@ exports.getProfileMessage = function(uid_, start_, count_, timeline_, callback_)
           async.forEachSeries(msgs, function(msg, cb){
             async.parallel({
               group: function(callback){
-                if(msg.createin.gid){
-                  group.at(msg.createin.gid, function(err, g){
+                if(msg.createin.gid){       // TODO lizheng
+                  //group.at(msg.createin.gid, function(err, g){
                     callback(err, g);
-                  });
+                  //});
                 }else{
                   callback(null);
                 }
@@ -815,10 +808,11 @@ exports.getForwardList = function(mid_, start_, count_, callback_){
   var task_getRangeInfo = function(msgs, cb) {
     async.forEach(msgs.items, function(msg, cb_) {
       if(msg.range != "1"){
+        /* TODO lizheng
         group.at(msg.range, function(err, u) {
           msg.part.range = {id: u._id, name: u.name, photo: u.photo};
           cb_(err);
-        });
+        }); */ cb_("");
       } else {
         cb_("");
       }
@@ -837,7 +831,7 @@ exports.getForwardList = function(mid_, start_, count_, callback_){
         function(callback) {
           var tousers = msg.at.users;
           if(tousers) {
-            user.find({"_id": {$in: tousers}}, function(err, users) {
+            user.find(tousers, function(err, users) {
               var array = [];
               _.each(users,function(u){array.push({id: u._id, name: u.name, photo: u.photo});});
               msg.part.atusers = array;
@@ -850,7 +844,7 @@ exports.getForwardList = function(mid_, start_, count_, callback_){
         // 获取文书的定义
         function(callback) {
           var togroups = msg.at.groups;
-          if(togroups) {
+          /*if(togroups) {
             group.find({"_id": {$in: togroups}}, function(err, groups) {
               var array = [];
               _.each(groups,function(u){array.push({id: u._id, name: u.name, photo: u.photo});});
@@ -859,7 +853,7 @@ exports.getForwardList = function(mid_, start_, count_, callback_){
             });
           }else{
             callback();
-          }
+          } */ callback(); //TODO lizheng
         }
       ], function(err) {
         cb_(err);
@@ -989,7 +983,7 @@ exports.getMsgCommentList = function(_id, callback_){
 
   // 使用用户的共通方法来添加用户信息
   var task_getUsrInfo = function(replies, cb){
-    ctrl_user.appendUser(replies, "createby", function(err, result){
+    user.appendUser(replies, "createby", function(err, result){
       cb(err, result);
     });
     // async.forEach(replies, function(reply, cb_){
@@ -1033,8 +1027,8 @@ exports.getMsgUnRead = function(option_,timeline_,callback_){
   };
   tasks.push(task_getUids);
 
-  // 2.相关组的发言
-  var task_getUidsOfGroups = function(uids, cb){
+  // 2.相关组的发言    TODO lizheng
+/*  var task_getUidsOfGroups = function(uids, cb){
     group.getAllGroupByUid(login,function(err, groups){
       err = err ? new error.InternalServer(err) : null;
       var gids = [];
@@ -1044,7 +1038,7 @@ exports.getMsgUnRead = function(option_,timeline_,callback_){
       cb(err,{uids:uids,range:gids});
     });
   };
-  tasks.push(task_getUidsOfGroups);
+  tasks.push(task_getUidsOfGroups);    */
 
   var task_getMessageList = function(opt,cb){
     opt.login = login;

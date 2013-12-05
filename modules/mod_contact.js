@@ -4,7 +4,7 @@
  * 保存两人对话或组会话的成员信息。会话的详细内容需使用该contact的ID去shortmail表里获取。
  */
 
-var mongo = require('mongoose')
+var mongo = smart.util.mongoose
   , conn = require('./connection')
   , schema = mongo.Schema;
 

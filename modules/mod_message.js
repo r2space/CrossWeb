@@ -2,14 +2,9 @@
  * Message:
  * Copyright (c) 2012 Author Name li
  */
-
-var mongo = require('mongoose')
-  // , util = require('util')
-  // , log = lib.core.log
+var mongo       = smart.util.mongoose
   , conn = require('./connection')
-  , solr = lib.core.solr
-  , schema = mongo.Schema;
-
+  , schema      = mongo.Schema;
 
 var Message = new schema({
     type : {type: Number}       // 消息类型，Message:1; Reply:2
@@ -37,6 +32,10 @@ var Message = new schema({
   });
 
 
+function model() {
+  return conn().model('Message', Message);
+}
+
 /**
  * 创建消息
  */
@@ -59,7 +58,7 @@ exports.remove = function(mid_, callback_) {
   var message = model();
 
   message.findByIdAndRemove(mid_, function(err, result) {
-    solr.update(result, "message", "delete", function(){});
+    //solr.update(result, "message", "delete", function(){});
     callback_(err, result);
   });
 };
@@ -73,7 +72,7 @@ exports.update = function(mid_, newvals_, callback_) {
   var message = model();
 
   message.findByIdAndUpdate(mid_, newvals_, function(err, result) {
-    solr.update(result, "message", "update", function(){});
+    //solr.update(result, "message", "update", function(){});
     callback_(err, result);
   });
 };
@@ -414,8 +413,5 @@ exports.queryMsgCommentList = function(mid_, callback_){
 
 
 
-function model() {
-  return conn().model('Message', Message);
-}
 
 

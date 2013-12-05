@@ -5,7 +5,7 @@ var _ = smart.util.underscore
   , error = smart.framework.errors
   , util = smart.framework.util
   , group = smart.ctrl.group
-  , user = smart.ctrl.user
+  , user = require("../controllers/ctrl_user")
   , notification = require("../modules/mod_notification");
 
 
@@ -199,7 +199,7 @@ exports.getList = function(param, callback_) {
   tasks.push(task_getNotifications);
 
   var task_getUsers = function(result, cb_){
-    user.appendUser(null , result.items, "createby", function(err, added){
+    user.appendUser(result.items, "createby", function(err, added){
       result.items = added;
       cb_(err, result);
     });
