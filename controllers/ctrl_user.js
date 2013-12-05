@@ -10,9 +10,8 @@ var FAKE_PASSWORD = "0000000000000000";
 exports.get = function(handler, callback) {
   if (!handler || !handler.params) {
     handler = new context().bind({ session: { user: { _id: constant.DEFAULT_USER } } }, {});
-    handler.addParams("valid", 1);
   }
-
+  handler.addParams("valid", 1);
   handler.addParams("uid", handler.params._id);
 
   user.get(handler, function(err, result) {
@@ -29,7 +28,7 @@ exports.get = function(handler, callback) {
 exports.at = function(uid, callback) {
   var handler = new context().bind({ session: { user: { _id: constant.DEFAULT_USER } } }, {});
   handler.addParams("uid", uid);
-
+  handler.addParams("valid", 1);
   user.get(handler, function(err, result) {
 
     if (err) {
@@ -44,8 +43,8 @@ exports.at = function(uid, callback) {
 exports.getList = function(handler, callback) {
   if (!handler || !handler.params) {
     handler = new context().bind({ session: { user: { _id: constant.DEFAULT_USER } } }, {});
-    handler.addParams("valid", 1);
   }
+  handler.addParams("valid", 1);
 
   user.getListByKeywords(handler, function(err, userResult) {
 
@@ -73,8 +72,8 @@ exports.getUserList = function(handler, callback){
   //{"kind":"following", "firstLetter":"", "uid":uid_, "start":0, "limit":20}        TODO
   if (!handler || !handler.params) {
     handler = new context().bind({ session: { user: { _id: constant.DEFAULT_USER } } }, {});
-    handler.addParams("valid", 1);
   }
+  handler.addParams("valid", 1);
 
   user.getListByKeywords(handler, function(err, userResult) {
 
@@ -85,7 +84,7 @@ exports.getUserList = function(handler, callback){
     var users = [];
     _.each(userResult.items, function(user) {
       var u = trans_user_api(user);
-      users.push(u);
+      users.push(u);   console.log(u);
     });
 
     if (err) {
@@ -98,6 +97,7 @@ exports.getUserList = function(handler, callback){
 exports.listByUids = function(uids, callback){
 
   var handler = new context().bind({ session: { user: { _id: constant.DEFAULT_USER } } }, {});
+
   var users = [];
   async.forEach(uids, function(uid, cb){
 
@@ -249,8 +249,12 @@ exports.unfollow = function(handler, callback){
 // translation functions : cross <=>  smartcore
 
 function trans_user_api(result) {
-  var userData = {};
+  // 数据混在问题 TODO sara
+  if (!result.extend || !result.extend.name_zh) {
+    return result;
+  }
 
+  var userData = {};
   if (result) {
 
     var userData = {
