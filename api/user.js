@@ -6,31 +6,13 @@
 
 "use strict";
 
-var ctrlUser    = smart.ctrl.user
-  , ctrlAclink  = smart.ctrl.aclink
+var ctrlUser    = require("../controllers/ctrl_user")
   , auth        = smart.framework.auth
-  , constant    = smart.framework.constant
+  //, constant    = smart.framework.constant
   , context     = smart.framework.context
   , log         = smart.framework.log
   , response    = smart.framework.response
   , _           = smart.util.underscore;
-
-var FAKE_PASSWORD = "0000000000000000";
-
-function hasPermission(permissions, pcode) {
-  if(permissions) {
-    for(var i = 0; i < permissions.length; i++) {
-      if(permissions[i] === pcode) {
-        return true;
-      }
-    }
-  }
-
-  return false;
-}
-
-exports.PERMISSION_ADMIN = "1";
-exports.PERMISSION_CASH = "2";
 
 /**
  * 简易登陆实现
@@ -80,41 +62,10 @@ exports.simpleLogout = function(req, res){
 exports.getUser = function(req, res) {
 
   var handler = new context().bind(req, res);
-  handler.addParams("uid", handler.params.userId);
 
   ctrlUser.get(handler, function(err, result) {
 
-    if (err) {
-      return response.send(res, err);
-    }
-
-    var userData;
-    if(result) {
-
-      result.extend = result.extend ? result.extend : {};
-
-      userData = {
-        _id       : result._id
-        , uid        : result.userName
-        , password  : FAKE_PASSWORD
-        , name      : {
-          name_zh : result.extend.name_zh,
-          letter_zh : result.extend.letter_zh
-        }
-        , tel : {
-          mobile : result.extend.mobile
-        }
-        , following : result.extend.following
-        , createat  : result.createAt
-        , createby  : result.createBy
-        , editat    : result.updateAt
-        , editby    : result.updateBy
-      };
-
-      return response.send(res, err, userData);
-    } else {
-      return response.send(res, err);
-    }
+    return response.send(res, err, result);
   });
 
 };
@@ -133,44 +84,8 @@ exports.getUserList = function(req, res) {
   handler.addParams("realName", handler.params.keyword);
   handler.addParams("and", false);
 
-  ctrlUser.getListByKeywords(handler, function(err, userResult) {
-
-    if (err) {
-      return response.send(res, err);
-    }
-
-    var users = [];
-    var uids = [];
-    _.each(userResult.items, function(user) {
-
-      user.extend = user.extend ? user.extend : {};
-
-      users.push({
-        _id       : user._id
-        , uid        : user.userName
-        , name      : {
-          name_zh : user.extend.name_zh,
-          letter_zh : user.extend.letter_zh
-        }
-        , tel : {
-          mobile : user.extend.mobile
-        }
-        , following : user.extend.following
-        , createat  : user.createAt
-        , createby  : user.createBy
-        , editat    : user.updateAt
-        , editby    : user.updateBy
-      });
-
-      uids.push(user._id.toString());
-    });
-
-    if(uids.length > 0) {
-      return response.send(res, err, { totalItems: userResult.totalItems, items: users });
-    } else {
-      return response.send(res, err, { totalItems: 0, items: [] });
-    }
-
+  ctrlUser.getList(handler, function(err, userResult) {
+      return response.send(res, err, userResult);
   });
 
 };
@@ -181,13 +96,14 @@ exports.getUserList = function(req, res) {
  * @param res 响应对象
  * @returns {*} 无
  */
-exports.follow = function(req_, res_){
+exports.follow = function(req, res){
+  var handler = new context().bind(req, res);
 
-  var currentuid = req_.session.user._id;
-  user.follow(currentuid, req_.body.uid, function(err, result){
-    json.send(res_, err, {"items": result});
+  ctrlUser.follow(handler, function(err, result) {
+
+    return response.send(res, err, result);
   });
-};
+}
 
 /**
  * 添加用户
@@ -198,21 +114,6 @@ exports.follow = function(req_, res_){
 exports.add = function(req, res) {
 
   var handler = new context().bind(req, res);
-
-  var params = handler.params;
-
-  handler.addParams("userName", params.id);
-  handler.addParams("password", auth.sha256(params.password));
-  handler.addParams("first", params.name);
-  handler.addParams("email", "xxx@xxx.com");
-  handler.addParams("lang", "ja");
-  handler.addParams("timezone", "GMT+09:00");
-  handler.addParams("extend", {
-    name_zh  : params.name        // name.name_zh
-    , letter_zh : params.letter  // name.letter_zh
-    , following : params.following
-    , mobile     : params.mobile  // tel.mobile
-  });
 
   ctrlUser.add(handler, function(err, result) {
 
@@ -225,8 +126,6 @@ exports.add = function(req, res) {
 
 };
 
-// --------------------下記対応しない---------------------------- //
-
 /**
  * 更新用户
  * @param req 请求对象
@@ -237,46 +136,40 @@ exports.update = function(req, res) {
 
   var handler = new context().bind(req, res);
 
-  var params = handler.params;
-
-  handler.addParams("uid", params.userId);
-  if (params.password !== FAKE_PASSWORD) {
-    handler.addParams("password", auth.sha256(params.password));
-  } else {
-    handler.removeParams("password");
-  }
-  handler.addParams("first", params.name);
-  handler.addParams("extend", {
-    name_zh  : params.name        // name.name_zh
-    , letter_zh : params.letter  // name.letter_zh
-    , following : params.following
-    , mobile     : params.mobile  // tel.mobile
-  });
-
   ctrlUser.update(handler, function(err, result) {
 
     if (err) {
       return response.send(res, err);
     }
+    return response.send(res, err, {isSuccess: result ? true : false});
 
-    // 更新权限
-    /*handler.addParams("type", constant.ACLINK_TYPE_USER_PERMISSION);
-     handler.addParams("main", result._id.toString());
-     var subs = [];
-     if(params.admin === true) {
-     subs.push(exports.PERMISSION_ADMIN);
-     }
-     if(params.cash === true) {
-     subs.push(exports.PERMISSION_CASH);
-     }
-     handler.addParams("subs", subs);*/
-
-    ctrlAclink.update(handler, function(err, result) {
-      return response.send(res, err, {isSuccess: result ? true : false});
-    });
   });
 
 };
+// --------------------下記対応しない---------------------------- //
+/*
+/**
+ * 关注用户
+ * @param req 请求对象
+ * @param res 响应对象
+ * @returns {*} 无
+ */  /*
+exports.follow = function(req_, res_){
+
+  var currentuid = req_.session.user._id;
+  user.follow(currentuid, req_.body.uid, function(err, result){
+    json.send(res_, err, {"items": result});
+  });
+};
+
+exports.unfollow = function(req_, res_){
+
+  var currentuid = req_.session.user._id;
+
+  user.unfollow(currentuid, req_.body.uid, function(err, result){
+    json.send(res_, err, {"items": result});
+  });
+};  */
 
 /**
  * 删除用户
