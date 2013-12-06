@@ -1,5 +1,5 @@
 var async = smart.util.async
-  , amqp = smart.util.amqp
+  , amqp = smart.framework.amqp
   , _ = smart.util.underscore
   , error = smart.framework.errors
   //, process = lib.core.process
@@ -266,7 +266,7 @@ exports.getMessageList = function(option_, start_, count_, callback_){
 
   // 消息
   var task_getMsgs = function(option, cb){
-    option.before = option_.before;             console.log(option);
+    option.before = option_.before;
     message.list(option, start_, count_, timeline, function(err, retmsg){
       err = err ? new error.InternalServer(err) : null;
       cb(err, retmsg);
@@ -277,7 +277,7 @@ exports.getMessageList = function(option_, start_, count_, callback_){
   // 用户信息
   var task_getUsrInfo = function(msgs, cb) {
     async.forEach(msgs.items, function(msg, cb_) {
-      user.at(msg.createby, function(err, u) {
+      user.getUser(msg.createby, function(err, u) {
         msg.part = {"createby": {id: u._id, name: u.name, photo: u.photo, title:u.title, following:u.following, follower:u.follower}};
         cb_(err);
       });

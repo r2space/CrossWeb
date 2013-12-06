@@ -1,4 +1,4 @@
-var amqp = smart.util.amqp
+var amqp = smart.framework.amqp
   , util = smart.framework.util
   , response = smart.framework.response
   , notification = require('../controllers/ctrl_notification');

@@ -1,10 +1,10 @@
 var _ = smart.util.underscore
-  , amqp = smart.util.amqp
+  , amqp = smart.framework.amqp
   , async = smart.util.async
   , log = smart.framework.log
   , error = smart.framework.errors
   , util = smart.framework.util
-  , group = smart.ctrl.group
+  , group = require("../controllers/ctrl_group")
   , user = require("../controllers/ctrl_user")
   , notification = require("../modules/mod_notification");
 
@@ -145,7 +145,7 @@ exports.createForMessage = function(message_, callback_) {
           });
         });
         async.forEach(message_.at.groups,function(gid){
-          group.getUsersInGroup( {gid: gid, recursive: true}, function(err, uids){
+          group.getUsersInGroup(gid, function(err, uids){
             async.forEach(uids, function(uid){
               amqp.notice({
                 _id: uid

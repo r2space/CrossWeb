@@ -111,7 +111,7 @@ exports.group = function(uid_, callback_) {
       "uid": uid_
     , "joined":true
     };
-
+   // TODO lizheng
   user.getUserList(condition, function(err, result){
   //group.getGroupList(condition, function(err, result){
     

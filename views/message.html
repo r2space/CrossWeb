@@ -53,9 +53,9 @@
           success: function(result) {
             // sl_yang result.dataがない時、エラーが発生した。
             if (result.data) {
-                if(result.data.items.total > 0){
+                if(result.data.total > 0){
                     var text = "<%= i('message.html.label.alertmsg') %>";
-                    $("#alert-msg").html(text.replace(/x/,result.data.items.total));
+                    $("#alert-msg").html(text.replace(/x/,result.data.total));
                     $("#alert-msg").css("display","block");
                 }
             }
@@ -76,18 +76,21 @@
         opacity:0;
       }
       .popover {
-          position: inherit;
+          position: relative;
           min-width: 566px;
           border-radius: 0px;
           padding:0px;
       }
 
       .popover.bottom .arrow {
-          top: 109px;
+          /*top: 109px;*/
           border-bottom-color: #D5D2D2;
       }
       .popover-content {
           padding: 0px;
+      }
+      dl {
+          margin-bottom: 10px;
       }
     </style>
   </head>
@@ -95,7 +98,7 @@
 
     <% include common/navbar.html %>
 
-    <div class="container">
+    <div class="container" style="width: 1000px;">
         <div class="row-fluid">
           <div class="pull-left offset1" id="left">
             <% include common/sidemenu.html %>
@@ -104,7 +107,7 @@
             <div class="row-fluid">
 
               <!--/span-->
-              <div class="span6" style="width:550px; margin-left: 20px;">
+              <div class="span6" style="width:570px; padding-left: 20px;border-left: 2px solid #e5e5e5;">
 
                 <div id="messagearea">
                   <!-- 消息的分类 -->
@@ -119,7 +122,7 @@
 
                   <!-- 消息输入框 -->
                   <div class="textBox popover bottom" style="display: block;">
-                      <div class="arrow" style="left:37.5%;"></div>
+                      <div class="arrow" style="left:7.5%;"></div>
                       <div class="popover-content">
                           <textarea id="textBoxMsg" class="comment" rows="3" placeholder="<%= i('message.list.placeholder.text') %>"></textarea>
                           <div id="textBoxNotice" class="users">
@@ -130,7 +133,7 @@
 
                   <!-- 图片选择 -->
                   <div class="imageBox popover bottom">
-                      <div class="arrow" style="left:44.5%;"></div>
+                      <div class="arrow" style="left:20%;"></div>
                       <div class="popover-content">
                           <div id="imageBoxerContainer"></div>
                           <div id="imageBoxSelector" class="image selector">
@@ -188,17 +191,17 @@
 
 
                   <!-- 消息选项 -->
-                  <div class="publish">
-                    <span id="selectedscope" uid="1"><%= i('message.list.selector.scope') %></span>
-                    <a id="scopesetter"><i class="icon-caret-down" style="padding: 5px;"></i></a>
-                    <ul id="scope" class="scope">
-                      <li><a href="#" uid="1"><%= i('message.list.selector.scope') %></a></li>
-                      <li class="divider"></li>
-                    </ul>
-                    <a id="publish" class="btn btn-small btn-primary"><%= i('message.list.button.send') %></a>
-                    <a id="cancel" class="btn btn-small hidden"><%= i('message.list.button.cancel') %></a>
+                  <div class="publish" style="padding-top: 15px;">
+                    <div>
+                        <span id="selectedscope" uid="1"><%= i('message.list.selector.scope') %></span>
+                        <a id="scopesetter"><i class="icon-caret-down" style="padding: 5px;"></i></a>
+                        <ul id="scope" class="scope">
+                            <li><a href="#" uid="1"><%= i('message.list.selector.scope') %></a></li>
+                            <li class="divider"></li>
+                        </ul>
+                        <a id="publish" class="btn btn-default btn-small" style="background-color: #E5E5E5;float:right"><%= i('message.list.button.send') %></a>
+                    </div>
                   </div>
-
                 </div>
 
                 <br>
@@ -322,24 +325,28 @@
           <a href="/user/{{ uid }}"><img src="{{ uphoto }}" style="width: 56px;"></a>
         </dt>
         <dd class="message-content">
-          <p style="background-color: #e5e5e5; margin-bottom: 2px;padding-left: 5px;">
-            <a href="/user/{{ uid }}" id="{{ uid }}" class="userLink">{{ uname }}</a>{{ rangeGroup }} : {{ content }}
-            <br/>
+          <p style="margin-bottom: 2px;padding-left: 5px;">
+            <a href="/user/{{ uid }}" id="{{ uid }}" class="userLink">{{ uname }}</a> {{ rangeGroup }}
+            <div style="padding-left:5px;padding-bottom:10px;font-size: 1.2em;">
+                   {{ content }}
+            </div>
             {{ atAccounts }}
           </p>
-          <p id="attach_container_{{ mid }}" style="margin-bottom: 5px;padding-left: 5px;">
+          <p id="attach_container_{{ mid }}" style="padding-left: 5px;">
           </p>
           <p class="message-info">
-            <a href="/message/{{mid}}" style="color: #BBB;padding-left:5px;">{{time}}</a>
+            <a href="#" style="color: #BBB;padding-left:5px;">{{time}}</a>
             <span class="pull-right">
               <a class="hidden" href="javascript://" id="delete_{{mid}}"><%= i('message.list.button.delete') %></a>
               <a href="javascript://" class="hide"><%= i('message.list.button.totop') %></a>
-              <a href="javascript://" style="padding-left:3px;"><%= i('message.list.button.good') %></a>
+              <a href="#" style="padding-right:15px;font-size: 1.2em;text-decoration: blink;"><i class="icon-thumbs-up"></i></a>
+              <a href="#" style="font-size: 1.2em;text-decoration: blink;"><i class="icon-comment-alt"></i></a>
+              <!--<a href="javascript://" style="padding-right:8px;"><%= i('message.list.button.good') %></a>-->
                 <!--sl_yang-->
               <!--<a href="#message-selector" id="forwardMsg_{{mid}}" data-toggle="modal"><%= i('message.list.button.forward') %>({{ forwardNums }})</a>-->
-              <a href="javascript://" class="hide"><%= i('message.list.button.mark') %></a>
-              <a href="javascript://" id="fetchreply_{{mid}}" class="toggle-replies">
-                <%= i('message.list.button.reply') %>({{ replyNums }})</a>
+              <!--<a href="javascript://" class="hide"><%= i('message.list.button.mark') %></a>-->
+              <!--<a href="javascript://" id="fetchreply_{{mid}}" class="toggle-replies">-->
+                <!--<%= i('message.list.button.reply') %>({{ replyNums }})</a>-->
             </span>
           </p>
           <div id="replyBox_{{ mid }}" class="hidden" style="border-width: 1px;border-style:solid;padding: 10px 20px 10px;border-radius: 3px;border-color: #d9d9d9;">
@@ -365,7 +372,7 @@
             </div>
           </div>
         </dd>
-        <hr>
+        <div style="border:1px solid #F9F4FA"></div>
       </dl>
     </script>
 
