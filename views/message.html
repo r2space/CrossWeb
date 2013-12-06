@@ -95,7 +95,7 @@
 
     <% include common/navbar.html %>
 
-    <div class="container">
+    <div class="container" style="width: 1000px;">
         <div class="row-fluid">
           <div class="pull-left offset1" id="left">
             <% include common/sidemenu.html %>
@@ -104,7 +104,7 @@
             <div class="row-fluid">
 
               <!--/span-->
-              <div class="span6" style="width:550px; margin-left: 20px;">
+              <div class="span6" style="width:570px; padding-left: 20px;border-left: 2px solid #e5e5e5;">
 
                 <div id="messagearea">
                   <!-- 消息的分类 -->
@@ -119,7 +119,7 @@
 
                   <!-- 消息输入框 -->
                   <div class="textBox popover bottom" style="display: block;">
-                      <div class="arrow" style="left:37.5%;"></div>
+                      <div class="arrow" style="left:39%;"></div>
                       <div class="popover-content">
                           <textarea id="textBoxMsg" class="comment" rows="3" placeholder="<%= i('message.list.placeholder.text') %>"></textarea>
                           <div id="textBoxNotice" class="users">
@@ -188,17 +188,17 @@
 
 
                   <!-- 消息选项 -->
-                  <div class="publish">
-                    <span id="selectedscope" uid="1"><%= i('message.list.selector.scope') %></span>
-                    <a id="scopesetter"><i class="icon-caret-down" style="padding: 5px;"></i></a>
-                    <ul id="scope" class="scope">
-                      <li><a href="#" uid="1"><%= i('message.list.selector.scope') %></a></li>
-                      <li class="divider"></li>
-                    </ul>
-                    <a id="publish" class="btn btn-small btn-primary"><%= i('message.list.button.send') %></a>
-                    <a id="cancel" class="btn btn-small hidden"><%= i('message.list.button.cancel') %></a>
+                  <div class="publish" style="padding-top: 15px;">
+                    <div>
+                        <span id="selectedscope" uid="1"><%= i('message.list.selector.scope') %></span>
+                        <a id="scopesetter"><i class="icon-caret-down" style="padding: 5px;"></i></a>
+                        <ul id="scope" class="scope">
+                            <li><a href="#" uid="1"><%= i('message.list.selector.scope') %></a></li>
+                            <li class="divider"></li>
+                        </ul>
+                        <a id="publish" class="btn btn-default btn-small" style="background-color: #E5E5E5;float:right"><%= i('message.list.button.send') %></a>
+                    </div>
                   </div>
-
                 </div>
 
                 <br>
