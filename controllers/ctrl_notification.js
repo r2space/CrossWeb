@@ -1,5 +1,5 @@
 var _ = smart.util.underscore
-  , amqp = smart.util.amqp
+  , amqp = smart.framework.amqp
   , async = smart.util.async
   , log = smart.framework.log
   , error = smart.framework.errors

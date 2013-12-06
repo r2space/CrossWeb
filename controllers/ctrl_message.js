@@ -1,5 +1,5 @@
 var async = smart.util.async
-  , amqp = smart.util.amqp
+  , amqp = smart.framework.amqp
   , _ = smart.util.underscore
   , error = smart.framework.errors
   //, process = lib.core.process
