@@ -426,7 +426,7 @@ exports.getMessageList = function(option_, start_, count_, callback_){
   tasks.push(task_getNotification);
   //TODO 收藏 和 赞
 
-  async.waterfall(tasks,function(err, msgs){   console.log(msgs);
+  async.waterfall(tasks,function(err, msgs){
     //用户刷新 HOME Msg List  的  时间点
     msgs.timeline =  new Date().getTime();
     return callback_(err, msgs);

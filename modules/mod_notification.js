@@ -99,7 +99,7 @@ exports.list = function(option_, callback_) {
 //    console.log(types);
     and.push({"type":{$in : types}});
   }
-  // TODO lizheng
+
   ctrl_group.getAllGroupByUid(uid, function(err, groups){
     var gids = [];
     _.each(groups, function(g){gids.push(g._id);});

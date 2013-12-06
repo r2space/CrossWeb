@@ -134,6 +134,19 @@ exports.getMember = function(handler, callback) {
 
 };
 
+/**
+ * 获取所有组成员的ID 递归
+ */
+exports.getUsersInGroup = function(gid, callback){
+  group.getUsersInGroup( {gid: gid, recursive: true}, function(err, result){
+    if (err) {
+      return callback(err);
+    }
+    return callback(err, result.items);
+  });
+};
+
+// 一时对应
 exports.getAllGroupByUid = function(uid, callback) {
   var handler = new context().bind({ session: { user: { _id: constant.DEFAULT_USER } } }, {});
   handler.addParams("uid", uid);
