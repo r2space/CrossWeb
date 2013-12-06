@@ -223,7 +223,6 @@ hr {
 div.publish {
   padding-top: 5px;
   width: 100%;
-  text-align: right;
   /* 公开范围 */
 }
 div.publish .scope {
@@ -296,7 +295,7 @@ div.publish .scope .divider {
   color: #b9b9b9;
 }
 #messages-container {
-  width: 550px;
+  width: 570px;
 }
 .message-info {
   font-size: 12px;
@@ -315,7 +314,7 @@ div.publish .scope .divider {
 }
 .message .message-content {
   margin-left: 60px;
-  width: 480px;
+  width: 500px;
   word-wrap: break-word;
 }
 .message .reply-area {
