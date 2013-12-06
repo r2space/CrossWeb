@@ -3,11 +3,13 @@
  * Copyright (c) 2012 Author Name dd_dai
  */
 
-var group    = require("../controllers/ctrl_group")
-  , file     = smart.ctrl.file
+"use strict";
+
+var file     = smart.ctrl.file
+  , context  = smart.framework.context
   , response = smart.framework.response
-  , util     = smart.framework.util;
-  
+  , group    = require("../controllers/ctrl_group");
+
 /**
  * createGroup:
  *  创建组织
@@ -27,51 +29,15 @@ var group    = require("../controllers/ctrl_group")
  * @return {msg} 错误信息
  * @return {result} 新创建的组织对象
  */
-exports.createGroup = function (req_, res_) {
+exports.createGroup = function (req, res) {
 
-  var creator = req_.session.user ? req_.session.user._id : "";
+  var handler = new context().bind(req, res);
 
-  var g = {
-      "name": util.checkString(req_.body.name)
-    , "member": util.checkObject(req_.body.member)
-    , "description": req_.body.description
-    , "category": req_.body.category
-    , "secure": req_.body.secure
-    };
-
-  group.createGroup(g, creator, function(err, result){
+  group.createGroup(handler, function(err, result){
     if (err) {
-      return response.send(res_, err);
+      return response.send(res, err);
     } else {
-      return res_.send(json.dataSchema({items: result}));
-    }
-  });
-};
-
-/**
- * deleteGroup:
- *  删除组织
- * Update On:
- *  2012/10/31 12:00
- * Resource Information:
- *  API - /group/delete.json
- *  支持格式 - json
- *  HTTP请求方式 - DELETE
- *  是否需要登录 - YES
- *  访问授权限制 - NO
- * @param {String}  _id (required) 组织ID
- * @return {code} 错误状态码
- * @return {msg} 错误信息
- * @return {result} 删除的组织对象
- */
-exports.deleteGroup = function (req_, res_) {
-  var gid = util.checkString(req_.query._id);
-
-  group.deleteGroup(gid, function(err, result){
-    if(err){
-      return response.send(res_, err);
-    }else{
-      return res_.send(result);
+      return response.send(res, err, {items: result});
     }
   });
 };
@@ -96,25 +62,12 @@ exports.deleteGroup = function (req_, res_) {
  * @return {msg} 错误信息
  * @return {result} 获取的组织对象列表
  */
-exports.getGroupList = function(req_, res_) {
+exports.getGroupList = function(req, res) {
 
-  var condition = {
-      "uid": req_.query.uid || req_.session.user._id
-    , "login": req_.session.user._id
-    , "firstLetter": util.checkString(req_.query.firstLetter)
-    , "start": util.checkString(req_.query.start)
-    , "limit": util.checkString(req_.query.limit)
-    , "type": util.checkString(req_.query.type)
-    , "joined":util.checkString(req_.query.joined)
-    , "keywords":util.checkString(req_.query.keywords)
-    };
+  var handler = new context().bind(req, res);
 
-  group.getGroupList(condition, function(err, result){
-    if(err){
-      return response.send(res_, err);
-    }else{
-      return res_.send(json.dataSchema({items: result}));
-    }
+  group.getGroupList(handler, function(err, result){
+    return response.send(res, err, result);
   });
 };
 
@@ -134,50 +87,47 @@ exports.getGroupList = function(req_, res_) {
  * @return {msg} 错误信息
  * @return {result} 更新的组织对象
  */
-exports.updateGroup = function(req_, res_) {
-  var gobj = util.checkObject(req_.body);
-  gobj.editby = req_.session.user ? req_.session.user._id : "";
-  gobj.editat = Date.now();
+exports.updateGroup = function(req, res) {
 
-  group.updateGroup(gobj, function(err, result){
-    if(err){
-      return response.send(res_, err);
-    }else{
-      return res_.send(result);
-    }
+  var handler = new context().bind(req, res);
+
+  group.updateGroup(handler, function(err, result){
+    return response.send(res, err, result);
   });
 };
 
 /**
+ * TODO
  * API - /group/update/photo.json
  */
-exports.updateGroupPhoto = function(req_, res_) {
+//exports.updateGroupPhoto = function(req_, res_) {
+//
+//  var uid = req_.session.user._id;
+//    // , gid = req_.body.gid;
+//
+//  // Get file list from the request
+//  var filearray;
+//  if (req_.files.files instanceof Array) {
+//    filearray = req_.files.files;
+//  } else {
+//    filearray = [];
+//    filearray.push(req_.files.files);
+//  }
+//
+//  // 保存文件到数据库
+//  dbfile.gridfsSave(uid, filearray, function(err, fileinfos){
+//    if(err){
+//      return response.send(res_, err);
+//    }else{
+//      return res_.send(json.dataSchema({items: fileinfos}));
+//    }
+//  });
+//};
 
-  var uid = req_.session.user._id;
-    // , gid = req_.body.gid;
-
-  // Get file list from the request
-  var filearray;
-  if (req_.files.files instanceof Array) {
-    filearray = req_.files.files;
-  } else {
-    filearray = [];
-    filearray.push(req_.files.files);
-  }
-
-  // 保存文件到数据库
-  dbfile.gridfsSave(uid, filearray, function(err, fileinfos){
-    if(err){
-      return response.send(res_, err);
-    }else{
-      return res_.send(json.dataSchema({items: fileinfos}));
-    }
-  });
-};
-
-exports.setPhoto = function(req, res){
-  group.setPhoto(req, res);
-};
+// TODO
+//exports.setPhoto = function(req, res){
+//  group.setPhoto(req, res);
+//};
 
 /**
  * getGroup:
@@ -195,15 +145,12 @@ exports.setPhoto = function(req, res){
  * @return {msg} 错误信息
  * @return {result} 获取的组织对象
  */
-exports.getGroup = function(req_, res_) {
-  var gid = util.checkString(req_.query._id);
+exports.getGroup = function(req, res) {
 
-  group.getGroup(gid, function(err, result){
-    if(err){
-      return response.send(res_, err);
-    }else{
-      return res_.send(json.dataSchema(result));
-    }
+  var handler = new context().bind(req, res);
+
+  group.getGroup(handler, function(err, result){
+    return response.send(res, err, result);
   });
 };
 
@@ -224,17 +171,12 @@ exports.getGroup = function(req_, res_) {
  * @return {msg} 错误信息
  * @return {result} 加入成员后的组织对象
  */
-exports.addMember = function(req_, res_) {
-  var gid = util.checkString(req_.body.gid);
-  var uid = util.checkString(req_.body.uid);
-  var userid = req_.session.user ? req_.session.user._id : "";
+exports.addMember = function(req, res) {
 
-  group.addMember(gid, uid, userid, function(err, result){
-    if (err) {
-      return response.send(res_, err);
-    } else {
-      return res_.send(json.dataSchema({items: result}));
-    }
+  var handler = new context().bind(req, res);
+
+  group.addMember(handler, function(err, result){
+    return response.send(res, err, {items: result});
   });
 };
 
@@ -255,34 +197,23 @@ exports.addMember = function(req_, res_) {
  * @return {msg} 错误信息
  * @return {result} 删除成员后的组织对象
  */
-exports.removeMember = function(req_, res_) {
-  var gid = util.checkString(req_.body.gid);
-  var uid = util.checkString(req_.body.uid);
-  var userid = req_.session.user ? req_.session.user._id : "";
+exports.removeMember = function(req, res) {
 
-  group.removeMember(gid, uid, userid, function(err, result){
-    if (err) {
-      return response.send(res_, err);
-    } else {
-      return res_.send(json.dataSchema({items: result}));
-    }
+  var handler = new context().bind(req, res);
+
+  group.removeMember(handler, function(err, result){
+    return response.send(res, err, {items: result});
   });
 };
 
 /**
  * 获取组成员一览
  */
-exports.getMember = function(req_, res_) {
-  var gid = util.checkString(req_.query.gid)
-    , start = util.checkString(req_.query.start)
-    , limit = util.checkString(req_.query.limit)
-    , firstLetter = util.checkString(req_.query.firstLetter);
+exports.getMember = function(req, res) {
 
-  group.getMember(gid, firstLetter, start, limit, function(err, result){
-    if (err) {
-      return response.send(res_, err);
-    } else {
-      return res_.send(json.dataSchema({items: result}));
-    }
+  var handler = new context().bind(req, res);
+
+  group.getMember(handler, function(err, result){
+    return response.send(res, err, {items: result});
   });
 };
