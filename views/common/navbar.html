@@ -73,21 +73,28 @@
     <!--sl_yang del end-->
     <div class="navbar container" style="margin-top: 20px;">
         <div class="navbar-inner">
-            <div style="text-align: center">
-                <div style="margin-left: auto;margin-right: auto;">
+            <div class="container">
+                <div>
                     <a class="brand" href="/cross/home">Cross</a>
                     <ul class="nav" style="font-size: 1.5em;">
                         <li><a href="/message"><i class="icon-home"></i></a></li>
                         <li><a id="notice" href="/notice/"><i class="icon-bell"></i></a></li>
                         <li><a id="group" href="/group"><i class="icon-sitemap"></i></a></li>
                         <li><a id="user" href="/user"><i class="icon-user"></i></a></li>
-                        <li><a id="_logout" href="/simplelogout"><i class="icon-signout"></i></a></li>
-                        <li>
-                            <form class="navbar-form navbar-left" role="search">
-                                <div class="form-group">
-                                    <input type="text" class="form-control" placeholder="Search" style="width: 300px">
-                                </div>
-                            </form>
+                    </ul>
+                    <form class="navbar-search navbar-left" role="search">
+                        <div class="form-group">
+                            <input type="text" class="form-control" placeholder="Search" style="width: 300px">
+                        </div>
+                    </form>
+                    <ul class="nav pull-right">
+                        <li class="dropdown">
+                            <a href="#" class="dropdown-toggle" data-toggle="dropdown"><img src="/images/butterfly.png" style="height: 20px;width: 20px;"><small>&nbsp;&nbsp; DAC Admin</small></a>
+                            <ul class="dropdown-menu">
+                                <li><a href="#"><i class="icon-cog"></i>&nbsp;&nbsp;Profile</a></li>
+                                <li class="divider"></li>
+                                <li><a id="_logout" href="/simplelogout"><i class="icon-signout"></i>&nbsp;&nbsp;Logout</a></li>
+                            </ul>
                         </li>
                     </ul>
                 </div><!-- /.navbar-collapse -->

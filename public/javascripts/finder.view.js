@@ -49,7 +49,7 @@
       });
 
       // 用户一览中选择用户的事件
-      $('#_findresult li').bind("click", function(){
+      $('#_findresult li').bind("click", function(event){
         if (self.onUserSelected) {
           var target = $(this).find("a");
           var uid = target.attr("uid")
@@ -81,7 +81,7 @@
     /**
      * 检索用户
      */
-    onPreSearch: function() {
+    onPreSearch: function(event) {
 
       this.src = $(event.target);
 
