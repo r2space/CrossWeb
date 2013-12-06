@@ -53,9 +53,9 @@
           success: function(result) {
             // sl_yang result.dataがない時、エラーが発生した。
             if (result.data) {
-                if(result.data.items.total > 0){
+                if(result.data.total > 0){
                     var text = "<%= i('message.html.label.alertmsg') %>";
-                    $("#alert-msg").html(text.replace(/x/,result.data.items.total));
+                    $("#alert-msg").html(text.replace(/x/,result.data.total));
                     $("#alert-msg").css("display","block");
                 }
             }
