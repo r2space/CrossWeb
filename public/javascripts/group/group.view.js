@@ -21,8 +21,11 @@
 
       messageSelector.initializeForwardBox(this.showMessage);
 
+      var joinFunc = this.joinGroup;
       // 加入组，退出组的按钮事件
-      $("#join-btn, #leave-btn").bind('click', this.joinGroup);
+      $("#join-btn, #leave-btn").bind('click', function() {
+        joinFunc($(this));
+      });
 
       $("#showMember").bind("click", this.fetchMember);
       $("#showAllUser").bind("click", this.fetchAllUser);
@@ -47,6 +50,7 @@
         , groupDescription = this.model.get("description")
         , groupAdmin = this.model.get("createby")
         , groupMembers = this.model.get("member")
+        , groupOwners = this.model.get("owner")
         , groupImage = this.model.get("photo")
         , groupSecure = this.model.get("secure")
         , type = this.model.get("type")
@@ -67,16 +71,19 @@
 
       if (type == 1) {
 
-        // 已经属于改组，不管私密还是公开，都能编辑能退出
+        // 已经属于改组，不管私密还是公开，能退出
         if (_.contains(groupMembers, loginId)) {
-          $("#editGroup").removeClass("hide");
           $("#leave-btn").removeClass("hide");
         } else {
-
           // 公开组，可以参加
           if (groupSecure == 2) {
             $("#join-btn").removeClass("hide");
           }
+        }
+
+        // 是组的管理者，能编辑
+        if (_.contains(groupOwners, loginId)) {
+          $("#editGroup").removeClass("hide");
         }
       }
 
@@ -181,9 +188,9 @@
         });
 
         $("#groupMember a, #allUser a").on("click", function(){
-          var name = $(event.target).attr("name");
+          var name = $(this).attr("name");
           if (name) {
-            self.joinGroup(); return false;
+            self.joinGroup($(this)); return false;
           }
         });
 
@@ -193,15 +200,15 @@
     /**
      * 参加到组，或从组退出。对象用户是当前登陆的用户
      */
-    joinGroup: function(){
+    joinGroup: function(btn){
       var self = this
-        , name = $(event.target).attr("name");
+        , name = btn.attr("name");
 
       if (!name) {
         return;
       }
 
-      var uid = $(event.target).attr("uid")
+      var uid = btn.attr("uid")
         , gid = $("#groupid").val()
         , url = name == "remove" ? "/group/leave.json" : "/group/join.json"
         , msg = name == "remove" ? i18n["group.groupview.message.leave"] : i18n["group.groupview.message.join"];

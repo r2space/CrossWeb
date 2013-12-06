@@ -42,7 +42,9 @@
       });
 
       // 组的公开类型
-      $("#groupType button").bind("click", self.setGroupType);
+      $("#groupType button").bind("click", function() {
+        self.setGroupType($(this));
+      });
 
       $("#groupPhoto").bind("click", function(){
         $("#selectFile").show();
@@ -59,7 +61,7 @@
 
       $("#setPublic").removeClass("btn-warning");
       $("#setPrivate").removeClass("btn-warning");
-      $(event.target).addClass("btn-warning");
+      src.addClass("btn-warning");
     },
 
     /**

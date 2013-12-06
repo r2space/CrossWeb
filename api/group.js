@@ -214,6 +214,6 @@ exports.getMember = function(req, res) {
   var handler = new context().bind(req, res);
 
   group.getMember(handler, function(err, result){
-    return response.send(res, err, {items: result});
+    return response.send(res, err, result);
   });
 };

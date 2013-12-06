@@ -70,7 +70,7 @@
       });
 
       $("#allContainer a, #groupContainer a, #departmentContainer a").on("click", function(){
-        self.joinGroup($(event.target));
+        self.joinGroup($(this));
       });
     },
 

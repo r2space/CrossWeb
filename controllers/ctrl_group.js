@@ -9,177 +9,9 @@
 var ctrlGroup     = smart.ctrl.group
   , ctrlUser      = smart.ctrl.user
   , constant      = smart.framework.constant
-  , context       = smart.framework.context
   , async         = smart.util.async
   , _             = smart.util.underscore;
 
-/**
- * 创建组织
- */
-exports.createGroup = function(handler, callback) {
-
-  handler = transParam(handler);
-
-  // 添加组
-  ctrlGroup.add(handler, function(err, result) {
-    if(err) {
-      return callback(err);
-    }
-
-    var users = handler.params.member;
-
-    if(users) {
-      users = users.split(",");
-      users.add(handler.uid.toString());
-
-      // 添加组员
-      async.eachSeries(users, function(uid, done) {
-
-        handler.addParams("gid", result._id.toString());
-        handler.addParams("uid", uid);
-
-        ctrlGroup.addUser(handler, function(err) {
-          done(err);
-        });
-      }, function(err) {
-        result = transResult(result);
-        result.member = users;
-        return callback(err, result);
-      });
-    }
-
-  });
-};
-
-/**
- * 得到组织列表
- */
-exports.getGroupList = function(handler, callback) {
-
-  var params = handler.params;
-
-  var otherUid = params.uid; // 指定用户
-  var firstLetter = params.firstLetter;
-  var start = params.start;
-  var limit = params.limit;
-  var type = params.type;
-  var joined = params.joined;
-  var keywords = params.keywords;
-
-  if(joined && otherUid) { // 查找指定用户加入的公开组
-    // TODO
-  } else { // 查找所有公开组和自己加入的私有组
-    // TODO
-  }
-
-};
-
-/**
- * 更新组织
- */
-exports.updateGroup = function(handler, callback) {
-
-  var code = handler.code;
-  var uid = handler.uid;
-  var params = handler.params;
-
-
-};
-
-/**
- * 查询组织
- */
-exports.getGroup = function(handler, callback) {
-
-  var code = handler.code;
-  var uid = handler.uid;
-  var params = handler.params;
-
-
-};
-
-/**
- * 添加成员
- */
-exports.addMember = function(handler, callback) {
-
-  var code = handler.code;
-  var uid = handler.uid;
-  var params = handler.params;
-
-
-};
-
-/**
- * 删除成员
- */
-exports.removeMember = function(handler, callback) {
-
-  var code = handler.code;
-  var uid = handler.uid;
-  var params = handler.params;
-
-
-};
-
-/**
- * 获取组成员一览
- */
-exports.getMember = function(handler, callback) {
-
-  var code = handler.code;
-  var uid = handler.uid;
-  var params = handler.params;
-
-
-};
-
-exports.getAllGroupByUid = function(uid, callback) {
-  var handler = new context().bind({ session: { user: { _id: constant.DEFAULT_USER } } }, {});
-  handler.addParams("uid", uid);
-  // TODO
-  handler.addParams("gid", "52a136b72fdd17500d000002");
-  ctrlGroup.get(handler, function(err, result){
-    callback(err, [result]);
-  });
-};
-
-exports.at = function(gid, callback) {
-  var handler = new context().bind({ session: { user: { _id: constant.DEFAULT_USER } } }, {});
-  handler.addParams("gid", gid);
-  handler.addParams("valid", 1);
-  group.get(handler, function(err, result) {
-
-    if (err) {
-      return callback(err);
-    }
-    var groupData = transResult(result);
-    return callback(err, groupData);
-  });
-
-};
-
-exports.find = function(gids, callback){
-
-  var handler = new context().bind({ session: { user: { _id: constant.DEFAULT_USER } } }, {});
-
-  var groups = [];
-  async.forEach(gids, function(uid, cb){
-
-    handler.addParams("gid", gid);
-    group.get(handler, function(err, result) {
-
-      if (err) {
-        return callback(err);
-      }
-      var groupData = transResult(result);
-      groups.push(groupData);
-      return cb(err);
-    });
-  }, function(err){
-    callback(err, groups);
-  });
-};
 /**
  * 参数转换，Cross -> SmartCore
  *
@@ -197,37 +29,459 @@ exports.find = function(gids, callback){
 function transParam(handler) {
   var params = handler.params;
 
-  handler.addParams("name", params.name.name_zh);
   handler.addParams("extend", {
-      letter_zh: params.name.letter_zh
+    letter_zh: params.name.letter_zh.toUpperCase()
     , category : params.category
   });
+  handler.addParams("name", params.name.name_zh);
+  handler.addParams("owners", [handler.uid.toString()]);
   handler.addParams("description", params.description);
   handler.addParams("type", params.type === "1" ? constant.GROUP_TYPE_GROUP : constant.GROUP_TYPE_DEPARTMENT);
-  handler.addParams("public", params.secure === "1" ? constant.GROUP_PRIVATE : constant.GROUP_PUBLIC);
+  handler.addParams("visibility",
+    (params.secure === "1" || params.secure === 1) ? constant.GROUP_VISIBILITY_PRIVATE : constant.GROUP_VISIBILITY_PUBLIC);
+
+  return handler;
 }
 
 /**
  * 结果转换，SmartCore -> Cross
  */
 function transResult(result) {
-  if(!result) {
-    return result;
+
+  var newResult;
+
+  if(result) {
+    if(_.isArray(result)) {
+      newResult = [];
+      _.each(result, function(el) {
+        newResult.push(transResult(el));
+      });
+    } else if(result.items) {
+      newResult = [];
+      _.each(result.items, function(el) {
+        newResult.push(transResult(el));
+      });
+      result.items = newResult;
+      newResult = result;
+    } else {
+      newResult = {};
+      newResult._id = result._id.toString();
+      newResult.name = {
+        name_zh: result.name
+        , letter_zh: result.extend.letter_zh
+      };
+      newResult.description = result.description;
+      newResult.category    = result.extend.category;
+      newResult.type = result.type === constant.GROUP_TYPE_GROUP ? "1" : "2";
+      newResult.secure = result.visibility === constant.GROUP_VISIBILITY_PRIVATE ? "1" : "2";
+      newResult.member = [];
+      newResult.owner = result.owners;
+      newResult.createby = result.createBy;
+      newResult.createat = result.createAt;
+      newResult.editby = result.updateBy;
+      newResult.editat = result.updateAt;
+    }
+  } else {
+    newResult = result;
   }
 
-  var newResult = {};
-  newResult.name = {
-      name_zh: result.name
-    , letter_zh: result.extend.letter_zh
-  };
-  newResult.description = result.description;
-  newResult.category    = result.extend.category;
-  newResult.type = result.type === constant.GROUP_TYPE_GROUP ? "1" : "2";
-  newResult.public = result.public === constant.GROUP_PRIVATE ? "1" : "2";
-  newResult.createby = result.createBy;
-  newResult.createat = result.createAt;
-  newResult.editby = result.updateBy;
-  newResult.editat = result.updateAt;
-
-  return result;
+  return newResult;
 }
+
+function transUserResult(result) {
+  var newResult;
+
+  if(result) {
+    if(_.isArray(result)) {
+      newResult = [];
+      _.each(result, function(el) {
+        newResult.push(transUserResult(el));
+      });
+    } else if(result.items) {
+      newResult = [];
+      _.each(result.items, function(el) {
+        newResult.push(transUserResult(el));
+      });
+      result.items = newResult;
+      newResult = result;
+    } else {
+      newResult = {};
+      newResult._id = result._id.toString();
+      newResult.name = {
+        name_zh: result.extend.name_zh
+        , letter_zh: result.extend.letter_zh
+      };
+      newResult.uid = result.userName;
+      newResult.tel    = {
+        mobile : result.extend.mobile
+      };
+      newResult.following = result.extend.following;
+      newResult.createby = result.createBy;
+      newResult.createat = result.createAt;
+      newResult.editby = result.updateBy;
+      newResult.editat = result.updateAt;
+    }
+  } else {
+    newResult = result;
+  }
+
+  return newResult;
+}
+
+/**
+ * 创建组
+ * @param {Object} handler 上下文对象
+ * @param {Function} callback 回调函数，返回新创建的组
+ */
+exports.createGroup = function(handler, callback) {
+
+  handler.addParams("type", "1"); // 旧模型中，1:组（自由创建），2:部门（公司组织结构）
+
+  handler = transParam(handler);
+
+  // 添加组
+  ctrlGroup.add(handler, function(err, result) {
+    if(err) {
+      return callback(err);
+    }
+
+    var users = handler.params.member;
+
+    if(users) {
+      users = users.split(",");
+      users.add(handler.uid.toString());
+    } else {
+      users = [handler.uid.toString()];
+    }
+
+    // 添加组员
+    async.eachSeries(users, function(uid, done) {
+
+      handler.addParams("gid", result._id.toString());
+      handler.addParams("uid", uid);
+
+      ctrlGroup.addUser(handler, function(err) {
+        done(err);
+      });
+    }, function(err) {
+      result = transResult(result);
+      result.member = users;
+      return callback(err, result);
+    });
+  });
+};
+
+/**
+ * 得到组列表
+ * @param {Object} handler 上下文对象
+ * @param {Function} callback 回调函数，返回组列表
+ */
+exports.getGroupList = function(handler, callback) {
+
+  var params = handler.params;
+  var joined = params.joined;
+
+  var targetUid = params.uid || handler.uid.toString();
+
+  handler.addParams("uid", targetUid);
+
+  ctrlUser.get(handler, function(err, result) {
+    if(err) {
+      return callback(err);
+    }
+
+    var groups = result.groups || [];
+
+    var params = handler.params;
+    var type = params.type;
+    var firstLetter = params.firstLetter;
+    var keyword = params.keywords;
+
+    var condition1 = [];
+    // 取用户加入的组
+    condition1.push({
+      "_id": {$in: groups}
+    });
+    if(type) {
+      condition1.push({
+        "type": type === "1" ? constant.GROUP_TYPE_GROUP : constant.GROUP_TYPE_DEPARTMENT
+      });
+    }
+    if(firstLetter) {
+      condition1.push({
+        "extend.letter_zh": firstLetter.toUpperCase()
+      });
+    }
+    if(keyword) {
+      condition1.push({
+        "name": { $regex : keyword, $options: "i" }
+      });
+    }
+    handler.addParams("condition", condition1.length > 0 ? {$and: condition1} : {});
+
+    // 取公开的组
+    if(!joined) {
+      var condition2 = [];
+      condition2.push({
+        "visibility": constant.GROUP_VISIBILITY_PUBLIC
+      });
+      if(type) {
+        condition2.push({
+          "type": type === "1" ? constant.GROUP_TYPE_GROUP : constant.GROUP_TYPE_DEPARTMENT
+        });
+      }
+      if(firstLetter) {
+        condition2.push({
+          "extend.letter_zh": firstLetter.toUpperCase()
+        });
+      }
+      if(keyword) {
+        condition2.push({
+          "name": { $regex : keyword, $options: "i" }
+        });
+      }
+      if(condition1.length > 0) {
+        handler.addParams("condition", {$or: [{$and: condition1}, {$and: condition2}]});
+      } else {
+        handler.addParams("condition", {$and: condition2});
+      }
+    }
+
+    handler.addParams("skip", params.start);
+    handler.addParams("limit", params.limit);
+    handler.addParams("order", "name");
+
+    ctrlGroup.getList(handler, function(err, resultGroups) {
+      if(resultGroups) {
+        resultGroups = transResult(resultGroups);
+        // 设置成员
+        async.eachSeries(resultGroups.items, function(group, done) {
+
+          handler.addParams("gid", group._id.toString());
+
+          exports.getMember(handler, function(err, resultUsers) {
+            if(resultUsers) {
+              group.member = [];
+              _.each(resultUsers.items, function(user) {
+                group.member.push(user._id.toString());
+              });
+            }
+
+            done(err);
+          });
+
+        }, function(err) {
+          return callback(err, resultGroups);
+        });
+      } else {
+        callback(err);
+      }
+    });
+  });
+};
+
+/**
+ * 更新组
+ * @param {Object} handler 上下文对象
+ * @param {Function} callback 回调函数，返回组列表
+ */
+exports.updateGroup = function(handler, callback) {
+
+  handler = transParam(handler);
+
+  // TODO 添加图片更新的处理
+
+  handler.addParams("gid", handler.params._id.toString());
+
+  // 添加组
+  ctrlGroup.update(handler, function(err, result) {
+    if(err) {
+      return callback(err);
+    }
+
+    return callback(err, transResult(result));
+  });
+};
+
+/**
+ * 查询组织
+ */
+exports.getGroup = function(handler, callback) {
+
+  handler.addParams("gid", handler.params._id || handler.params.gid);
+
+  ctrlGroup.get(handler, function(err, resultGroup) {
+    if(err) {
+      return callback(err);
+    }
+
+    var resultGroup = transResult(resultGroup);
+
+    var condition = {
+      groups: resultGroup._id.toString()
+      , valid: 1
+    };
+
+    handler.addParams("condition", condition);
+    handler.addParams("limit", Number.MAX_VALUE);
+
+    ctrlUser.getList(handler, function(err, users) {
+
+      if(err) {
+        return callback(err);
+      }
+
+      resultGroup.member = [];
+      _.each(users.items, function(el) {
+        resultGroup.member.push(el._id.toString());
+      });
+
+      return callback(err, resultGroup);
+    });
+  });
+};
+
+/**
+ * 添加成员
+ */
+exports.addMember = function(handler, callback) {
+
+  // TODO 没有发通知
+
+  if(!handler.params.uid) {
+    handler.addParams("uid", handler.uid.toString());
+  }
+
+  ctrlGroup.addUser(handler, function(err, result) {
+
+    if(err) {
+      return callback(err);
+    }
+
+    exports.getGroup(handler, function(err, result) {
+
+      return callback(err, result);
+    });
+
+  });
+
+};
+
+/**
+ * 删除成员
+ */
+exports.removeMember = function(handler, callback) {
+
+  // TODO 没有发通知
+
+  if(!handler.params.uid) {
+    handler.addParams("uid", handler.uid.toString());
+  }
+
+  ctrlGroup.removeUser(handler, function(err, result) {
+
+    if(err) {
+      return callback(err);
+    }
+
+    exports.getGroup(handler, function(err, result) {
+
+      return callback(err, result);
+    });
+
+  });
+};
+
+/**
+ * 获取组成员一览
+ */
+exports.getMember = function(handler, callback) {
+
+  var params = handler.params;
+
+  handler.addParams("recursive", false);
+  handler.addParams("skip", 0);
+  handler.addParams("limit", Number.MAX_VALUE);
+
+  ctrlGroup.getUsersInGroup(handler, function(err, resultUsers) {
+
+    if(err) {
+      return callback(err);
+    }
+
+    var condition = [];
+
+    condition.push({
+      "_id": {$in: resultUsers.items}
+    });
+
+    if(params.firstLetter) {
+      condition.push({
+        "extend.letter_zh": params.firstLetter.toUpperCase()
+      });
+    }
+
+    handler.addParams("condition", {$and: condition});
+    handler.addParams("order", "extend.name_zh");
+    handler.addParams("skip", params.start);
+    handler.addParams("limit", params.limit);
+
+    ctrlUser.getList(handler, function(err, result) {
+
+      if(err) {
+        return callback(err);
+      }
+
+      return callback(err, transUserResult(result));
+    });
+  });
+
+};
+
+/**
+ * 检查当前用户能否查看某个组
+ */
+exports.canSee = function(handler, callback) {
+
+  var gid = handler.params.id;
+  handler.addParams("gid", gid);
+
+  ctrlGroup.get(handler, function(err, result) {
+
+    if(err) {
+      return callback(err);
+    }
+
+    if(result.visibility == constant.GROUP_VISIBILITY_PUBLIC) { // 公开组
+      return callback(err, true);
+    }
+
+    handler.addParams("uid", handler.uid.toString());
+    ctrlUser.get(handler, function(err, result) {
+      if(err) {
+        return callback(err);
+      }
+
+      var groups = result.groups || [];
+      return callback(err, _.contains(groups, gid));
+    });
+  });
+};
+
+/**
+ * 检查当前用户能否编辑某个组
+ */
+exports.canEdit = function(handler, callback) {
+
+  var gid = handler.params.id;
+  handler.addParams("gid", gid);
+
+  ctrlGroup.get(handler, function(err, result) {
+
+    if(err) {
+      return callback(err);
+    }
+
+    return callback(err, _.contains(result.owners || [], handler.uid.toString()));
+  });
+};

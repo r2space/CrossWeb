@@ -1,5 +1,6 @@
 
-var smart = lib;
+var context  = smart.framework.context
+  , ctrlGroup = require("../controllers/ctrl_group");
 
 /**
  * GuidingWebsite:
@@ -100,7 +101,7 @@ exports.guiding = function(app){
     });
   });
   app.get('/message/:id', function(req, res){
-    smart.core.checker.checkMessage(req, res, req.params.id, function(err, bool){
+    lib.core.checker.checkMessage(req, res, req.params.id, function(err, bool){
       if(!bool){
         res.render("error", {
           title: __("error"), 
@@ -137,8 +138,19 @@ exports.guiding = function(app){
       , bright: "group"
     });
   });
+  // 组
+  app.get('/group', function(req, res){
+    res.render('grouplist', {
+      title: __("window.title.grouplist")
+      , user: req.session.user
+      , bright: "group"
+    });
+  });
   app.get('/groupeditor/:id', function(req, res){
-    smart.core.authorityChecker.checkGroup(req, res, req.params.id, function(err, bool){
+
+    var handler = new context().bind(req, res);
+
+    ctrlGroup.canEdit(handler, function(err, bool){
       if(!bool){
         res.render("error", {
           title: __("error"), 
@@ -157,7 +169,9 @@ exports.guiding = function(app){
     });
   });
   app.get('/group/:id', function(req, res){
-    smart.core.authorityChecker.checkGroup(req, res, req.params.id, function(err, bool){
+    var handler = new context().bind(req, res);
+
+    ctrlGroup.canSee(handler, function(err, bool){
       if(!bool){
         res.render("error", {
           title: __("error"), 
