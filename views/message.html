@@ -305,20 +305,21 @@
           <a href="/user/{{ uid }}"><img src="{{ uphoto }}" style="width: 56px;"></a>
         </dt>
         <dd class="message-content">
-          <p style="background-color: #EEF; margin-bottom: 1px;">
+          <p style="background-color: #e5e5e5; margin-bottom: 2px;padding-left: 5px;">
             <a href="/user/{{ uid }}" id="{{ uid }}" class="userLink">{{ uname }}</a>{{ rangeGroup }} : {{ content }}
             <br/>
             {{ atAccounts }}
           </p>
-          <p id="attach_container_{{ mid }}" style="margin-bottom: 1px;">
+          <p id="attach_container_{{ mid }}" style="margin-bottom: 5px;padding-left: 5px;">
           </p>
           <p class="message-info">
-            <a href="/message/{{mid}}" style="color: #BBB;">{{time}}</a>
+            <a href="/message/{{mid}}" style="color: #BBB;padding-left:5px;padding-top: 5px;">{{time}}</a>
             <span class="pull-right">
               <a class="hidden" href="javascript://" id="delete_{{mid}}"><%= i('message.list.button.delete') %></a>
               <a href="javascript://" class="hide"><%= i('message.list.button.totop') %></a>
-              <a href="javascript://" class="hide"><%= i('message.list.button.good') %></a>
-              <a href="#message-selector" id="forwardMsg_{{mid}}" data-toggle="modal"><%= i('message.list.button.forward') %>({{ forwardNums }})</a>
+              <a href="javascript://" style="padding-left:3px;"><%= i('message.list.button.good') %></a>
+                <!--sl_yang-->
+              <!--<a href="#message-selector" id="forwardMsg_{{mid}}" data-toggle="modal"><%= i('message.list.button.forward') %>({{ forwardNums }})</a>-->
               <a href="javascript://" class="hide"><%= i('message.list.button.mark') %></a>
               <a href="javascript://" id="fetchreply_{{mid}}" class="toggle-replies">
                 <%= i('message.list.button.reply') %>({{ replyNums }})</a>
