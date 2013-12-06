@@ -75,8 +75,20 @@
       #lasyimages {
         opacity:0;
       }
+      .popover {
+          position: inherit;
+          min-width: 566px;
+          border-radius: 0px;
+          padding:0px;
+      }
 
-
+      .popover.bottom .arrow {
+          top: 109px;
+          border-bottom-color: #D5D2D2;
+      }
+      .popover-content {
+          padding: 0px;
+      }
     </style>
   </head>
   <body>
@@ -95,7 +107,6 @@
               <div class="span6" style="width:550px; margin-left: 20px;">
 
                 <div id="messagearea">
-
                   <!-- 消息的分类 -->
                   <ul id="msgtype" class="messageType">
                     <li><a title="<%= i('message.list.type.text') %>" id="textBox" style="font-size:1.5em;"><i class="icon-font"></i></a></li>
@@ -107,23 +118,30 @@
                   </ul>
 
                   <!-- 消息输入框 -->
-                  <div class="textBox">
-                    <textarea id="textBoxMsg" class="comment" rows="3" placeholder="<%= i('message.list.placeholder.text') %>"></textarea>
-                    <div id="textBoxNotice" class="users">
-                      <input id="keywordsText" scope="1" placeholder="<%= i('message.list.placeholder.notice') %>" />
-                    </div>
+                  <div class="textBox popover bottom" style="display: block;">
+                      <div class="arrow" style="left:37.5%;"></div>
+                      <div class="popover-content">
+                          <textarea id="textBoxMsg" class="comment" rows="3" placeholder="<%= i('message.list.placeholder.text') %>"></textarea>
+                          <div id="textBoxNotice" class="users">
+                              <input id="keywordsText" scope="1" placeholder="<%= i('message.list.placeholder.notice') %>" />
+                          </div>
+                      </div>
                   </div>
 
                   <!-- 图片选择 -->
-                  <div class="imageBox">
-                    <div id="imageBoxerContainer"></div>
-                    <div id="imageBoxSelector" class="image selector">
-                      <span><%= i('message.list.selector.image') %></span>
-                    </div>
-                    <!--<textarea id="imageBoxMsg" class="comment" rows="3" placeholder="<%= i('message.list.placeholder.text') %>"></textarea>-->
-                    <div id="imageBoxNotice" class="users">
-                      <input id="keywordsImage" scope="1" placeholder="<%= i('message.list.placeholder.notice') %>" />
-                    </div>
+                  <div class="imageBox popover bottom">
+                      <div class="arrow" style="left:44.5%;"></div>
+                      <div class="popover-content">
+                          <div id="imageBoxerContainer"></div>
+                          <div id="imageBoxSelector" class="image selector">
+                              <span><%= i('message.list.selector.image') %></span>
+                          </div>
+                          <!--<textarea id="imageBoxMsg" class="comment" rows="3" placeholder="<%= i('message.list.placeholder.text') %>"></textarea>-->
+                          <div id="imageBoxNotice" class="users">
+                              <input id="keywordsImage" scope="1" placeholder="<%= i('message.list.placeholder.notice') %>" />
+                          </div>
+                      </div>
+
                   </div>
 
                   <!-- 文件选择 -->
@@ -189,7 +207,6 @@
                     你有x条新消息
                 </div>
 
-                <hr />
                 <!-- 消息一览 -->
                 <div id="messages-container"></div>
 
@@ -313,7 +330,7 @@
           <p id="attach_container_{{ mid }}" style="margin-bottom: 5px;padding-left: 5px;">
           </p>
           <p class="message-info">
-            <a href="/message/{{mid}}" style="color: #BBB;padding-left:5px;padding-top: 5px;">{{time}}</a>
+            <a href="/message/{{mid}}" style="color: #BBB;padding-left:5px;">{{time}}</a>
             <span class="pull-right">
               <a class="hidden" href="javascript://" id="delete_{{mid}}"><%= i('message.list.button.delete') %></a>
               <a href="javascript://" class="hide"><%= i('message.list.button.totop') %></a>
