@@ -250,34 +250,30 @@ exports.unfollow = function(handler, callback){
 
 function trans_user_api(result) {
   // 数据混在问题 TODO sara
-  if (!result.extend || !result.extend.name_zh) {
+  if (!result || !result.extend || !result.extend.name_zh) {
     return result;
   }
 
-  var userData = {};
-  if (result) {
-
-    var userData = {
-      _id       : result._id
-      , uid        : result.userName
-      , password  : FAKE_PASSWORD
-      , name      : {
-        name_zh : result.extend.name_zh,
-        letter_zh : result.extend.letter_zh
-      }
-      , tel : {
-        mobile : result.extend.mobile
-      }
-      , following : result.extend.following
-      , email  : {
-        email1    : result.email
-      }
-      , createat  : result.createAt
-      , createby  : result.createBy
-      , editat    : result.updateAt
-      , editby    : result.updateBy
-    };
-  }
+  var userData = {
+    _id       : result._id
+    , uid        : result.userName
+    , password  : FAKE_PASSWORD
+    , name      : {
+      name_zh : result.extend.name_zh,
+      letter_zh : result.extend.letter_zh
+    }
+    , tel : {
+      mobile : result.extend.mobile
+    }
+    , following : result.extend.following
+    , email  : {
+      email1    : result.email
+    }
+    , createat  : result.createAt
+    , createby  : result.createBy
+    , editat    : result.updateAt
+    , editby    : result.updateBy
+  };
   return userData;
 }
 
