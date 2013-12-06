@@ -40,6 +40,36 @@ exports.at = function(uid, callback) {
 
 };
 
+exports.getUser = function(uid, callback_){
+  var handler = new context().bind({ session: { user: { _id: constant.DEFAULT_USER } } }, {});
+  handler.addParams("uid", uid);
+  handler.addParams("valid", 1);
+
+  user.get(handler, function(err, result) {
+
+    if (err) {
+      return callback_(new error.InternalServer(err));
+    }
+    if (!result) {
+      return callback_(new error.NotFound(__("user.error.notFound")));
+    }
+    var userData = trans_user_api(result);
+
+    var condition = { "extend.following" : uid };
+    handler.addParams("condition", condition);
+    user.getList(handler, function(err, followers){
+    //user.followerIds(uid_, function(err, followerIds){
+      //var json = userData.toJSON();
+      var fs = [];
+      _.each(followers.items, function(user) {
+        fs.push(user._id);
+      });
+      userData.follower = fs;
+      return callback_(err, userData);
+    });
+  });
+};
+
 exports.getList = function(handler, callback) {
   if (!handler || !handler.params) {
     handler = new context().bind({ session: { user: { _id: constant.DEFAULT_USER } } }, {});
@@ -118,7 +148,12 @@ exports.listByUids = function(uids, callback){
 
 exports.appendUser = function(source, field, callback) {
   var code = "";
-  user.appendUser(code, source, field, callback);
+  user.appendUser(code, source, field, function(err, src){
+    _.each(src, function(row) {
+      row.user = row["$" + field];
+    });
+    callback(err, src);
+  });
 };
 
 exports.add = function(handler, callback) {
@@ -249,10 +284,6 @@ exports.unfollow = function(handler, callback){
 // translation functions : cross <=>  smartcore
 
 function trans_user_api(result) {
-  // 数据混在问题 TODO sara
-  if (!result || !result.extend || !result.extend.name_zh) {
-    return result;
-  }
 
   var userData = {
     _id       : result._id
