@@ -1,18 +1,16 @@
 body {
   /*background: #f00;*/
-
   border-top: 4px solid black;
   margin: 0;
   padding: 0;
 }
 article {
   /*  padding: 50px 0px 0px 100px;*/
-
 }
-footer {
+.footer {
   border: 0;
 }
-footer p {
+.footer p {
   text-align: center;
   margin: 0;
   padding: 40px 0 0 0;
@@ -52,7 +50,6 @@ article p label {
     background: url(/images/btn_login.gif) no-repeat;
     text-indent: -9999px;
     cursor: pointer;*/
-
 }
 #login:hover {
   background-position: left bottom;
@@ -109,6 +106,9 @@ article p label {
   position: relative;
   z-index: 90;
   padding: 50px;
+  border-left: 2px solid #e3e3e3;
+  border-right: 2px solid #e3e3e3;
+  border-bottom: 2px solid #e3e3e3;
 }
 #container-demo h4.rectangle {
   margin: 0;
@@ -198,11 +198,9 @@ article p label {
 */
 input::-webkit-input-placeholder {
   /*color: #666;*/
-
   text-indent: 3px;
   text-shadow: none;
   /*font-size: 12px;*/
-
 }
 a {
   color: #000;

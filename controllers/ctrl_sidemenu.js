@@ -1,10 +1,10 @@
 
-var sync      = require("async")
-  , _         = require('underscore')
-  , user      = lib.ctrl.user
-  , group     = lib.ctrl.group
-  , shortmail = require("./ctrl_shortmail")
-  , util      = lib.core.util;
+var sync      = smart.util.async
+  , _         = smart.util.underscore
+  , util      = smart.framework.util
+  , user      = require("../controllers/ctrl_user")
+  , group     = require("../controllers/ctrl_group")
+  , shortmail = require("./ctrl_shortmail");
 
 /**
  * 消息
@@ -66,7 +66,8 @@ exports.user = function(uid_, callback_) {
     // 获取给定用户的好友
     function(callback) {
 
-      user.getUserList({"kind":"following", "firstLetter":"", "uid":uid_, "start":0, "limit":20}, function(err, result) {
+      //user.getUserList({"kind":"following", "firstLetter":"", "uid":uid_, "start":0, "limit":20}, function(err, result) {
+      user.getUserList({}, function(err, result) {      // TODO sara
         callback(err, result);
       });
     },
@@ -74,7 +75,8 @@ exports.user = function(uid_, callback_) {
     // 获取好友的详细信息
     function(following, callback) {
 
-      user.listByUids(following, 0, 5, function(err, result){
+      //user.listByUids(following, 0, 5, function(err, result){
+      user.listByUids(following, function(err, result){
         callback(err, result);
       });
     }
@@ -110,7 +112,8 @@ exports.group = function(uid_, callback_) {
     , "joined":true
     };
 
-  group.getGroupList(condition, function(err, result){
+  user.getUserList(condition, function(err, result){
+  //group.getGroupList(condition, function(err, result){
     
     var sidemenu = {
         "item": "groups"

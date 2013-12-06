@@ -18,13 +18,13 @@ function login() {
 
   var username = $('#name').val()
     , password = $('#pass').val();
-    //, csrftoken = $('#_csrf').val();
+//    , csrftoken = $('#_csrf').val();
 
-  if (client.browser.ie >=10 || client.browser.chrome !=0 || client.browser.safari !=0) {
-  } else {
-    Alertify.log.info("supported Browsers: chrome, safari, IE10");
-    return;
-  }
+//  if (client.browser.ie >=10 || client.browser.chrome !=0 || client.browser.safari !=0) {
+//  } else {
+//    Alertify.log.info("supported Browsers: chrome, safari, IE10");
+//    return;
+//  }
 
   // 必须输入，否则摇一摇
   if (username.length <= 0 || password.length <= 0) {

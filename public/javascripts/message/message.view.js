@@ -74,14 +74,15 @@
       var self = this;
 
       // 切换消息类型
-      $("#msgtype a").bind("click", function(){
+      $("#msgtype a").bind("click", function(event){
         $(".textBox").hide();
         $(".imageBox").hide();
-        $(".fileBox").hide();
-        $(".videoBox").hide();
-        $(".documentBox").hide();
+//        $(".fileBox").hide();
+//        $(".videoBox").hide();
+//        $(".documentBox").hide();
 
         var id = $(event.target).parent().attr("id");
+        // sl_yang bug  没有ID的<a>被触发时,全都不显示了.
         $("." + id).show();
         self.kind = id;
       });
@@ -94,54 +95,54 @@
         src.trigger('click');
       });
 
-      // 选择文件
-      $("#fileBoxSelector").bind("click", function(){
-        var src = $("#uploadfile");
-        src.attr("accept", "");
-        src.attr("multiple", "multiple");
-        src.trigger('click');
-      });
+//      // 选择文件
+//      $("#fileBoxSelector").bind("click", function(){
+//        var src = $("#uploadfile");
+//        src.attr("accept", "");
+//        src.attr("multiple", "multiple");
+//        src.trigger('click');
+//      });
+//
+//      // 选择视频
+//      $("#videoBoxSelector").bind("click", function(){
+//        var src = $("#uploadfile");
+//        src.attr("accept", "audio/*,video/*");
+//        src.removeAttr("multiple");
+//        src.trigger('click');
+//      });
 
-      // 选择视频
-      $("#videoBoxSelector").bind("click", function(){
-        var src = $("#uploadfile");
-        src.attr("accept", "audio/*,video/*");
-        src.removeAttr("multiple");
-        src.trigger('click');
-      });
-
-      // 选择文书
-      $("#documentBoxSelector").bind("click", function(){
-        var url="/file/list.json?type=all";
-        smart.doget(url, function(err,result){
-          var tmpl = $("#message-documentlist-template").html()
-          , container = $("#message-documentlist");
-
-          container.html("");
-          _.each(result.items, function(file) {
-            container.append(_.template(tmpl, {
-                fid: file._id
-              // , downloadId: file.downloadId
-              , extension: file.extension
-              , filename: file.filename
-              , at: file.uploadDate
-            }));
-          });
-
-          $("#message-documentlist tr").bind("click", function(){
-            if(event.target.type == "checkbox")
-              return;
-            var fid = $(event.target).parents("tr").attr("fid");
-            $("#doc_" + fid).trigger('click');
-          });
-        });
-      });
-
-      // 文书选择完了
-      $("#setDocument").bind("click", function(){
-        self.setDocument();
-        $("#document-selector").modal('hide');
-      });
+//      // 选择文书
+//      $("#documentBoxSelector").bind("click", function(){
+//        var url="/file/list.json?type=all";
+//        smart.doget(url, function(err,result){
+//          var tmpl = $("#message-documentlist-template").html()
+//          , container = $("#message-documentlist");
+//
+//          container.html("");
+//          _.each(result.items, function(file) {
+//            container.append(_.template(tmpl, {
+//                fid: file._id
+//              // , downloadId: file.downloadId
+//              , extension: file.extension
+//              , filename: file.filename
+//              , at: file.uploadDate
+//            }));
+//          });
+//
+//          $("#message-documentlist tr").bind("click", function(){
+//            if(event.target.type == "checkbox")
+//              return;
+//            var fid = $(event.target).parents("tr").attr("fid");
+//            $("#doc_" + fid).trigger('click');
+//          });
+//        });
+//      });
+//
+//      // 文书选择完了
+//      $("#setDocument").bind("click", function(){
+//        self.setDocument();
+//        $("#document-selector").modal('hide');
+//      });
 
     },
 
@@ -157,11 +158,14 @@
           , tmpl = $("#message-scope-template").html();
 
         _.each(result.items, function(g) {
-          scope.append(_.template(tmpl, {"name": g.name.name_zh, "id": g._id}));
+          // sl_yang
+          if (g.name && g.name.name_zh) {
+            scope.append(_.template(tmpl, {"name": g.name.name_zh, "id": g._id}));
+          }
         });
 
         // 选择发布消息的范围
-        $("#scope a").on("click", function() {
+        $("#scope a").on("click", function(event) {
           var uid =$(event.target).attr("uid");
           if(uid != "1"){
             $("#_findresult").hide();
@@ -190,7 +194,7 @@
       });
 
       // 显示设定消息的下拉框
-      $("#scopesetter").bind("click", function() {
+      $("#scopesetter").bind("click", function(event) {
         var anchor = $(event.target)
           , scope = $("#scope");
 
@@ -258,48 +262,73 @@
      * 文件上传
      */
     fileUpload: function(event) {
-      var self = this
-        , files = event.target.files;
+      var self = this;
 
+      // sl_yang IE8 对应,可能有bug.只能选单个文件
+//        , files = event.target.files;
+      var files = [];
+      if (event.target.files) {
+        files = event.target.files;
+      } else {
+        if (event.target.value) {
+          files.push(event.target.value);
+        }
+      }
       // 上传图片
       if (self.kind == "imageBox") {
         var tmpl = $("#message-image-template").html();
         $("#imageBoxerContainer").html("");
-        for (var f, i = 0; f = files[i]; i++) {
+
+        // sl_yang
+        var i = 0;
+        _.each(files,function(file) {
           var id = _.uniqueId();
 
           // 创建image框
-          var img = _.template(tmpl, {"id": id, "index": i});
+          var img = _.template(tmpl, {"id": id, "index": i++});
           img = img.replace(/\n/g, "").replace(/^[ ]*/, "");
           $("#imageBoxerContainer").append($(img));
           //$(img).insertBefore($("#imageBoxSelector"));
 
           // 预览图片
-          smart.localPreview(f, $("#" + id));
-        }
+          // sl_yang IE8下不能预览
+          smart.localPreview(file, $("#" + id));
+        })
+//        for (var f, i = 0; f = files[i]; i++) {
+//          var id = _.uniqueId();
+//
+//          // 创建image框
+//          var img = _.template(tmpl, {"id": id, "index": i});
+//          img = img.replace(/\n/g, "").replace(/^[ ]*/, "");
+//          $("#imageBoxerContainer").append($(img));
+//          //$(img).insertBefore($("#imageBoxSelector"));
+//
+//          // 预览图片
+//          smart.localPreview(f, $("#" + id));
+//        }
       }
 
-      // 上传照片以外的文件
-      if (self.kind == "fileBox") {
-        var tmpl = $("#message-file-template").html();
-        $("#fileBoxerContainer").html("");
-        for (var f, i = 0; f = files[i]; i++) {
-          var id = _.uniqueId()
-            , extension = self.contenttype2extension(f.type, f.name)
-            , photo = "/images/filetype/"+ extension +".png";
-
-          var type = _.template(tmpl, {"id": id, "src": photo, "title": f.name});
-          type = type.replace(/\n/g, "").replace(/^[ ]*/, "");
-
-          $("#fileBoxerContainer").append($(type));
-          //$(type).insertBefore($("#fileBoxSelector"));
-        }
-      }
-
-      // 上传视频文件
-      if (self.kind == "videoBox") {
-        $("#videoBoxSelector span").html(files[0].name);
-      }
+//      // 上传照片以外的文件
+//      if (self.kind == "fileBox") {
+//        var tmpl = $("#message-file-template").html();
+//        $("#fileBoxerContainer").html("");
+//        for (var f, i = 0; f = files[i]; i++) {
+//          var id = _.uniqueId()
+//            , extension = self.contenttype2extension(f.type, f.name)
+//            , photo = "/images/filetype/"+ extension +".png";
+//
+//          var type = _.template(tmpl, {"id": id, "src": photo, "title": f.name});
+//          type = type.replace(/\n/g, "").replace(/^[ ]*/, "");
+//
+//          $("#fileBoxerContainer").append($(type));
+//          //$(type).insertBefore($("#fileBoxSelector"));
+//        }
+//      }
+//
+//      // 上传视频文件
+//      if (self.kind == "videoBox") {
+//        $("#videoBoxSelector span").html(files[0].name);
+//      }
 
       this.files = files;
     },
@@ -371,25 +400,34 @@
 
         var rangeGroup = "";
         if(range){
-          rangeGroup = " <a href='/group/" + range.id + "' id=" + range.id + " class='userLink'>(" + range.name.name_zh + ")</a>";
+          //sl_yang
+          var rName = range.name && range.name.name_zh ? range.name.name_zh : "";
+          rangeGroup = " <a href='/group/" + range.id + "' id=" + range.id + " class='userLink'>(" + rName + ")</a>";
         }
 
         var at = "";
         if(atusers){
           _.each(atusers,function(user){
-            at = at + " <a href='/user/" + user.id + "' id=" + user.id + " class='userLink'>@" + user.name.name_zh + "</a>";
+            //sl_yang
+            var uName = user.name && user.name.name_zh ? user.name.name_zh : "";
+            at = at + " <a href='/user/" + user.id + "' id=" + user.id + " class='userLink'>@" + uName + "</a>";
           });
         }
         if(atgroups){
           _.each(atgroups,function(group){
-            at = at + " <a href='/group/" + group.id + "' id=" + group.id + " class='userLink'>@" + group.name.name_zh + "</a>";
+            //sl_yang
+            var gName = group.name && group.name.name_zh ? group.name.name_zh : "";
+            at = at + " <a href='/group/" + group.id + "' id=" + group.id + " class='userLink'>@" + gName + "</a>";
           });
         }
+
+        //sl_yang
+        var uinfoName = uinfo.name && uinfo.name.name_zh ? uinfo.name.name_zh : "";
 
         container.append(_.template(tmpl, {
             "mid": msg.get("_id")
           , "uid": uinfo.id
-          , "uname": uinfo.name.name_zh
+          , "uname": uinfoName
           , "time": smart.date(msg.get("createat"))
           , "uphoto": photo
           , "replyNums": msg.get("part").replyNums
@@ -593,7 +631,9 @@
       };
 
       if (self.kind == "textBox") {
-        if(msgbox.val().trim().length == 0){
+        // sl_yang trim ie8 不支持
+        var tempVal = msgbox.val().replace(/(^\s*)|(\s*$)/g, "");
+        if(tempVal.length == 0){
           Alertify.dialog.alert(i18n["message.list.message.nomessage"]);
           //alert(i18n["message.list.message.nomessage"]);
           msgbox.val("");
@@ -657,8 +697,9 @@
      */
     uploadMsg: function(param, attach) {
       var self = this
-        , url = "/message/create.json"
-        , fd = new FormData();
+        , url = "/message/create.json";
+      // sl_yang
+//        , fd = new FormData();
 
       // fd.append("content", param.content);
       // fd.append("contentType", param.contentType);
