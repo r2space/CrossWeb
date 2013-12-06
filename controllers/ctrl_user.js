@@ -84,7 +84,7 @@ exports.getUserList = function(handler, callback){
     var users = [];
     _.each(userResult.items, function(user) {
       var u = trans_user_api(user);
-      users.push(u);   console.log(u);
+      users.push(u);
     });
 
     if (err) {

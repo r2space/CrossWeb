@@ -8,7 +8,8 @@
 
 var ctrlGroup     = smart.ctrl.group
   , ctrlUser      = smart.ctrl.user
-  , constant      = smart.framework.smart
+  , constant      = smart.framework.constant
+  , context       = smart.framework.context
   , async         = smart.util.async
   , _             = smart.util.underscore;
 
@@ -133,9 +134,52 @@ exports.getMember = function(handler, callback) {
 
 };
 
+exports.getAllGroupByUid = function(uid, callback) {
+  var handler = new context().bind({ session: { user: { _id: constant.DEFAULT_USER } } }, {});
+  handler.addParams("uid", uid);
+  // TODO
+  handler.addParams("gid", "52a136b72fdd17500d000002");
+  ctrlGroup.get(handler, function(err, result){
+    callback(err, [result]);
+  });
+};
 
+exports.at = function(gid, callback) {
+  var handler = new context().bind({ session: { user: { _id: constant.DEFAULT_USER } } }, {});
+  handler.addParams("gid", gid);
+  handler.addParams("valid", 1);
+  group.get(handler, function(err, result) {
 
+    if (err) {
+      return callback(err);
+    }
+    var groupData = transResult(result);
+    return callback(err, groupData);
+  });
 
+};
+
+exports.find = function(gids, callback){
+
+  var handler = new context().bind({ session: { user: { _id: constant.DEFAULT_USER } } }, {});
+
+  var groups = [];
+  async.forEach(gids, function(uid, cb){
+
+    handler.addParams("gid", gid);
+    group.get(handler, function(err, result) {
+
+      if (err) {
+        return callback(err);
+      }
+      var groupData = transResult(result);
+      groups.push(groupData);
+      return cb(err);
+    });
+  }, function(err){
+    callback(err, groups);
+  });
+};
 /**
  * 参数转换，Cross -> SmartCore
  *
