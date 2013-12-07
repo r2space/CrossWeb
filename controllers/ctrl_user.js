@@ -3,6 +3,7 @@ var notification = require("../controllers/ctrl_notification")
   , async = smart.util.async
   , _      = smart.util.underscore
   , context   = smart.framework.context
+  , auth = smart.framework.auth
   , constant  = smart.framework.constant
   , sanitize = smart.util.validator.sanitize;
 
@@ -397,8 +398,8 @@ function trans_user_db(handler) {
   // handler.addParams("email", params.email.email1);
   var photo = params.photo;
   photo.big = params.photo.fid;
-  photo.small = params.photo.fid;
-  photo.middle = params.photo.fid;
+  // photo.small = params.photo.fid;
+  // photo.middle = params.photo.fid;
   handler.addParams("extend", {
     name_zh  : params.name.name_zh        // name.name_zh
     , letter_zh : params.name.letter_zh  // name.letter_zh
