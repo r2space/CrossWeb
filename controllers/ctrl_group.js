@@ -9,6 +9,7 @@
 var ctrlGroup     = smart.ctrl.group
   , ctrlUser      = smart.ctrl.user
   , constant      = smart.framework.constant
+  , context  = smart.framework.context
   , async         = smart.util.async
   , _             = smart.util.underscore;
 
@@ -483,5 +484,75 @@ exports.canEdit = function(handler, callback) {
     }
 
     return callback(err, _.contains(result.owners || [], handler.uid.toString()));
+  });
+};
+
+
+/**
+ * 获取所有组成员的ID 递归
+ */
+exports.getUsersInGroup = function(gid, callback){
+  ctrlGroup.getUsersInGroup( {gid: gid, recursive: true}, function(err, result){
+    if (err) {
+      return callback(err);
+    }
+    return callback(err, result.items);
+  });
+};
+
+
+// TODO 下列函数被ctrl_message调用，无法获得req和res，因此无法使用Handler
+
+exports.getAllGroupByUid = function(uid, callback) {
+  var handler = new context().bind({ session: { user: { _id: constant.DEFAULT_USER } } }, {});
+  handler.addParams("uid", uid);
+  exports.getGroupList(handler, function(err, result) {
+    if(err) {
+      return callback(err);
+    }
+
+    var groups = [];
+    _.each(result.items, function(el) {
+      groups.push(el._id.toString());
+    });
+
+    return callback(err, groups);
+  });
+};
+
+exports.at = function(gid, callback) {
+  var handler = new context().bind({ session: { user: { _id: constant.DEFAULT_USER } } }, {});
+  handler.addParams("gid", gid);
+  handler.addParams("valid", 1);
+  ctrlGroup.get(handler, function(err, result) {
+
+    if (err) {
+      return callback(err);
+    }
+    var groupData = transResult(result);
+    return callback(err, groupData);
+  });
+
+};
+
+exports.find = function(gids, callback){
+
+  var handler = new context().bind({ session: { user: { _id: constant.DEFAULT_USER } } }, {});
+
+  var groups = [];
+  async.forEach(gids, function(gid, cb){
+
+    handler.addParams("gid", gid);
+    ctrlGroup.get(handler, function(err, result) {
+
+      if (err) {
+        return callback(err);
+      }
+      var groupData = transResult(result);
+      groups.push(groupData);
+      return cb(err);
+    });
+  }, function(err){
+    callback(err, groups);
   });
 };
