@@ -1,5 +1,6 @@
 var notification = require("../controllers/ctrl_notification")
   , user  = smart.ctrl.user
+  , group = require("../controllers/ctrl_group")
   , async = smart.util.async
   , _      = smart.util.underscore
   , context   = smart.framework.context
@@ -105,7 +106,7 @@ exports.getUserList = function(handler, callback){
   var params = handler.params;
   var kind_ = params.kind || "all";
   var firstLetter_ = params.firstLetter;
-  var uid_ = params.uid;
+  var uid_ = params.uid || handler.uid.toString();
   var keywords_ = params.keywords;
   var gid = params.gid;
   var condition = {};
@@ -164,14 +165,33 @@ exports.getUserList = function(handler, callback){
 
   // 获取我关注的人
   if (kind_ == "following") {
-    //handler.addParams("uid", uid);
+    handler.addParams("uid", uid_);
     user.get(handler, function(err, result) {
 
       if (err) {
         return callback(err);
       }
       exports.listByUids(result.extend.following, function(e, users){
-         callback(e, users);
+
+        //设置所属组
+        if(!e && users) {
+          async.eachSeries(users, function(userItem, done) {
+            if(userItem.groups && userItem.groups.length > 0) {
+              handler.addParams("gid", userItem.groups[0]);
+              group.getGroup(handler, function(err, result) {
+                userItem.department = result;
+                done(err);
+              });
+            } else {
+              userItem.department = null;
+              done(null);
+            }
+          }, function(err) {
+            callback(e, users);
+          });
+        } else {
+          callback(e);
+        }
       });
     });
   }
@@ -203,7 +223,7 @@ exports.listByUids = function(uids, callback){
   var handler = new context().bind({ session: { user: { _id: constant.DEFAULT_USER } } }, {});
 
   var users = [];
-  async.forEach(uids, function(uid, cb){
+  async.eachSeries(uids, function(uid, cb){
 
     handler.addParams("uid", uid);
     user.get(handler, function(err, result) {
@@ -213,9 +233,9 @@ exports.listByUids = function(uids, callback){
       }
       var userData = trans_user_api(result);
       users.push(userData);
-      return cb(err, users);
+      return cb(err);
     });
-  }, function(err, users){
+  }, function(err){
     callback(err, users);
   });
 };
@@ -379,6 +399,7 @@ function trans_user_api(result) {
     , editat    : result.updateAt
     , editby    : result.updateBy
     , photo : result.extend.photo
+    , groups : result.groups
   };
   return userData;
 }
