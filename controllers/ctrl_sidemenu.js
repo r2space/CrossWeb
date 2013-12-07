@@ -2,6 +2,8 @@
 var sync      = smart.util.async
   , _         = smart.util.underscore
   , util      = smart.framework.util
+  , constant  = smart.framework.constant
+  , context   = smart.framework.context
   , user      = require("../controllers/ctrl_user")
   , group     = require("../controllers/ctrl_group")
   , shortmail = require("./ctrl_shortmail");
@@ -105,15 +107,13 @@ exports.user = function(uid_, callback_) {
 /**
  * 组
  */
-exports.group = function(uid_, callback_) {
+exports.group = function(uid, callback_) {
 
-  var condition = {
-      "uid": uid_
-    , "joined":true
-    };
-   // TODO lizheng
-  user.getUserList(condition, function(err, result){
-  //group.getGroupList(condition, function(err, result){
+  var handler = new context().bind({ session: { user: { _id: constant.DEFAULT_USER } } }, {});
+  handler.addParams("uid", uid);
+  handler.addParams("joined", true);
+
+  group.getGroupList(handler, function(err, result){
     
     var sidemenu = {
         "item": "groups"
@@ -122,11 +122,11 @@ exports.group = function(uid_, callback_) {
       , "submenus": []
       };
     
-    _.each(result, function(item){
+    _.each(result.items, function(item){
       sidemenu.submenus.push({
           "item": item._id
           //判断租名字 是否为object类型
-        , "title": util.isAllNull(item.name.name_zh)?item.name:item.name.name_zh
+        , "title": item.name.name_zh
         , "type": "group"
         });
     });
