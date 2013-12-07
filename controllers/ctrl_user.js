@@ -3,7 +3,8 @@ var notification = require("../controllers/ctrl_notification")
   , async = smart.util.async
   , _      = smart.util.underscore
   , context   = smart.framework.context
-  , constant  = smart.framework.constant;
+  , constant  = smart.framework.constant
+  , sanitize = smart.util.validator.sanitize;
 
 var FAKE_PASSWORD = "0000000000000000";
 
@@ -98,30 +99,106 @@ exports.getList = function(handler, callback) {
 
 };
 
-exports.getUserList = function(handler, callback){
-  //{"kind":"following", "firstLetter":"", "uid":uid_, "start":0, "limit":20}        TODO
-  if (!handler || !handler.params) {
-    handler = new context().bind({ session: { user: { _id: constant.DEFAULT_USER } } }, {});
+exports.getUserList = function(params, callback){
+
+  // {"kind":"following", "firstLetter":"", "uid":uid_, "start":0, "limit":20}
+  // {"kind":"all", "firstLetter":firstLetter_, "uid":uid_, "start":start_, "limit":limit_}
+
+  var kind_ = params.kind || "all";
+  var firstLetter_ = params.firstLetter;
+  var uid_ = params.uid;
+  var keywords_ = params.keywords;
+  var gid = params.gid;
+  var condition = {};
+  // 首字母过滤
+  if (keywords_) {
+    condition.$or = [
+      {"name.name_zh": new RegExp("^" + keywords_.toLowerCase() + ".*$", "i")}
+      , {"name.letter_zh": new RegExp("^" + keywords_.toLowerCase() + ".*$", "i")}
+      , {"email.email1": new RegExp("^" + keywords_.toLowerCase() + ".*$", "i")}
+      , {"email.email2": new RegExp("^" + keywords_.toLowerCase() + ".*$", "i")}
+    ];
   }
-  handler.addParams("valid", 1);
+  if (firstLetter_) {
+    firstLetter_ = sanitize(firstLetter_).xss();
+    condition.$or = [
+      {"extend.name_zh": new RegExp("^" + firstLetter_.toLowerCase() + ".*$", "i")}
+      , {"extend.letter_zh": new RegExp("^" + firstLetter_.toLowerCase() + ".*$", "i")}
+    ];
+  }
 
-  user.getListByKeywords(handler, function(err, userResult) {
+  var  handler = new context().bind({ session: { user: { _id: constant.DEFAULT_USER } } }, {});
 
-    if (err) {
-      return response.send(res, err);
-    }
+  // 获取所有用户
+  if (kind_ == "all") {
+    handler.addParams("condition", condition);
+    user.at(uid_, function(err, follower) {
+      if (err) {
+        return callback_(new error.InternalServer(err));
+      }
 
-    var users = [];
-    _.each(userResult.items, function(user) {
-      var u = trans_user_api(user);
-      users.push(u);
+      user.getList(handler, function(err, result){
+        var uList = [];
+        _.each(result.items, function(item){
+          var u = trans_user_api(item);
+          if (follower) {
+            u.followed = _.some(follower.following, function(u){return u == item._id;});
+          }
+          uList.push(u);
+        });
+        return callback(err, uList);
+      });
     });
+  }
 
-    if (err) {
-      return callback(err);
-    }
-    return callback(err, users);
-  });
+  // 获取关注我的人
+  if (kind_ == "follower") {
+    condition["extend.following"] = uid_;
+    handler.addParams("condition", condition);
+    user.getList(handler, function(err, result){
+      var uList = [];
+      _.each(result.items, function(item){
+        var u = trans_user_api(item);
+        uList.push(u);
+      });
+      return callback(err, uList);
+    });
+  }
+
+  // 获取我关注的人
+  if (kind_ == "following") {
+    handler.addParams("uid", uid);
+    user.get(handler, function(err, result) {
+
+      if (err) {
+        return callback(err);
+      }
+      exports.listByUids(result.extend.following, function(e, users){
+         callback(e, users);
+      });
+    });
+  }
+
+  if(kind_ == "group") {
+    group.at(gid, function(err, result){
+      if (err) {
+        return callback_(new error.InternalServer(err));
+      }
+
+      handler.addParams("condition", condition);
+      user.getList(handler, function(err, result){
+        var uList = [];
+        _.each(result.items, function(item){
+          var u = trans_user_api(item);
+          if ($.inArray(result.member, u._id)) {
+            uList.push(u);
+          }
+        });
+        return callback(err, uList);
+      });
+    });
+  }
+
 };
 
 exports.listByUids = function(uids, callback){
