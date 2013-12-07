@@ -3,7 +3,7 @@
  * Copyright (c) 2012 Author Name li
  */
 var mongo       = smart.util.mongoose
-  , conn = require('./connection')
+  , conn        = smart.framework.connection
   , schema      = mongo.Schema;
 
 var Message = new schema({
@@ -32,8 +32,8 @@ var Message = new schema({
   });
 
 
-function model() {
-  return conn().model('Message', Message);
+function model(code) {
+  return conn.model(code, 'Message', Message);
 }
 
 /**

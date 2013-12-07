@@ -4,13 +4,13 @@
  */
 var _ = smart.util.underscore
   , mongo = smart.util.mongoose
-  , conn = require('./connection')
+  , conn = smart.framework.connection
   , sync = smart.util.async
   , schema = mongo.Schema
   , user = require("../controllers/ctrl_user");
 
-function model() {
-  return conn().model('ShortMail', ShortMail);
+function model(code) {
+  return conn.model(code, 'ShortMail', ShortMail);
 }
 
 var ShortMail = new schema({

@@ -7,13 +7,13 @@ var _ = smart.util.underscore
   , mongo = smart.util.mongoose
   , util = smart.framework.util
   , log = smart.framework.log
-  , conn = require('./connection')
+  , conn = smart.framework.connection
   , sync = smart.util.async
   , ctrl_group = require("../controllers/ctrl_group")
   , schema = mongo.Schema;
 
-function model() {
-  return conn().model('Notification', Notification);
+function model(code) {
+  return conn.model(code, 'Notification', Notification);
 }
 
 // 通知的数据结构设计为不允许编辑

@@ -1,7 +1,7 @@
 
 var mongo = require('mongoose')
   , util = require('util')
-  , conn = require('./connection')
+  , conn = smart.framework.connection
   , schema = mongo.Schema
   , ObjectId = schema.ObjectId;
 
@@ -28,8 +28,8 @@ var Topic = new schema({
   , editat: {type: Date}
 });
 
-function model() {
-  return conn().model('Topic', Topic);
+function model(code) {
+  return conn.model(code, 'Topic', Topic);
 }
 
 

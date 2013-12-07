@@ -1,11 +1,11 @@
 var mongo = smart.util.mongoose
-  , conn = require('./connection')
+  , conn = smart.framework.connection
   , log = smart.framework.log
   , tools = smart.framework.util
   , schema = mongo.Schema;
 
-function model(collections, columns) {
-  return conn().model('General', {});
+function model(code) {
+  return conn.model(code, 'General', {});
 }
 
 exports.select = function(table, field, success) {
@@ -19,7 +19,7 @@ exports.select = function(table, field, success) {
   }
 
   log.out("debug", target);
-  conn().db.collection(table, function(err, collection){
+  conn.db.collection(table, function(err, collection){
 
     collection.find(
         {uid : { $exists : true }}
