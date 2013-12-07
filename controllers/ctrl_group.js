@@ -511,12 +511,7 @@ exports.getAllGroupByUid = function(uid, callback) {
       return callback(err);
     }
 
-    var groups = [];
-    _.each(result.items, function(el) {
-      groups.push(el._id.toString());
-    });
-
-    return callback(err, groups);
+    return callback(err, result.items);
   });
 };
 
