@@ -3,6 +3,7 @@ var notification = require("../controllers/ctrl_notification")
   , async = smart.util.async
   , _      = smart.util.underscore
   , context   = smart.framework.context
+  , auth = smart.framework.auth
   , constant  = smart.framework.constant
   , sanitize = smart.util.validator.sanitize;
 
@@ -386,20 +387,23 @@ function trans_user_api(result) {
 function trans_user_db(handler) {
 
   var params = handler.params;
-
-  handler.addParams("uid", params.userId);
-  handler.addParams("userName", params.id);
+  handler.addParams("uid", params._id);
+  // handler.addParams("userName", params.id);
   handler.addParams("password", auth.sha256(params.password));
-  handler.addParams("first", params.name);
+  // handler.addParams("first", params.name);
   handler.addParams("lang", params.lang || "ja");
   handler.addParams("timezone", params.timezone || "GMT+09:00");
-  handler.addParams("email", params.email.email1);
+  // handler.addParams("email", params.email.email1);
+  var photo = params.photo;
+  photo.big = params.photo.fid;
+  photo.small = params.photo.fid;
+  photo.middle = params.photo.fid;
   handler.addParams("extend", {
-    name_zh  : params.name        // name.name_zh
-    , letter_zh : params.letter  // name.letter_zh
+    name_zh  : params.name.name_zh        // name.name_zh
+    , letter_zh : params.name.letter_zh  // name.letter_zh
     , following : params.following
-    , mobile     : params.mobile  // tel.mobile
+    , mobile     : params.tel.mobile  // tel.mobile
+    , photo : photo
   });
-
 }
 
