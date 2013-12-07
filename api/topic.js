@@ -1,6 +1,6 @@
 
-var util = lib.core.util;
-var ctrl_topic = require('../controllers/ctrl_topic');
+var util = smart.framework.util
+  , ctrl_topic = require('../controllers/ctrl_topic');
 
 /**
  * getTopic:

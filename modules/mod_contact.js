@@ -5,11 +5,11 @@
  */
 
 var mongo = smart.util.mongoose
-  , conn = require('./connection')
+  , conn = smart.framework.connection
   , schema = mongo.Schema;
 
-function model() {
-  return conn().model('Contact', Contact);
+function model(code) {
+  return conn.model(code, 'Contact', Contact);
 }
 
 var Contact = new schema({

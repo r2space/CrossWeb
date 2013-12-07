@@ -9,9 +9,10 @@
 var ctrlGroup     = smart.ctrl.group
   , ctrlUser      = smart.ctrl.user
   , constant      = smart.framework.constant
-  , context  = smart.framework.context
+  , context       = smart.framework.context
   , async         = smart.util.async
-  , _             = smart.util.underscore;
+  , _             = smart.util.underscore
+  , ctrlNotification    = require("./ctrl_notification");
 
 /**
  * 参数转换，Cross -> SmartCore
@@ -361,6 +362,21 @@ exports.addMember = function(handler, callback) {
 
     exports.getGroup(handler, function(err, result) {
 
+      if(!err) {
+        if(handler.params.uid !== handler.uid.toString()){
+          //发通知
+          var invite = {
+              uid       : handler.params.uid
+            , userid    : handler.uid.toString()
+            , type      : "invite"
+            , msg       : "被加入"
+            , groupName : result.name.name_zh
+            , groupId   : result._id
+            };
+          ctrlNotification.createForInvite(invite);
+        }
+      }
+
       return callback(err, result);
     });
 
@@ -386,6 +402,21 @@ exports.removeMember = function(handler, callback) {
     }
 
     exports.getGroup(handler, function(err, result) {
+
+      if(!err) {
+        if(handler.params.uid !== handler.uid.toString()){
+          //发通知
+          var invite = {
+              uid       : handler.params.uid
+            , userid    : handler.uid.toString()
+            , type      : "remove"
+            , msg       : "被加入"
+            , groupName : result.name.name_zh
+            , groupId   : result._id
+            };
+          ctrlNotification.createForInvite(invite);
+        }
+      }
 
       return callback(err, result);
     });
@@ -506,6 +537,7 @@ exports.getUsersInGroup = function(gid, callback){
 exports.getAllGroupByUid = function(uid, callback) {
   var handler = new context().bind({ session: { user: { _id: constant.DEFAULT_USER } } }, {});
   handler.addParams("uid", uid);
+  handler.addParams("joined", true);
   exports.getGroupList(handler, function(err, result) {
     if(err) {
       return callback(err);

@@ -3,10 +3,8 @@
  * Copyright (c) 2012 Author Name jg_wang
  */
 
-var util = require('util')
-  , i18n = require('i18n')
-  , log  = lib.core.log
-  , json = lib.core.json
+var util     = smart.lang.util
+  , response = smart.framework.response
   , sidemenu = require("../controllers/ctrl_sidemenu");
 
 /**
@@ -17,47 +15,46 @@ exports.list = function(req_, res_) {
   var name = req_.query.name
     , uid  = req_.session.user._id;
 
-console.log(name);
   if (name === "user") {
     sidemenu.user(uid, function(err, result){
-      return json.send(res_, err, result);
+      return response.send(res_, err, result);
     });
   }
 
   if (name === "group") {
     sidemenu.group(uid, function(err, result){
-      return json.send(res_, err, result);
+      return response.send(res_, err, result);
     });
   }
 
   if (name === "messages" || name === "home") {
     sidemenu.message(uid, function(err, result){
-      return json.send(res_, err, result);
+      return response.send(res_, err, result);
     });
   }
 
   if (name === "shortmail") {
     sidemenu.shortmail(uid, function(err, result){
-      return json.send(res_, err, result);
+      return response.send(res_, err, result);
     });
   }
 
   if (name == "files") {
     sidemenu.files(uid, function(err, result){
-      return json.send(res_, err, result);
+      return response.send(res_, err, result);
     });
   }
 
   if (name == "topic") {
-    return json.send(res_, null, {items: sidemenus[req_.query.name]});
+    return response.send(res_, null, {items: sidemenus[req_.query.name]});
   }
 
   if (name == "fulltextsearch") {
     sidemenu.fulltextsearch(uid, function(err, result){
-      return json.send(res_, err, result);
+      return response.send(res_, err, result);
     });
   }
-}
+};
 
 // TODO move these to DB or other place
 var sidemenus = {
