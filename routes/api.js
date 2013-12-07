@@ -1,14 +1,14 @@
 
 var sidemenu      = require('../api/sidemenu')
-  , file    = require('../api/file')
+  , file          = require('../api/file')
+  , notification  = require('../api/notification')
+  , apn           = require('../api/apn')
   , shortmail     = require('../api/shortmail');
 
 var groupapi      = require('./api_group')  
   , fileapi       = require('./api_file')  
   , userapi       = require('./api_user')
   , messageapi    = require('./api_message');
-
-var smartapi      = lib.api;
 
 /**
  * GuidingApi:
@@ -32,18 +32,18 @@ exports.guiding = function(app){
     file.image(req, res);
   });
   
-  // ---- search ----
-  app.get('/search/quick.json', function(req, res){
-    smartapi.search.quick(req, res);
-  });
-
-  app.get('/search/full.json', function(req, res){
-    smartapi.search.full(req, res);
-  });
-
-  app.get('/search/user.json', function(req, res){
-    smartapi.search.user(req, res);
-  });
+//  // ---- search ----
+//  app.get('/search/quick.json', function(req, res){
+//    smartapi.search.quick(req, res);
+//  });
+//
+//  app.get('/search/full.json', function(req, res){
+//    smartapi.search.full(req, res);
+//  });
+//
+//  app.get('/search/user.json', function(req, res){
+//    smartapi.search.user(req, res);
+//  });
 
   // ---- 私信 ----
   // 发送私信
@@ -74,30 +74,30 @@ exports.guiding = function(app){
   // ---- 通知 ----
   // 通知一览
   app.get("/notification/list/unread.json", function(req, res){
-    smartapi.notification.getUnreadList(req, res);
+    notification.getUnreadList(req, res);
   });
 
   // 通知一览
   app.get("/notification/list.json", function(req, res){
-    smartapi.notification.getList(req, res);
+    notification.getList(req, res);
   });
 
   // 更新已读状态
   app.put("/notification/read.json", function(req, res){
-    smartapi.notification.read(req, res);
+    notification.read(req, res);
   });
   
     // 更新APNs的设备号
   app.put("/notification/addtoken.json", function(req, res){
-    smartapi.apn.update(req, res);
+    apn.update(req, res);
   });
   
   app.get("/notification/gettoken.json", function(req, res){
-    smartapi.apn.find(req, res);
+    apn.find(req, res);
   });
 
   app.put("/notification/cleartoken.json", function(req, res){
-    smartapi.apn.clear(req, res);
+    apn.clear(req, res);
   });
 
 };
