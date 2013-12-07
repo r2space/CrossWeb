@@ -29,10 +29,10 @@ var ctrlGroup     = smart.ctrl.group
  * member          ->  User.groups
  */
 function transParam(handler) {
-  var params = handler.params;
+  var params = handler.params;        console.log(params);
 
   handler.addParams("extend", {
-    letter_zh: params.name.letter_zh.toUpperCase()
+    letter_zh: params.name.letter_zh ? params.name.letter_zh.toUpperCase() : ""
     , category : params.category
   });
   handler.addParams("name", params.name.name_zh);

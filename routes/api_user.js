@@ -39,12 +39,11 @@ exports.guiding = function(app){
 
   //更新用户
   app.put('/user/update.json', function(req, res){
-    newUser.updateUser(req, res);
+    newUser.update(req, res);
   });
 
   //得到所有用户列表
   app.get("/user/list.json", function(req, res){
-    console.log(__dirname);
     newUser.getUserList(req, res);
   });
 

@@ -3,7 +3,9 @@ var notification = require("../controllers/ctrl_notification")
   , async = smart.util.async
   , _      = smart.util.underscore
   , context   = smart.framework.context
-  , constant  = smart.framework.constant;
+  , auth = smart.framework.auth
+  , constant  = smart.framework.constant
+  , sanitize = smart.util.validator.sanitize;
 
 var FAKE_PASSWORD = "0000000000000000";
 
@@ -71,57 +73,131 @@ exports.getUser = function(uid, callback_){
 };
 
 exports.getList = function(handler, callback) {
-  if (!handler || !handler.params) {
-    handler = new context().bind({ session: { user: { _id: constant.DEFAULT_USER } } }, {});
+
+  var keywords = handler.params.keywords;
+  var condition = { valid: 1 };
+  if (_.isEmpty(keywords) === false) {
+    condition.first = new RegExp("^" + keywords.toLowerCase() + ".*$", "i");
   }
-  handler.addParams("valid", 1);
 
-  user.getListByKeywords(handler, function(err, userResult) {
-
-    if (err) {
-      return response.send(res, err);
-    }
-
-    var users = [];
-    var uids = [];
-    _.each(userResult.items, function(user) {
-      var u = trans_user_api(user);
-      users.push(u);
-      uids.push(u._id.toString());
-    });
+  handler.addParams("condition", condition);
+  user.getList(handler, function(err, userResult) {
 
     if (err) {
       return callback(err);
     }
+
+    var users = [];
+    _.each(userResult.items, function(user) {
+      var u = trans_user_api(user);
+      users.push(u);
+    });
+
     return callback(err, { totalItems: userResult.totalItems, items: users });
   });
 
 };
 
-exports.getUserList = function(handler, callback){
-  //{"kind":"following", "firstLetter":"", "uid":uid_, "start":0, "limit":20}        TODO
-  if (!handler || !handler.params) {
-    handler = new context().bind({ session: { user: { _id: constant.DEFAULT_USER } } }, {});
+exports.getUserList = function(params, callback){
+
+  // {"kind":"following", "firstLetter":"", "uid":uid_, "start":0, "limit":20}
+  // {"kind":"all", "firstLetter":firstLetter_, "uid":uid_, "start":start_, "limit":limit_}
+
+  var kind_ = params.kind || "all";
+  var firstLetter_ = params.firstLetter;
+  var uid_ = params.uid;
+  var keywords_ = params.keywords;
+  var gid = params.gid;
+  var condition = {};
+  // 首字母过滤
+  if (keywords_) {
+    condition.$or = [
+      {"name.name_zh": new RegExp("^" + keywords_.toLowerCase() + ".*$", "i")}
+      , {"name.letter_zh": new RegExp("^" + keywords_.toLowerCase() + ".*$", "i")}
+      , {"email.email1": new RegExp("^" + keywords_.toLowerCase() + ".*$", "i")}
+      , {"email.email2": new RegExp("^" + keywords_.toLowerCase() + ".*$", "i")}
+    ];
   }
-  handler.addParams("valid", 1);
+  if (firstLetter_) {
+    firstLetter_ = sanitize(firstLetter_).xss();
+    condition.$or = [
+      {"extend.name_zh": new RegExp("^" + firstLetter_.toLowerCase() + ".*$", "i")}
+      , {"extend.letter_zh": new RegExp("^" + firstLetter_.toLowerCase() + ".*$", "i")}
+    ];
+  }
 
-  user.getListByKeywords(handler, function(err, userResult) {
+  var  handler = new context().bind({ session: { user: { _id: constant.DEFAULT_USER } } }, {});
 
-    if (err) {
-      return response.send(res, err);
-    }
+  // 获取所有用户
+  if (kind_ == "all") {
+    handler.addParams("condition", condition);
+    user.at(uid_, function(err, follower) {
+      if (err) {
+        return callback_(new error.InternalServer(err));
+      }
 
-    var users = [];
-    _.each(userResult.items, function(user) {
-      var u = trans_user_api(user);
-      users.push(u);
+      user.getList(handler, function(err, result){
+        var uList = [];
+        _.each(result.items, function(item){
+          var u = trans_user_api(item);
+          if (follower) {
+            u.followed = _.some(follower.following, function(u){return u == item._id;});
+          }
+          uList.push(u);
+        });
+        return callback(err, uList);
+      });
     });
+  }
 
-    if (err) {
-      return callback(err);
-    }
-    return callback(err, users);
-  });
+  // 获取关注我的人
+  if (kind_ == "follower") {
+    condition["extend.following"] = uid_;
+    handler.addParams("condition", condition);
+    user.getList(handler, function(err, result){
+      var uList = [];
+      _.each(result.items, function(item){
+        var u = trans_user_api(item);
+        uList.push(u);
+      });
+      return callback(err, uList);
+    });
+  }
+
+  // 获取我关注的人
+  if (kind_ == "following") {
+    handler.addParams("uid", uid);
+    user.get(handler, function(err, result) {
+
+      if (err) {
+        return callback(err);
+      }
+      exports.listByUids(result.extend.following, function(e, users){
+         callback(e, users);
+      });
+    });
+  }
+
+  if(kind_ == "group") {
+    group.at(gid, function(err, result){
+      if (err) {
+        return callback_(new error.InternalServer(err));
+      }
+
+      handler.addParams("condition", condition);
+      user.getList(handler, function(err, result){
+        var uList = [];
+        _.each(result.items, function(item){
+          var u = trans_user_api(item);
+          if ($.inArray(result.member, u._id)) {
+            uList.push(u);
+          }
+        });
+        return callback(err, uList);
+      });
+    });
+  }
+
 };
 
 exports.listByUids = function(uids, callback){
@@ -204,7 +280,7 @@ exports.follow = function(handler, callback){
     return callback(new error.BadRequest(__("user.error.cannotFollowSelf")));
   }
 
-  user.get(currentuid, function(err, result) {
+  user.get(handler, function(err, result) {
     if (err) {
       return callback(new error.InternalServer(err));
     }
@@ -229,7 +305,7 @@ exports.follow = function(handler, callback){
 
       var follow = {
         currentuid_: currentuid,
-        followeruid_:followeruid
+        followeruid_:followuid
       };
 
       notification.createForFollow(follow);
@@ -311,20 +387,23 @@ function trans_user_api(result) {
 function trans_user_db(handler) {
 
   var params = handler.params;
-
-  handler.addParams("uid", params.userId);
-  handler.addParams("userName", params.id);
+  handler.addParams("uid", params._id);
+  // handler.addParams("userName", params.id);
   handler.addParams("password", auth.sha256(params.password));
-  handler.addParams("first", params.name);
+  // handler.addParams("first", params.name);
   handler.addParams("lang", params.lang || "ja");
   handler.addParams("timezone", params.timezone || "GMT+09:00");
-  handler.addParams("email", params.email.email1);
+  // handler.addParams("email", params.email.email1);
+  var photo = params.photo;
+  photo.big = params.photo.fid;
+  photo.small = params.photo.fid;
+  photo.middle = params.photo.fid;
   handler.addParams("extend", {
-    name_zh  : params.name        // name.name_zh
-    , letter_zh : params.letter  // name.letter_zh
+    name_zh  : params.name.name_zh        // name.name_zh
+    , letter_zh : params.name.letter_zh  // name.letter_zh
     , following : params.following
-    , mobile     : params.mobile  // tel.mobile
+    , mobile     : params.tel.mobile  // tel.mobile
+    , photo : photo
   });
-
 }
 
