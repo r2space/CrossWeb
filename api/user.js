@@ -113,7 +113,22 @@ exports.getUserList = function(req, res) {
  */
 exports.follow = function(req, res){
   var handler = new context().bind(req, res);
+  handler.addParams("uid", req.session.user._id);
+  ctrlUser.follow(handler, function(err, result) {
 
+    return response.send(res, err, result);
+  });
+}
+
+/**
+ * 取消关注用户
+ * @param req 请求对象
+ * @param res 响应对象
+ * @returns {*} 无
+ */
+exports.unfollow = function(req, res){
+  var handler = new context().bind(req, res);
+  handler.addParams("uid", req.session.user._id);
   ctrlUser.follow(handler, function(err, result) {
 
     return response.send(res, err, result);
@@ -161,30 +176,6 @@ exports.update = function(req, res) {
   });
 
 };
-// --------------------下記対応しない---------------------------- //
-/*
-/**
- * 关注用户
- * @param req 请求对象
- * @param res 响应对象
- * @returns {*} 无
- */  /*
-exports.follow = function(req_, res_){
-
-  var currentuid = req_.session.user._id;
-  user.follow(currentuid, req_.body.uid, function(err, result){
-    json.send(res_, err, {"items": result});
-  });
-};
-
-exports.unfollow = function(req_, res_){
-
-  var currentuid = req_.session.user._id;
-
-  user.unfollow(currentuid, req_.body.uid, function(err, result){
-    json.send(res_, err, {"items": result});
-  });
-};  */
 
 /**
  * 删除用户
@@ -195,7 +186,7 @@ exports.unfollow = function(req_, res_){
 exports.remove = function(req, res) {
 
   var handler = new context().bind(req, res);
-  handler.addParams("uid", handler.params.userId);
+  handler.addParams("uid", handler.params._id);
 
   ctrlUser.remove(handler, function(err, result) {
 

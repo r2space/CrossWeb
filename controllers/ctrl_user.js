@@ -281,7 +281,7 @@ exports.follow = function(handler, callback){
     return callback(new error.BadRequest(__("user.error.cannotFollowSelf")));
   }
 
-  user.get(currentuid, function(err, result) {
+  user.get(handler, function(err, result) {
     if (err) {
       return callback(new error.InternalServer(err));
     }
@@ -306,7 +306,7 @@ exports.follow = function(handler, callback){
 
       var follow = {
         currentuid_: currentuid,
-        followeruid_:followeruid
+        followeruid_:followuid
       };
 
       notification.createForFollow(follow);
