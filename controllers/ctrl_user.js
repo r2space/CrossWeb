@@ -3,6 +3,7 @@ var notification = require("../controllers/ctrl_notification")
   , async = smart.util.async
   , _      = smart.util.underscore
   , context   = smart.framework.context
+  , auth = smart.framework.auth
   , constant  = smart.framework.constant
   , sanitize = smart.util.validator.sanitize;
 
@@ -72,28 +73,26 @@ exports.getUser = function(uid, callback_){
 };
 
 exports.getList = function(handler, callback) {
-  if (!handler || !handler.params) {
-    handler = new context().bind({ session: { user: { _id: constant.DEFAULT_USER } } }, {});
+
+  var keywords = handler.params.keywords;
+  var condition = { valid: 1 };
+  if (_.isEmpty(keywords) === false) {
+    condition.first = new RegExp("^" + keywords.toLowerCase() + ".*$", "i");
   }
-  handler.addParams("valid", 1);
 
-  user.getListByKeywords(handler, function(err, userResult) {
-
-    if (err) {
-      return response.send(res, err);
-    }
-
-    var users = [];
-    var uids = [];
-    _.each(userResult.items, function(user) {
-      var u = trans_user_api(user);
-      users.push(u);
-      uids.push(u._id.toString());
-    });
+  handler.addParams("condition", condition);
+  user.getList(handler, function(err, userResult) {
 
     if (err) {
       return callback(err);
     }
+
+    var users = [];
+    _.each(userResult.items, function(user) {
+      var u = trans_user_api(user);
+      users.push(u);
+    });
+
     return callback(err, { totalItems: userResult.totalItems, items: users });
   });
 

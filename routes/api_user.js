@@ -44,7 +44,6 @@ exports.guiding = function(app){
 
   //得到所有用户列表
   app.get("/user/list.json", function(req, res){
-    console.log(__dirname);
     newUser.getUserList(req, res);
   });
 
