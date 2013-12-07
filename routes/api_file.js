@@ -1,5 +1,6 @@
 var log = lib.core.log
-  , common = lib.api.common;
+  , common = lib.api.common
+  , file = require("../api/file");
 
 /**
  * GuidingFileApi:
@@ -29,7 +30,7 @@ exports.guiding = function(app){
   });
 
   app.post('/gridfs/save.json', function(req, res){
-    common.save(req, res);
+    file.save(req, res);
   });
 
   app.put('/file/follow.json', function(req, res){

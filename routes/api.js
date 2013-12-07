@@ -1,5 +1,6 @@
 
 var sidemenu      = require('../api/sidemenu')
+  , file    = require('../api/file')
   , shortmail     = require('../api/shortmail');
 
 var groupapi      = require('./api_group')  
@@ -28,9 +29,7 @@ exports.guiding = function(app){
 
   // 获取图片  
   app.get('/picture/:id', function(req, res){
-    smartapi.dbfile.image(req, res, function(err, doc){
-      res.send(doc);
-    });
+    file.image(req, res);
   });
   
   // ---- search ----
