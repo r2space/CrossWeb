@@ -3,8 +3,8 @@ var async = require("async")
   , _ = require("underscore")
   , shortmail = require('../modules/mod_shortmail')
   , contact = require('../modules/mod_contact')
-  , ctrl_user = lib.ctrl.user
-  , error = lib.core.errors;
+  , ctrl_user = require('../controllers/ctrl_user')
+  , error = smart.framework.errors;
 
 exports.getMailUser = function(_id, callback_){
 

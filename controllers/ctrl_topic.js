@@ -1,9 +1,9 @@
 
 var topic = require('../modules/mod_topic');
-var util = lib.core.util;
-var error = lib.core.errors;
+var util = smart.framework.util
+var error = smart.framework.errors;
 var check = require("validator").check;
-var underscore = require("underscore");
+var underscore = smart.util.underscore;
 
 exports.getTopic = function(tid_, callback_){
   var date = Date.now();
