@@ -380,6 +380,7 @@ function trans_user_api(result) {
     , createby  : result.createBy
     , editat    : result.updateAt
     , editby    : result.updateBy
+    , photo : result.extend.photo
   };
   return userData;
 }
