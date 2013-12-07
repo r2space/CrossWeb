@@ -95,13 +95,15 @@ exports.getUserList = function(req, res) {
 
   var handler = new context().bind(req, res);
 
-  handler.addParams("userName", handler.params.keyword);
-  handler.addParams("realName", handler.params.keyword);
-  handler.addParams("and", false);
-
-  ctrlUser.getList(handler, function(err, userResult) {
+  if (handler.params.kind != "all") {
+    ctrlUser.getUserList(handler, function(err, userResult) {
       return response.send(res, err, userResult);
-  });
+    });
+  } else {
+    ctrlUser.getList(handler, function(err, userResult) {
+        return response.send(res, err, userResult);
+    });
+  }
 
 };
 
