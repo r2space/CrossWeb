@@ -1,5 +1,6 @@
 var async = smart.util.async
   , amqp = smart.framework.amqp
+  , conf = smart.util.config
   , _ = smart.util.underscore
   , error = smart.framework.errors
   //, process = lib.core.process
@@ -78,11 +79,12 @@ exports.createMessage = function(currentuid_, params_, callback_){
         fids.push(msg.attach[i].fileid);
       }
       if(fids.length > 0){
-        amqp.smartThumb({
-          fids:fids.join(),
-          msg_id:msg._id,
-          collection:"messages",
-          width:"500"
+        amqp.send(conf.mq.queue_thumb, {
+          fids:fids.join()
+          , msg_id:msg._id
+          , code: conf.db.dbname
+          , collection:"messages"
+          , width:"500"
         });
       }
       

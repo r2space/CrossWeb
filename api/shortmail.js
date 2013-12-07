@@ -1,5 +1,6 @@
 var shortmail = require('../controllers/ctrl_shortmail')
   , amqp = smart.framework.amqp
+  , conf = smart.util.config
   , response = smart.framework.response;
 
 /**
@@ -22,15 +23,11 @@ exports.sendPrivateMessage = function(req, res) {
     } else {
 
       // 保存成功发送消息
-      // amqp.notice({
-      //     _id: mail.to
-      //   , msg: mail.message
-      //   });
-      amqp.sendApn({
+      amqp.send(conf.mq.queue_apn, {
           target: mail.to
+        , code: conf.db.dbname
         , body: mail.message
         });
-      console.log(mail.message);
 
       return response.send(res, err, result);
     }
