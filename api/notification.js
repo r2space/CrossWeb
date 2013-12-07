@@ -1,5 +1,6 @@
-var amqp = smart.framework.amqp
-  , util = smart.framework.util
+var util = smart.framework.util
+  , amqp = smart.framework.amqp
+  , conf = smart.util.config
   , response = smart.framework.response
   , notification = require('../controllers/ctrl_notification');
 
@@ -15,13 +16,11 @@ exports.read = function(req, res) {
     if (err) {
       return response.send(res, err);
     } else {
-      // console.log("read");
-      // console.log(result);
-      amqp.notice({
+      amqp.send(conf.mq.queue_notice, {
           _id: uids
-        , content:"1"
+        , code: conf.db.dbname
+        , content: "1"
       });
-
       return response.send(res, err, result);
     }
   });

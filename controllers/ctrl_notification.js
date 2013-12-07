@@ -1,5 +1,6 @@
 var _ = smart.util.underscore
   , amqp = smart.framework.amqp
+  , conf = smart.util.config
   , async = smart.util.async
   , log = smart.framework.log
   , error = smart.framework.errors
@@ -22,8 +23,9 @@ exports.createForRemove = function(invite,callback_){
       createat: new Date()
     };
 
-    amqp.notice({
+    amqp.send(conf.mq.queue_notice, {
       _id: invite.uid
+    , code: conf.db.dbname
     , type : "group"
     });
 
@@ -47,8 +49,9 @@ exports.createForInvite = function(invite,callback_){
       createat: new Date()
     };
 
-    amqp.notice({
+    amqp.send(conf.mq.queue_notice, {
       _id: invite.uid
+    , code: conf.db.dbname
     , type : "group"
     });
 
@@ -72,8 +75,9 @@ exports.createForFollow = function(follow, callback_){
       createat: new Date()
     };
 
-    amqp.notice({
+    amqp.send(conf.mq.queue_notice, {
       _id: follow.followeruid_
+    , code: conf.db.dbname
     , type : "follow"
     });
 
@@ -108,8 +112,9 @@ exports.createForMessage = function(message_, callback_) {
           createat: message_.createat
         };
 
-        amqp.notice({
+        amqp.send(conf.mq.queue_notice, {
           _id: message_.part.targetcreateby
+        , code: conf.db.dbname
         , content : "1"
         });
 
@@ -139,16 +144,18 @@ exports.createForMessage = function(message_, callback_) {
       notification.create(notification_, function(err, notification){
         cb(err, notification);
         async.forEach(message_.at.users,function(user){
-          amqp.notice({
+          amqp.send(conf.mq.queue_notice, {
             _id: user
+          , code: conf.db.dbname
           , content : "1"
           });
         });
         async.forEach(message_.at.groups,function(gid){
           group.getUsersInGroup(gid, function(err, uids){
             async.forEach(uids, function(uid){
-              amqp.notice({
+              amqp.send(conf.mq.queue_notice, {
                 _id: uid
+              , code: conf.db.dbname
               , content : "1"
               });
             });
@@ -174,8 +181,9 @@ exports.read = function(nids, uids, callback_) {
       noti.readers = _.union(noti.readers, uids);
       notification.update(noti._id, {"readers":noti.readers}, function(err, result){
         //console.log(result);
-        amqp.notice({
+        amqp.send(conf.mq.queue_notice, {
           _id: noti.readers
+        , code: conf.db.dbname
         , content : "1"
         });
         cb_(err, result);
