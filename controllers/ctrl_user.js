@@ -171,6 +171,8 @@ exports.getUserList = function(handler, callback){
         return callback(err);
       }
       exports.listByUids(result.extend.following, function(e, users){
+        console.log("aaaaa");
+        console.log(users);
          callback(e, users);
       });
     });
@@ -201,7 +203,7 @@ exports.getUserList = function(handler, callback){
 exports.listByUids = function(uids, callback){
 
   var handler = new context().bind({ session: { user: { _id: constant.DEFAULT_USER } } }, {});
-
+  console.log(uids);
   var users = [];
   async.forEach(uids, function(uid, cb){
 
@@ -211,11 +213,12 @@ exports.listByUids = function(uids, callback){
       if (err) {
         return callback(err);
       }
+
       var userData = trans_user_api(result);
       users.push(userData);
-      return cb(err, users);
+      return cb(err);
     });
-  }, function(err, users){
+  }, function(err){
     callback(err, users);
   });
 };
@@ -224,7 +227,8 @@ exports.appendUser = function(source, field, callback) {
   var code = "";
   user.appendUser(code, source, field, function(err, src){
     _.each(src, function(row) {
-      row.user = row["$" + field];
+      row.user = trans_user_api(row["$" + field]);
+      delete row["$"+field];
     });
     callback(err, src);
   });
