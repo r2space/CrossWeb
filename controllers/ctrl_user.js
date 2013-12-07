@@ -1,5 +1,6 @@
 var notification = require("../controllers/ctrl_notification")
   , user  = smart.ctrl.user
+  , group  = require("../controllers/ctrl_group")
   , async = smart.util.async
   , _      = smart.util.underscore
   , context   = smart.framework.context
