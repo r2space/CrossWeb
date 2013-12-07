@@ -171,8 +171,6 @@ exports.getUserList = function(handler, callback){
         return callback(err);
       }
       exports.listByUids(result.extend.following, function(e, users){
-        console.log("aaaaa");
-        console.log(users);
          callback(e, users);
       });
     });
@@ -227,8 +225,9 @@ exports.appendUser = function(source, field, callback) {
   var code = "";
   user.appendUser(code, source, field, function(err, src){
     _.each(src, function(row) {
-      row.user = trans_user_api(row["$" + field]);
-      delete row["$"+field];
+      var user = trans_user_api(row._doc["$"+field]);
+      row._doc.user = trans_user_api(user);
+      //delete row["$"+field];
     });
     callback(err, src);
   });
@@ -362,6 +361,9 @@ exports.unfollow = function(handler, callback){
 // translation functions : cross <=>  smartcore
 
 function trans_user_api(result) {
+  if (!result || !result.extend){
+     return result;
+  }
 
   var userData = {
     _id       : result._id
