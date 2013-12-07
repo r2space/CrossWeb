@@ -506,6 +506,7 @@ exports.getUsersInGroup = function(gid, callback){
 exports.getAllGroupByUid = function(uid, callback) {
   var handler = new context().bind({ session: { user: { _id: constant.DEFAULT_USER } } }, {});
   handler.addParams("uid", uid);
+  handler.addParams("joined", true);
   exports.getGroupList(handler, function(err, result) {
     if(err) {
       return callback(err);
