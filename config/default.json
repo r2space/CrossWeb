@@ -68,44 +68,16 @@
     }
   },
   
-  "thumbq" : {
-      "host":"127.0.0.1"
-    , "port":5672
-    , "user":"guest"
-    , "password":"guest"
-    , "queue":"smartThumb"
-    , "thumb_queue":"smartThumb"
-  },
   "mq": {
       "host": "mq"
     , "port": 5672
     , "user": "guest"
     , "password": "guest"
-    , "queue": "smartAnalyzer"
-    , "notification_queue": "SmartNotification"
-  },
-  "mq_photo": {
-      "host": "mq"
-    , "port": 5672
-    , "user": "guest"
-    , "password": "guest"
-    , "queue": "smartPhoto"
-  },
-  "mq_apn": {
-      "host": "mq"
-    , "port": 5672
-    , "user": "guest"
-    , "password": "guest"
-    , "queue": "smartApn"
-  },
-  "log": {
-    "fluent": {
-      "enable": "false"
-      , "tag": "node"
-      , "host": "10.2.8.228"
-      , "port": 24224
-      , "timeout": 3.0
-    }
+    , "queue_join": "smartJoin"
+    , "queue_apn": "smartApn"
+    , "queue_thumb": "smartThumb"
+    , "queue_photo": "smartPhoto"
+    , "queue_notice": "smartNotice"
+    , "maxListeners": 0
   }
-
 }

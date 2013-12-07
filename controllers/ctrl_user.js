@@ -1,6 +1,5 @@
 var notification = require("../controllers/ctrl_notification")
   , user  = smart.ctrl.user
-  , group = require("../controllers/ctrl_group")
   , async = smart.util.async
   , _      = smart.util.underscore
   , context   = smart.framework.context
@@ -244,7 +243,8 @@ exports.appendUser = function(source, field, callback) {
   var code = "";
   user.appendUser(code, source, field, function(err, src){
     _.each(src, function(row) {
-      row.user = row["$" + field];
+      row.user = trans_user_api(row["$" + field]);
+      delete row["$"+field];
     });
     callback(err, src);
   });
