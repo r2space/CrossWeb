@@ -5,10 +5,10 @@ var amqp = smart.framework.amqp
 
 
 
-exports.read = function(req_, res_) {
+exports.read = function(req, res) {
 
-  var nids = req_.body.nids;
-  var uids = req_.body.uids || [req_.session.user._id];
+  var nids = req.body.nids;
+  var uids = req.body.uids || [req.session.user._id];
   
 
   notification.read(nids, uids, function(err, result){
@@ -29,13 +29,13 @@ exports.read = function(req_, res_) {
 };
 
 
-exports.getList = function(req_, res_) {
+exports.getList = function(req, res) {
 
   var param = {
-    "start":req_.query.start ,
-    "limit":req_.query.limit ,
-    "type":req_.query.type ,
-    "uid": req_.query.uid || req_.session.user._id
+    "start":req.query.start ,
+    "limit":req.query.limit ,
+    "type":req.query.type ,
+    "uid": req.query.uid || req.session.user._id
   };
 
   notification.getList(param, function(err, result){
@@ -43,13 +43,13 @@ exports.getList = function(req_, res_) {
   });
 };
 
-exports.getUnreadList = function(req_, res_) {
+exports.getUnreadList = function(req, res) {
 
   var param = {
-    "start":req_.query.start ,
-    "limit":req_.query.limit ,
-    "type":req_.query.type ,
-    "uid": req_.query.uid || req_.session.user._id ,
+    "start":req.query.start ,
+    "limit":req.query.limit ,
+    "type":req.query.type ,
+    "uid": req.query.uid || req.session.user._id ,
     "unread":true
   };
 

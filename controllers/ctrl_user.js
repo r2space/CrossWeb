@@ -98,11 +98,11 @@ exports.getList = function(handler, callback) {
 
 };
 
-exports.getUserList = function(params, callback){
+exports.getUserList = function(handler, callback){
 
   // {"kind":"following", "firstLetter":"", "uid":uid_, "start":0, "limit":20}
   // {"kind":"all", "firstLetter":firstLetter_, "uid":uid_, "start":start_, "limit":limit_}
-
+  var params = handler.params;
   var kind_ = params.kind || "all";
   var firstLetter_ = params.firstLetter;
   var uid_ = params.uid;
@@ -125,8 +125,6 @@ exports.getUserList = function(params, callback){
       , {"extend.letter_zh": new RegExp("^" + firstLetter_.toLowerCase() + ".*$", "i")}
     ];
   }
-
-  var  handler = new context().bind({ session: { user: { _id: constant.DEFAULT_USER } } }, {});
 
   // 获取所有用户
   if (kind_ == "all") {
@@ -166,7 +164,7 @@ exports.getUserList = function(params, callback){
 
   // 获取我关注的人
   if (kind_ == "following") {
-    handler.addParams("uid", uid);
+    //handler.addParams("uid", uid);
     user.get(handler, function(err, result) {
 
       if (err) {
@@ -215,9 +213,9 @@ exports.listByUids = function(uids, callback){
       }
       var userData = trans_user_api(result);
       users.push(userData);
-      return cb(err);
+      return cb(err, users);
     });
-  }, function(err){
+  }, function(err, users){
     callback(err, users);
   });
 };
@@ -280,7 +278,7 @@ exports.follow = function(handler, callback){
     return callback(new error.BadRequest(__("user.error.cannotFollowSelf")));
   }
 
-  user.get(currentuid, function(err, result) {
+  user.get(handler, function(err, result) {
     if (err) {
       return callback(new error.InternalServer(err));
     }
@@ -305,7 +303,7 @@ exports.follow = function(handler, callback){
 
       var follow = {
         currentuid_: currentuid,
-        followeruid_:followeruid
+        followeruid_:followuid
       };
 
       notification.createForFollow(follow);
@@ -380,6 +378,7 @@ function trans_user_api(result) {
     , createby  : result.createBy
     , editat    : result.updateAt
     , editby    : result.updateBy
+    , photo : result.extend.photo
   };
   return userData;
 }
