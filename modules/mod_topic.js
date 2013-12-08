@@ -1,6 +1,6 @@
 
-var mongo = require('mongoose')
-  , util = require('util')
+var mongo = smart.util.mongoose
+  , util = smart.lang.util
   , conn = smart.framework.connection
   , schema = mongo.Schema
   , ObjectId = schema.ObjectId;
