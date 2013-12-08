@@ -97,11 +97,11 @@ exports.getUserList = function(req, res) {
 
   if (handler.params.kind != "all") {
     ctrlUser.getUserList(handler, function(err, userResult) {
-      return response.send(res, err, {items:userResult});
+      return response.send(res, err, userResult);
     });
   } else {
     ctrlUser.getList(handler, function(err, userResult) {
-        return response.send(res, err, {items:userResult});
+        return response.send(res, err, userResult);
     });
   }
 
@@ -131,7 +131,7 @@ exports.follow = function(req, res){
 exports.unfollow = function(req, res){
   var handler = new context().bind(req, res);
   handler.addParams("uid", req.session.user._id);
-  ctrlUser.follow(handler, function(err, result) {
+  ctrlUser.unfollow(handler, function(err, result) {
 
     return response.send(res, err, result);
   });

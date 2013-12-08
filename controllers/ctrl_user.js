@@ -6,6 +6,7 @@ var notification = require("../controllers/ctrl_notification")
   , context   = smart.framework.context
   , auth = smart.framework.auth
   , constant  = smart.framework.constant
+  , error = smart.framework.errors
   , sanitize = smart.util.validator.sanitize;
 
 var FAKE_PASSWORD = "0000000000000000";
@@ -23,7 +24,17 @@ exports.get = function(handler, callback) {
       return callback(err);
     }
     var userData = trans_user_api(result);
-    return callback(err, userData);
+
+    var condition = { "extend.following": handler.params.uid};
+    handler.addParams("condition", condition);
+    user.getList(handler, function(err, followers){
+      var fs = [];
+      _.each(followers.items, function(user) {
+        fs.push(user._id);
+      });
+      userData.follower = fs;
+      return callback(err, userData);
+    });
   });
 
 };
@@ -46,8 +57,6 @@ exports.at = function(uid, callback) {
 exports.getUser = function(uid, callback_){
   var handler = new context().bind({ session: { user: { _id: constant.DEFAULT_USER } } }, {});
   handler.addParams("uid", uid);
-  handler.addParams("valid", 1);
-
   user.get(handler, function(err, result) {
 
     if (err) {
@@ -91,6 +100,16 @@ exports.getList = function(handler, callback) {
     var users = [];
     _.each(userResult.items, function(user) {
       var u = trans_user_api(user);
+
+      if(u.groups && u.groups.length > 0) {
+        handler.addParams("gid", u.groups[0]);
+        group.getGroup(handler, function(err, result) {
+          u.department = result;
+        });
+      } else {
+        u.department = null;
+      }
+
       users.push(u);
     });
 
@@ -142,9 +161,19 @@ exports.getUserList = function(handler, callback){
           if (follower) {
             u.followed = _.some(follower.following, function(u){return u == item._id;});
           }
+
+          if(u.groups && u.groups.length > 0) {
+            handler.addParams("gid", u.groups[0]);
+            group.getGroup(handler, function(err, result) {
+              u.department = result;
+            });
+          } else {
+            u.department = null;
+          }
+
           uList.push(u);
         });
-        return callback(err, uList);
+        return callback(err, {items:uList});
       });
     });
   }
@@ -157,9 +186,17 @@ exports.getUserList = function(handler, callback){
       var uList = [];
       _.each(result.items, function(item){
         var u = trans_user_api(item);
+        if(u.groups && u.groups.length > 0) {
+          handler.addParams("gid", u.groups[0]);
+          group.getGroup(handler, function(err, result) {
+            u.department = result;
+          });
+        } else {
+          u.department = null;
+        }
         uList.push(u);
       });
-      return callback(err, uList);
+      return callback(err,  {items:uList});
     });
   }
 
@@ -187,7 +224,7 @@ exports.getUserList = function(handler, callback){
               done(null);
             }
           }, function(err) {
-            callback(e, users);
+            callback(e,  {items:users});
           });
         } else {
           callback(e);
@@ -207,11 +244,11 @@ exports.getUserList = function(handler, callback){
         var uList = [];
         _.each(result.items, function(item){
           var u = trans_user_api(item);
-          if ($.inArray(result.member, u._id)) {
+          if (_.contains(result.member, u._id)) {
             uList.push(u);
           }
         });
-        return callback(err, uList);
+        return callback(err,  {items:uList});
       });
     });
   }
@@ -315,6 +352,10 @@ exports.follow = function(handler, callback){
     if (result.extend && result.extend.following) {
       following = result.extend.following;
     }
+    if (_.contains(following, followuid)) {
+      return callback(err, false);
+    }
+
     following.push(followuid);
 
     handler.addParams("extendKey", "following");
@@ -354,7 +395,7 @@ exports.unfollow = function(handler, callback){
     return callback(new error.BadRequest(__("user.error.cannotFollowSelf")));
   }
 
-  user.get(currentuid, function(err, result) {
+  user.get(handler, function(err, result) {
     if (err) {
       return callback(new error.InternalServer(err));
     }
@@ -364,7 +405,7 @@ exports.unfollow = function(handler, callback){
     }
 
     var following = result.extend.following;
-    following.splice($.inArray(followuid, following), 1);
+    following.splice(_.contains(followuid, following), 1);
 
     handler.addParams("extendKey", "following");
     handler.addParams("extendValue", following);
