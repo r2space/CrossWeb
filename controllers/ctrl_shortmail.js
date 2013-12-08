@@ -1,6 +1,6 @@
 
-var async = require("async")
-  , _ = require("underscore")
+var async = smart.util.async
+  , _ = smart.util.underscore
   , shortmail = require('../modules/mod_shortmail')
   , contact = require('../modules/mod_contact')
   , ctrl_user = require('../controllers/ctrl_user')
