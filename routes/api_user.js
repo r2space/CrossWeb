@@ -1,7 +1,6 @@
 
 var log = smart.framework.log
-  , newUser = require("../api/user")
-  , user = lib.api.user;
+  , newUser = require("../api/user");
 
 /**
  * GuidingUserApi:

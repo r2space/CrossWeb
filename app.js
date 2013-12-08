@@ -5,7 +5,6 @@
 "use strict";
 
 GLOBAL.smart = require("smartcore");
-GLOBAL.lib = require("../SmartCore"); // TODO 暂时引用外层的smartcore
 
 var http        = smart.lang.http
   , express     = smart.util.express
@@ -39,6 +38,6 @@ app.use(middleware.parseError);
 /**
  * 启动服务
  */
-var server = http.createServer(app).listen(app.get("port"), function(){
+var server = http.createServer(app).listen(app.get("port"), function() {
   log.info("Express server listening on port " + app.get("port"));
 });
