@@ -13,7 +13,7 @@ var _ = smart.util.underscore
 //我被某组移除的通知
 exports.createForRemove = function(invite,callback_){
     var notification_ = {
-      content: invite.groupName,
+      content: __("ctrl.notifiction.js.label.remove").replace(/#{{groupName}}#/g, invite.groupName),
       read:[],
       tousers : [invite.uid],
       togroups : [],
@@ -39,7 +39,7 @@ exports.createForRemove = function(invite,callback_){
 //我被加入某组的通知
 exports.createForInvite = function(invite,callback_){
     var notification_ = {
-      content: invite.groupName,
+      content: __("ctrl.notifiction.js.label.invite").replace(/#{{groupName}}#/g, invite.groupName),
       read:[],
       tousers : [invite.uid],
       togroups : [],
