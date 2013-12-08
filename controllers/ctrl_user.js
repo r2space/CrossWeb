@@ -245,7 +245,7 @@ exports.appendUser = function(source, field, callback) {
   var code = "";
   user.appendUser(code, source, field, function(err, src){
     _.each(src, function(row) {
-      var target = row || row._doc;
+      var target = row._doc || row;
       var user = trans_user_api(target["$"+field]);
       target.user = trans_user_api(user);
       //delete row["$"+field];
