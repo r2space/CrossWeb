@@ -22,7 +22,7 @@
   },
 
   "app": {
-      "port": 3000
+      "port": 80
     , "views": "views"
     , "cookieSecret": "smartcore"
     , "sessionSecret": "smartcore"
@@ -57,14 +57,14 @@
     "fluent": {
       "enable": "false"
       , "tag": "node"
-      , "host": "10.2.8.228"
+      , "host": "127.0.0.1"
       , "port": 24224
       , "timeout": 3.0
     }
   },
   
   "mq": {
-      "host": "mq"
+      "host": "pltcsfrmq01"
     , "port": 5672
     , "user": "guest"
     , "password": "guest"
