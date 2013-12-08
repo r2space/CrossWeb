@@ -120,9 +120,17 @@ exports.getList = function(handler, callback) {
 
 exports.getUserList = function(handler, callback){
 
-  // {"kind":"following", "firstLetter":"", "uid":uid_, "start":0, "limit":20}
-  // {"kind":"all", "firstLetter":firstLetter_, "uid":uid_, "start":start_, "limit":limit_}
   var params = handler.params;
+  if (!params) {
+    // {"kind":"following", "firstLetter":"", "uid":uid_, "start":0, "limit":20}
+    // {"kind":"all", "firstLetter":firstLetter_, "uid":uid_, "start":start_, "limit":limit_}
+    params = handler;
+    handler = new context().bind({ session: { user: { _id: constant.DEFAULT_USER } } }, {});
+    handler.addParams("kind", handler.kind);
+    handler.addParams("firstLetter", handler.firstLetter);
+    handler.addParams("uid", handler.uid);
+  }
+
   var kind_ = params.kind || "all";
   var firstLetter_ = params.firstLetter;
   var uid_ = params.uid || handler.uid.toString();
