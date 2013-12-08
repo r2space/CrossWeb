@@ -113,7 +113,7 @@ exports.getList = function(handler, callback) {
       users.push(u);
     });
 
-    return callback(err, { totalItems: userResult.totalItems, items: users });
+    return callback(err, users);
   });
 
 };
@@ -181,7 +181,7 @@ exports.getUserList = function(handler, callback){
 
           uList.push(u);
         });
-        return callback(err, {items:uList});
+        return callback(err, uList);
       });
     });
   }
@@ -204,7 +204,7 @@ exports.getUserList = function(handler, callback){
         }
         uList.push(u);
       });
-      return callback(err,  {items:uList});
+      return callback(err, uList);
     });
   }
 
@@ -232,7 +232,7 @@ exports.getUserList = function(handler, callback){
               done(null);
             }
           }, function(err) {
-            callback(e,  {items:users});
+            callback(e,  users);
           });
         } else {
           callback(e);
@@ -246,17 +246,14 @@ exports.getUserList = function(handler, callback){
       if (err) {
         return callback_(new error.InternalServer(err));
       }
-
-      handler.addParams("condition", condition);
-      user.getList(handler, function(err, result){
+      var uids = result.member;
+      exports.listByUids(uids, function(e,users){
         var uList = [];
-        _.each(result.items, function(item){
+        _.each(users, function(item){
           var u = trans_user_api(item);
-          if (_.contains(result.member, u._id)) {
-            uList.push(u);
-          }
+          uList.push(u);
         });
-        return callback(err,  {items:uList});
+        return callback(err,  uList);
       });
     });
   }

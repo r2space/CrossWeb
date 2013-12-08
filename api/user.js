@@ -97,11 +97,11 @@ exports.getUserList = function(req, res) {
 
   if (handler.params.kind != "all") {
     ctrlUser.getUserList(handler, function(err, userResult) {
-      return response.send(res, err, userResult);
+      return response.send(res, err, {items: userResult});
     });
   } else {
     ctrlUser.getList(handler, function(err, userResult) {
-        return response.send(res, err, userResult);
+        return response.send(res, err, {items: userResult});
     });
   }
 
