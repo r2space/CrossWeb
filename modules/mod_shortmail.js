@@ -221,7 +221,7 @@ exports.getStoryByContact = function(contact_, date_, limit_, callback_) {
   var shortmail = model();
   var condition = {contact: contact_};
   if(date_){
-    condition.createat = {$lt: date_};
+//    condition.createat = {$lt: date_};
   }
 
   shortmail.find(condition)
