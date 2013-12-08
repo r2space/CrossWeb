@@ -28,9 +28,9 @@ exports.guiding = function(app){
   //   common.upload(req, res);
   // });
 
-  // app.post('/gridfs/save.json', function(req, res){
-  //   file.save(req, res);
-  // });
+  app.post('/gridfs/save.json', function(req, res){
+     file.save(req, res);
+  });
 
   // app.put('/file/follow.json', function(req, res){
   //   common.follow(req, res);
