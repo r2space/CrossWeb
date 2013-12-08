@@ -1,21 +1,16 @@
 {  
   "db": {
-       "host": "mongo"
-    , "port": 27017
+       "host": "127.0.0.1"
+    , "port": 40000
     , "dbname": "cross"
     , "pool": 5
   },
 
   "testdb": {
-      "host": "mongo"
-    , "port": 27017
+      "host": "127.0.0.1"
+    , "port": 40000
     , "dbname": "cross"
     , "pool": 5
-  },
-
-  "solr": {
-      "host": "127.0.0.1"
-    , "port": 10080
   },
 
   "mail": {
