@@ -242,19 +242,11 @@ exports.getUserList = function(handler, callback){
   }
 
   if(kind_ == "group") {
-    group.at(gid, function(err, result){
+    group.getMember(handler, function(err, result){
       if (err) {
-        return callback_(new error.InternalServer(err));
+        return callback(new error.InternalServer(err));
       }
-      var uids = result.member;
-      exports.listByUids(uids, function(e,users){
-        var uList = [];
-        _.each(users, function(item){
-          var u = trans_user_api(item);
-          uList.push(u);
-        });
-        return callback(err,  uList);
-      });
+      return callback(err,  result.items);
     });
   }
 
