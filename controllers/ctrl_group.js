@@ -117,6 +117,10 @@ function transUserResult(result) {
       newResult.tel    = {
         mobile : result.extend.mobile
       };
+      newResult.email = {
+        email1: result.email
+      };
+      newResult.photo = result.extend.photo;
       newResult.following = result.extend.following;
       newResult.createby = result.createBy;
       newResult.createat = result.createAt;

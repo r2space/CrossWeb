@@ -156,12 +156,12 @@ exports.getUserList = function(handler, callback){
 
   // 获取所有用户
   if (kind_ == "all") {
-    handler.addParams("condition", condition);
-    user.at(uid_, function(err, follower) {
+    exports.at(uid_, function(err, follower) {
       if (err) {
-        return callback_(new error.InternalServer(err));
+        return callback(new error.InternalServer(err));
       }
 
+      handler.addParams("condition", condition);
       user.getList(handler, function(err, result){
         var uList = [];
         _.each(result.items, function(item){
