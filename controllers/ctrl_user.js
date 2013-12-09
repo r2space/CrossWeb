@@ -98,22 +98,26 @@ exports.getList = function(handler, callback) {
     }
 
     var users = [];
-    _.each(userResult.items, function(user) {
+    async.eachSeries(userResult.items, function(user, done) {
       var u = trans_user_api(user);
 
       if(u.groups && u.groups.length > 0) {
         handler.addParams("gid", u.groups[0]);
         group.getGroup(handler, function(err, result) {
           u.department = result;
+          users.push(u);
+          done(err);
         });
       } else {
         u.department = null;
+        users.push(u);
+        done(null);
       }
 
-      users.push(u);
+    }, function (err) {
+      return callback(err, users);
     });
 
-    return callback(err, users);
   });
 
 };
@@ -164,7 +168,7 @@ exports.getUserList = function(handler, callback){
       handler.addParams("condition", condition);
       user.getList(handler, function(err, result){
         var uList = [];
-        _.each(result.items, function(item){
+        async.eachSeries(result.items, function(item, done){
           var u = trans_user_api(item);
           if (follower) {
             u.followed = _.some(follower.following, function(u){return u == item._id;});
@@ -174,14 +178,18 @@ exports.getUserList = function(handler, callback){
             handler.addParams("gid", u.groups[0]);
             group.getGroup(handler, function(err, result) {
               u.department = result;
+              uList.push(u);
+              done(err);
             });
           } else {
             u.department = null;
+            uList.push(u);
+            done(null);
           }
 
-          uList.push(u);
+        }, function (err) {
+          return callback(err, uList);
         });
-        return callback(err, uList);
       });
     });
   }
@@ -288,7 +296,7 @@ exports.appendUser = function(source, field, callback) {
     _.each(src, function(row) {
       var target = row._doc || row;
       var user = trans_user_api(target["$"+field]);
-      target.user = trans_user_api(user);
+      target.user = user;
       //delete row["$"+field];
     });
     callback(err, src);
