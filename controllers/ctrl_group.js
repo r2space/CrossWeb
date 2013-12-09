@@ -29,12 +29,14 @@ var ctrlGroup     = smart.ctrl.group
  * member          ->  User.groups
  */
 function transParam(handler) {
-  var params = handler.params;        console.log(params);
+  var params = handler.params;
 
-  handler.addParams("extend", {
-    letter_zh: params.name.letter_zh ? params.name.letter_zh.toUpperCase() : ""
+  var extend = {
+      letter_zh: params.name.letter_zh ? params.name.letter_zh.toUpperCase() : ""
     , category : params.category
-  });
+    , photo : params.photo
+    };
+  handler.addParams("extend", extend);
   handler.addParams("name", params.name.name_zh);
   handler.addParams("owners", [handler.uid.toString()]);
   handler.addParams("description", params.description);
@@ -78,6 +80,7 @@ function transResult(result) {
       newResult.secure = result.visibility === constant.GROUP_VISIBILITY_PRIVATE ? "1" : "2";
       newResult.member = [];
       newResult.owner = result.owners;
+      newResult.photo = result.extend.photo;
       newResult.createby = result.createBy;
       newResult.createat = result.createAt;
       newResult.editby = result.updateBy;
@@ -293,20 +296,45 @@ exports.getGroupList = function(handler, callback) {
  */
 exports.updateGroup = function(handler, callback) {
 
-  handler = transParam(handler);
-
-  // TODO 添加图片更新的处理
-
   handler.addParams("gid", handler.params._id.toString());
 
-  // 添加组
-  ctrlGroup.update(handler, function(err, result) {
-    if(err) {
-      return callback(err);
-    }
+  if(handler.params.photo) {
+    handler.addParams("photo", {
+      "big" : handler.params.photo.fid,
+      "small" : handler.params.photo.fid,
+      "middle" : handler.params.photo.fid
+    });
+    handler = transParam(handler);
 
-    return callback(err, transResult(result));
-  });
+    // 添加组
+    ctrlGroup.update(handler, function(err, result) {
+      if(err) {
+        return callback(err);
+      }
+
+      return callback(err, transResult(result));
+    });
+  } else {
+    ctrlGroup.get(handler, function(err, result) {
+      if(err) {
+        return callback(err);
+      }
+
+      handler.addParams("photo", result.extend.photo);
+
+      handler = transParam(handler);
+      // 添加组
+      ctrlGroup.update(handler, function(err, result) {
+        if(err) {
+          return callback(err);
+        }
+
+        return callback(err, transResult(result));
+      });
+
+      return callback(err, transResult(result));
+    });
+  }
 };
 
 /**
