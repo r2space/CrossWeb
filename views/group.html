@@ -42,152 +42,155 @@
     <% include common/navbar.html %>
     <input type="hidden" id="groupid" name="groupid" value="<%= groupid %>">
 
-    <section>
+    <div class="container" style="width: 1000px;">
+      <div class="row-fluid">
 
-      <article>
-        <% include common/sidemenu.html %>
-      </article>
+        <div class="pull-left offset1" id="left">
+          <% include common/sidemenu.html %>
+        </div>
 
-      <div id="maincontents">
-        <div id="informations">
+        <div class="pull-left" style="padding-left: 20px;">
+          <div class="row-fluid">
+            <div class="span6" style="width:570px; padding-left: 20px;border-left: 2px solid #e5e5e5;">
 
-          <div id="groupImage"><img /></div>
-          <div id="brief">
-            <h3 id="group-name"></h3>
-            <p id="group-public"></p>
-          </div>
-          <div id="operations">
-            <a id="editGroup" class="btn" href="/groupeditor/<%= groupid %>"><%= i('group.groupview.button.edit') %></a>
-            <a id="join-btn" uid="<%= user._id %>" class="btn btn-primary" name="add"><%= i('group.groupview.button.join') %></a>
-            <a id="leave-btn" uid="<%= user._id %>" class="btn btn-primary" name="remove"><%= i('group.groupview.button.leave') %></a>
+              <div id="informations">
+                <div id="groupImage"><img /></div>
+                <div id="brief">
+                  <h3 id="group-name"></h3>
+                  <p id="group-public"></p>
+                </div>
+                <div id="operations">
+                  <a id="editGroup" class="btn btn-success" href="/groupeditor/<%= groupid %>"><%= i('group.groupview.button.edit') %></a>
+                  <a id="join-btn" uid="<%= user._id %>" class="btn btn-success" name="add"><%= i('group.groupview.button.join') %></a>
+                  <a id="leave-btn" uid="<%= user._id %>" class="btn btn-success" name="remove"><%= i('group.groupview.button.leave') %></a>
+                </div>
+              </div>
+
+              <ul class="nav nav-tabs" style="height:37px;">
+                <li class="active"><a id="showMessage" href="#3" data-toggle="tab"><%= i('group.groupview.tab.message') %></a></li>
+                <li><a id="showMember" href="#1" data-toggle="tab"><%= i('group.groupview.tab.members') %></a></li>
+                <li><a id="showAllUser" href="#2" data-toggle="tab"><%= i('group.groupview.tab.alluser') %></a></li>
+              </ul>
+              <div class="tab-content">
+                <div class="tab-pane" id="1">
+                  <div class="btn-group">
+                    <a class="btn" href="javascript://">All</a>
+                  </div>
+                  <div class="btn-group">
+                    <a class="btn" href="javascript://">A</a>
+                    <a class="btn" href="javascript://">B</a>
+                    <a class="btn" href="javascript://">C</a>
+                    <a class="btn" href="javascript://">D</a>
+                    <a class="btn" href="javascript://">E</a>
+                    <a class="btn" href="javascript://">F</a>
+                    <a class="btn" href="javascript://">G</a>
+                    <a class="btn" href="javascript://">H</a>
+                    <a class="btn" href="javascript://">I</a>
+                    <a class="btn" href="javascript://">J</a>
+                    <a class="btn" href="javascript://">K</a>
+                    <a class="btn" href="javascript://">L</a>
+                    <a class="btn" href="javascript://">M</a>
+                    <a class="btn" href="javascript://">N</a>
+                    <a class="btn" href="javascript://">O</a>
+                    <a class="btn" href="javascript://">P</a>
+                    <a class="btn" href="javascript://">Q</a>
+                    <a class="btn" href="javascript://">R</a>
+                    <a class="btn" href="javascript://">S</a>
+                    <a class="btn" href="javascript://">T</a>
+                    <a class="btn" href="javascript://">U</a>
+                    <a class="btn" href="javascript://">V</a>
+                    <a class="btn" href="javascript://">W</a>
+                    <a class="btn" href="javascript://">X</a>
+                    <a class="btn" href="javascript://">Y</a>
+                    <a class="btn" href="javascript://">Z</a>
+                  </div>
+                  <table class="table table-hover">
+                    <thead>
+                      <tr>
+                        <th></th>
+                        <th><%= i('group.groupview.th.name') %></th>
+                        <th><%= i('group.groupview.th.title') %></th>
+                        <th><%= i('group.groupview.th.mail') %></th>
+                        <th></th>
+                      </tr>
+                    </thead>
+                    <tbody id="groupMember"></tbody>
+                  </table>
+                </div>
+                <div class="tab-pane" id="2">
+                  <div class="btn-group">
+                    <a class="btn" href="javascript://">All</a>
+                  </div>
+                  <div class="btn-group">
+                    <a class="btn" href="javascript://">A</a>
+                    <a class="btn" href="javascript://">B</a>
+                    <a class="btn" href="javascript://">C</a>
+                    <a class="btn" href="javascript://">D</a>
+                    <a class="btn" href="javascript://">E</a>
+                    <a class="btn" href="javascript://">F</a>
+                    <a class="btn" href="javascript://">G</a>
+                    <a class="btn" href="javascript://">H</a>
+                    <a class="btn" href="javascript://">I</a>
+                    <a class="btn" href="javascript://">J</a>
+                    <a class="btn" href="javascript://">K</a>
+                    <a class="btn" href="javascript://">L</a>
+                    <a class="btn" href="javascript://">M</a>
+                    <a class="btn" href="javascript://">N</a>
+                    <a class="btn" href="javascript://">O</a>
+                    <a class="btn" href="javascript://">P</a>
+                    <a class="btn" href="javascript://">Q</a>
+                    <a class="btn" href="javascript://">R</a>
+                    <a class="btn" href="javascript://">S</a>
+                    <a class="btn" href="javascript://">T</a>
+                    <a class="btn" href="javascript://">U</a>
+                    <a class="btn" href="javascript://">V</a>
+                    <a class="btn" href="javascript://">W</a>
+                    <a class="btn" href="javascript://">X</a>
+                    <a class="btn" href="javascript://">Y</a>
+                    <a class="btn" href="javascript://">Z</a>
+                  </div>
+                  <table class="table table-hover">
+                    <thead>
+                      <tr>
+                        <th></th>
+                        <th><%= i('group.groupview.th.name') %></th>
+                        <th><%= i('group.groupview.th.title') %></th>
+                        <th><%= i('group.groupview.th.mail') %></th>
+                        <th></th>
+                      </tr>
+                    </thead>
+                    <tbody id="allUser"></tbody>
+                  </table>
+                </div>
+                <div class="tab-pane active" id="3">
+                  <div id="messages-container"></div>
+                  <div id="messagelist-group"class="pagination pagination-centered">
+                  </div>
+                </div>
+                <div class="tab-pane" id="4">
+                  <table class="table table-bordered table-hover">
+                    <thead>
+                      <tr>
+                        <th>Type</th>
+                        <th>Name</th>
+                        <th>Group</th>
+                        <th>Last Modified On</th>
+                      </tr>
+                    </thead>
+                    <tbody id="file-container"></tbody>
+                  </table>
+                </div>
+              </div>
+            </div>
           </div>
         </div>
 
-        <ul class="nav nav-tabs" style="height:37px;">
-          <li class="active"><a id="showMessage" href="#3" data-toggle="tab"><%= i('group.groupview.tab.message') %></a></li>
-          <li><a id="showMember" href="#1" data-toggle="tab"><%= i('group.groupview.tab.members') %></a></li>
-          <li><a id="showAllUser" href="#2" data-toggle="tab"><%= i('group.groupview.tab.alluser') %></a></li>
-          
-          <!--
-          <li><a id="showFiles" href="#4" data-toggle="tab">文件</a></li>
-          -->
-        </ul>
-        <div class="tab-content">
-          <div class="tab-pane" id="1">
-            <div class="btn-group">
-              <a class="btn" href="javascript://">All</a>
-            </div>
-            <div class="btn-group">
-              <a class="btn" href="javascript://">A</a>
-              <a class="btn" href="javascript://">B</a>
-              <a class="btn" href="javascript://">C</a>
-              <a class="btn" href="javascript://">D</a>
-              <a class="btn" href="javascript://">E</a>
-              <a class="btn" href="javascript://">F</a>
-              <a class="btn" href="javascript://">G</a>
-              <a class="btn" href="javascript://">H</a>
-              <a class="btn" href="javascript://">I</a>
-              <a class="btn" href="javascript://">J</a>
-              <a class="btn" href="javascript://">K</a>
-              <a class="btn" href="javascript://">L</a>
-              <a class="btn" href="javascript://">M</a>
-              <a class="btn" href="javascript://">N</a>
-              <a class="btn" href="javascript://">O</a>
-              <a class="btn" href="javascript://">P</a>
-              <a class="btn" href="javascript://">Q</a>
-              <a class="btn" href="javascript://">R</a>
-              <a class="btn" href="javascript://">S</a>
-              <a class="btn" href="javascript://">T</a>
-              <a class="btn" href="javascript://">U</a>
-              <a class="btn" href="javascript://">V</a>
-              <a class="btn" href="javascript://">W</a>
-              <a class="btn" href="javascript://">X</a>
-              <a class="btn" href="javascript://">Y</a>
-              <a class="btn" href="javascript://">Z</a>
-            </div>
-            <table class="table table-hover">
-              <thead>
-                <tr>
-                  <th></th>
-                  <th><%= i('group.groupview.th.name') %></th>
-                  <th><%= i('group.groupview.th.title') %></th>
-                  <th><%= i('group.groupview.th.mail') %></th>
-                  <th></th>
-                </tr>
-              </thead>
-              <tbody id="groupMember"></tbody>
-            </table>
-          </div>
-          <div class="tab-pane" id="2">
-            <div class="btn-group">
-              <a class="btn" href="javascript://">All</a>
-            </div>
-            <div class="btn-group">
-              <a class="btn" href="javascript://">A</a>
-              <a class="btn" href="javascript://">B</a>
-              <a class="btn" href="javascript://">C</a>
-              <a class="btn" href="javascript://">D</a>
-              <a class="btn" href="javascript://">E</a>
-              <a class="btn" href="javascript://">F</a>
-              <a class="btn" href="javascript://">G</a>
-              <a class="btn" href="javascript://">H</a>
-              <a class="btn" href="javascript://">I</a>
-              <a class="btn" href="javascript://">J</a>
-              <a class="btn" href="javascript://">K</a>
-              <a class="btn" href="javascript://">L</a>
-              <a class="btn" href="javascript://">M</a>
-              <a class="btn" href="javascript://">N</a>
-              <a class="btn" href="javascript://">O</a>
-              <a class="btn" href="javascript://">P</a>
-              <a class="btn" href="javascript://">Q</a>
-              <a class="btn" href="javascript://">R</a>
-              <a class="btn" href="javascript://">S</a>
-              <a class="btn" href="javascript://">T</a>
-              <a class="btn" href="javascript://">U</a>
-              <a class="btn" href="javascript://">V</a>
-              <a class="btn" href="javascript://">W</a>
-              <a class="btn" href="javascript://">X</a>
-              <a class="btn" href="javascript://">Y</a>
-              <a class="btn" href="javascript://">Z</a>
-            </div>
-            <table class="table table-hover">
-              <thead>
-                <tr>
-                  <th></th>
-                  <th><%= i('group.groupview.th.name') %></th>
-                  <th><%= i('group.groupview.th.title') %></th>
-                  <th><%= i('group.groupview.th.mail') %></th>
-                  <th></th>
-                </tr>
-              </thead>
-              <tbody id="allUser"></tbody>
-            </table>
-          </div>
-          <div class="tab-pane active" id="3">
-            <div id="messages-container"></div>
-            <div id="messagelist-group"class="pagination pagination-centered">
-            </div>
-          </div>
-          <div class="tab-pane" id="4">
-            <table class="table table-bordered table-hover">
-              <thead>
-                <tr>
-                  <th>Type</th>
-                  <th>Name</th>
-                  <th>Group</th>
-                  <th>Last Modified On</th>
-                </tr>
-              </thead>
-              <tbody id="file-container"></tbody>
-            </table>
-          </div>
-        </div>
       </div>
+    </div>
 
-      <footer>
-        <p>Copyright © 2012, Cross Corporation. All Rights Reserved.</p>
-      </footer>
-    </section>
+    <div class=".footer" style="margin-top: 80px;">
+      <p style="text-align: center;">Copyright © 2013, DA Corporation. All Rights Reserved.</p>
+    </div>
 
     <!-- 上传图片 -->
     <div class="modal" id="upload-group-image" role="dialog" aria-hidden="true" style="display:none;">
