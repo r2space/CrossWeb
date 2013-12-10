@@ -89,7 +89,10 @@
 
       if (type == 2) {
         $("#showAllUser").hide();
-        $("#editGroup").removeClass("hide");
+        // 是组的管理者，能编辑
+        if (_.contains(groupOwners, loginId)) {
+          $("#editGroup").removeClass("hide");
+        }
       }
 
       $("#1 a.btn").bind("click", function(){

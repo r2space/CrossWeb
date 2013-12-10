@@ -131,14 +131,6 @@ exports.guiding = function(app){
   });
 
   // 组
-  app.get('/grouplist', function(req, res){
-    res.render('grouplist', { 
-        title: __("window.title.grouplist")
-      , user: req.session.user
-      , bright: "group"
-    });
-  });
-  // 组
   app.get('/group', function(req, res){
     res.render('grouplist', {
       title: __("window.title.grouplist")
@@ -207,7 +199,7 @@ exports.guiding = function(app){
   });
 
   // 人
-  app.get('/userlist', function(req, res){
+  app.get('/user', function(req, res){
     res.render('userlist', { 
         title: __("user.label.title")
       , user: req.session.user
