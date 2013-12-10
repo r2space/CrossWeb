@@ -24,10 +24,11 @@
   <body>
     
     <% include common/navbar.html %>
-    
-    <section>
 
-      <div id="maincontents" class="tabbable tabs-left">
+    <div class="container" style="width: 1000px;">
+      <div class="row-fluid">
+
+      <div id="maincontents" class="offset1 tabbable tabs-left">
         <ul class="nav nav-tabs">
           <li class="active"><a href="#1" data-toggle="tab"><%= i('user.tab.basicInfo') %></a></li>
           <li><a href="#2" data-toggle="tab"><%= i('user.tab.detailInfo') %></a></li>
@@ -175,10 +176,12 @@
 
       </div>
 
-      <footer>
-        <p>Copyright © 2012, Cross Corporation. All Rights Reserved.</p>
-      </footer>
-    </section>
+      </div>
+    </div>
+
+    <div class=".footer" style="margin-top: 80px;">
+      <p style="text-align: center;">Copyright © 2013, DA Corporation. All Rights Reserved.</p>
+    </div>
 
   </body>
 </html>
