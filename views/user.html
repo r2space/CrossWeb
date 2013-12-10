@@ -39,243 +39,250 @@
 
     <% include common/navbar.html %>
 
-    <section>
-      <article>
-        <% include common/sidemenu.html %>
-      </article>
+    <div class="container" style="width: 1000px;">
+      <div class="row-fluid">
+        <div class="pull-left offset1" id="left">
+          <% include common/sidemenu.html %>
+        </div>
 
-      <div id="maincontents">
-        <div id="informations">
-          <div id="user_image"><img /></div>
-          <div id="brief">
-            <h3 id="user_name"></h3>
-            <p id="user_title"></p>
-          </div>
+        <div class="pull-left" style="padding-left: 20px;">
+          <div class="row-fluid">
+            <div class="span6" style="width:570px; padding-left: 20px;border-left: 2px solid #e5e5e5;">
+              <div id="informations">
+                <div id="user_image"><img /></div>
+                <div id="brief">
+                  <h3 id="user_name"></h3>
+                  <p id="user_title"></p>
+                </div>
 
-          <div id="operations">
-            <a id="edit_btn" class="btn btn-primary hide"><%= i('user.option.editInfo') %></a>
-            <a id="send_message_btn" class="btn btn-success hide"><%= i('user.option.sentPrivateMsg') %></a>
-            <a id="follow_btn" class="btn btn-success hide"><%= i('user.option.follow') %></a>
-            <a id="unfollow_btn" class="btn btn-tofollow hide"><%= i('user.option.unfollow') %></a>
+                <div id="operations">
+                  <a id="edit_btn" class="btn btn-primary hide"><%= i('user.option.editInfo') %></a>
+                  <a id="send_message_btn" class="btn btn-success hide"><%= i('user.option.sentPrivateMsg') %></a>
+                  <a id="follow_btn" class="btn btn-success hide"><%= i('user.option.follow') %></a>
+                  <a id="unfollow_btn" class="btn btn-tofollow hide"><%= i('user.option.unfollow') %></a>
+                </div>
+              </div>
+
+              <ul class="nav nav-tabs" style="height:37px;">
+                <li class="active"><a id="showMessage" href="#2" data-toggle="tab"><%= i('user.tab.messages') %></a></li>
+                <li><a href="#userdetail" data-toggle="tab"><%= i('user.tab.info') %></a></li>
+                <li><a id="showFollowing" href="#3" data-toggle="tab"><%= i('user.tab.follings') %>(<span id="followingCount">0</span>)</a></li>
+                <li><a id="showFollower" href="#4" data-toggle="tab"><%= i('user.tab.followers') %>(<span id="followerCount">0</span>)</a></li>
+                <li><a id="showGroups" href="#5" data-toggle="tab"><%= i('user.tab.joinedGroups') %></a></li>
+                <!-- <li><a id="showFiles" href="#6" data-toggle="tab">Files</a></li> -->
+              </ul>
+              <div class="tab-content">
+                <div id="userdetail" class="tab-pane">
+                  <dl>
+                    <legend><%= i('user.info') %></legend>
+                    <dt><%= i('user.info.name') %>：</dt>
+                    <dd id="basic_user_name"></dd>
+                    <dt><%= i('user.info.birthday') %>：</dt>
+                    <dd id="basic_user_birthday">_</dd>
+                    <dt><%= i('user.info.address') %>：</dt>
+                    <dd id="basic_user_address"></dd>
+                    <dt><%= i('user.info.summary') %>：</dt>
+                    <dd id="basic_user_bio">_</dd>
+                    <br />
+
+                    <legend><%= i('user.contact') %></legend>
+                    <dt><%= i('user.info.mobile') %>：</dt>
+                    <dd id="basic_user_mobile"></dd>
+                    <dt><%= i('user.info.email') %>：</dt>
+                    <dd id="basic_user_email"></dd>
+                  </dl>
+                </div>
+                <div id="2" class="tab-pane active">
+                  <div id="messages-container"></div>
+                  <div id="messagelist-user" class="pagination pagination-centered">
+                  </div>
+                </div>
+                <div id="3" class="tab-pane">
+                  <div id="followingFilter" class="btn-toolbar">
+                    <div class="btn-group">
+                      <a class="btn" href="javascript://">All</a>
+                    </div>
+                    <div class="btn-group">
+                      <a class="btn" href="javascript://">A</a>
+                      <a class="btn" href="javascript://">B</a>
+                      <a class="btn" href="javascript://">C</a>
+                      <a class="btn" href="javascript://">D</a>
+                      <a class="btn" href="javascript://">E</a>
+                      <a class="btn" href="javascript://">F</a>
+                      <a class="btn" href="javascript://">G</a>
+                      <a class="btn" href="javascript://">H</a>
+                      <a class="btn" href="javascript://">I</a>
+                      <a class="btn" href="javascript://">J</a>
+                      <a class="btn" href="javascript://">K</a>
+                      <a class="btn" href="javascript://">L</a>
+                      <a class="btn" href="javascript://">M</a>
+                      <a class="btn" href="javascript://">N</a>
+                      <a class="btn" href="javascript://">O</a>
+                      <a class="btn" href="javascript://">P</a>
+                      <a class="btn" href="javascript://">Q</a>
+                      <a class="btn" href="javascript://">R</a>
+                      <a class="btn" href="javascript://">S</a>
+                      <a class="btn" href="javascript://">T</a>
+                      <a class="btn" href="javascript://">U</a>
+                      <a class="btn" href="javascript://">V</a>
+                      <a class="btn" href="javascript://">W</a>
+                      <a class="btn" href="javascript://">X</a>
+                      <a class="btn" href="javascript://">Y</a>
+                      <a class="btn" href="javascript://">Z</a>
+                    </div>
+                  </div>
+                  <table class="table table-hover">
+                    <thead>
+                      <tr>
+                        <th></th>
+                        <th><%= i('user.header.name') %></th>
+                        <th width="150px"><%= i('user.header.title') %></th>
+                        <th><%= i('user.header.email') %></th>
+                        <th></th>
+                      </tr>
+                    </thead>
+                    <tbody id="followinglist"></tbody>
+                  </table>
+                </div>
+                <div id="4" class="tab-pane">
+                  <div id="followerFilter" class="btn-toolbar">
+                    <div class="btn-group">
+                      <a class="btn" href="javascript://">All</a>
+                    </div>
+                    <div class="btn-group">
+                      <a class="btn" href="javascript://">A</a>
+                      <a class="btn" href="javascript://">B</a>
+                      <a class="btn" href="javascript://">C</a>
+                      <a class="btn" href="javascript://">D</a>
+                      <a class="btn" href="javascript://">E</a>
+                      <a class="btn" href="javascript://">F</a>
+                      <a class="btn" href="javascript://">G</a>
+                      <a class="btn" href="javascript://">H</a>
+                      <a class="btn" href="javascript://">I</a>
+                      <a class="btn" href="javascript://">J</a>
+                      <a class="btn" href="javascript://">K</a>
+                      <a class="btn" href="javascript://">L</a>
+                      <a class="btn" href="javascript://">M</a>
+                      <a class="btn" href="javascript://">N</a>
+                      <a class="btn" href="javascript://">O</a>
+                      <a class="btn" href="javascript://">P</a>
+                      <a class="btn" href="javascript://">Q</a>
+                      <a class="btn" href="javascript://">R</a>
+                      <a class="btn" href="javascript://">S</a>
+                      <a class="btn" href="javascript://">T</a>
+                      <a class="btn" href="javascript://">U</a>
+                      <a class="btn" href="javascript://">V</a>
+                      <a class="btn" href="javascript://">W</a>
+                      <a class="btn" href="javascript://">X</a>
+                      <a class="btn" href="javascript://">Y</a>
+                      <a class="btn" href="javascript://">Z</a>
+                    </div>
+                  </div>
+                  <table class="table table-hover">
+                    <thead>
+                      <tr>
+                        <th></th>
+                        <th><%= i('user.header.name') %></th>
+                        <th><%= i('user.header.title') %></th>
+                        <th><%= i('user.header.email') %></th>
+                        <th></th>
+                      </tr>
+                    </thead>
+                    <tbody id="followerlist"></tbody>
+                  </table>
+                </div>
+                <div id="5" class="tab-pane">
+                  <div id="groupFilter" class="btn-toolbar">
+                    <div class="btn-group">
+                      <a class="btn" href="javascript://">All</a>
+                    </div>
+                    <div class="btn-group">
+                      <a class="btn" href="javascript://">A</a>
+                      <a class="btn" href="javascript://">B</a>
+                      <a class="btn" href="javascript://">C</a>
+                      <a class="btn" href="javascript://">D</a>
+                      <a class="btn" href="javascript://">E</a>
+                      <a class="btn" href="javascript://">F</a>
+                      <a class="btn" href="javascript://">G</a>
+                      <a class="btn" href="javascript://">H</a>
+                      <a class="btn" href="javascript://">I</a>
+                      <a class="btn" href="javascript://">J</a>
+                      <a class="btn" href="javascript://">K</a>
+                      <a class="btn" href="javascript://">L</a>
+                      <a class="btn" href="javascript://">M</a>
+                      <a class="btn" href="javascript://">N</a>
+                      <a class="btn" href="javascript://">O</a>
+                      <a class="btn" href="javascript://">P</a>
+                      <a class="btn" href="javascript://">Q</a>
+                      <a class="btn" href="javascript://">R</a>
+                      <a class="btn" href="javascript://">S</a>
+                      <a class="btn" href="javascript://">T</a>
+                      <a class="btn" href="javascript://">U</a>
+                      <a class="btn" href="javascript://">V</a>
+                      <a class="btn" href="javascript://">W</a>
+                      <a class="btn" href="javascript://">X</a>
+                      <a class="btn" href="javascript://">Y</a>
+                      <a class="btn" href="javascript://">Z</a>
+                    </div>
+                  </div>
+
+                  <table class="table table-hover">
+                    <thead>
+                      <tr>
+                        <th><%= i('group.grouplist.th.type') %></th>
+                        <th width="25%"><%= i('group.grouplist.th.groupOrDepartment') %></th>
+                        <th><%= i('group.grouplist.th.secure') %></th>
+                        <th><%= i('group.grouplist.th.membercnt') %></th>
+                        <th><%= i('group.grouplist.th.uptdate') %></th>
+                        <th></th>
+                      </tr>
+                    </thead>
+                    <tbody id="grouplist"></tbody>
+                  </table>
+                </div>
+                <div id="6" class="tab-pane">
+                  <div id="">
+                    <input type="file" id="uploadfile" style="display: none" />
+                    <table class="table table-bordered table-hover">
+                      <thead>
+                        <tr>
+                          <th>Type</th>
+                          <th>Name</th>
+                          <th>Last Modified On</th>
+                          <th>Operation</th>
+                        </tr>
+                      </thead>
+                      <tbody id="filelist"></tbody>
+                    </table>
+                    <div id="file_page_container" class="pagination pagination-centered pagination-mini">
+                  </div>
+                    <div id="fileHistory" style="position: absolute;">
+                      <table class="table table-bordered table-hover" style="background-color: white;">
+                        <thead>
+                          <tr>
+                            <th>Type</th>
+                            <th>Name</th>
+                            <th  style="max-width: 60px;overflow: hidden;text-overflow: ellipsis;">upload User</th>
+                            <th>Last Modified On</th>
+                          </tr>
+                        </thead>
+                        <tbody id="historylist"></tbody>
+                      </table>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
           </div>
         </div>
 
-        <ul class="nav nav-tabs" style="height:37px;">
-          <li class="active"><a id="showMessage" href="#2" data-toggle="tab"><%= i('user.tab.messages') %></a></li>
-          <li><a href="#userdetail" data-toggle="tab"><%= i('user.tab.info') %></a></li>
-          <li><a id="showFollowing" href="#3" data-toggle="tab"><%= i('user.tab.follings') %>(<span id="followingCount">0</span>)</a></li>
-          <li><a id="showFollower" href="#4" data-toggle="tab"><%= i('user.tab.followers') %>(<span id="followerCount">0</span>)</a></li>
-          <li><a id="showGroups" href="#5" data-toggle="tab"><%= i('user.tab.joinedGroups') %></a></li>
-          <!-- <li><a id="showFiles" href="#6" data-toggle="tab">Files</a></li> -->
-        </ul>
-        <div class="tab-content">
-          <div id="userdetail" class="tab-pane">
-            <dl>
-              <legend><%= i('user.info') %></legend>
-              <dt><%= i('user.info.name') %>：</dt>
-              <dd id="basic_user_name"></dd>
-              <dt><%= i('user.info.birthday') %>：</dt>
-              <dd id="basic_user_birthday">_</dd>
-              <dt><%= i('user.info.address') %>：</dt>
-              <dd id="basic_user_address"></dd>
-              <dt><%= i('user.info.summary') %>：</dt>
-              <dd id="basic_user_bio">_</dd>
-              <br />
-
-              <legend><%= i('user.contact') %></legend>
-              <dt><%= i('user.info.mobile') %>：</dt>
-              <dd id="basic_user_mobile"></dd>
-              <dt><%= i('user.info.email') %>：</dt>
-              <dd id="basic_user_email"></dd>
-            </dl>
-          </div>
-          <div id="2" class="tab-pane active">
-            <div id="messages-container"></div>
-            <div id="messagelist-user" class="pagination pagination-centered">
-            </div>
-          </div>
-          <div id="3" class="tab-pane">
-            <div id="followingFilter" class="btn-toolbar">
-              <div class="btn-group">
-                <a class="btn" href="javascript://">All</a>
-              </div>
-              <div class="btn-group">
-                <a class="btn" href="javascript://">A</a>
-                <a class="btn" href="javascript://">B</a>
-                <a class="btn" href="javascript://">C</a>
-                <a class="btn" href="javascript://">D</a>
-                <a class="btn" href="javascript://">E</a>
-                <a class="btn" href="javascript://">F</a>
-                <a class="btn" href="javascript://">G</a>
-                <a class="btn" href="javascript://">H</a>
-                <a class="btn" href="javascript://">I</a>
-                <a class="btn" href="javascript://">J</a>
-                <a class="btn" href="javascript://">K</a>
-                <a class="btn" href="javascript://">L</a>
-                <a class="btn" href="javascript://">M</a>
-                <a class="btn" href="javascript://">N</a>
-                <a class="btn" href="javascript://">O</a>
-                <a class="btn" href="javascript://">P</a>
-                <a class="btn" href="javascript://">Q</a>
-                <a class="btn" href="javascript://">R</a>
-                <a class="btn" href="javascript://">S</a>
-                <a class="btn" href="javascript://">T</a>
-                <a class="btn" href="javascript://">U</a>
-                <a class="btn" href="javascript://">V</a>
-                <a class="btn" href="javascript://">W</a>
-                <a class="btn" href="javascript://">X</a>
-                <a class="btn" href="javascript://">Y</a>
-                <a class="btn" href="javascript://">Z</a>
-              </div>
-            </div>
-            <table class="table table-hover">
-              <thead>
-                <tr>
-                  <th></th>
-                  <th><%= i('user.header.name') %></th>
-                  <th width="150px"><%= i('user.header.title') %></th>
-                  <th><%= i('user.header.email') %></th>
-                  <th></th>
-                </tr>
-              </thead>
-              <tbody id="followinglist"></tbody>
-            </table>
-          </div>
-          <div id="4" class="tab-pane">
-            <div id="followerFilter" class="btn-toolbar">
-              <div class="btn-group">
-                <a class="btn" href="javascript://">All</a>
-              </div>
-              <div class="btn-group">
-                <a class="btn" href="javascript://">A</a>
-                <a class="btn" href="javascript://">B</a>
-                <a class="btn" href="javascript://">C</a>
-                <a class="btn" href="javascript://">D</a>
-                <a class="btn" href="javascript://">E</a>
-                <a class="btn" href="javascript://">F</a>
-                <a class="btn" href="javascript://">G</a>
-                <a class="btn" href="javascript://">H</a>
-                <a class="btn" href="javascript://">I</a>
-                <a class="btn" href="javascript://">J</a>
-                <a class="btn" href="javascript://">K</a>
-                <a class="btn" href="javascript://">L</a>
-                <a class="btn" href="javascript://">M</a>
-                <a class="btn" href="javascript://">N</a>
-                <a class="btn" href="javascript://">O</a>
-                <a class="btn" href="javascript://">P</a>
-                <a class="btn" href="javascript://">Q</a>
-                <a class="btn" href="javascript://">R</a>
-                <a class="btn" href="javascript://">S</a>
-                <a class="btn" href="javascript://">T</a>
-                <a class="btn" href="javascript://">U</a>
-                <a class="btn" href="javascript://">V</a>
-                <a class="btn" href="javascript://">W</a>
-                <a class="btn" href="javascript://">X</a>
-                <a class="btn" href="javascript://">Y</a>
-                <a class="btn" href="javascript://">Z</a>
-              </div>
-            </div>
-            <table class="table table-hover">
-              <thead>
-                <tr>
-                  <th></th>
-                  <th><%= i('user.header.name') %></th>
-                  <th><%= i('user.header.title') %></th>
-                  <th><%= i('user.header.email') %></th>
-                  <th></th>
-                </tr>
-              </thead>
-              <tbody id="followerlist"></tbody>
-            </table>
-          </div>
-          <div id="5" class="tab-pane">
-            <div id="groupFilter" class="btn-toolbar">
-              <div class="btn-group">
-                <a class="btn" href="javascript://">All</a>
-              </div>
-              <div class="btn-group">
-                <a class="btn" href="javascript://">A</a>
-                <a class="btn" href="javascript://">B</a>
-                <a class="btn" href="javascript://">C</a>
-                <a class="btn" href="javascript://">D</a>
-                <a class="btn" href="javascript://">E</a>
-                <a class="btn" href="javascript://">F</a>
-                <a class="btn" href="javascript://">G</a>
-                <a class="btn" href="javascript://">H</a>
-                <a class="btn" href="javascript://">I</a>
-                <a class="btn" href="javascript://">J</a>
-                <a class="btn" href="javascript://">K</a>
-                <a class="btn" href="javascript://">L</a>
-                <a class="btn" href="javascript://">M</a>
-                <a class="btn" href="javascript://">N</a>
-                <a class="btn" href="javascript://">O</a>
-                <a class="btn" href="javascript://">P</a>
-                <a class="btn" href="javascript://">Q</a>
-                <a class="btn" href="javascript://">R</a>
-                <a class="btn" href="javascript://">S</a>
-                <a class="btn" href="javascript://">T</a>
-                <a class="btn" href="javascript://">U</a>
-                <a class="btn" href="javascript://">V</a>
-                <a class="btn" href="javascript://">W</a>
-                <a class="btn" href="javascript://">X</a>
-                <a class="btn" href="javascript://">Y</a>
-                <a class="btn" href="javascript://">Z</a>
-              </div>
-            </div>
-            
-            <table class="table table-hover">
-              <thead>
-                <tr>
-                  <th><%= i('group.grouplist.th.type') %></th>
-                  <th width="300px"><%= i('group.grouplist.th.groupOrDepartment') %></th>
-                  <th><%= i('group.grouplist.th.secure') %></th>
-                  <th><%= i('group.grouplist.th.membercnt') %></th>
-                  <th><%= i('group.grouplist.th.uptdate') %></th>
-                  <th></th>
-                </tr>
-              </thead>
-              <tbody id="grouplist"></tbody>
-            </table>
-          </div>
-          <div id="6" class="tab-pane">
-            <div id="">
-              <input type="file" id="uploadfile" style="display: none" />
-              <table class="table table-bordered table-hover">
-                <thead>
-                  <tr>
-                    <th>Type</th>
-                    <th>Name</th>
-                    <th>Last Modified On</th>
-                    <th>Operation</th>
-                  </tr>
-                </thead>
-                <tbody id="filelist"></tbody>
-              </table>
-              <div id="file_page_container" class="pagination pagination-centered pagination-mini">
-            </div>
-              <div id="fileHistory" style="position: absolute;">
-                <table class="table table-bordered table-hover" style="background-color: white;">
-                  <thead>
-                    <tr>
-                      <th>Type</th>
-                      <th>Name</th>
-                      <th  style="max-width: 60px;overflow: hidden;text-overflow: ellipsis;">upload User</th>
-                      <th>Last Modified On</th>
-                    </tr>
-                  </thead>
-                  <tbody id="historylist"></tbody>
-                </table>
-              </div>
-            </div>
-          </div>
-        </div>
       </div>
+    </div>
 
-      <footer>
-        <p>Copyright © 2012, Cross Corporation. All Rights Reserved.</p>
-      </footer>
-    </section>
-  
+    <div class=".footer" style="margin-top: 80px;">
+      <p style="text-align: center;">Copyright © 2013, DA Corporation. All Rights Reserved.</p>
+    </div>
+
     <script type="text/template" id="files-template">
     <tr id="{{ fid }}">
       <td><img src="/images/filetype/{{ extension }}.png" onerror="this.src='/images/filetype/default.png';this.onerror = null;"/></td>
