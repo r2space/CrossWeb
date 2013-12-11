@@ -767,7 +767,7 @@
       var uid = window.location.href.split("/")[4] ? window.location.href.split("/")[4] : $(this).parent().parent().attr("id").split("-")[1];
       
       $.post("/user/follow.json?_csrf=" + $("#_csrf").val()
-            , {"uid": uid}
+            , {"_id": uid}
             , function(result){
               if (result.code === 200) {
                 $(self).removeClass("btn-primary btn-tofollow");
@@ -783,7 +783,7 @@
       var self = this;
       var uid = window.location.href.split("/")[4] ? window.location.href.split("/")[4] : $(this).parent().parent().attr("id");
       $.post("/user/unfollow.json?_csrf=" + $("#_csrf").val()
-            , {"uid": uid}
+            , {"_id": uid}
             , function(result){
               if (result.code === 200) {
                 $(self).removeClass("btn-danger btn-followed");
@@ -800,7 +800,7 @@
         , url = "/user/" + func + ".json"
         , isOwnHPage = ($("#userid").val() == self.model.get("_id"));
 
-      smart.doput(url, {"uid": uid}, function(err, result){
+      smart.doput(url, {"_id": uid}, function(err, result){
         if(result.error){
           console.log(result); return;
         }

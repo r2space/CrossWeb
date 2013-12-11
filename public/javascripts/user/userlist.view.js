@@ -122,7 +122,7 @@
         , url = "/user/" + type + ".json";
       
 
-      smart.doput(url, {"uid": uid}, function(err, result){
+      smart.doput(url, {"_id": uid}, function(err, result){
         if (result.error) {
           console.log(result);
           alert(result);

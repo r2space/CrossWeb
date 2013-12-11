@@ -100,7 +100,7 @@ exports.getUserList = function(req, res) {
       return response.send(res, err, {items: userResult});
     });
   } else {
-    ctrlUser.getList(handler, function(err, userResult) {
+    ctrlUser.getUserList(handler, function(err, userResult) {
         return response.send(res, err, {items: userResult});
     });
   }

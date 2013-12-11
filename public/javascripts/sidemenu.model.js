@@ -18,7 +18,7 @@
     parse: function(response) {
       // this.set("sidemenu", response.data);
       return response.data.items;
-    },
+    }
 
   });
   
