@@ -207,6 +207,13 @@ exports.guiding = function(app){
   });
 
   // 人
+  app.get('/user', function(req, res){
+    res.render('userlist', {
+      title: __("user.label.title")
+      , user: req.session.user
+      , bright: "user"
+    });
+  });
   app.get('/userlist', function(req, res){
     res.render('userlist', { 
         title: __("user.label.title")
