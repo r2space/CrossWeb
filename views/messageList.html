@@ -34,45 +34,32 @@
   <body>
     <input id="type" type='hidden' value='<%= type %>'>
     <% include common/navbar.html %>
-    
-    <section>
-      <article>
-        <% include common/sidemenu_mail.html %>
-      </article>
-      <div id="container-main" class="container-fluid">
-        <div class="row-fluid">
 
-          <!--/span-->
-<!--           <div class="span2" id="mail-sorted-by-uid" style="margin-left: 20px;">
-            <div style="font-weight:bold;font-size: 12pt">
-              <p>私信</p>
-            </div>
-            <hr>
-          </div> -->
-          <div class="span6" style="width:550px; margin-left: 20px;">
-            <div>
-            </div>
-            <hr>
-            <div id="mails-container">
-            </div>
-
-              <div id="messages-container">
-                  <!--正在努力为你读取......--><%= i('message.list.label.replyloading') %>
+    <div class="container" style="width: 1000px;">
+      <div class="row-fluid">
+        <div class="pull-left offset1" id="left">
+          <% include common/sidemenu_mail.html %>
+        </div>
+        <div class="pull-left">
+          <div class="row-fluid">
+            <div class="span6 rightPanel">
+              <div>
               </div>
-
-
-              <div id="messagelist-home" class="pagination pagination-centered">
+              <hr>
+              <div id="mails-container">
               </div>
-
-          
+                <div id="messages-container">
+                  <%= i('message.list.label.replyloading') %><!--正在努力为你读取......-->
+                </div>
+                <div id="messagelist-home" class="pagination pagination-centered">
+                </div>
+            </div>
           </div>
         </div>
       </div>
+    </div>
 
-      <footer>
-        <p>Copyright © 2012, Cross Corporation. All Rights Reserved.</p>
-      </footer>
-    </section>
+    <% include common/footer.html %>
 
   <script type="text/template" id="mailtemplate"> 
     <div style="margin-bottom: 0">

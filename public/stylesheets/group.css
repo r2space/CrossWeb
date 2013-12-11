@@ -19,10 +19,6 @@
   max-width: 300px;
   max-height: 300px;
 }
-#maincontents {
-  width: 700px;
-  margin-left: 180px;
-}
 #informations {
   height: 100px;
   min-height: 20px;
@@ -33,6 +29,7 @@
   -webkit-border-radius: 4px;
   -moz-border-radius: 4px;
   border-radius: 4px;
+  position: relative;
 }
 /* 用户名 */
 #brief {
@@ -42,10 +39,9 @@
 }
 /* 操作按钮 */
 #operations {
-  position: relative;
-  top: -160px;
-  left: 485px;
-  width: 200px;
+  position: absolute;
+  top: 45px;
+  right: 10px;
 }
 #groupImage {
   width: 100px;

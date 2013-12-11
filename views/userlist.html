@@ -20,85 +20,91 @@
   <body>
     <% include common/navbar.html %>
 
-    <section>
-      <article>
-        <% include common/sidemenu.html %>
-      </article>
+    <div class="container" style="width: 1000px;">
+      <div class="row-fluid">
 
-      <div id="maincontents">
-        <div id="informations">
-          <h3><%= i('user.label.title') %></h3>
-          <p><%= i('user.label.sugestion') %></p>
+        <div class="pull-left offset1" id="left">
+          <% include common/sidemenu.html %>
         </div>
 
-        <ul class="nav nav-tabs" style="height:37px;">
-          <li class="active"><a id="all" href="#1" data-toggle="tab"><%= i('user.tab.alluser') %></a></li>
-        </ul>
+        <div class="pull-left">
+          <div class="row-fluid">
+            <div class="span6 rightPanel">
 
-        <div class="tab-content">
-          <div id="1" class="tab-pane active">
-            <div id="allFilter" class="btn-toolbar">
-              <div class="btn-group">
-                <a class="btn" href="javascript://">All</a>
-              </div>
-              <div class="btn-group">
-                <a class="btn" href="javascript://">A</a>
-                <a class="btn" href="javascript://">B</a>
-                <a class="btn" href="javascript://">C</a>
-                <a class="btn" href="javascript://">D</a>
-                <a class="btn" href="javascript://">E</a>
-                <a class="btn" href="javascript://">F</a>
-                <a class="btn" href="javascript://">G</a>
-                <a class="btn" href="javascript://">H</a>
-                <a class="btn" href="javascript://">I</a>
-                <a class="btn" href="javascript://">J</a>
-                <a class="btn" href="javascript://">K</a>
-                <a class="btn" href="javascript://">L</a>
-                <a class="btn" href="javascript://">M</a>
-                <a class="btn" href="javascript://">N</a>
-                <a class="btn" href="javascript://">O</a>
-                <a class="btn" href="javascript://">P</a>
-                <a class="btn" href="javascript://">Q</a>
-                <a class="btn" href="javascript://">R</a>
-                <a class="btn" href="javascript://">S</a>
-                <a class="btn" href="javascript://">T</a>
-                <a class="btn" href="javascript://">U</a>
-                <a class="btn" href="javascript://">V</a>
-                <a class="btn" href="javascript://">W</a>
-                <a class="btn" href="javascript://">X</a>
-                <a class="btn" href="javascript://">Y</a>
-                <a class="btn" href="javascript://">Z</a>
-              </div>
+            <div id="informations">
+              <h3><%= i('user.label.title') %></h3>
+              <p><%= i('user.label.sugestion') %></p>
             </div>
-            <table class="table table-hover">
-              <thead>
-                <tr>
-                  <th></th>
-                  <th><%= i('user.header.name') %></th>
-                  <th width="150px"><%= i('user.header.title') %></th>
-                  <th><%= i('user.header.email') %></th>
-                  <th></th>
-                </tr>
-              </thead>
-              <tbody id="allUsers"></tbody>
-            </table>
-          </div>
 
-          <!-- <div class="pagination pagination-centered">
-            <ul>
-              <li class="disabled"><a href="#">上一页</a></li>
-              <li><a href="#" class="active">1</a></li>
-              <li class="disabled"><a href="#">下一页</a></li>
+            <ul class="nav nav-tabs" style="height:37px;">
+              <li class="active"><a id="all" href="#1" data-toggle="tab"><%= i('user.tab.alluser') %></a></li>
             </ul>
-          </div> -->
+
+            <div class="tab-content">
+              <div id="1" class="tab-pane active">
+                <div id="allFilter" class="btn-toolbar">
+                  <div class="btn-group">
+                    <a class="btn" href="javascript://">All</a>
+                  </div>
+                  <div class="btn-group">
+                    <a class="btn" href="javascript://">A</a>
+                    <a class="btn" href="javascript://">B</a>
+                    <a class="btn" href="javascript://">C</a>
+                    <a class="btn" href="javascript://">D</a>
+                    <a class="btn" href="javascript://">E</a>
+                    <a class="btn" href="javascript://">F</a>
+                    <a class="btn" href="javascript://">G</a>
+                    <a class="btn" href="javascript://">H</a>
+                    <a class="btn" href="javascript://">I</a>
+                    <a class="btn" href="javascript://">J</a>
+                    <a class="btn" href="javascript://">K</a>
+                    <a class="btn" href="javascript://">L</a>
+                    <a class="btn" href="javascript://">M</a>
+                    <a class="btn" href="javascript://">N</a>
+                    <a class="btn" href="javascript://">O</a>
+                    <a class="btn" href="javascript://">P</a>
+                    <a class="btn" href="javascript://">Q</a>
+                    <a class="btn" href="javascript://">R</a>
+                    <a class="btn" href="javascript://">S</a>
+                    <a class="btn" href="javascript://">T</a>
+                    <a class="btn" href="javascript://">U</a>
+                    <a class="btn" href="javascript://">V</a>
+                    <a class="btn" href="javascript://">W</a>
+                    <a class="btn" href="javascript://">X</a>
+                    <a class="btn" href="javascript://">Y</a>
+                    <a class="btn" href="javascript://">Z</a>
+                  </div>
+                </div>
+                <table class="table table-hover">
+                  <thead>
+                    <tr>
+                      <th></th>
+                      <th><%= i('user.header.name') %></th>
+                      <th width="150px"><%= i('user.header.title') %></th>
+                      <th><%= i('user.header.email') %></th>
+                      <th></th>
+                    </tr>
+                  </thead>
+                  <tbody id="allUsers"></tbody>
+                </table>
+              </div>
+
+              <!-- <div class="pagination pagination-centered">
+                <ul>
+                  <li class="disabled"><a href="#">上一页</a></li>
+                  <li><a href="#" class="active">1</a></li>
+                  <li class="disabled"><a href="#">下一页</a></li>
+                </ul>
+              </div> -->
+            </div>
+            </div>
+          </div>
         </div>
+
       </div>
+    </div>
 
-      <footer>
-        <p>Copyright © 2012, Cross Corporation. All Rights Reserved.</p>
-      </footer>
-
-    </section>
+    <% include common/footer.html %>
 
     <script type="text/template" id="user-template">
       <tr>
