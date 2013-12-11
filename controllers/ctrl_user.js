@@ -144,10 +144,10 @@ exports.getUserList = function(handler, callback){
   // 首字母过滤
   if (keywords_) {
     condition.$or = [
-      {"name.name_zh": new RegExp("^" + keywords_.toLowerCase() + ".*$", "i")}
-      , {"name.letter_zh": new RegExp("^" + keywords_.toLowerCase() + ".*$", "i")}
-      , {"email.email1": new RegExp("^" + keywords_.toLowerCase() + ".*$", "i")}
-      , {"email.email2": new RegExp("^" + keywords_.toLowerCase() + ".*$", "i")}
+      {"extend.name_zh": new RegExp("^" + keywords_.toLowerCase() + ".*$", "i")}
+      , {"extend.letter_zh": new RegExp("^" + keywords_.toLowerCase() + ".*$", "i")}
+      , {"email": new RegExp("^" + keywords_.toLowerCase() + ".*$", "i")}
+      , {"first": new RegExp("^" + keywords_.toLowerCase() + ".*$", "i")}
     ];
   }
   if (firstLetter_) {
@@ -384,7 +384,7 @@ exports.follow = function(handler, callback){
       };
 
       notification.createForFollow(follow);
-      return callback(err, result.friends);
+      return callback(err, result.extend.following);
     });
   });
 };
@@ -394,7 +394,7 @@ exports.follow = function(handler, callback){
  */
 exports.unfollow = function(handler, callback){
   var  currentuid  =  handler.params.uid;
-  var  followuid =  handler.params._id;
+  var  followuid =  handler.params._id;        console.log(currentuid); console.log(followuid);
   if (!followuid) {
     return callback(new error.BadRequest(__("user.error.emptyName")));
   }
@@ -416,9 +416,12 @@ exports.unfollow = function(handler, callback){
       return callback(new error.NotFound(__("user.error.notFound")));
     }
 
-    var following = result.extend.following;
-    following.splice(_.contains(followuid, following), 1);
-
+    var following = [];
+    _.each(result.extend.following, function(u){
+      if(u != followuid) {
+        following.push(u);
+      }
+    });
     handler.addParams("extendKey", "following");
     handler.addParams("extendValue", following);
 
@@ -426,7 +429,7 @@ exports.unfollow = function(handler, callback){
       if (err) {
         return callback(new error.InternalServer(err));
       }
-      return callback(err, result.friends);
+      return callback(err, result.extend.following);
     });
   });
 
