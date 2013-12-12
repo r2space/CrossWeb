@@ -165,7 +165,15 @@ exports.getUserList = function(handler, callback){
         return callback(new error.InternalServer(err));
       }
 
+      condition = {$and: [
+        condition,
+        {"groups": { $nin: [ gid ] }}
+      ]};
+
       handler.addParams("condition", condition);
+      handler.addParams("skip", params.start);
+      handler.addParams("limit", params.limit);
+      handler.addParams("order", "extend.name_zh");
 
       user.getList(handler, function(err, result){
         var uList = [];

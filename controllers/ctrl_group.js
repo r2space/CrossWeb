@@ -482,6 +482,12 @@ exports.getMember = function(handler, callback) {
       "_id": {$in: resultUsers.items}
     });
 
+    if(params.firstLetter) {
+      condition.push({
+        "extend.letter_zh": params.firstLetter.toUpperCase()
+      });
+    }
+
     if(params.keywords) {
       condition.push({$or: [
         {"extend.name_zh": {$regex: params.keywords, $options: "i"}},

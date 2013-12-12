@@ -141,15 +141,20 @@
     },
 
     fetchUser: function(pagenum) {
+      pagenum = pagenum || 1;
+      var limit = 20;
+      var start = (pagenum - 1) * limit;
 
       var keyword = $("#searchInput").val();
       var self = this
         , url = self.kind == 2 ? "/user/list.json?"
-            : "/group/members.json?gid=" + self.model.id;
+            : "/group/members.json?";
       if(keyword) {
         url += "&keywords=" + keyword;
       }
-
+      url += "&start=" + start;
+      url += "&limit=" + limit;
+      url += "&gid=" + self.model.id;
 
       smart.doget(url, function(err, result){
 
@@ -182,8 +187,8 @@
           }
         });
 
-        smart.pagination(result.totalItems, count, pagenum, "pagination", function(pagenum){
-          self.fetchGroup(null, count*(pagenum - 1), count, pagenum);
+        smart.pagination(result.totalItems, limit, pagenum, "pagination", function(pagenum){
+          self.fetchUser(pagenum);
         });
 
         $("#groupMember a, #allUser a").on("click", function(){
