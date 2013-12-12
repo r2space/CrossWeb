@@ -51,9 +51,11 @@
 
     model: Group.Model,
 
+    total: 0,
+    pagenum: 0,
     start: 0,
     count: 20,
-    firstLetter: "",
+    keywords: "",
     type: "",
 
     urlRoot: "/group/list.json",
@@ -62,11 +64,10 @@
      * 整合获取组一览信息用的URL
      */
     url: function() {
-      var result = this.urlRoot + "?start=" + this.start 
-        + "&limit=" + this.count;
+      var result = this.urlRoot + "?start=" + this.start + "&limit=" + this.count;
 
-      if (this.firstLetter.length > 0) {
-        result += "&firstLetter=" + this.firstLetter;
+      if (this.keywords.length > 0) {
+        result += "&keywords=" + this.keywords;
       }
 
       if (this.type.length > 0) {
@@ -80,6 +81,7 @@
      * 将后台应答数据格式转换成Model的格式
      */
     parse: function(response) {
+      this.total = response.data.totalItems;
       return response.data.items;
     }
   });

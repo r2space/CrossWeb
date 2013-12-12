@@ -19,9 +19,14 @@
         self.fetchGroup($(event.target).attr("id"));
       });
 
-      // 头字母过滤所有的组
-      $("#allFilter a, #groupFilter a, #departmentFilter a").bind("click", function(){
-        self.fetchGroup(self.kind, $(event.target).html()); return false;
+      $("#searchInput").keypress(function(event) {
+        if(event.which === 13) {
+          self.fetchGroup();
+        }
+      });
+
+      $("#searchBtn").click(function() {
+        self.fetchGroup();
       });
 
       // 创建组
@@ -69,6 +74,14 @@
         }));
       });
 
+      var total = self.collection.total;
+      var count = self.collection.count;
+      var pagenum = self.collection.pagenum;
+
+      smart.pagination(total, count, pagenum, "pagination", function(pagenum){
+        self.fetchGroup(null, count*(pagenum - 1), count, pagenum);
+      });
+
       $("#allContainer a, #groupContainer a, #departmentContainer a").on("click", function(){
         self.joinGroup($(this));
       });
@@ -86,14 +99,19 @@
     /**
      * 检索组信息
      */
-    fetchGroup: function(kind, firstLetter) {
+    fetchGroup: function(kind, start, count, pagenum) {
 
       var self = this;
 
-      self.kind = kind;
-      self.firstLetter = firstLetter
+      if(kind) {
+        self.kind = kind;
+        $("#searchInput").val("");
+        self.keywords = "";
+      } else {
+        self.keywords = $("#searchInput").val();
+      }
 
-      self.collection.firstLetter = (firstLetter && firstLetter != "All") ? firstLetter : "";
+      self.collection.keywords = self.keywords;
       self.collection.type = "";
       if (self.kind == "group") {
         self.collection.type = "1";
@@ -101,11 +119,14 @@
       if (self.kind == "department") {
         self.collection.type = "2";
       }
+      self.collection.start = start || 0;
+      self.collection.count = count || 20;
+      self.collection.pagenum = pagenum || 1;
 
       self.collection.fetch({
         success: function() {
           self.render();
-        },
+        }
       });
     },
 

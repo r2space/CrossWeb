@@ -258,7 +258,7 @@ exports.getGroupList = function(handler, callback) {
 
     handler.addParams("skip", params.start);
     handler.addParams("limit", params.limit);
-    handler.addParams("order", "name");
+    handler.addParams("order", "type name");
 
     ctrlGroup.getList(handler, function(err, resultGroups) {
       if(resultGroups) {

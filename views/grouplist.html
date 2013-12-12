@@ -34,58 +34,20 @@
           <div class="row-fluid">
             <div class="span6 rightPanel">
 
-              <div id="informations">
-                <h3 id="group-title"><%= i('group.grouplist.label.title') %></h3>
-                <p id="group-sugestion"><%= i('group.grouplist.label.sugestion') %></p>
-                <div id="operations">
-                  <a id="create-btn" href="#create-group-modal" class="btn btn-success"
-                     data-toggle="modal"><%= i('group.grouplist.button.create') %></a>
-                </div>
-              </div>
-
-              <ul class="nav nav-tabs" style="height:37px;">
+              <ul class="nav nav-tabs">
                 <li class="active"><a id="all" href="#1" data-toggle="tab"><%= i('group.grouplist.tab.all') %></a></li>
                 <li><a id="group" href="#2" data-toggle="tab"><%= i('group.grouplist.tab.group') %></a></li>
                 <li><a id="department" href="#3" data-toggle="tab"><%= i('group.grouplist.tab.department') %></a></li>
+                <a id="create-btn" href="#create-group-modal" class="btn btn-success pull-right"
+                   data-toggle="modal"><%= i('group.grouplist.button.create') %></a>
               </ul>
 
               <div class="tab-content">
+                <div class="input-append">
+                  <input id="searchInput" type="text">
+                  <button id="searchBtn" class="btn" type="button"><i class="icon-search icon-small"></i></button>
+                </div>
                 <div id="1" class="tab-pane active">
-
-                  <div id="allFilter" class="btn-toolbar">
-                    <div class="btn-group">
-                      <a class="btn" href="javascript://">All</a>
-                    </div>
-                    <div class="btn-group">
-                      <a class="btn" href="javascript://">A</a>
-                      <a class="btn" href="javascript://">B</a>
-                      <a class="btn" href="javascript://">C</a>
-                      <a class="btn" href="javascript://">D</a>
-                      <a class="btn" href="javascript://">E</a>
-                      <a class="btn" href="javascript://">F</a>
-                      <a class="btn" href="javascript://">G</a>
-                      <a class="btn" href="javascript://">H</a>
-                      <a class="btn" href="javascript://">I</a>
-                      <a class="btn" href="javascript://">J</a>
-                      <a class="btn" href="javascript://">K</a>
-                      <a class="btn" href="javascript://">L</a>
-                      <a class="btn" href="javascript://">M</a>
-                      <a class="btn" href="javascript://">N</a>
-                      <a class="btn" href="javascript://">O</a>
-                      <a class="btn" href="javascript://">P</a>
-                      <a class="btn" href="javascript://">Q</a>
-                      <a class="btn" href="javascript://">R</a>
-                      <a class="btn" href="javascript://">S</a>
-                      <a class="btn" href="javascript://">T</a>
-                      <a class="btn" href="javascript://">U</a>
-                      <a class="btn" href="javascript://">V</a>
-                      <a class="btn" href="javascript://">W</a>
-                      <a class="btn" href="javascript://">X</a>
-                      <a class="btn" href="javascript://">Y</a>
-                      <a class="btn" href="javascript://">Z</a>
-                    </div>
-                  </div>
-
                   <table class="table table-hover">
                     <thead>
                       <tr>
@@ -102,41 +64,6 @@
                 </div>
 
                 <div id="2" class="tab-pane">
-
-                  <div id="groupFilter" class="btn-toolbar">
-                    <div class="btn-group">
-                      <a class="btn" href="javascript://">All</a>
-                    </div>
-                    <div class="btn-group">
-                      <a class="btn" href="javascript://">A</a>
-                      <a class="btn" href="javascript://">B</a>
-                      <a class="btn" href="javascript://">C</a>
-                      <a class="btn" href="javascript://">D</a>
-                      <a class="btn" href="javascript://">E</a>
-                      <a class="btn" href="javascript://">F</a>
-                      <a class="btn" href="javascript://">G</a>
-                      <a class="btn" href="javascript://">H</a>
-                      <a class="btn" href="javascript://">I</a>
-                      <a class="btn" href="javascript://">J</a>
-                      <a class="btn" href="javascript://">K</a>
-                      <a class="btn" href="javascript://">L</a>
-                      <a class="btn" href="javascript://">M</a>
-                      <a class="btn" href="javascript://">N</a>
-                      <a class="btn" href="javascript://">O</a>
-                      <a class="btn" href="javascript://">P</a>
-                      <a class="btn" href="javascript://">Q</a>
-                      <a class="btn" href="javascript://">R</a>
-                      <a class="btn" href="javascript://">S</a>
-                      <a class="btn" href="javascript://">T</a>
-                      <a class="btn" href="javascript://">U</a>
-                      <a class="btn" href="javascript://">V</a>
-                      <a class="btn" href="javascript://">W</a>
-                      <a class="btn" href="javascript://">X</a>
-                      <a class="btn" href="javascript://">Y</a>
-                      <a class="btn" href="javascript://">Z</a>
-                    </div>
-                  </div>
-
                   <table class="table table-hover">
                     <thead>
                       <tr>
@@ -153,41 +80,6 @@
                 </div>
 
                 <div id="3" class="tab-pane">
-
-                  <div id="departmentFilter" class="btn-toolbar">
-                    <div class="btn-group">
-                      <a class="btn" href="javascript://">All</a>
-                    </div>
-                    <div class="btn-group">
-                      <a class="btn" href="javascript://">A</a>
-                      <a class="btn" href="javascript://">B</a>
-                      <a class="btn" href="javascript://">C</a>
-                      <a class="btn" href="javascript://">D</a>
-                      <a class="btn" href="javascript://">E</a>
-                      <a class="btn" href="javascript://">F</a>
-                      <a class="btn" href="javascript://">G</a>
-                      <a class="btn" href="javascript://">H</a>
-                      <a class="btn" href="javascript://">I</a>
-                      <a class="btn" href="javascript://">J</a>
-                      <a class="btn" href="javascript://">K</a>
-                      <a class="btn" href="javascript://">L</a>
-                      <a class="btn" href="javascript://">M</a>
-                      <a class="btn" href="javascript://">N</a>
-                      <a class="btn" href="javascript://">O</a>
-                      <a class="btn" href="javascript://">P</a>
-                      <a class="btn" href="javascript://">Q</a>
-                      <a class="btn" href="javascript://">R</a>
-                      <a class="btn" href="javascript://">S</a>
-                      <a class="btn" href="javascript://">T</a>
-                      <a class="btn" href="javascript://">U</a>
-                      <a class="btn" href="javascript://">V</a>
-                      <a class="btn" href="javascript://">W</a>
-                      <a class="btn" href="javascript://">X</a>
-                      <a class="btn" href="javascript://">Y</a>
-                      <a class="btn" href="javascript://">Z</a>
-                    </div>
-                  </div>
-
                   <table class="table table-hover">
                     <thead>
                       <tr>
@@ -201,6 +93,9 @@
                     </thead>
                     <tbody id="departmentContainer"></tbody>
                   </table>
+                </div>
+
+                <div id="pagination" class="pagination pagination-centered">
                 </div>
 
               </div>
@@ -221,7 +116,7 @@
       <div class="modal-body">
           <fieldset>
             <div>
-              <label for="grouName"><%= i('group.grouplist.label.name') %></label>
+              <label for="groupName"><%= i('group.grouplist.label.name') %></label>
               <div><input type="text" class="input-xlarge" id="groupName"></div>
             </div>
             <div>
