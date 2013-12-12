@@ -81,6 +81,9 @@ function transResult(result) {
       newResult.member = [];
       newResult.owner = result.owners;
       newResult.photo = result.extend.photo;
+      newResult.email = {
+        email1: result.email
+      };
       newResult.createby = result.createBy;
       newResult.createat = result.createAt;
       newResult.editby = result.updateBy;
@@ -479,10 +482,11 @@ exports.getMember = function(handler, callback) {
       "_id": {$in: resultUsers.items}
     });
 
-    if(params.firstLetter) {
-      condition.push({
-        "extend.letter_zh": params.firstLetter.toUpperCase()
-      });
+    if(params.keywords) {
+      condition.push({$or: [
+        {"extend.name_zh": {$regex: params.keywords, $options: "i"}},
+        {"email": {$regex: params.keywords, $options: "i"}}
+      ]});
     }
 
     handler.addParams("condition", {$and: condition});

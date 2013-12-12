@@ -72,44 +72,16 @@
                 <li><a id="showAllUser" href="#2" data-toggle="tab"><%= i('group.groupview.tab.alluser') %></a></li>
               </ul>
               <div class="tab-content">
+                <div id="searchArea" class="input-append">
+                  <input id="searchInput" type="text">
+                  <button id="searchBtn" class="btn" type="button"><i class="icon-search icon-small"></i></button>
+                </div>
                 <div class="tab-pane" id="1">
-                  <div class="btn-group">
-                    <a class="btn" href="javascript://">All</a>
-                  </div>
-                  <div class="btn-group">
-                    <a class="btn" href="javascript://">A</a>
-                    <a class="btn" href="javascript://">B</a>
-                    <a class="btn" href="javascript://">C</a>
-                    <a class="btn" href="javascript://">D</a>
-                    <a class="btn" href="javascript://">E</a>
-                    <a class="btn" href="javascript://">F</a>
-                    <a class="btn" href="javascript://">G</a>
-                    <a class="btn" href="javascript://">H</a>
-                    <a class="btn" href="javascript://">I</a>
-                    <a class="btn" href="javascript://">J</a>
-                    <a class="btn" href="javascript://">K</a>
-                    <a class="btn" href="javascript://">L</a>
-                    <a class="btn" href="javascript://">M</a>
-                    <a class="btn" href="javascript://">N</a>
-                    <a class="btn" href="javascript://">O</a>
-                    <a class="btn" href="javascript://">P</a>
-                    <a class="btn" href="javascript://">Q</a>
-                    <a class="btn" href="javascript://">R</a>
-                    <a class="btn" href="javascript://">S</a>
-                    <a class="btn" href="javascript://">T</a>
-                    <a class="btn" href="javascript://">U</a>
-                    <a class="btn" href="javascript://">V</a>
-                    <a class="btn" href="javascript://">W</a>
-                    <a class="btn" href="javascript://">X</a>
-                    <a class="btn" href="javascript://">Y</a>
-                    <a class="btn" href="javascript://">Z</a>
-                  </div>
                   <table class="table table-hover">
                     <thead>
                       <tr>
                         <th></th>
                         <th><%= i('group.groupview.th.name') %></th>
-                        <th><%= i('group.groupview.th.title') %></th>
                         <th><%= i('group.groupview.th.mail') %></th>
                         <th></th>
                       </tr>
@@ -118,43 +90,11 @@
                   </table>
                 </div>
                 <div class="tab-pane" id="2">
-                  <div class="btn-group">
-                    <a class="btn" href="javascript://">All</a>
-                  </div>
-                  <div class="btn-group">
-                    <a class="btn" href="javascript://">A</a>
-                    <a class="btn" href="javascript://">B</a>
-                    <a class="btn" href="javascript://">C</a>
-                    <a class="btn" href="javascript://">D</a>
-                    <a class="btn" href="javascript://">E</a>
-                    <a class="btn" href="javascript://">F</a>
-                    <a class="btn" href="javascript://">G</a>
-                    <a class="btn" href="javascript://">H</a>
-                    <a class="btn" href="javascript://">I</a>
-                    <a class="btn" href="javascript://">J</a>
-                    <a class="btn" href="javascript://">K</a>
-                    <a class="btn" href="javascript://">L</a>
-                    <a class="btn" href="javascript://">M</a>
-                    <a class="btn" href="javascript://">N</a>
-                    <a class="btn" href="javascript://">O</a>
-                    <a class="btn" href="javascript://">P</a>
-                    <a class="btn" href="javascript://">Q</a>
-                    <a class="btn" href="javascript://">R</a>
-                    <a class="btn" href="javascript://">S</a>
-                    <a class="btn" href="javascript://">T</a>
-                    <a class="btn" href="javascript://">U</a>
-                    <a class="btn" href="javascript://">V</a>
-                    <a class="btn" href="javascript://">W</a>
-                    <a class="btn" href="javascript://">X</a>
-                    <a class="btn" href="javascript://">Y</a>
-                    <a class="btn" href="javascript://">Z</a>
-                  </div>
                   <table class="table table-hover">
                     <thead>
                       <tr>
                         <th></th>
                         <th><%= i('group.groupview.th.name') %></th>
-                        <th><%= i('group.groupview.th.title') %></th>
                         <th><%= i('group.groupview.th.mail') %></th>
                         <th></th>
                       </tr>
@@ -212,7 +152,6 @@
           <a href="/user/{{ id }}"><img class="img-rounded" src="{{ photo }}"></a>
         </td>
         <td><a href="/user/{{ id }}">{{ name }}</a></td>
-        <td>{{ title }}</td>
         <td>{{ mail }}</td>
         <$ if (groupType == 1) { $>
         <td style="text-align: right">
