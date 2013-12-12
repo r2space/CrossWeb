@@ -47,7 +47,7 @@
           , "name": name.name_zh
           , "photo": photo ? "/picture/" + photo.big : "/images/user.png"
           , "title": user.get("title")
-          , "mail": user.get("uid")
+          , "mail": user.get("email").email1
         }));
 
         if(!isSelf){
@@ -100,7 +100,7 @@
       var self = this;
 
       self.kind = kind;
-      self.firstLetter = firstLetter
+      self.firstLetter = firstLetter;
 
       self.collection.kind = kind;
       self.collection.uid = $("#userid").val();
@@ -109,7 +109,7 @@
       self.collection.fetch({
         success: function() {
           self.render();
-        },
+        }
       });
     },
 

@@ -1,11 +1,11 @@
 #maincontents {
   width: 700px;
+  margin-left: 150px;
 }
 /* 操作按钮 */
 #operators {
   text-align: right;
   padding-top: 20px;
-  padding-right: 60px;
 }
 /* 输入框 */
 fieldset {

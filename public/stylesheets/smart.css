@@ -414,12 +414,11 @@ section {
 }
 #sidemenu li a {
   line-height: 27px;
-  padding-left: 37px;
+  padding-left: 20px;
   display: block;
   text-decoration: none;
   color: #363636;
   /*font-weight: bold;*/
-  background: url(/images/folder-icon.png) no-repeat 12px center;
   /* 过长的字符用...截取 */
   overflow: hidden;
   text-overflow: ellipsis;
@@ -713,11 +712,4 @@ section {
 }
 .information strong {
   font-weight: bold;
-}
-
-.rightPanel {
-  width:570px !important;
-  padding-left: 20px;
-  border-left: 2px solid #e5e5e5;
-  margin-left: 20px !important;
 }

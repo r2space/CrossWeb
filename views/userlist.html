@@ -31,18 +31,19 @@
           <div class="row-fluid">
             <div class="span6 rightPanel">
 
-            <div id="informations">
+            <!--div id="informations">
               <h3><%= i('user.label.title') %></h3>
               <p><%= i('user.label.sugestion') %></p>
-            </div>
+            </div-->
 
             <ul class="nav nav-tabs" style="height:37px;">
               <li class="active"><a id="all" href="#1" data-toggle="tab"><%= i('user.tab.alluser') %></a></li>
+              <!--li><a id="showFollower" href="#2" data-toggle="tab"><%= i('user.tab.followers') %>(<span id="followerCount">0</span>)</a></li-->
             </ul>
 
             <div class="tab-content">
               <div id="1" class="tab-pane active">
-                <div id="allFilter" class="btn-toolbar">
+                <!--div id="allFilter" class="btn-toolbar">
                   <div class="btn-group">
                     <a class="btn" href="javascript://">All</a>
                   </div>
@@ -74,13 +75,13 @@
                     <a class="btn" href="javascript://">Y</a>
                     <a class="btn" href="javascript://">Z</a>
                   </div>
-                </div>
+                </div-->
                 <table class="table table-hover">
                   <thead>
                     <tr>
                       <th></th>
                       <th><%= i('user.header.name') %></th>
-                      <th width="150px"><%= i('user.header.title') %></th>
+                      <!--th width="150px"><%= i('user.header.title') %></th-->
                       <th><%= i('user.header.email') %></th>
                       <th></th>
                     </tr>
@@ -112,8 +113,8 @@
           <a href="/user/{{ id }}"><img class="img-rounded" src="{{ photo }}"></a>
         </td>
         <td><a href="/user/{{ id }}">{{ name }}</a></td>
-        <td>{{ title }}</td>
-        <td>{{ mail }}</td>
+        <!--td>{{ title }}</td-->
+        <td><a href="mailto:{{mail}}">{{ mail }}</a></td>
         <td style="text-align: right">
           <a class="btn btn-small hidden" name="unfollow" uid="{{id}}" id="unfollow_{{id}}"><%= i('user.option.unfollow') %></a>
           <a class="btn btn-small btn-success hidden" name="follow" uid="{{id}}" id="follow_{{id}}"><%= i('user.option.follow') %></a>

@@ -10,8 +10,12 @@
 		<li><ul>
 		<$ _.each(menu.submenus, function(submenu){ $>
 			<li title="{{ submenu.title }}">
-				<a item="{{ submenu.item }}" type="{{ submenu.type }}" href="#">{{ submenu.title }}
-				<$ if (submenu.notice) { $><span class="label label-important">{{submenu.notice}}</span><$ } $>
+				<a item="{{ submenu.item }}" type="{{ submenu.type }}" href="#">
+          <$ if (submenu.type == 'group') { $><i class="icon-sitemap"></i>
+          <$ } else if (submenu.type == 'user') { $><i class="icon-user"></i>
+          <$ } else { $><i class="icon-bookmark"></i><$ } $>
+          {{ submenu.title }}
+				  <$ if (submenu.notice) { $><span class="label label-important">{{submenu.notice}}</span><$ } $>
 				</a>
 			</li>
 		<$ }); $>
