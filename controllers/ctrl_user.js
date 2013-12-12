@@ -144,10 +144,10 @@ exports.getUserList = function(handler, callback){
   // 首字母过滤
   if (keywords_) {
     condition.$or = [
-      {"extend.name_zh": new RegExp("^" + keywords_.toLowerCase() + ".*$", "i")}
-      , {"extend.letter_zh": new RegExp("^" + keywords_.toLowerCase() + ".*$", "i")}
-      , {"email": new RegExp("^" + keywords_.toLowerCase() + ".*$", "i")}
-      , {"first": new RegExp("^" + keywords_.toLowerCase() + ".*$", "i")}
+      {"extend.name_zh": new RegExp(keywords_.toLowerCase(), "i")}
+      , {"extend.letter_zh": new RegExp(keywords_.toLowerCase(), "i")}
+      , {"email": new RegExp(keywords_.toLowerCase(), "i")}
+      , {"first": new RegExp(keywords_.toLowerCase(), "i")}
     ];
   }
   if (firstLetter_) {
@@ -166,6 +166,7 @@ exports.getUserList = function(handler, callback){
       }
 
       handler.addParams("condition", condition);
+
       user.getList(handler, function(err, result){
         var uList = [];
         async.eachSeries(result.items, function(item, done){

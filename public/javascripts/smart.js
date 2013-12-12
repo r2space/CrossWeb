@@ -352,88 +352,84 @@ var smart = {
   },
 
   pagination: function(total, limit, curpage, containerid, pagefunc) {
-    if(total > limit){
-      var pageContainer = $("#"+containerid)
-        , pageTmpl = $('#page-template').html();
+    var pageContainer = $("#"+containerid)
+      , pageTmpl = $('#page-template').html();
 
-      pageContainer.show();
-      pageContainer.html("<ul></ul>");
-      pageContainer = pageContainer.children();
+    pageContainer.show();
+    pageContainer.html("<ul></ul>");
+    pageContainer = pageContainer.children();
 
-      pageContainer.append(_.template(pageTmpl, {
-          "classname": curpage == 1 ? "prev disabled" : "prev"
-        , "page": curpage - 1
-        , "content":i18n["fulltextsearch.html.label.uppage"]
-        , "dis":"block"
-      }));
-      
-      var i;
-      var pageSizee = 0;
-      for(i = 1; i * limit < total + limit; i++){
-        pageSizee = i;
-      }
-      i = 1;
-      for(i = 1; i * limit < total + limit; i++){
-        // console.log("i:"+i+"pageSizee:"+pageSizee+"curpage:"+curpage);
-        if(i==1
-          || i == pageSizee
-          || i == parseInt(curpage)
-          || i == (parseInt(curpage) + 3)
+    pageContainer.append(_.template(pageTmpl, {
+      "classname": curpage == 1 ? "prev disabled" : "prev"
+      , "page": curpage - 1
+      , "content":i18n["fulltextsearch.html.label.uppage"]
+      , "dis":"block"
+    }));
+
+    var i;
+    var pageSizee = 0;
+    for(i = 1; i * limit < total + limit; i++){
+      pageSizee = i;
+    }
+    i = 1;
+    for(i = 1; i * limit < total + limit; i++){
+      // console.log("i:"+i+"pageSizee:"+pageSizee+"curpage:"+curpage);
+      if(i==1
+        || i == pageSizee
+        || i == parseInt(curpage)
+        || i == (parseInt(curpage) + 3)
+        || i == (parseInt(curpage) + 2)
+        || i == (parseInt(curpage) + 1)
+        || i == (parseInt(curpage) - 1)
+        || i == (parseInt(curpage) - 2)
+        || i == (parseInt(curpage) - 3)
+        ){
+        if(i==1 || i == parseInt(curpage) || i == pageSizee
           || i == (parseInt(curpage) + 2)
           || i == (parseInt(curpage) + 1)
           || i == (parseInt(curpage) - 1)
           || i == (parseInt(curpage) - 2)
-          || i == (parseInt(curpage) - 3)
-          ){
-              if(i==1 || i == parseInt(curpage) || i == pageSizee
-                || i == (parseInt(curpage) + 2)
-                || i == (parseInt(curpage) + 1)
-                || i == (parseInt(curpage) - 1)
-                || i == (parseInt(curpage) - 2)
-                ) {
-                    pageContainer.append(_.template(pageTmpl, {
-                      "classname": curpage == i ? "active" : ""
-                    , "page": i
-                    , "content":i
-                    , "dis":"block"
-                    }));
-                  } else {
-                    pageContainer.append(_.template(pageTmpl, {
-                      "classname": curpage == i ? "active" : ""
-                    , "page": i
-                    , "content":"..."
-                    , "dis":"block"
-                    }));
-                  }
-          
+          ) {
+          pageContainer.append(_.template(pageTmpl, {
+            "classname": curpage == i ? "active" : ""
+            , "page": i
+            , "content":i
+            , "dis":"block"
+          }));
         } else {
           pageContainer.append(_.template(pageTmpl, {
             "classname": curpage == i ? "active" : ""
-          , "page": i
-          , "content":i
-          , "dis":"none"
+            , "page": i
+            , "content":"..."
+            , "dis":"block"
           }));
         }
 
+      } else {
+        pageContainer.append(_.template(pageTmpl, {
+          "classname": curpage == i ? "active" : ""
+          , "page": i
+          , "content":i
+          , "dis":"none"
+        }));
       }
-      i-=1;
 
-      pageContainer.append(_.template(pageTmpl, {
-          "classname": curpage == i ? "next disabled" : "next"
-        , "page": curpage == i ? 0 : parseInt(curpage) + 1
-        , "content":i18n["fulltextsearch.html.label.downpage"]
-        , "dis":"block"
-      }));
-
-      $("#"+containerid+" a").on("click", function(){
-        var pagenum = $(event.target).attr("id").split("_")[1];
-        if(pagenum > 0){
-          pagefunc(pagenum);
-        }
-      });
-    } else {
-      $("#"+containerid).html("");
     }
+    i-=1;
+
+    pageContainer.append(_.template(pageTmpl, {
+      "classname": curpage == i ? "next disabled" : "next"
+      , "page": curpage == i ? 0 : parseInt(curpage) + 1
+      , "content":i18n["fulltextsearch.html.label.downpage"]
+      , "dis":"block"
+    }));
+
+    $("#"+containerid+" a").on("click", function(){
+      var pagenum = $(event.target).attr("id").split("_")[1];
+      if(pagenum > 0){
+        pagefunc(pagenum);
+      }
+    });
     $(document).scrollTop(1);
   },
 

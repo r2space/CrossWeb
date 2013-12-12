@@ -32,6 +32,8 @@
       $("#showFiles").bind("click", this.showFiles);
       $("#showMessage").bind("click", this.showMessage);
 
+      $("#searchBtn").click(this.fetchUser);
+
       this.kind = "3";
       this.fetchGroup();
       this.showMessage();
@@ -94,18 +96,6 @@
           $("#editGroup").removeClass("hide");
         }
       }
-
-      $("#1 a.btn").bind("click", function(){
-        self.kind = 1;
-        self.fetchUser($(event.target).html());
-      });
-
-      $("#2 a.btn").bind("click", function(){
-        self.kind = 2;
-        self.fetchUser($(event.target).html());
-      });
-      
-      
     },
 
     sideMenuClicked: function(item, type) {
@@ -137,25 +127,27 @@
      * 获取组成员情报
      */
     fetchAllUser: function() {
+      $("#searchArea").show();
+      $("#searchInput").val("");
       this.kind = "2";
       this.fetchUser();
     },
 
     fetchMember: function() {
+      $("#searchArea").show();
+      $("#searchInput").val("");
       this.kind = "1";
       this.fetchUser();
     },
 
-    fetchUser: function(firstletter) {
+    fetchUser: function() {
 
+      var keyword = $("#searchInput").val();
       var self = this
-        , url = self.kind == 2 ? "/user/list.json"
+        , url = self.kind == 2 ? "/user/list.json?"
             : "/group/members.json?gid=" + self.model.id;
-
-      if(firstletter){
-        firstletter = firstletter.toUpperCase() == "ALL" ? "" : firstletter;
-        url = self.kind == 2 ? "/user/list.json?firstLetter=" + firstletter
-            : "/group/members.json?gid=" + self.model.id + "&firstLetter=" + firstletter;
+      if(keyword) {
+        url += "&keywords=" + keyword;
       }
 
       smart.doget(url, function(err, result){
@@ -180,8 +172,7 @@
                 "id": user._id
               , "name": name.name_zh
               , "photo": photo ? "/picture/" + photo.big : "/images/user.png"
-              , "title": user.title
-              , "mail": user.uid
+              , "mail": user.email.email1
               , "owner": isOwner
               , "member": isMember
               , "self": isSelf
@@ -230,6 +221,8 @@
      * 显示用户的消息
      */
     showMessage: function(curpage) {
+      $("#searchArea").hide();
+      $("#searchInput").val("");
 
       var self = this
         , curpage = (typeof curpage === "object" || typeof curpage === "undefined") ? 1 : curpage
