@@ -189,7 +189,7 @@ exports.getUserList = function(handler, callback){
           }
 
         }, function (err) {
-          return callback(err, { totalItems: result.totalItems, items: uList });
+          return callback(err, uList, result.totalItems);
         });
       });
     });
@@ -219,7 +219,7 @@ exports.getUserList = function(handler, callback){
         }
 
       }, function(err) {
-        return callback(err, { totalItems: result.totalItems, items: uList });
+        return callback(err, uList, result.totalItems);
       });
     });
   }
@@ -248,7 +248,7 @@ exports.getUserList = function(handler, callback){
               done(null);
             }
           }, function(err) {
-            callback(e,  { totalItems: users.length, items: users });
+            callback(e, users, users.length);
           });
         } else {
           callback(e);
@@ -262,7 +262,7 @@ exports.getUserList = function(handler, callback){
       if (err) {
         return callback(new error.InternalServer(err));
       }
-      return callback(err,  result);
+      return callback(err, result.items, result.totalItems);
     });
   }
 

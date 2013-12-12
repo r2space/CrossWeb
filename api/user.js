@@ -95,8 +95,8 @@ exports.getUserList = function(req, res) {
 
   var handler = new context().bind(req, res);
 
-  ctrlUser.getUserList(handler, function(err, userResult) {
-    return response.send(res, err, userResult);
+  ctrlUser.getUserList(handler, function(err, userResult, totalItems) {
+    return response.send(res, err, {items: userResult, totalItems: totalItems});
   });
 
 };
