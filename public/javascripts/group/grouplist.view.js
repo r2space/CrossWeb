@@ -61,30 +61,36 @@
       }
 
       container.html("");
-      self.collection.each(function(group) {
-        container.append(_.template(tmpl, {
+
+      if(self.collection.total > 0) {
+        self.collection.each(function(group) {
+          container.append(_.template(tmpl, {
             "id": group.get("_id")
-          , "name": _.isObject(group.get("name"))?group.get("name")["name_zh"]:group.get("name")
-          , "secure":group.secure
-          , "secure": group.get("secure")
-          , "type": group.get("type")
-          , "members": group.get("member").length
-          , "lastModify": group.get("editat").substr(0, 10)
-          , "joined": _.contains(group.get("member"), uid)
-        }));
-      });
+            , "name": _.isObject(group.get("name"))?group.get("name")["name_zh"]:group.get("name")
+            , "secure":group.secure
+            , "secure": group.get("secure")
+            , "type": group.get("type")
+            , "members": group.get("member").length
+            , "lastModify": group.get("editat").substr(0, 10)
+            , "joined": _.contains(group.get("member"), uid)
+          }));
+        });
 
-      var total = self.collection.total;
-      var count = self.collection.count;
-      var pagenum = self.collection.pagenum;
+        var total = self.collection.total;
+        var count = self.collection.count;
+        var pagenum = self.collection.pagenum;
 
-      smart.pagination(total, count, pagenum, "pagination", function(pagenum){
-        self.fetchGroup(null, count*(pagenum - 1), count, pagenum);
-      });
+        smart.pagination(total, count, pagenum, "pagination", function(pagenum){
+          self.fetchGroup(null, count*(pagenum - 1), count, pagenum);
+        });
 
-      $("#allContainer a, #groupContainer a, #departmentContainer a").on("click", function(){
-        self.joinGroup($(this));
-      });
+        $("#allContainer a, #groupContainer a, #departmentContainer a").on("click", function(){
+          self.joinGroup($(this));
+        });
+      } else {
+        $("#pagination").html("");
+        smart.appendNoResultRow(container);
+      }
     },
 
     sideMenuClicked: function(item, type) {

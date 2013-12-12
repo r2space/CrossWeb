@@ -13,6 +13,7 @@
      * 初始化View
      */
     initialize: function() {
+      var self = this;
 
       _.bindAll(this, "render", "joinGroup"
         , "fetchUser", "fetchMember", "fetchGroup", "fetchAllUser"
@@ -33,6 +34,11 @@
       $("#showMessage").bind("click", this.showMessage);
 
       $("#searchBtn").click(this.fetchUser);
+      $("#searchInput").keypress(function(event) {
+        if(event.which === 13) {
+          self.fetchUser();
+        }
+      });
 
       this.kind = "3";
       this.fetchGroup();
@@ -165,31 +171,36 @@
 
         container.html("");
 
-        _.each(result.items, function(user) {
-          var name = user.name
-            , photo = user.photo
-            , isMember = _.contains(members, user._id)
-            , isSelf = (currentuser == user._id);
+        if(result.totalItems > 0) {
+          _.each(result.items, function(user) {
+            var name = user.name
+              , photo = user.photo
+              , isMember = _.contains(members, user._id)
+              , isSelf = (currentuser == user._id);
 
-          // 邀请页里如果已经是成员的话，就不显示该用户
-          // TODO: 获取数据时，就应该把他去掉
-          if ( self.kind==1 || (self.kind==2 && !isMember) ) {
-            container.append(_.template($('#user-template').html(), {
+            // 邀请页里如果已经是成员的话，就不显示该用户
+            // TODO: 获取数据时，就应该把他去掉
+            if ( self.kind==1 || (self.kind==2 && !isMember) ) {
+              container.append(_.template($('#user-template').html(), {
                 "id": user._id
-              , "name": name.name_zh
-              , "photo": photo ? "/picture/" + photo.big : "/images/user.png"
-              , "mail": user.email.email1
-              , "owner": isOwner
-              , "member": isMember
-              , "self": isSelf
-              , "groupType":self.model.get("type")
-            }));
-          }
-        });
+                , "name": name.name_zh
+                , "photo": photo ? "/picture/" + photo.big : "/images/user.png"
+                , "mail": user.email.email1
+                , "owner": isOwner
+                , "member": isMember
+                , "self": isSelf
+                , "groupType":self.model.get("type")
+              }));
+            }
+          });
 
-        smart.pagination(result.totalItems, limit, pagenum, "pagination", function(pagenum){
-          self.fetchUser(pagenum);
-        });
+          smart.pagination(result.totalItems, limit, pagenum, "pagination", function(pagenum){
+            self.fetchUser(pagenum);
+          });
+        } else {
+          $("#pagination").html("");
+          smart.appendNoResultRow(container);
+        }
 
         $("#groupMember a, #allUser a").on("click", function(){
           var name = $(this).attr("name");

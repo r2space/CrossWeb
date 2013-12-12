@@ -1,6 +1,7 @@
 {
 	"success": "成功",
 	"fail": "失敗",
+  "common.search.noResult": "検索結果がありません"
 	"sidemenu.message": "メッセージ",
 	"sidemenu.message.atme": "自分宛て",
 	"sidemenu.message.comment": "コメント",

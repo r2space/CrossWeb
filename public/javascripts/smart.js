@@ -492,6 +492,10 @@ var smart = {
       console.log('denied notification');
       return;
     }
+  },
+
+  appendNoResultRow: function(container) {
+    container.append("<tr><td colspan=20>" + i18n["common.search.noResult"] + "</td></tr>");
   }
 
 };

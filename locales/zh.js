@@ -2,6 +2,7 @@
 	"success": "成功",
 	"fail": "失败",
 	"error": "错误",
+  "common.search.noResult": "没有搜索到匹配的结果"
 	"error.noauthority.group": "对该组织没有阅览权限",
 	"error.noauthority.message": "对该消息没有阅览权限",
 	"sidemenu.message": "消息",
