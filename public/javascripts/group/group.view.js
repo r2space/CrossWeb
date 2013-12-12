@@ -140,7 +140,7 @@
       this.fetchUser();
     },
 
-    fetchUser: function() {
+    fetchUser: function(pagenum) {
 
       var keyword = $("#searchInput").val();
       var self = this
@@ -149,6 +149,7 @@
       if(keyword) {
         url += "&keywords=" + keyword;
       }
+
 
       smart.doget(url, function(err, result){
 
@@ -179,6 +180,10 @@
               , "groupType":self.model.get("type")
             }));
           }
+        });
+
+        smart.pagination(result.totalItems, count, pagenum, "pagination", function(pagenum){
+          self.fetchGroup(null, count*(pagenum - 1), count, pagenum);
         });
 
         $("#groupMember a, #allUser a").on("click", function(){

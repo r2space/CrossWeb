@@ -713,3 +713,10 @@ section {
 .information strong {
   font-weight: bold;
 }
+
+.rightPanel {
+  width:570px !important;
+  padding-left: 20px;
+  border-left: 2px solid #e5e5e5;
+  margin-left: 20px !important;
+}

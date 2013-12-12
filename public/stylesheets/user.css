@@ -22,10 +22,9 @@
 }
 /* 操作按钮 */
 #operations {
-  position: relative;
-  top: -160px;
-  left: 535px;
-  width: 200px;
+  position: absolute;
+  top: 33px;
+  right: 10px;
 }
 /* 用户头像 */
 #user_image {

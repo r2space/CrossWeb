@@ -24,6 +24,7 @@
   margin-left: 180px;
 }
 #informations {
+  position: relative;
   height: 100px;
   min-height: 20px;
   padding: 19px;
@@ -42,10 +43,9 @@
 }
 /* 操作按钮 */
 #operations {
-  position: relative;
-  top: -160px;
-  left: 485px;
-  width: 200px;
+  position: absolute;
+  top: 45px;
+  right: 10px;
 }
 #groupImage {
   width: 100px;

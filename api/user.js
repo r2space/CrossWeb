@@ -95,15 +95,9 @@ exports.getUserList = function(req, res) {
 
   var handler = new context().bind(req, res);
 
-  if (handler.params.kind != "all") {
-    ctrlUser.getUserList(handler, function(err, userResult) {
-      return response.send(res, err, {items: userResult});
-    });
-  } else {
-    ctrlUser.getUserList(handler, function(err, userResult) {
-        return response.send(res, err, {items: userResult});
-    });
-  }
+  ctrlUser.getUserList(handler, function(err, userResult) {
+    return response.send(res, err, userResult);
+  });
 
 };
 
