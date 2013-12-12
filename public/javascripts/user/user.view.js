@@ -531,7 +531,6 @@
             , "groupMembers": group.member.length
             , "type": group.type
             , "lastModify": smart.date(group.editat)
-            , "joined": _.contains(group.member, $("#userid").val())
           }));
 
           $("#groupbtn_"+group._id).bind("click",function(){

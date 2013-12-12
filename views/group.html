@@ -157,15 +157,15 @@
         </td>
         <td><a href="/user/{{ id }}">{{ name }}</a></td>
         <td>{{ mail }}</td>
-        <$ if (groupType == 1) { $>
         <td style="text-align: right">
-          <$ if (member) { $>
-          <a class="btn btn-small btn-success" name="remove" uid="{{id}}">{{ self ? "<%= i('group.groupview.button.leave') %>" : "<%= i('group.groupview.button.remove') %>" }}</a>
-          <$ } else { $>
-          <a class="btn btn-small btn-success" name="add" uid="{{id}}">{{ self ? "<%= i('group.groupview.button.join') %>" : "<%= i('group.groupview.button.add') %>" }}</a>
+          <$ if (groupType == 1) { $>
+            <$ if (member) { $>
+            <a class="btn btn-small btn-success" name="remove" uid="{{id}}">{{ self ? "<%= i('group.groupview.button.leave') %>" : "<%= i('group.groupview.button.remove') %>" }}</a>
+            <$ } else { $>
+            <a class="btn btn-small btn-success" name="add" uid="{{id}}">{{ self ? "<%= i('group.groupview.button.join') %>" : "<%= i('group.groupview.button.add') %>" }}</a>
+            <$ } $>
           <$ } $>
         </td>
-         <$ } $>
       </tr>
     </script>
 

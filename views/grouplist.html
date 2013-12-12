@@ -55,7 +55,6 @@
                         <th width="35%"><%= i('group.grouplist.th.name') %></th>
                         <th><%= i('group.grouplist.th.secure') %></th>
                         <th><%= i('group.grouplist.th.membercnt') %></th>
-                        <th><%= i('group.grouplist.th.uptdate') %></th>
                         <th></th>
                       </tr>
                     </thead>
@@ -71,7 +70,6 @@
                         <th width="35%"><%= i('group.grouplist.th.name') %></th>
                         <th><%= i('group.grouplist.th.secure') %></th>
                         <th><%= i('group.grouplist.th.membercnt') %></th>
-                        <th><%= i('group.grouplist.th.uptdate') %></th>
                         <th></th>
                       </tr>
                     </thead>
@@ -87,7 +85,6 @@
                         <th width="35%"><%= i('group.grouplist.th.name') %></th>
                         <th><%= i('group.grouplist.th.secure') %></th>
                         <th><%= i('group.grouplist.th.membercnt') %></th>
-                        <th><%= i('group.grouplist.th.uptdate') %></th>
                         <th></th>
                       </tr>
                     </thead>
@@ -148,7 +145,6 @@
         <td><a href="/group/{{ id }}">{{ name }}</a></td>
         <td>{{ secure == 1 ? "<%= i('group.grouplist.secure.1') %>":"<%= i('group.grouplist.section.2') %>" }}</td>
         <td>{{ members }}</td>
-        <td>{{ lastModify }}</td>
         <td style="text-align: right">
           <$ if (type == "1" && (!joined || canLeave)) { $>
           <a class="btn btn-small btn-success" gid="{{id}}" joined="{{ joined }}">
