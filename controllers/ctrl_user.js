@@ -466,6 +466,9 @@ function trans_user_api(result) {
     , email  : {
       email1    : result.email
     }
+    , custom   : {
+      memo      :  result.extend.memo
+    }
     , createat  : result.createAt
     , createby  : result.createBy
     , editat    : result.updateAt
@@ -495,6 +498,7 @@ function trans_user_db(handler) {
     , letter_zh : params.name.letter_zh  // name.letter_zh
     , following : params.following
     , mobile     : params.tel.mobile  // tel.mobile
+    , memo  : params.custom.memo
     , photo : photo
   });
 }

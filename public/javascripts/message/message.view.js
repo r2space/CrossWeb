@@ -432,6 +432,7 @@
           , "uphoto": photo
           , "replyNums": msg.get("part").replyNums
           , "forwardNums": msg.get("part").forwardNums
+          , "likeNums": msg.get("likers") ? msg.get("likers").length : 0
           , "content": smart.mutiLineHTML(msg.get("content"))
           , "range": range ? range.id : "1"
           , "rangeGroup": rangeGroup
