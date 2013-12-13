@@ -13,12 +13,18 @@
         self.fetchUsers($(this).attr("id"));
       });
 
-      // 首字母过滤
-      $("#allFilter").bind("click", function(){
-        self.fetchUsers(self.kind, $(event.target).html());
+      self.fetchUsers("all");
+
+      $("#searchBtn").click(function() {
+        self.fetchUsers("all");
       });
 
-      self.fetchUsers("all");
+      $("#searchInput").keypress(function(event) {
+        if(event.which === 13) {
+          self.fetchUsers("all");
+        }
+      });
+
       window.sidemenu.view.onSideMenuClicked = this.sideMenuClicked;
     },
 
@@ -34,31 +40,44 @@
       // 清除所有用户
       $("#allUsers").html("");
 
-      // 添加用户
-      self.collection.each(function(user) {
-        var uid = user.get("_id")
-          , name = user.get("name")
-          , photo = user.get("photo")
-          , followed = user.get("followed")
-          , isSelf = (currentuser == uid);
+      if(self.collection.total > 0) {
+        // 添加用户
+        self.collection.each(function(user) {
+          var uid = user.get("_id")
+            , name = user.get("name")
+            , photo = user.get("photo")
+            , followed = user.get("followed")
+            , isSelf = (currentuser == uid);
 
-        container.append(_.template($('#user-template').html(), {
+          container.append(_.template($('#user-template').html(), {
             "id": uid
-          , "name": name.name_zh
-          , "photo": photo ? "/picture/" + photo.big : "/images/user.png"
-          , "title": user.get("title")
-          , "mail": user.get("email").email1
-        }));
+            , "name": name.name_zh
+            , "photo": photo ? "/picture/" + photo.big : "/images/user.png"
+            , "title": user.get("title")
+            , "mail": user.get("email").email1
+          }));
 
-        if(!isSelf){
-          $("#privatemsg_"+uid).removeClass("hidden");
-          if(followed){
-            $("#unfollow_"+uid).removeClass("hidden");
-          }else{
-            $("#follow_"+uid).removeClass("hidden");
+          if(!isSelf){
+            $("#privatemsg_"+uid).removeClass("hidden");
+            if(followed){
+              $("#unfollow_"+uid).removeClass("hidden");
+            }else{
+              $("#follow_"+uid).removeClass("hidden");
+            }
           }
-        }
-      });
+        });
+
+        var total = self.collection.total;
+        var pagenum = self.collection.pagenum;
+
+        smart.pagination(total, smart.defaultPageSize, pagenum, "pagination", function(pagenum){
+          self.fetchUsers(self.kind, pagenum);
+        });
+
+      } else {
+        $("#pagination").html("");
+        smart.appendNoResultRow(container);
+      }
 
       // 绑定 发私信，关注 按钮的事件
       $("#allUsers .btn").on("click", function(){
@@ -95,16 +114,14 @@
      * 检索组信息
      * kind : all - 全用户, my - 我关注的用户
      */
-    fetchUsers: function(kind, firstLetter) {
+    fetchUsers: function(kind, pagenum) {
 
       var self = this;
-
       self.kind = kind;
-      self.firstLetter = firstLetter;
-
       self.collection.kind = kind;
       self.collection.uid = $("#userid").val();
-      self.collection.firstLetter = (firstLetter && firstLetter != "All") ? firstLetter : "";
+      self.collection.keywords = $("#searchInput").val();
+      self.collection.pagenum = pagenum || 1;
 
       self.collection.fetch({
         success: function() {

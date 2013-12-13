@@ -154,8 +154,6 @@
 
     fetchUser: function(pagenum) {
       pagenum = pagenum || 1;
-      var limit = 20;
-      var start = (pagenum - 1) * limit;
 
       var keyword = $("#searchInput").val();
       var self = this
@@ -164,8 +162,8 @@
       if(keyword) {
         url += "&keywords=" + keyword;
       }
-      url += "&start=" + start;
-      url += "&limit=" + limit;
+      url += "&start=" + (pagenum - 1)*smart.defaultPageSize;
+      url += "&limit=" + smart.defaultPageSize;
       url += "&gid=" + self.model.id;
 
       smart.doget(url, function(err, result){
@@ -203,7 +201,7 @@
             }
           });
 
-          smart.pagination(result.totalItems, limit, pagenum, "pagination", function(pagenum){
+          smart.pagination(result.totalItems, smart.defaultPageSize, pagenum, "pagination", function(pagenum){
             self.fetchUser(pagenum);
           });
         } else {
@@ -256,7 +254,7 @@
 
       var self = this
         , curpage = (typeof curpage === "object" || typeof curpage === "undefined") ? 1 : curpage
-        , limit = 20
+        , limit = smart.defaultPageSize
         , tmpl = $('#message-template').html()
         , container = $("#messages-container");
 
@@ -320,12 +318,8 @@
             $("#fetchreply_" + msg["_id"]).on("click", self.fetchReply);
             $("#delete_" + msg["_id"]).on("click", self.deleteMessage);
 
-            smart.pagination(result.total, limit, curpage, "messagelist-group", function(){
-              var pagenum = $(event.target).attr("id").split("_")[1];
-              if(pagenum > 0){
-                self.showMessage(pagenum);
-              }
-              return false;
+            smart.pagination(result.total, limit, curpage, "messagelist-group", function(pagenum){
+              self.showMessage(pagenum);
             });
 
           });

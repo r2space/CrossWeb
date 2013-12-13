@@ -56,7 +56,7 @@
                 </div>
 
                 <div id="operations">
-                  <a id="edit_btn" class="btn btn-primary hide"><%= i('user.option.editInfo') %></a>
+                  <a id="edit_btn" class="btn btn-success hide"><%= i('user.option.editInfo') %></a>
                   <!--a id="send_message_btn" class="btn btn-success hide"><%= i('user.option.sentPrivateMsg') %></a-->
                   <a id="follow_btn" class="btn btn-success hide"><%= i('user.option.follow') %></a>
                   <a id="unfollow_btn" class="btn btn-tofollow hide"><%= i('user.option.unfollow') %></a>
@@ -72,6 +72,12 @@
                 <!-- <li><a id="showFiles" href="#6" data-toggle="tab">Files</a></li> -->
               </ul>
               <div class="tab-content">
+
+                <div id="searchArea" class="input-append">
+                  <input id="searchInput" type="text" style="border: 1px solid #ccc">
+                  <button id="searchBtn" class="btn" type="button"><i class="icon-search icon-small"></i></button>
+                </div>
+
                 <div id="userdetail" class="tab-pane">
                   <dl>
                     <dt><%= i('user.info.name') %>：</dt>
@@ -94,7 +100,6 @@
                         <th></th>
                         <th><%= i('user.header.name') %></th>
                         <th><%= i('user.header.email') %></th>
-                        <th></th>
                       </tr>
                     </thead>
                     <tbody id="followinglist"></tbody>
@@ -107,7 +112,6 @@
                         <th></th>
                         <th><%= i('user.header.name') %></th>
                         <th><%= i('user.header.email') %></th>
-                        <th></th>
                       </tr>
                     </thead>
                     <tbody id="followerlist"></tbody>
@@ -117,6 +121,7 @@
                   <table class="table table-hover">
                     <thead>
                       <tr>
+                        <th></th>
                         <th><%= i('group.grouplist.th.type') %></th>
                         <th width="25%"><%= i('group.grouplist.th.name') %></th>
                         <th><%= i('group.grouplist.th.secure') %></th>
@@ -156,6 +161,10 @@
                     </div>
                   </div>
                 </div>
+
+                <div id="pagination" class="pagination pagination-centered">
+                </div>
+
               </div>
             </div>
           </div>
@@ -200,18 +209,20 @@
           <a href="/user/{{ id }}"><img class="img-rounded" src="{{ photo }}"></a>
         </td>
         <td><a href="/user/{{ id }}">{{ name }}</a></td>
-        <td>{{ title }}</td>
         <td>{{ mail }}</td>
+        <!--
         <td style="text-align: right">
-         <a class="btn btn-small hidden" name="unfollow" uid="{{id}}" id="{{kind}}_unfollow_{{id}}"><%= i('user.option.unfollow') %></a>
+          <a class="btn btn-small hidden" name="unfollow" uid="{{id}}" id="{{kind}}_unfollow_{{id}}"><%= i('user.option.unfollow') %></a>
           <a class="btn btn-small btn-success hidden" name="follow" uid="{{id}}" id="{{kind}}_follow_{{id}}"><%= i('user.option.follow') %></a>
-          <!--a class="btn btn-small btn-success hidden" name="privatemsg" uid="{{id}}" id="{{kind}}_privatemsg_{{id}}"><%= i('user.option.sentPrivateMsg') %></a-->
-       </td>
+          <a class="btn btn-small btn-success hidden" name="privatemsg" uid="{{id}}" id="{{kind}}_privatemsg_{{id}}"><%= i('user.option.sentPrivateMsg') %></a>
+        </td>
+        -->
       </tr>
     </script>
 
     <script type="text/template" id="group-template">
       <tr>
+        <td><a href="/group/{{ id }}"><img class="img-rounded" src="{{ photo }}"></a></td>
         <td>
           <$ if (type == "1") { $>
           <i class="icon-group icon-large"></i>

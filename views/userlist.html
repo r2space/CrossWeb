@@ -31,51 +31,17 @@
           <div class="row-fluid">
             <div class="span6 rightPanel">
 
-            <!--div id="informations">
-              <h3><%= i('user.label.title') %></h3>
-              <p><%= i('user.label.sugestion') %></p>
-            </div-->
-
             <ul class="nav nav-tabs" style="height:37px;">
               <li class="active"><a id="all" href="#1" data-toggle="tab"><%= i('user.tab.alluser') %></a></li>
               <!--li><a id="showFollower" href="#2" data-toggle="tab"><%= i('user.tab.followers') %>(<span id="followerCount">0</span>)</a></li-->
             </ul>
 
             <div class="tab-content">
+              <div class="input-append">
+                <input id="searchInput" type="text">
+                <button id="searchBtn" class="btn" type="button"><i class="icon-search icon-small"></i></button>
+              </div>
               <div id="1" class="tab-pane active">
-                <!--div id="allFilter" class="btn-toolbar">
-                  <div class="btn-group">
-                    <a class="btn" href="javascript://">All</a>
-                  </div>
-                  <div class="btn-group">
-                    <a class="btn" href="javascript://">A</a>
-                    <a class="btn" href="javascript://">B</a>
-                    <a class="btn" href="javascript://">C</a>
-                    <a class="btn" href="javascript://">D</a>
-                    <a class="btn" href="javascript://">E</a>
-                    <a class="btn" href="javascript://">F</a>
-                    <a class="btn" href="javascript://">G</a>
-                    <a class="btn" href="javascript://">H</a>
-                    <a class="btn" href="javascript://">I</a>
-                    <a class="btn" href="javascript://">J</a>
-                    <a class="btn" href="javascript://">K</a>
-                    <a class="btn" href="javascript://">L</a>
-                    <a class="btn" href="javascript://">M</a>
-                    <a class="btn" href="javascript://">N</a>
-                    <a class="btn" href="javascript://">O</a>
-                    <a class="btn" href="javascript://">P</a>
-                    <a class="btn" href="javascript://">Q</a>
-                    <a class="btn" href="javascript://">R</a>
-                    <a class="btn" href="javascript://">S</a>
-                    <a class="btn" href="javascript://">T</a>
-                    <a class="btn" href="javascript://">U</a>
-                    <a class="btn" href="javascript://">V</a>
-                    <a class="btn" href="javascript://">W</a>
-                    <a class="btn" href="javascript://">X</a>
-                    <a class="btn" href="javascript://">Y</a>
-                    <a class="btn" href="javascript://">Z</a>
-                  </div>
-                </div-->
                 <table class="table table-hover">
                   <thead>
                     <tr>
@@ -90,13 +56,9 @@
                 </table>
               </div>
 
-              <!-- <div class="pagination pagination-centered">
-                <ul>
-                  <li class="disabled"><a href="#">上一页</a></li>
-                  <li><a href="#" class="active">1</a></li>
-                  <li class="disabled"><a href="#">下一页</a></li>
-                </ul>
-              </div> -->
+              <div id="pagination" class="pagination pagination-centered">
+              </div>
+
             </div>
             </div>
           </div>

@@ -18,7 +18,7 @@
         }
       });
 
-      self.showMessage();
+      self.showMessage(1);
 
       _.bindAll(this, "showUsers", "showGroups", "showFiles", "follow", "showMessage", "forward", "reply", "fetchReply", "deleteMessage");
 
@@ -33,25 +33,36 @@
         self.showFiles(1);
       });
       $("#showFollower").bind("click", function(){
-        self.showUsers("follower","");
+        $("#searchInput").val("");
+        self.showUsers("follower");
       });
       $("#showFollowing").bind("click", function(){
-        self.showUsers("following","");
+        $("#searchInput").val("");
+        self.showUsers("following");
       });
       $("#showGroups").bind("click", function(){
-        self.showGroups(uid,"");
+        $("#searchInput").val("");
+        self.showGroups(uid);
       });
 
-      $("#followerFilter a.btn").bind("click", function(){
-        self.showUsers("follower",$(event.target).html());
+      $("#searchInput").keypress(function(event) {
+        if(event.which === 13) {
+          var eventType = $("#searchInput").attr("eventType");
+          if(eventType === "user") {
+            self.showUsers($("#searchInput").attr("kind"));
+          } else if(eventType === "group") {
+            self.showGroups(uid);
+          }
+        }
       });
 
-      $("#followingFilter a.btn").bind("click", function(){
-        self.showUsers("following",$(event.target).html());
-      });
-
-      $("#groupFilter a.btn").bind("click", function(){
-        self.showGroups(uid,$(event.target).html());
+      $("#searchBtn").click(function() {
+        var eventType = $("#searchInput").attr("eventType");
+        if(eventType === "user") {
+          self.showUsers($("#searchInput").attr("kind"));
+        } else if(eventType === "group") {
+          self.showGroups(uid);
+        }
       });
 
       window.sidemenu.view.onSideMenuClicked = this.sideMenuClicked;
@@ -141,6 +152,7 @@
      * 显示用户的消息
      */
     showMessage: function(curpage) {
+      $("#searchArea").hide();
 
       var self = this
         , curpage = (typeof curpage === "object" || typeof curpage === "undefined") ? 1 : curpage
@@ -434,11 +446,19 @@
 
     // ---------------------------- message -------------------------------------------------
 
-    showUsers: function(kind, fLetter) {
+    showUsers: function(kind, pagenum) {
+
+      pagenum = pagenum || 1;
+      var start = (pagenum - 1)*smart.defaultPageSize;
+
+      $("#searchArea").show();
+      $("#searchInput").attr("eventType", "user");
+      $("#searchInput").attr("kind", kind);
+
       var self = this;
-      fLetter = fLetter.toUpperCase() == "ALL" ? "" : fLetter;
       var url = "/user/list.json?kind=" + kind 
-        + "&uid=" + self.model.id + "&firstLetter=" + fLetter;
+        + "&uid=" + self.model.id + "&keywords=" + $("#searchInput").val() +
+        "&start=" + start + "&limit=" + smart.defaultPageSize;
 
       var followingOfLoginUser = [];
       smart.doget("/user/get.json?_id="+$("#userid").val(), function(err, result){
@@ -458,35 +478,44 @@
 
           container.html("");
 
-          _.each(result.items, function(user){
-            
-            var isSelf = ($("#userid").val() == user._id)
-              , uid = user._id
-              , followed = _.contains(followingOfLoginUser, user._id);
-            var photo = user.photo;
+          if(result.items.length > 0) {
+            _.each(result.items, function(user){
 
-            photo = photo ? "/picture/" + photo.big : "/images/user.png"
+              var isSelf = ($("#userid").val() == user._id)
+                , uid = user._id
+                , followed = _.contains(followingOfLoginUser, user._id);
+              var photo = user.photo;
 
-            container.append(_.template(tmpl, {
+              photo = photo ? "/picture/" + photo.big : "/images/user.png"
+
+              container.append(_.template(tmpl, {
                 "id": user._id
-              , "photo": photo
-              , "name": user.name.name_zh
-              , "title": user.title
-              , "mail": user.email.email1
-              , "kind":kind
-            }));
+                , "photo": photo
+                , "name": user.name.name_zh
+                , "title": user.title
+                , "mail": user.email.email1
+                , "kind":kind
+              }));
 
-            if(!isSelf){
-              $("#"+kind+"_privatemsg_"+uid).removeClass("hidden");
-              if(followed){
-                $("#"+kind+"_unfollow_"+uid).removeClass("hidden");
-              }else{
-                $("#"+kind+"_follow_"+uid).removeClass("hidden");
-              }
-            }
-          });
+//              if(!isSelf){
+//                $("#"+kind+"_privatemsg_"+uid).removeClass("hidden");
+//                if(followed){
+//                  $("#"+kind+"_unfollow_"+uid).removeClass("hidden");
+//                }else{
+//                  $("#"+kind+"_follow_"+uid).removeClass("hidden");
+//                }
+//              }
+            });
 
-          $("#"+kind+"Count").html(result.items.length);
+            smart.pagination(result.totalItems, smart.defaultPageSize, pagenum, "pagination", function(pagenum){
+              self.showUsers(kind, pagenum);
+            });
+          } else {
+            $("#pagination").html("");
+            smart.appendNoResultRow(container);
+          }
+
+          $("#"+kind+"Count").html(result.totalItems);
 
           $("#followinglist a.btn, #followerlist a.btn").on("click",function(){
             var target = $(event.target)
@@ -504,11 +533,16 @@
       });
     },
 
-    showGroups: function(uid, fLetter){
-      fLetter = fLetter.toUpperCase() == "ALL" ? "" : fLetter;
+    showGroups: function(uid, pagenum){
 
-      var url = "/group/list.json?joined=true&start=0&count=20&uid=" + uid
-        + "&firstLetter=" + fLetter;
+      pagenum = pagenum || 1;
+      var start = (pagenum - 1)*smart.defaultPageSize;
+
+      $("#searchArea").show();
+      $("#searchInput").attr("eventType", "group");
+
+      var url = "/group/list.json?joined=true&start=" + start + "&count=" + smart.defaultPageSize + "&uid=" + uid
+        + "&keywords=" + $("#searchInput").val();
 
       var self = this;
 
@@ -521,26 +555,35 @@
           , container = $("#grouplist");
 
         container.html("");
+        if(result.items.length > 0) {
+          _.each(result.items, function(group){
 
-        _.each(result.items, function(group){
-
-          container.append(_.template(tmpl, {
+            container.append(_.template(tmpl, {
               "id": group._id
-            , "groupName": group.name.name_zh
-            , "secure":group.secure
-            , "groupMembers": group.member.length
-            , "type": group.type
-            , "lastModify": smart.date(group.editat)
-          }));
+              , "photo": group.photo ? ("/picture/" + group.photo.big) : "/images/group.png"
+              , "groupName": group.name.name_zh
+              , "secure":group.secure
+              , "groupMembers": group.member.length
+              , "type": group.type
+              , "lastModify": smart.date(group.editat)
+            }));
 
-          $("#groupbtn_"+group._id).bind("click",function(){
-            var gid = $(event.target).attr("gid");
-            var url = _.contains(group.member, $("#userid").val()) ? "/group/leave.json" : "/group/join.json";
-            smart.doput(url, {"gid": gid}, function(err, result){
-              self.showGroups(uid,"");
+            $("#groupbtn_"+group._id).bind("click",function(){
+              var gid = $(event.target).attr("gid");
+              var url = _.contains(group.member, $("#userid").val()) ? "/group/leave.json" : "/group/join.json";
+              smart.doput(url, {"gid": gid}, function(err, result){
+                self.showGroups(uid);
+              });
             });
           });
-        });
+
+          smart.pagination(result.totalItems, smart.defaultPageSize, pagenum, "pagination", function(pagenum){
+            self.showGroups(uid, pagenum);
+          });
+        } else {
+          $("#pagination").html("");
+          smart.appendNoResultRow(container);
+        }
 
       });
 

@@ -4,6 +4,7 @@
   margin-left: 180px;
 }
 #informations {
+  position: relative;
   height: 100px;
   min-height: 20px;
   padding: 19px;
@@ -23,7 +24,7 @@
 /* 操作按钮 */
 #operations {
   position: absolute;
-  top: 33px;
+  top: 45px;
   right: 10px;
 }
 /* 用户头像 */

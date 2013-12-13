@@ -44,9 +44,9 @@
 
     model: User.Model,
     uid: "",
-    firstLetter: "",
-    start: 0,
-    count: 20,
+    keywords: "",
+    pagenum: 0,
+    total: 0,
     kind: "all",
     urlRoot: "/user/list.json",
 
@@ -55,14 +55,15 @@
      */
     url: function() {
 
-      var result = this.urlRoot + "?start=" + this.start + "&count=" + this.count;
+      var result = this.urlRoot + "?start=" + (this.pagenum - 1)*smart.defaultPageSize +
+        "&count=" + smart.defaultPageSize;
 
       if (this.uid.length > 0) {
         result += "&uid=" + this.uid;
       }
 
-      if (this.firstLetter.length > 0) {
-        result += "&firstLetter=" + this.firstLetter;
+      if (this.keywords.length > 0) {
+        result += "&keywords=" + this.keywords;
       }
 
       result += "&kind=" + this.kind;
@@ -73,6 +74,7 @@
      * 将后台应答数据格式转换成Model的格式
      */
     parse: function(response) {
+      this.total = response.data.totalItems;
       return response.data.items;
     }
 

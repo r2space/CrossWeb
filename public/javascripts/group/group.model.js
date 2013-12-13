@@ -53,8 +53,6 @@
 
     total: 0,
     pagenum: 0,
-    start: 0,
-    count: 20,
     keywords: "",
     type: "",
 
@@ -64,7 +62,8 @@
      * 整合获取组一览信息用的URL
      */
     url: function() {
-      var result = this.urlRoot + "?start=" + this.start + "&limit=" + this.count;
+      var result = this.urlRoot + "?start=" + (this.pagenum - 1)*smart.defaultPageSize +
+        "&limit=" + smart.defaultPageSize;
 
       if (this.keywords.length > 0) {
         result += "&keywords=" + this.keywords;

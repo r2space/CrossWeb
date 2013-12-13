@@ -79,11 +79,10 @@
         });
 
         var total = self.collection.total;
-        var count = self.collection.count;
         var pagenum = self.collection.pagenum;
 
-        smart.pagination(total, count, pagenum, "pagination", function(pagenum){
-          self.fetchGroup(null, count*(pagenum - 1), count, pagenum);
+        smart.pagination(total, smart.defaultPageSize, pagenum, "pagination", function(pagenum){
+          self.fetchGroup(null, pagenum);
         });
 
         $("#allContainer a, #groupContainer a, #departmentContainer a").on("click", function(){
@@ -107,7 +106,7 @@
     /**
      * 检索组信息
      */
-    fetchGroup: function(kind, start, count, pagenum) {
+    fetchGroup: function(kind, pagenum) {
 
       var self = this;
 
@@ -127,8 +126,6 @@
       if (self.kind == "department") {
         self.collection.type = "2";
       }
-      self.collection.start = start || 0;
-      self.collection.count = count || 20;
       self.collection.pagenum = pagenum || 1;
 
       self.collection.fetch({

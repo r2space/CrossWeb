@@ -171,8 +171,8 @@ exports.getUserList = function(handler, callback){
       ]};
 
       handler.addParams("condition", condition);
-      handler.addParams("skip", params.start);
-      handler.addParams("limit", params.limit);
+      handler.addParams("skip", params.start || params.skip);
+      handler.addParams("limit", params.limit || params.count);
       handler.addParams("order", "extend.name_zh");
 
       user.getList(handler, function(err, result){
@@ -207,6 +207,8 @@ exports.getUserList = function(handler, callback){
   if (kind_ == "follower") {
     condition["extend.following"] = uid_;
     handler.addParams("condition", condition);
+    handler.addParams("skip", params.start || params.skip);
+    handler.addParams("limit", params.limit || params.count);
     user.getList(handler, function(err, result){
       var uList = [];
       async.eachSeries(result.items, function(item, done){
@@ -240,28 +242,40 @@ exports.getUserList = function(handler, callback){
       if (err) {
         return callback(err);
       }
-      exports.listByUids(result.extend.following, function(e, users){
 
-        //设置所属组
-        if(!e && users) {
-          async.eachSeries(users, function(userItem, done) {
-            if(userItem.groups && userItem.groups.length > 0) {
-              handler.addParams("gid", userItem.groups[0]);
-              group.getGroup(handler, function(err, result) {
-                userItem.department = result;
-                done(err);
-              });
-            } else {
-              userItem.department = null;
-              done(null);
-            }
-          }, function(err) {
-            callback(e, users, users.length);
-          });
-        } else {
-          callback(e);
-        }
+      condition = {$and: [
+        condition,
+        {"_id": {$in: result.extend.following}}
+      ]};
+
+      handler.addParams("condition", condition);
+      handler.addParams("skip", params.start || params.skip);
+      handler.addParams("limit", params.limit || params.count);
+
+      user.getList(handler, function(err, result){
+        var uList = [];
+        async.eachSeries(result.items, function(item, done){
+          var u = trans_user_api(item);
+          if(u.groups && u.groups.length > 0) {
+            handler.addParams("gid", u.groups[0]);
+            group.getGroup(handler, function(err, result) {
+              if(err) {
+                return done(err);
+              }
+              u.department = result;
+              uList.push(u);
+              return done();
+            });
+          } else {
+            uList.push(u);
+            return done();
+          }
+
+        }, function(err) {
+          return callback(err, uList, result.totalItems);
+        });
       });
+
     });
   }
 

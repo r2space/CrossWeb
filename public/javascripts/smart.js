@@ -496,7 +496,9 @@ var smart = {
 
   appendNoResultRow: function(container) {
     container.append("<tr><td colspan=20>" + i18n["common.search.noResult"] + "</td></tr>");
-  }
+  },
+
+  defaultPageSize: 20
 
 };
 
