@@ -79,9 +79,11 @@
 
       if (type == 1) {
 
-        // 已经属于改组，不管私密还是公开，能退出
+        // 已经属于改组，只要不是管理员，不管私密还是公开，能退出
         if (_.contains(groupMembers, loginId)) {
-          $("#leave-btn").removeClass("hide");
+          if(!_.contains(groupOwners, loginId)) {
+            $("#leave-btn").removeClass("hide");
+          }
         } else {
           // 公开组，可以参加
           if (groupSecure == 2) {
@@ -92,6 +94,10 @@
         // 是组的管理者，能编辑
         if (_.contains(groupOwners, loginId)) {
           $("#editGroup").removeClass("hide");
+        }
+
+        if(groupSecure === "1" && !_.contains(groupOwners, loginId)) {
+          $("#showAllUser").hide();
         }
       }
 
@@ -167,7 +173,9 @@
         var currentuser = $("#userid").val()
           , container = self.kind == 2 ? $("#allUser") : $("#groupMember")
           , members = self.model.get("member")
-          , isOwner = (currentuser == self.model.get("createby"));
+          , owners = self.model.get("owner")
+          , loginUserIsOwner = _.contains(owners, currentuser)
+          , secure = self.model.get("secure");
 
         container.html("");
 
@@ -175,8 +183,7 @@
           _.each(result.items, function(user) {
             var name = user.name
               , photo = user.photo
-              , isMember = _.contains(members, user._id)
-              , isSelf = (currentuser == user._id);
+              , isMember = _.contains(members, user._id);
 
             // 邀请页里如果已经是成员的话，就不显示该用户
             // TODO: 获取数据时，就应该把他去掉
@@ -186,10 +193,12 @@
                 , "name": name.name_zh
                 , "photo": photo ? "/picture/" + photo.big : "/images/user.png"
                 , "mail": user.email.email1
-                , "owner": isOwner
-                , "member": isMember
-                , "self": isSelf
-                , "groupType":self.model.get("type")
+                , "isMember": isMember
+                , "isOwner": _.contains(owners, user._id)
+                , "isSelf": (currentuser == user._id)
+                , "groupType": self.model.get("type")
+                , "loginUserIsOwner": loginUserIsOwner
+                , "isPublic": secure === "2"
               }));
             }
           });
