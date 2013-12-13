@@ -149,6 +149,14 @@ exports.createGroup = function(handler, callback) {
 
   handler.addParams("type", "1"); // 旧模型中，1:组（自由创建），2:部门（公司组织结构）
 
+  if(handler.params.photo) {
+    handler.addParams("photo", {
+      "big" : handler.params.photo.fid,
+      "small" : handler.params.photo.fid,
+      "middle" : handler.params.photo.fid
+    });
+  }
+
   handler = transParam(handler);
 
   // 添加组
@@ -302,11 +310,13 @@ exports.updateGroup = function(handler, callback) {
   handler.addParams("gid", handler.params._id.toString());
 
   if(handler.params.photo) {
-    handler.addParams("photo", {
-      "big" : handler.params.photo.fid,
-      "small" : handler.params.photo.fid,
-      "middle" : handler.params.photo.fid
-    });
+    if(handler.params.photo.fid) {
+      handler.addParams("photo", {
+        "big" : handler.params.photo.fid,
+        "small" : handler.params.photo.fid,
+        "middle" : handler.params.photo.fid
+      });
+    }
     handler = transParam(handler);
 
     // 添加组
