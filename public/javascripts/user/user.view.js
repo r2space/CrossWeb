@@ -472,7 +472,7 @@
               , "photo": photo
               , "name": user.name.name_zh
               , "title": user.title
-              , "mail": user.uid
+              , "mail": user.email.email1
               , "kind":kind
             }));
 
