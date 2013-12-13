@@ -51,6 +51,7 @@
                   <table class="table table-hover">
                     <thead>
                       <tr>
+                        <th></th>
                         <th width="40px"><%= i('group.grouplist.th.type') %></th>
                         <th width="35%"><%= i('group.grouplist.th.name') %></th>
                         <th><%= i('group.grouplist.th.secure') %></th>
@@ -66,6 +67,7 @@
                   <table class="table table-hover">
                     <thead>
                       <tr>
+                        <th></th>
                         <th width="40px"><%= i('group.grouplist.th.type') %></th>
                         <th width="35%"><%= i('group.grouplist.th.name') %></th>
                         <th><%= i('group.grouplist.th.secure') %></th>
@@ -81,6 +83,7 @@
                   <table class="table table-hover">
                     <thead>
                       <tr>
+                        <th></th>
                         <th width="40px"><%= i('group.grouplist.th.type') %></th>
                         <th width="35%"><%= i('group.grouplist.th.name') %></th>
                         <th><%= i('group.grouplist.th.secure') %></th>
@@ -135,6 +138,7 @@
 
     <script type="text/template" id="group-template">
       <tr>
+        <td><a href="/group/{{ id }}"><img class="img-rounded" src="{{ photo }}"></a></td>
         <td>
           <$ if (type == "1") { $>
           <i class="icon-group icon-large"></i>
