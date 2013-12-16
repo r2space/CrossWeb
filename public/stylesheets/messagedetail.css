@@ -13,6 +13,7 @@
   -webkit-border-radius: 4px;
   -moz-border-radius: 4px;
   border-radius: 4px;
+  position: relative;
 }
 /* 用户名 */
 #brief {
@@ -22,10 +23,9 @@
 }
 /* 操作按钮 */
 #operations {
-  position: relative;
-  top: -160px;
-  left: 515px;
-  width: 200px;
+  position: absolute;
+  top: 45px;
+  right: 10px;
 }
 /* 用户头像 */
 #user_image {

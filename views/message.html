@@ -142,7 +142,7 @@
                           <div id="imageBoxSelector" class="image selector">
                               <span><%= i('message.list.selector.image') %></span>
                           </div>
-                          <!--<textarea id="imageBoxMsg" class="comment" rows="3" placeholder="<%= i('message.list.placeholder.text') %>"></textarea>-->
+                          <textarea id="imageBoxMsg" class="comment" rows="3" placeholder="<%= i('message.list.placeholder.text') %>"></textarea>
                           <div id="imageBoxNotice" class="users">
                               <input id="keywordsImage" scope="1" placeholder="<%= i('message.list.placeholder.notice') %>" />
                           </div>
@@ -194,16 +194,14 @@
 
 
                   <!-- 消息选项 -->
-                  <div class="publish" style="padding-top: 15px;">
-                    <div>
-                        <span id="selectedscope" uid="1"><%= i('message.list.selector.scope') %></span>
-                        <a id="scopesetter"><i class="icon-caret-down" style="padding: 5px;"></i></a>
-                        <ul id="scope" class="scope">
-                            <li><a href="#" uid="1"><%= i('message.list.selector.scope') %></a></li>
-                            <li class="divider"></li>
-                        </ul>
-                        <a id="publish" class="btn btn-default btn-small" style="background-color: #E5E5E5;float:right"><%= i('message.list.button.send') %></a>
-                    </div>
+                  <div class="publish">
+                    <span id="selectedscope" uid="1"><%= i('message.list.selector.scope') %></span>
+                    <a id="scopesetter"><i class="icon-caret-down" style="padding: 5px;"></i></a>
+                    <ul id="scope" class="scope">
+                      <li><a href="#" uid="1"><%= i('message.list.selector.scope') %></a></li>
+                      <li class="divider"></li>
+                    </ul>
+                    <a id="publish" class="btn btn-default btn-small" style="background-color: #E5E5E5;float:right"><%= i('message.list.button.send') %></a>
                   </div>
                 </div>
 

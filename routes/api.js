@@ -3,7 +3,8 @@ var sidemenu      = require('../api/sidemenu')
   , file          = require('../api/file')
   , notification  = require('../api/notification')
   , apn           = require('../api/apn')
-  , shortmail     = require('../api/shortmail');
+  , shortmail     = require('../api/shortmail')
+  , search        = require("../api/search");
 
 var groupapi      = require('./api_group')  
   , fileapi       = require('./api_file')  
@@ -41,9 +42,9 @@ exports.guiding = function(app){
 //    smartapi.search.full(req, res);
 //  });
 //
-//  app.get('/search/user.json', function(req, res){
-//    smartapi.search.user(req, res);
-//  });
+  app.get('/search/user.json', function(req, res){
+    search.user(req, res);
+  });
 
   // ---- 私信 ----
   // 发送私信
