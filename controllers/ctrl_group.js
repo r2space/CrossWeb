@@ -575,10 +575,14 @@ exports.canEdit = function(handler, callback) {
  * 获取所有组成员的ID 递归
  */
 exports.getUsersInGroup = function(gid, callback){
-  ctrlGroup.getUsersInGroup( {gid: gid, recursive: true}, function(err, result){
+  var handler = new context().bind({ session: { user: { _id: constant.DEFAULT_USER } } }, {});
+  handler.addParams("gid", gid);
+  handler.addParams("recursive", true);
+  ctrlGroup.getUsersInGroup( handler, function(err, result){
     if (err) {
       return callback(err);
     }
+
     return callback(err, result.items);
   });
 };
