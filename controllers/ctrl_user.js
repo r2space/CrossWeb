@@ -417,7 +417,7 @@ exports.follow = function(handler, callback){
  */
 exports.unfollow = function(handler, callback){
   var  currentuid  =  handler.params.uid;
-  var  followuid =  handler.params._id;        console.log(currentuid); console.log(followuid);
+  var  followuid =  handler.params._id;
   if (!followuid) {
     return callback(new error.BadRequest(__("user.error.emptyName")));
   }
@@ -502,7 +502,7 @@ function trans_user_db(handler) {
   // handler.addParams("first", params.name);
   handler.addParams("lang", params.lang || "ja");
   handler.addParams("timezone", params.timezone || "GMT+09:00");
-  // handler.addParams("email", params.email.email1);
+  handler.addParams("email", params.email.email1);
   var photo = params.photo;
   photo.big = params.photo.fid;
   photo.small = params.photo.fid;

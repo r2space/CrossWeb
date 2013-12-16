@@ -30,8 +30,7 @@
 
       <div id="maincontents" class="offset1 tabbable tabs-left">
         <ul class="nav nav-tabs">
-          <li class="active"><a href="#1" data-toggle="tab"><%= i('user.tab.basicInfo') %></a></li>
-          <li><a href="#2" data-toggle="tab"><%= i('user.tab.detailInfo') %></a></li>
+          <li class="active"><a href="#1" data-toggle="tab"><%= i('user.tab.detailInfo') %></a></li>
           <li><a href="#3" data-toggle="tab"><%= i('user.tab.changePhoto') %></a></li>
           <li><a href="#4" data-toggle="tab"><%= i('user.tab.changePwd') %></a></li>
           <!--li><a href="#5" data-toggle="tab">设置</a></li-->
@@ -40,18 +39,10 @@
         <div class="tab-content">
           <div class="tab-pane active" id="1">
             <fieldset>
-              <legend><%= i('user.tab.basicInfo') %></legend>
+              <legend><%= i('user.tab.detailInfo') %></legend>
               <div>
                 <label for="user-name"><%= i('user.info.name.name_zh') %>：</label>
                 <div><input type="text" class="input-xlarge" id="user-name"></div>
-              </div>
-              <div>
-                <label for="user-name"><%= i('user.info.name.letter_zh') %>：</label>
-                <div><input type="text" class="input-xlarge" id="user-last"></div>
-              </div>
-              <div>
-                <label for="user-title"><%= i('user.info.title') %>：</label>
-                <div><input type="text" class="input-xlarge" id="user-title"></div>
               </div>
               <div>
                 <label for="user-telephone"><%= i('user.info.mobile') %>：</label>
@@ -62,42 +53,28 @@
                 <div><input type="text" class="input-xlarge" id="user-email"></div>
               </div>
               <div>
-                <label for="textarea"><%= i('user.info.summary') %>：</label>
-                <div><textarea class="input-xlarge" id="user-memo" rows="3"></textarea></div>
-              </div>
-            </fieldset>
-          </div>
-
-          <div class="tab-pane" id="2">
-            <fieldset>
-              <legend><%= i('user.tab.detailInfo') %></legend>
-              <div>
-                <label for="input01"><%= i('user.info.address') %>：</label>
-                <div><input type="text" class="input-xlarge" id="user-address"></div>
-              </div>
-              <div>
-                <label for="input01"><%= i('user.info.birthday') %>：</label>
-                <div><input type="text" class="input-xlarge" id="user-birthday"></div>
-              </div>
-              <div>
-                <label for="input01"><%= i('user.info.language') %>：</label>
+                <label for="user-language"><%= i('user.info.language') %>：</label>
                 <div>
                   <select name="user-language" id="user-language">
+                    <option value="ja"><%= i('user.info.language.ja') %></option>
                     <option value="zh"><%= i('user.info.language.zh') %></option>
                     <option value="en"><%= i('user.info.language.en') %></option>
-                    <option value="ja"><%= i('user.info.language.ja') %></option>
                   </select>
                 </div>
               </div>
               <div>
-                <label for="input01"><%= i('user.info.timezone') %>：</label>
+                <label for="user-timezone"><%= i('user.info.timezone') %>：</label>
                 <div>
                   <select name="user-timezone" id="user-timezone" style="width:85%">
+                    <option value="GMT+09:00"><%= i('user.info.timezone.+0900') %></option>
                     <option value="GMT+08:00"><%= i('user.info.timezone.+0800') %></option>
                     <option value="GMT-05:00"><%= i('user.info.timezone.-0500') %></option>
-                    <option value="GMT+09:00"><%= i('user.info.timezone.+0900') %></option>
                   </select>
                 </div>
+              </div>
+              <div>
+                <label for="user-memo"><%= i('user.info.summary') %>：</label>
+                <div><textarea class="input-xlarge" id="user-memo" rows="3"></textarea></div>
               </div>
             </fieldset>
           </div>
@@ -110,7 +87,7 @@
                  <img src="/images/user.png" id="jcropPhoto">
                 </div>
                 <img src="/images/user.png" id="realPhoto" style="display:none;max-width:none;">
-                <div id="operators">
+                <div>
                   <a id="selectFile" class="btn"><%= i('user.option.selectPhoto') %></a>
                   <input type="file" id="uploadfile" style="display: none" accept="image/*" />
                   <input type="hidden" id="jcropData"/>
@@ -136,34 +113,12 @@
             <fieldset>
               <legend><%= i('user.tab.changePwd') %></legend>
               <div>
-                <label for="input01"><%= i('user.info.currentPwd') %>：</label>
+                <label for="user-pwd"><%= i('user.info.currentPwd') %>：</label>
                 <div><input type="text" class="input-xlarge" id="user-pwd"></div>
-                <label for="input01"><%= i('user.info.newPwd') %>：</label>
+                <label for="user-pwd1"><%= i('user.info.newPwd') %>：</label>
                 <div><input type="text" class="input-xlarge" id="user-pwd1"></div>
-                <label for="input01"><%= i('user.info.newPwd2') %>：</label>
+                <label for="user-pwd2"><%= i('user.info.newPwd2') %>：</label>
                 <div><input type="text" class="input-xlarge" id="user-pwd2"></div>
-              </div>
-            </fieldset>
-          </div>
-
-          <div class="tab-pane" id="5">
-            <fieldset>
-              <legend><!--设置--><%= i('usereditor.setting.label.set') %></legend>
-              <div>
-                <label for="input01"><!--通知设定：--><%= i('usereditor.setting.label.notice') %></label>
-                <div><input type="text" class="input-xlarge" id="user-name"></div>
-              </div>
-              <div>
-                <label for="input01"><!--共享设定：--><%= i('usereditor.setting.label.share') %></label>
-                <div><input type="text" class="input-xlarge" id="user-name"></div>
-              </div>
-              <div>
-                <label for="input01"><!--安全：--><%= i('usereditor.setting.label.safe') %></label>
-                <div><input type="text" class="input-xlarge" id="user-name"></div>
-              </div>
-              <div>
-                <label for="input01"><!--禁止：--><%= i('usereditor.setting.label.forbid') %></label>
-                <div><input type="text" class="input-xlarge" id="user-name"></div>
               </div>
             </fieldset>
           </div>

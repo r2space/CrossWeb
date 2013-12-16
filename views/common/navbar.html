@@ -9,68 +9,6 @@
       .dl-horizontal dd { margin-left: 40px; }
     </style>
 
-<!--sl_yang del start-->
-    <!--<header>-->
-      <!--<strong>Cross</strong>-->
-      <!--<div id="_userbox">-->
-        <!--<div>-->
-          <!--<a href="/user" id="_userpic"><img src="<%= user.photo ? '/picture/' + user.photo.big : '/images/user.png' %>"></a>-->
-          <!--<a href="/user" id="_username"><%= user.userName %></a>-->
-        <!--</div>-->
-        <!--<ul>-->
-          <!--&lt;!&ndash;li><a href="/usereditor" id="_user"><i class="icon-wrench"></i></a></li&ndash;&gt;-->
-          <!--<li><a href="/simplelogout" id="_logout"><i class="icon-signout"></i></a></li>-->
-        <!--</ul>-->
-      <!--</div>-->
-    <!--</header>-->
-    <!--<div id="_navbar">-->
-      <!--<nav>-->
-        <!--<ul id="_group1" rel="sam">-->
-          <!--<li>-->
-            <!--<a id="home" href="/home" style="font-size: 16px;">-->
-              <!--<i class="icon-home icon-large"></i>-->
-            <!--</a>-->
-          <!--</li>-->
-          <!--&lt;!&ndash;li>-->
-            <!--<a id="shortmail" href="/shortmail" style="font-size: 16px;">-->
-              <!--<i class="icon-envelope icon-large"></i>-->
-            <!--</a>-->
-            <!--<span id="_shortmail" class="label label-important"></span>-->
-          <!--</li&ndash;&gt;-->
-          <!--<li>-->
-            <!--<a id="notice" href="/notice" style="font-size: 16px;">-->
-              <!--<i class="icon-bell icon-large"></i>-->
-            <!--</a>-->
-            <!--<span id="_notice" class="label label-important"></span>-->
-          <!--</li>-->
-        <!--</ul>-->
-      <!--</nav>-->
-      <!--<nav id="_search">-->
-        <!--<input id="search" value="" x-webkit-speech /><div></div>-->
-      <!--</nav>-->
-      <!--<nav>-->
-        <!--<ul id="_group2" rel="sam">-->
-          <!--<li>-->
-            <!--<a id="message" href="/message" style="font-size: 12px;"><%= i('navbar.menu.message')%></a>-->
-          <!--</li>-->
-          <!--<li><a id="group" href="/group"><%= i('navbar.menu.group')%></a></li>-->
-          <!--<li><a id="user" href="/user"><%= i('navbar.menu.user')%></a></li>-->
-          <!--&lt;!&ndash;li><a id="files" href="/files"><%= i('navbar.menu.file')%></a></li&ndash;&gt;-->
-          <!--<li class="hidden">-->
-            <!--<a id="apps" href="#"><%= i('navbar.menu.apps')%></a>-->
-            <!--<ul id="subapps">-->
-              <!--<li><a id="task" href="/task"><i class="icon-tasks icon-large"></i><%= i('navbar.menu.task')%></a></li>-->
-              <!--<li><a id="category" href="/category"><i class="icon-tags icon-large"></i><%= i('navbar.menu.category')%></a></li>-->
-              <!--<li><a id="meeting" href="/meeting"><i class="icon-signin icon-large"></i><%= i('navbar.menu.conference')%></a></li>-->
-              <!--<li><a id="topic" href="/topic"><i class="icon-comments-alt icon-large"></i><%= i('navbar.menu.topic')%></a></li>-->
-              <!--<li><a id="process" href="/process"><i class="icon-retweet icon-large"></i><%= i('navbar.menu.process')%></a></li>-->
-              <!--<li><a id="calendar" href="/calendar"><i class="icon-calendar icon-large"></i><%= i('navbar.menu.calendar')%></a></li>-->
-            <!--</ul>-->
-          <!--</li>-->
-        <!--</ul>-->
-      <!--</nav>-->
-    <!--</div>-->
-    <!--sl_yang del end-->
     <div class="navbar container" style="margin-top: 20px;">
         <div class="navbar-inner">
             <div class="container">
@@ -89,7 +27,7 @@
                     </form-->
                     <ul class="nav pull-right">
                         <li class="dropdown">
-                            <a href="#" class="dropdown-toggle" data-toggle="dropdown"><img src="/images/butterfly.png" style="height: 20px;width: 20px;"><small>&nbsp;&nbsp; DAC Admin</small></a>
+                            <a href="#" class="dropdown-toggle" data-toggle="dropdown"><img src="/images/butterfly.png" style="height: 20px;width: 20px;"><small>&nbsp;&nbsp; {{name}}</small></a>
                             <ul class="dropdown-menu">
                                 <li><a href="/usereditor"><i class="icon-cog"></i>&nbsp;&nbsp;Profile</a></li>
                                 <li class="divider"></li>
