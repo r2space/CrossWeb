@@ -551,7 +551,7 @@
       // 清除原来的内容
       container.html("");
 
-      $("#fetchreply_"+mid).html(i18n["message.list.button.reply"] + "(" + self.replyCollection.total + ")");
+      $("#fetchreply_"+mid).html(self.replyCollection.total);
 
       self.replyCollection.each(function(msg) {
 
@@ -571,8 +571,9 @@
       });
 
       $("#replyBox_" + mid).removeClass("hidden");
-      if(self.replyCollection.total > 10)
+      if(self.replyCollection.total > 10) {
         $("#reply-more_" + mid).css("display","block");
+      }
     },
 
     cleanMessageBox: function(){
@@ -753,7 +754,7 @@
       fd.append("content", _.escape(text.val()));
 
       smart.dopostData(url, fd, function(err, result){
-        self.fetchReply(mid, true);
+        self.fetchReply(null, mid, true);
         text.val("");
         //alert("reply");
       });
@@ -806,10 +807,10 @@
     /**
      * 检索回复消息
      */
-    fetchReply: function(mid, show) {
+    fetchReply: function(event, mid, show) {
 
       var self = this
-        , mid = (typeof mid === "object") ? $(event.target).attr("id").split("_")[1] : mid;
+        , mid = mid ? mid : $(event.target).attr("id").split("_")[1];
 
       if(!show && !$("#replyBox_" + mid).is(":hidden")) {
         $("#replyBox_" + mid).addClass("hidden");

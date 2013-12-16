@@ -338,9 +338,9 @@
             <span class="pull-right">
               <a class="hidden" href="javascript://" id="delete_{{mid}}"><%= i('message.list.button.delete') %></a>
               <a href="javascript://" class="hide"><%= i('message.list.button.totop') %></a>
-              <a href="#" style="padding-right:25px;font-size: 1.2em;text-decoration: blink;color: #C0B9B9;"><i class="icon-thumbs-up">&nbsp;{{likeNums}}</i></a>
-              <a href="#" style="padding-right:25px;font-size: 1.2em;text-decoration: blink;color: #C0B9B9;"><i class="icon-share">&nbsp;{{forwardNums}}</i></a>
-              <a href="#" style="font-size: 1.2em;text-decoration: blink;color: #C0B9B9;"><i class="icon-comment">&nbsp;{{replyNums}}</i></a>
+              <a href="javascript://" style="padding-right:25px;font-size: 1.2em;text-decoration: blink;color: #C0B9B9;"><i class="icon-thumbs-up">&nbsp;{{likeNums}}</i></a>
+              <a href="javascript://" style="padding-right:25px;font-size: 1.2em;text-decoration: blink;color: #C0B9B9;"><i class="icon-share">&nbsp;{{forwardNums}}</i></a>
+              <a href="javascript://" class="toggle-replies" style="font-size: 1.2em;color: #C0B9B9;"><i id="fetchreply_{{mid}}" class="icon-comment">&nbsp;{{replyNums}}</i></a>
               <!--<a href="javascript://" style="padding-right:8px;"><%= i('message.list.button.good') %></a>-->
                 <!--sl_yang-->
               <!--<a href="#message-selector" id="forwardMsg_{{mid}}" data-toggle="modal"><%= i('message.list.button.forward') %>({{ forwardNums }})</a>-->
@@ -349,13 +349,13 @@
                 <!--<%= i('message.list.button.reply') %>({{ replyNums }})</a>-->
             </span>
           </p>
-          <div id="replyBox_{{ mid }}" class="hidden" style="border-width: 1px;border-style:solid;padding: 10px 20px 10px;border-radius: 3px;border-color: #d9d9d9;">
+          <div id="replyBox_{{ mid }}" class="hidden" style="border: 1px solid #d9d9d9;padding: 10px 20px 10px;border-radius: 3px;margin-bottom: 5px;">
             <div style="margin: -18px 0 0 435px;">
               <em style="font-family: 'SimSun';font-size: 12px;line-height: 1.231;display: block;height: 12px;color: #d9d9d9;font-style: normal;font-weight: normal;">◆</em>
               <span style="margin: -11px 0 0;width: 22px;font-family: 'SimSun';overflow: hidden;font-size: 12px;line-height: 1.231;display: block;height: 12px;color: #fafafa;font-style: normal;font-weight: normal;">◆</span>
             </div>
             <p style="margin-bottom: -7px;">
-              <textarea id="reply_{{ mid }}" style="width:424px" rows="1" placeholder="<%= i('message.list.button.reply') %>" range={{range}}></textarea>
+              <textarea id="reply_{{ mid }}" style="width:445px;height: 50px;border: 1px solid #d9d9d9;" rows="1" placeholder="<%= i('message.list.button.reply') %>" range={{range}}></textarea>
             </p>
             <p style="margin-bottom: 5px;text-align: right;">
               <a id="replyButton_{{ mid }}" class="btn btn-mini btn-warning"><%= i('message.list.button.reply') %></a>
