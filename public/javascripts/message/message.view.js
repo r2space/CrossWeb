@@ -551,7 +551,7 @@
       // 清除原来的内容
       container.html("");
 
-      $("#fetchreply_"+mid).html(self.replyCollection.total);
+      $("#fetchreply_"+mid).html(" " + self.replyCollection.total);
 
       self.replyCollection.each(function(msg) {
 
