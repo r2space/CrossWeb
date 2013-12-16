@@ -722,9 +722,10 @@
     /**
      * 转发消息
      */
-    forward: function(mid) {
+    forward: function(event, mid) {
+
       var self = this
-        , mid = (typeof mid === "object") ? $(event.target).attr("id").split("_")[1] : mid;
+        , mid = mid ? mid : $(event.target).attr("id").split("_")[1];
       
       messageSelector.fetchMessageData(mid);
       //this.href = "#message-selector";

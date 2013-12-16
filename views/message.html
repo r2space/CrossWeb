@@ -338,9 +338,15 @@
             <span class="pull-right">
               <a class="hidden" href="javascript://" id="delete_{{mid}}"><%= i('message.list.button.delete') %></a>
               <a href="javascript://" class="hide"><%= i('message.list.button.totop') %></a>
-              <a href="javascript://" style="padding-right:25px;font-size: 1.2em;text-decoration: blink;color: #C0B9B9;"><i class="icon-thumbs-up">&nbsp;{{likeNums}}</i></a>
-              <a href="javascript://" style="padding-right:25px;font-size: 1.2em;text-decoration: blink;color: #C0B9B9;"><i class="icon-share">&nbsp;{{forwardNums}}</i></a>
-              <a href="javascript://" class="toggle-replies" style="font-size: 1.2em;color: #C0B9B9;"><i id="fetchreply_{{mid}}" class="icon-comment">&nbsp;{{replyNums}}</i></a>
+              <a href="javascript://" style="padding-right:25px;font-size: 1.2em;text-decoration: blink;color: #C0B9B9;">
+                <i class="icon-thumbs-up">&nbsp;{{likeNums}}</i>
+              </a>
+              <a href="#message-selector" data-toggle="modal" style="padding-right:25px;font-size: 1.2em;color: #C0B9B9;">
+                <i id="forwardMsg_{{mid}}" class="icon-share">&nbsp;{{forwardNums}}</i>
+              </a>
+              <a href="javascript://" class="toggle-replies" style="font-size: 1.2em;color: #C0B9B9;">
+                <i id="fetchreply_{{mid}}" class="icon-comment">&nbsp;{{replyNums}}</i>
+              </a>
               <!--<a href="javascript://" style="padding-right:8px;"><%= i('message.list.button.good') %></a>-->
                 <!--sl_yang-->
               <!--<a href="#message-selector" id="forwardMsg_{{mid}}" data-toggle="modal"><%= i('message.list.button.forward') %>({{ forwardNums }})</a>-->
