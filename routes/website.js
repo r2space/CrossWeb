@@ -1,6 +1,7 @@
 
 var context  = smart.framework.context
-  , ctrlGroup = require("../controllers/ctrl_group");
+  , ctrlGroup = require("../controllers/ctrl_group")
+  , ctrlMessage = require("../controllers/ctrl_message");
 
 /**
  * GuidingWebsite:
@@ -101,21 +102,10 @@ exports.guiding = function(app){
     });
   });
   app.get('/message/:id', function(req, res){
-    lib.core.checker.checkMessage(req, res, req.params.id, function(err, bool){
-      if(!bool){
-        res.render("error", {
-          title: __("error"), 
-          user: req.session.user,
-          bright: "home", 
-          message:__("error.noauthority.message")
-        });
-      }else{
-        res.render('messagedetail', {
-            title: __("window.title.messageDetail")
-          , user: req.session.user
-          , bright: "home"
-        });
-      }
+    res.render('messagedetail', {
+        title: __("window.title.messageDetail")
+      , user: req.session.user
+      , bright: "home"
     });
   });
 
