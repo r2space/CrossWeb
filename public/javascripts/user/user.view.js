@@ -78,13 +78,17 @@
         , photo = userPhoto ? "/picture/" + userPhoto.big : "/images/user.png"
         , name = this.model.get("name").name_zh
         , address = this.model.get("address")
-        , tel = this.model.get("tel")
-        , email = this.model.get("email")
+        , tel = this.model.get("tel").mobile
+        , email = this.model.get("email").email1
         , custom = this.model.get("custom");
 
       $("#user_image img").attr("src", photo);
       $("#user_name").html(smart.cutString(name, 10));
-      $("#user_title").html(this.model.get("title"));
+
+      var detail = "<i class=\"icon-phone icon-small\"></i> " + tel;
+      detail += "<br>";
+      detail += "<i class=\"icon-envelope icon-small\"></i> " + email;
+      $("#user_title").html(detail);
       $("#followingCount").html(this.model.get("following").length);
       $("#followerCount").html(this.model.get("follower").length);
 
@@ -979,7 +983,7 @@
         self.model.fetch({
           success: function() {
             self.putDataIntoNavbar();
-          },
+          }
         });
 
         if (userid) {
@@ -991,7 +995,7 @@
           success: function() {
             var user = self.model.attributes;
             self.putDataIntoDetailPage(user);
-          },
+          }
         });
       }else{
         $("#btn-save").bind("click", this.saveBasicInfo);
@@ -1004,7 +1008,7 @@
             var user = self.model.attributes;
             self.putDataIntoNavbar();
             self.putDataIntoEdtingPage(user);
-          },
+          }
         });
       };
     },
@@ -1064,13 +1068,13 @@
     saveBasicInfo: function(){
       var user = window.user.model.attributes;
       user.uname.name_zh = $("#user-name").val();
-      user.title = $("#user-title").val();
-      user.tel.telephone = $("#user-telephone").val();
+      //user.title = $("#user-title").val();
+      user.tel.mobile = $("#user-telephone").val();
       user.email.email1 = $("#user-email").val();
       window.user.model.save("","",{
         success: function() {
           $("#message-success").removeClass("hide");
-        },
+        }
       });
     },
 

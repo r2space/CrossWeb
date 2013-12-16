@@ -264,7 +264,6 @@
 	"fulltextsearch.html.label.length": "大小：",
 	"fulltextsearch.html.label.date": "更新日：",
 	"fulltextsearch.html.button.sugestion": "下载",
-	"navbar.menu.conference": "navbar.menu.conference",
 	"notifiction.label.newmsg":"有一条新消息",
 	
 	"ctrl.notifiction.js.label.remove":"被从#{{groupName}}#移除",
