@@ -49,18 +49,19 @@ exports.user = function(handler, callback) {
         });
       },
       group: function(done) {
-        handler.addParams("uid", uid);
-        handler.addParams("keywords", keywords);
-        handler.addParams("skip", params.start);
-        handler.addParams("limit", params.limit);
-        handler.addParams("order", "type name");
-
-        group.getGroupList(handler, function(err, result) {
-          if(err) {
-            return callback(err);
-          }
-          done(null, result.items);
-        });
+//        handler.addParams("uid", uid);
+//        handler.addParams("keywords", keywords);
+//        handler.addParams("skip", params.start);
+//        handler.addParams("limit", params.limit);
+//        handler.addParams("order", "type name");
+//
+//        group.getGroupList(handler, function(err, result) {
+//          if(err) {
+//            return callback(err);
+//          }
+//          done(null, result.items);
+//        });
+        done(null, []);
       }
     },
     function(err, results){

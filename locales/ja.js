@@ -193,7 +193,7 @@
 	"message.list.type.video": "ビデオ/音声",
 	"message.list.type.document": "文書選択",
 	"message.list.placeholder.text": "メッセージ",
-	"message.list.placeholder.notice": "+ お知らせの人/グループを指定",
+	"message.list.placeholder.notice": "+ お知らせの人を指定",
 	"message.list.selector.image": "+ クリック、写真を選択",
 	"message.list.selector.file": "+ クリック、ファイルを選択",
 	"message.list.selector.video": "+ クリック、ビデオ/音声を選択",

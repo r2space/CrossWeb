@@ -196,7 +196,7 @@
 	"message.list.type.video": "音频/视频",
 	"message.list.type.document": "选择文书",
 	"message.list.placeholder.text": "消息",
-	"message.list.placeholder.notice": "+ 指定通知的用户，组",
+	"message.list.placeholder.notice": "+ 指定通知的用户",
 	"message.list.selector.image": "+ 点击，选择图片",
 	"message.list.selector.file": "+ 点击，选择文件",
 	"message.list.selector.video": "+ 点击，选择视频/音频",

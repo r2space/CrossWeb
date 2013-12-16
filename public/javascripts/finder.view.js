@@ -10,22 +10,22 @@
      * 初始化
      */
     initialize: function() {
-      _.bindAll(this, "render", "onSearch", "onPreSearch");
-      this.model.on("change", this.render);
+      _.bindAll(this, "render", "onSearch", "onPreSearch", "onClick");
+//      this.model.on("change", this.render);
     },
 
     /**
      * 显示用户一览
      */
     render: function () {
-      
+
       var self = this
         , users = this.model.get("user")
         , groups = this.model.get("group")
         , tmpl = $('#_findresult-template').html()
         , resultlist = $('#_findresult ul')
         , finder = $('#_findresult');
-      
+
       resultlist.empty();
       finder.hide();
 
@@ -75,6 +75,9 @@
       _.each(items, function(item) {
         $(item).on("keydown", self.onPreSearch);
         $(item).on("keyup", self.onSearch);
+        $(item).on("click", function(event)  {
+          self.onClick(event, self);
+        });
       });
     },
         
@@ -93,7 +96,9 @@
       }
     },
     onSearch: function() {
-      
+
+      var self = this;
+
       if (!this.src) {return;}
 
       var inputValue = this.src.val()
@@ -107,13 +112,43 @@
         $('#_findresult').hide();
         return;
       }
-      
+
       // 关键字发生变化
       if (inputValue !== keywords) {
         this.model.scope = scope;
         this.model.keywords = inputValue;
-        this.model.fetch();
+        this.model.fetch({
+          error: function(){
+            Alertify.log.error(i18n["fail"]);
+          },
+          success: function() {
+            self.render();
+          }
+        });
       }
+    },
+    onClick: function(event, self) {
+
+      var self = this;
+      this.src = $(event.target);
+
+      var inputValue = this.src.val()
+        , scope = this.src.attr("scope");
+
+      if (inputValue.length !== 0) {
+        return;
+      }
+
+      self.model.scope = scope;
+      self.model.keywords = "";
+      self.model.fetch({
+        error: function(){
+          Alertify.log.error(i18n["fail"]);
+        },
+        success: function() {
+          self.render();
+        }
+      });
     }
 
   });

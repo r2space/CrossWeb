@@ -10,7 +10,9 @@
     },
     
     url: function() {
-      return this.urlRoot + "?keywords=" + this.keywords + "&scope=" + this.scope;
+      var url = this.urlRoot + "?keywords=" + this.keywords + "&scope=" + this.scope;
+      url += "&limit" + (this.keywords ? Number.MAX_VALUE : 20);
+      return url;
     },
 
     parse: function(response) {
@@ -20,6 +22,7 @@
     defaults: {
       keywords: ""
     , scope:""
+    , date:""
     }
 
   });
