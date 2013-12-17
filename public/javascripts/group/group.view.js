@@ -72,7 +72,7 @@
         , "ownerName": (mainOwner ? mainOwner.name.name_zh : "" )
       }));
 
-      var image = groupImage ? "/picture/" + groupImage.big : "/images/group.png";
+      var image = (groupImage && groupImage.big) ? "/picture/" + groupImage.big : "/images/group.png";
       $("#groupImage img").attr("src", image);
       $("#target-photo").attr("src", image);
 
@@ -193,7 +193,7 @@
               container.append(_.template($('#user-template').html(), {
                 "id": user._id
                 , "name": name.name_zh
-                , "photo": photo ? "/picture/" + photo.big : "/images/user.png"
+                , "photo": (photo && photo.small) ? "/picture/" + photo.small : "/images/user.png"
                 , "mail": user.email.email1
                 , "isMember": isMember
                 , "isOwner": _.contains(owners, user._id)

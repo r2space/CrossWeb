@@ -52,7 +52,7 @@
           container.append(_.template($('#user-template').html(), {
             "id": uid
             , "name": name.name_zh
-            , "photo": photo ? "/picture/" + photo.big : "/images/user.png"
+            , "photo": (photo && photo.big) ? "/picture/" + photo.big : "/images/user.png"
             , "title": user.get("title")
             , "mail": user.get("email").email1
           }));

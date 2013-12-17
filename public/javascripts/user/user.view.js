@@ -75,7 +75,7 @@
 
       var self = this
         , userPhoto = this.model.get("photo")
-        , photo = userPhoto ? "/picture/" + userPhoto.big : "/images/user.png"
+        , photo = (userPhoto && userPhoto.big) ? "/picture/" + userPhoto.big : "/images/user.png"
         , name = this.model.get("name").name_zh
         , address = this.model.get("address")
         , tel = this.model.get("tel").mobile
@@ -523,7 +523,7 @@
                 , followed = _.contains(followingOfLoginUser, user._id);
               var photo = user.photo;
 
-              photo = photo ? "/picture/" + photo.big : "/images/user.png"
+              photo = photo && photo.big ? "/picture/" + photo.big : "/images/user.png"
 
               container.append(_.template(tmpl, {
                 "id": user._id
@@ -597,7 +597,7 @@
 
             container.append(_.template(tmpl, {
               "id": group._id
-              , "photo": group.photo ? ("/picture/" + group.photo.big) : "/images/group.png"
+              , "photo": group.photo && group.photo.big ? ("/picture/" + group.photo.big) : "/images/group.png"
               , "groupName": group.name.name_zh
               , "secure":group.secure
               , "groupMembers": group.member.length
@@ -1048,7 +1048,7 @@
 
     putDataIntoNavbar: function(){
       var photo = this.model.get("photo");
-      if (photo) {
+      if (photo && photo.small) {
         $("#user-navbar-photo").attr("src","/picture/" + photo.small);
       }
     },
@@ -1062,7 +1062,7 @@
       $("#user-email").text(user.email.email1);
       $("#user-microblog").text(user.custom.url);
 
-      if (!_.isEmpty(user.photo)) {
+      if (user.photo && user.photo.big) {
         $(".user-photo").attr("src", "/picture/" + user.photo.big);
       }
 
