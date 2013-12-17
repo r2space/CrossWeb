@@ -161,7 +161,7 @@ div.imageBox .image .trash {
   cursor: pointer;
 }
 div.imageBox .selector {
-  width: 534px;
+  width: 545px;
   height: 50px;
   line-height: 50px;
   text-align: center;
@@ -228,7 +228,7 @@ div.documentBox .selector {
   margin-bottom: 6px;
 }
 textarea.comment {
-  width: 534px;
+  width: 545px;
   resize: none;
   -webkit-border-radius: 0px;
   border: 0;
