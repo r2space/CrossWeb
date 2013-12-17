@@ -341,6 +341,15 @@ div.publish .scope .divider {
   width: 500px;
   word-wrap: break-word;
 }
+.message .operation {
+  display: inline-block;
+  width:50px;
+  font-size: 1.2em;
+  color: #C0B9B9;
+}
+.message .praised {
+  color: #F7823A;
+}
 .message .reply-area {
   margin-left: 60px;
   margin-right: 10px;

@@ -437,6 +437,7 @@
           , "range": range ? range.id : "1"
           , "rangeGroup": rangeGroup
           , "atAccounts": at
+          , "praised": _.contains(msg.get("likers") || [], $("#userid").val())
         }));
 
         var attaches = msg.get("attach");
@@ -445,6 +446,7 @@
         }
         self.renderAttach(contentType, msg.get("_id"), attaches);
 
+        $("#praise_" + msg.get("_id")).on("click", self.praise);
         $("#forwardMsg_" + msg.get("_id")).on("click", self.forward);
         $("#replyButton_" + msg.get("_id")).on("click", self.reply);
         $("#fetchreply_" + msg.get("_id")).on("click", self.fetchReply);
@@ -716,6 +718,33 @@
         self.fetchMessage();
         self.cleanMessageBox();
         Alertify.dialog.alert(i18n["success"]);
+      });
+    },
+
+    /**
+     * 赞
+     */
+    praise: function(event) {
+
+      var self = this
+        , obj = $(event.target)
+        , mid = obj.attr("id").split("_")[1]
+        , praised = obj.hasClass("praised")
+        , url = praised ? "/message/unlike.json" : "/message/like.json";
+
+      smart.doput(url, {mid: mid}, function(err, result){
+        if(err) {
+          console.error(err);
+          return;
+        }
+
+        var likeNum = result.likers ? result.likers.length : 0;
+        obj.html(" " + likeNum);
+        if(praised) {
+          obj.removeClass("praised");
+        } else {
+          obj.addClass("praised");
+        }
       });
     },
 
