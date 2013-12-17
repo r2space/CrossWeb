@@ -831,7 +831,7 @@ exports.getForwardList = function(mid_, start_, count_, callback_){
         function(callback) {
           var tousers = msg.at.users;
           if(tousers) {
-            user.find(tousers, function(err, users) {
+            user.listByUids(tousers, function(err, users) {
               var array = [];
               _.each(users,function(u){array.push({id: u._id, name: u.name, photo: u.photo});});
               msg.part.atusers = array;
