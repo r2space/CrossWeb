@@ -103,7 +103,7 @@
                   </table>
                 </div>
                 <div class="tab-pane active" id="3">
-                  <div id="messages-container"></div>
+                  <div id="messages-container" style="width: 545px;"></div>
                   <div id="messagelist-group"class="pagination pagination-centered">
                   </div>
                 </div>
@@ -192,7 +192,7 @@
         <dt class="message-face">
           <a href="/user/{{ uid }}"><img src="{{ uphoto }}" style="width: 56px;"></a>
         </dt>
-        <dd class="message-content">
+        <dd class="message-content" style="width:480px">
           <p style="background-color: #EEF; margin-bottom: 1px;">
             <a href="/user/{{ uid }}" id="{{ uid }}" class="userLink">{{ uname }}</a>{{ rangeGroup }} : {{ content }}
             <br/>
@@ -217,7 +217,7 @@
               <span style="margin: -11px 0 0;width: 22px;font-family: 'SimSun';overflow: hidden;font-size: 12px;line-height: 1.231;display: block;height: 12px;color: #fafafa;font-style: normal;font-weight: normal;">◆</span>
             </div>
             <p style="margin-bottom: -7px;">
-              <textarea id="reply_{{ mid }}" style="width:424px" rows="1" placeholder="<%= i('message.list.button.reply') %>" range={{ range}}></textarea>
+              <textarea id="reply_{{ mid }}" style="width:425px;height: 50px;border: 1px solid #d9d9d9;" rows="1" placeholder="<%= i('message.list.button.reply') %>" range={{ range}}></textarea>
             </p>
             <p style="margin-bottom: 5px;text-align: right;">
               <a id="replyButton_{{ mid }}" class="btn btn-mini btn-warning"><%= i('message.list.button.reply') %></a>

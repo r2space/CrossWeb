@@ -763,10 +763,10 @@
     /**
      * 回复消息
      */
-    reply: function(mid) {
+    reply: function(event, mid) {
       var self = this
         , url = "/message/create.json"
-        , mid = (typeof mid === "object") ? $(event.target).attr("id").split("_")[1] : mid
+        , mid = mid ? mid : $(event.target).attr("id").split("_")[1]
         , text = $("#reply_" + mid)
         , fd = new FormData();
 

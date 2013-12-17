@@ -89,7 +89,7 @@
                   </dl>
                 </div>
                 <div id="2" class="tab-pane active">
-                  <div id="messages-container"></div>
+                  <div id="messages-container" style="width: 545px;"></div>
                   <div id="messagelist-user" class="pagination pagination-centered">
                   </div>
                 </div>
@@ -241,37 +241,53 @@
         <dt class="message-face">
           <a href="/user/{{ uid }}"><img src="{{ uphoto }}" style="width: 56px;"></a>
         </dt>
-        <dd class="message-content">
-          <p style="background-color: #EEF; margin-bottom: 1px;">
-            <a href="/user/{{ uid }}" id="{{ uid }}" class="userLink">{{ uname }}</a>{{ rangeGroup }} : {{ content }}
-            <br/>
+        <dd class="message-content" style="width:480px">
+          <p style="margin-bottom: 2px;padding-left: 5px;">
+            <a href="/user/{{ uid }}" id="{{ uid }}" class="userLink">{{ uname }}</a> {{ rangeGroup }}
+            <div style="padding-left:5px;padding-bottom:10px;font-size: 1.2em;">
+              {{ content }}
+            </div>
             {{ atAccounts }}
           </p>
-          <p id="attach_container_{{ mid }}" style="margin-bottom: 1px;">
+          <p id="attach_container_{{ mid }}" style="padding-left: 5px;">
           </p>
           <p class="message-info">
-            <a href="/message/{{mid}}" style="color: #BBB;">{{time}}</a>
+            <a href="#" style="color: #5C5A5A;padding-left:5px;">{{time}}</a>
             <span class="pull-right">
-              <a class="hidden" href="javascript://" id="delete_{{mid}}">删除</a>
+              <a class="hidden" href="javascript://" id="delete_{{mid}}"><%= i('message.list.button.delete') %></a>
               <a href="javascript://" class="hide"><%= i('message.list.button.totop') %></a>
-              <a href="javascript://" class="hide"><%= i('message.list.button.good') %></a>
-              <a href="#message-selector" id="forwardMsg_{{mid}}" data-toggle="modal"><%= i('message.list.button.forward') %>({{ forwardNums }})</a>
-              <a href="javascript://" class="hide"><%= i('message.list.button.mark') %></a>
-              <a href="javascript://" id="fetchreply_{{mid}}" class="toggle-replies">
-                <%= i('message.list.button.reply') %>({{ replyNums }})</a>
+              <a href="javascript://" class="operation">
+                <i id="praise_{{mid}}" class="icon-thumbs-up <$ if(praised) { $> praised <$ } $>" title="<%= i('message.list.button.good') %>">&nbsp;{{likeNums}}</i>
+              </a>
+              <a href="#message-selector" data-toggle="modal" class="operation">
+                <i id="forwardMsg_{{mid}}" class="icon-share" title="<%= i('message.list.button.forward') %>">&nbsp;{{forwardNums}}</i>
+              </a>
+              <a href="javascript://" class="operation">
+                <i id="fetchreply_{{mid}}" class="icon-comment" title="<%= i('message.list.button.reply') %>">&nbsp;{{replyNums}}</i>
+              </a>
+            </span>
           </p>
-          <div id="replyBox_{{ mid }}" class="hidden" style="border-width: 1px;border-style:solid;padding: 10px 20px 10px;border-radius: 3px;border-color: #d9d9d9;">
+          <div id="replyBox_{{ mid }}" class="hidden" style="border: 1px solid #d9d9d9;padding: 10px 20px 10px;border-radius: 3px;margin-bottom: 5px;">
             <div style="margin: -18px 0 0 435px;">
               <em style="font-family: 'SimSun';font-size: 12px;line-height: 1.231;display: block;height: 12px;color: #d9d9d9;font-style: normal;font-weight: normal;">◆</em>
               <span style="margin: -11px 0 0;width: 22px;font-family: 'SimSun';overflow: hidden;font-size: 12px;line-height: 1.231;display: block;height: 12px;color: #fafafa;font-style: normal;font-weight: normal;">◆</span>
             </div>
             <p style="margin-bottom: -7px;">
-              <textarea id="reply_{{ mid }}" style="width:424px" rows="1" placeholder="<%= i('message.list.button.reply') %>..." range={{ range}}></textarea>
+              <textarea id="reply_{{ mid }}" style="width:425px;height: 50px;border: 1px solid #d9d9d9;" rows="1" placeholder="<%= i('message.list.button.reply') %>..." range={{ range}}></textarea>
             </p>
             <p style="margin-bottom: 5px;text-align: right;">
               <a id="replyButton_{{ mid }}" class="btn btn-mini btn-warning"><%= i('message.list.button.reply') %></a>
             </p>
             <div id="replyarea_{{ mid }}"></div>
+
+            <div id="reply-more_{{ mid }}" style="display:none">
+              <hr>
+              <p style="margin-bottom: 1px;text-align:right">
+                <a href="/message/{{mid}}"><%= i('message.list.button.morereply') %></a>
+              </p>
+              </hr>
+            </div>
+          </div>
           </div>
         </dd>
         <hr>
