@@ -498,7 +498,11 @@ function trans_user_db(handler) {
   var params = handler.params;
   handler.addParams("uid", params._id);
   // handler.addParams("userName", params.id);
-  handler.addParams("password", auth.sha256(params.password));
+  if (params.password == FAKE_PASSWORD) {
+    handler.removeParams("password");
+  } else {
+    handler.addParams("password", auth.sha256(params.password));
+  }
   // handler.addParams("first", params.name);
   handler.addParams("lang", params.lang || "ja");
   handler.addParams("timezone", params.timezone || "GMT+09:00");
