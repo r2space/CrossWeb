@@ -160,6 +160,7 @@
 	"group.groupview.button.add": "添加到该组",
 	"group.groupview.secure.1": "私密",
 	"group.groupview.secure.2": "公开",
+  "group.groupview.owner": "管理员",
 	"group.groupview.message.leave": "已将用户从组中删除",
 	"group.groupview.message.join": "已将用户添加到了组中",
 	"group.groupedit.tab.basicinfo": "基本信息",

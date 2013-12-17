@@ -157,6 +157,7 @@
 	"group.groupview.button.add": "追加する",
 	"group.groupview.secure.1": "非公開",
 	"group.groupview.secure.2": "公開",
+  "group.groupview.owner": "オーナー",
 	"group.groupview.message.leave": "取り外しました。",
 	"group.groupview.message.join": "追加しました。",
 	"group.groupedit.tab.basicinfo": "基本情報",

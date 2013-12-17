@@ -64,9 +64,13 @@
         , type = this.model.get("type")
         , loginId = $("#userid").val();
 
-      $("#group-public").text(groupSecure == 1 ? i18n["group.groupview.secure.1"] : i18n["group.groupview.secure.2"]);
-      $("#group-name").text(groupName);
-      $("#group-description").text(groupDescription);
+      var mainOwner = this.model.get("mainOwner");
+      $("#brief").append(_.template($("#groupbreif-template").html(), {
+          "name": groupName
+        , "visibility": (groupSecure == 1 ? i18n["group.groupview.secure.1"] : i18n["group.groupview.secure.2"])
+        , "ownerId": (mainOwner ? mainOwner._id : "" )
+        , "ownerName": (mainOwner ? mainOwner.name.name_zh : "" )
+      }));
 
       var image = groupImage ? "/picture/" + groupImage.big : "/images/group.png";
       $("#groupImage img").attr("src", image);

@@ -56,8 +56,6 @@
               <div id="informations">
                 <div id="groupImage"><img /></div>
                 <div id="brief">
-                  <h3 id="group-name"></h3>
-                  <p id="group-public"></p>
                 </div>
                 <div id="operations">
                   <a id="editGroup" class="btn btn-success" href="/groupeditor/<%= groupid %>"><%= i('group.groupview.button.edit') %></a>
@@ -283,6 +281,14 @@
         <source src="{{ image }}" />
       </video>
     </div>
+    </script>
+
+    <script type="text/template" id="groupbreif-template">
+      <h3>{{name}}</h3>
+      <p>
+        <span>{{visibility}}</span><br>
+        <span><%= i('group.groupview.owner')%>：<a href="/user/{{ownerId}}">{{ownerName}}</a></span>
+      </p>
     </script>
 
     <% include messageSelector.html %>

@@ -383,7 +383,23 @@ exports.getGroup = function(handler, callback) {
         resultGroup.member.push(el._id.toString());
       });
 
-      return callback(err, resultGroup);
+      // 取owner
+      if(resultGroup.owner && resultGroup.owner.length > 0) {
+        handler.addParams("uid", resultGroup.owner[0]);
+        ctrlUser.get(handler, function(err, result) {
+          if(err) {
+            return callback(err);
+          }
+
+          if(result) {
+            resultGroup.mainOwner = transUserResult(result);
+          }
+
+          return callback(err, resultGroup);
+        });
+      } else {
+        return callback(err, resultGroup);
+      }
     });
   });
 };
