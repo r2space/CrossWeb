@@ -55,6 +55,7 @@
   -webkit-border-radius: 4px;
   -moz-border-radius: 4px;
   border-radius: 4px;
+  width: 100px;
 }
 #groupMember img,
 #allUser img {
