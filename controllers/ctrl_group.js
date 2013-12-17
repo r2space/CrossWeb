@@ -278,6 +278,8 @@ exports.getGroupList = function(handler, callback) {
         async.eachSeries(resultGroups.items, function(group, done) {
 
           handler.addParams("gid", group._id.toString());
+          handler.addParams("start", 0);
+          handler.addParams("limit", Number.MAX_VALUE);
 
           exports.getMember(handler, function(err, resultUsers) {
             if(resultUsers) {
@@ -492,6 +494,8 @@ exports.getMember = function(handler, callback) {
 
   var params = handler.params;
 
+  var srcLimit = params.limit;
+  var srcStart = params.start;
   handler.addParams("recursive", false);
   handler.addParams("skip", 0);
   handler.addParams("limit", Number.MAX_VALUE);
@@ -523,8 +527,8 @@ exports.getMember = function(handler, callback) {
 
     handler.addParams("condition", {$and: condition});
     handler.addParams("order", "extend.name_zh");
-    handler.addParams("skip", params.start);
-    handler.addParams("limit", params.limit);
+    handler.addParams("skip", srcStart);
+    handler.addParams("limit", srcLimit);
 
     ctrlUser.getList(handler, function(err, result) {
 
