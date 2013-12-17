@@ -131,8 +131,8 @@
         </form>
       </div>
       <div class="modal-footer">
+        <button class="btn btn-success" id="createGroup"><%= i('group.grouplist.button.save') %></button>
         <button class="btn" data-dismiss="modal" aria-hidden="true"><%= i('group.grouplist.button.cancel') %></button>
-        <button class="btn btn-primary" id="createGroup"><%= i('group.grouplist.button.save') %></button>
       </div>
     </div>
 
@@ -151,7 +151,7 @@
         <td>{{ members }}</td>
         <td style="text-align: right">
           <$ if (type == "1" && (!joined || canLeave)) { $>
-          <a class="btn btn-small btn-success" gid="{{id}}" joined="{{ joined }}">
+          <a class="btn btn-small {{ joined ? "" : "btn-success" }}" gid="{{id}}" joined="{{ joined }}">
             {{ joined ? "<%= i('group.grouplist.button.leavel') %>" : "<%= i('group.grouplist.button.join') %>" }}
           </a>
           <$ } $>

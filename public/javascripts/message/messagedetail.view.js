@@ -113,8 +113,8 @@
       var self = this
         , url = "/user/" + func + ".json";
 
-      smart.doput(url, {"uid": uid}, function(err, result){
-        if(result.error){
+      smart.doput(url, {"_id": uid}, function(err, result){
+        if(err){
           console.log(result); return;
         }
       });

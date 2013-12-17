@@ -48,9 +48,9 @@
             </div>
 
             <div id="operations">
-              <a id="follow_btn" class="btn btn-tofollow hide"><%= i('user.option.follow') %></a>
-              <a id="unfollow_btn" class="btn btn-tofollow hide"><%= i('user.option.unfollow') %></a>
-              <a id="edit_btn" class="btn btn-primary hide"><%= i('user.option.editInfo') %></a>
+              <a id="follow_btn" class="btn btn-success hide"><%= i('user.option.follow') %></a>
+              <a id="unfollow_btn" class="btn hide"><%= i('user.option.unfollow') %></a>
+              <a id="edit_btn" class="btn btn-success hide"><%= i('user.option.editInfo') %></a>
             </div>
           </div>
           
@@ -98,7 +98,7 @@
               <textarea id="reply_{{ mid }}" style="width:493px" rows="2" placeholder="<%= i('message.list.button.reply') %>" range={{ range}}></textarea>
             </p>
             <p style="margin-bottom: 5px;text-align: right;">
-              <a id="replyButton_{{ mid }}" class="btn btn-mini btn-warning"><%= i('message.list.button.reply') %></a>
+              <a id="replyButton_{{ mid }}" class="btn btn-mini btn-success"><%= i('message.list.button.reply') %></a>
             </p>
             <div id="replyarea_{{ mid }}"></div>
 
@@ -128,7 +128,7 @@
                 <li><a href="#" uid="1"><%= i('message.list.selector.scope') %></a></li>
                 <li class="divider"></li>
               </ul>
-              <a id="forwardButton_{{ mid }}" class="btn btn-mini btn-warning"><%= i('message.list.button.forward') %></a>
+              <a id="forwardButton_{{ mid }}" class="btn btn-mini btn-success"><%= i('message.list.button.forward') %></a>
             </div>
             <div id="forwardarea_{{ mid }}"></div>
 

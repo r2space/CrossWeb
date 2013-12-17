@@ -116,7 +116,7 @@
                   <!-- 消息的分类 -->
                   <ul id="msgtype" class="messageType">
                     <li><a title="<%= i('message.list.type.text') %>" id="textBox" style="font-size:1.5em;"><i class="icon-font"></i></a></li>
-                    <li><a title="<%= i('message.list.type.image') %>" id="imageBox" style="font-size:1.5em;"><i class="icon-file"></i></a></li>
+                    <li><a title="<%= i('message.list.type.image') %>" id="imageBox" style="font-size:1.5em;"><i class="icon-picture"></i></a></li>
                     <!--li><a title="<%= i('message.list.type.file') %>" id="fileBox"><i class="icon-file icon-2x"></i></a></li>
                     <li><a title="<%= i('message.list.type.video') %>" id="videoBox"><i class="icon-film icon-2x"></i></a></li>
                     <li><a title="<%= i('message.list.type.document') %>" id="documentBox"><i class="icon-folder-open-alt icon-2x"></i></a></li-->
@@ -201,7 +201,7 @@
                       <li><a href="#" uid="1"><%= i('message.list.selector.scope') %></a></li>
                       <li class="divider"></li>
                     </ul>
-                    <a id="publish" class="btn btn-default btn-small" style="background-color: #E5E5E5;float:right"><%= i('message.list.button.send') %></a>
+                    <a id="publish" class="btn btn-small btn-success"><%= i('message.list.button.send') %></a>
                   </div>
                 </div>
 
@@ -358,7 +358,7 @@
               <textarea id="reply_{{ mid }}" style="width:445px;height: 50px;border: 1px solid #d9d9d9;" rows="1" placeholder="<%= i('message.list.button.reply') %>" range={{range}}></textarea>
             </p>
             <p style="margin-bottom: 5px;text-align: right;">
-              <a id="replyButton_{{ mid }}" class="btn btn-mini btn-warning"><%= i('message.list.button.reply') %></a>
+              <a id="replyButton_{{ mid }}" class="btn btn-mini btn-success"><%= i('message.list.button.reply') %></a>
             </p>
             <div id="replyarea_{{ mid }}"></div>
 
