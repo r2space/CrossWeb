@@ -386,7 +386,7 @@ exports.getGroup = function(handler, callback) {
       });
 
       // 取owner
-      if(resultGroup.owner && resultGroup.owner.length > 0) {
+      if(resultGroup.owner && resultGroup.owner[0]) {
         handler.addParams("uid", resultGroup.owner[0]);
         ctrlUser.get(handler, function(err, result) {
           if(err) {

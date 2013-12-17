@@ -165,10 +165,12 @@ exports.getUserList = function(handler, callback){
         return callback(new error.InternalServer(err));
       }
 
-      condition = {$and: [
-        condition,
-        {"groups": { $nin: [ gid ] }}
-      ]};
+      if(gid) {
+        condition = {$and: [
+          condition,
+          {"groups": { $nin: [ gid ] }}
+        ]};
+      }
 
       handler.addParams("condition", condition);
       handler.addParams("skip", params.start || params.skip);
