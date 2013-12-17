@@ -302,10 +302,12 @@
               , "uphoto": photo
               , "replyNums": msg["part"].replyNums
               , "forwardNums": msg["part"].forwardNums
+              , "likeNums": msg.likers ? msg.likers.length : 0
               , "content": smart.mutiLineHTML(msg["content"])
               , "range": range ? range.id : "1"
               , "rangeGroup": rangeGroup
               , "atAccounts": at
+              , "praised": _.contains(msg.likers || [], $("#userid").val())
             }));
 
             var attaches = msg["attach"];
@@ -314,6 +316,7 @@
             }
             self.renderAttach(contentType, msg["_id"], attaches);
 
+            $("#praise_" + msg["_id"]).on("click", self.praise);
             $("#forwardMsg_" + msg["_id"]).on("click", self.forward);
             $("#replyButton_" + msg["_id"]).on("click", self.reply);
             $("#fetchreply_" + msg["_id"]).on("click", self.fetchReply);
@@ -454,6 +457,33 @@
     },
 
     /**
+     * 赞
+     */
+    praise: function(event) {
+
+      var self = this
+        , obj = $(event.target)
+        , mid = obj.attr("id").split("_")[1]
+        , praised = obj.hasClass("praised")
+        , url = praised ? "/message/unlike.json" : "/message/like.json";
+
+      smart.doput(url, {mid: mid}, function(err, result){
+        if(err) {
+          console.error(err);
+          return;
+        }
+
+        var likeNum = result.likers ? result.likers.length : 0;
+        obj.html(" " + likeNum);
+        if(praised) {
+          obj.removeClass("praised");
+        } else {
+          obj.addClass("praised");
+        }
+      });
+    },
+
+    /**
      * 转发消息
      */
     forward: function(mid) {
@@ -466,10 +496,10 @@
     /**
      * 回复消息
      */
-    reply: function(mid) {
+    reply: function(event, mid) {
       var self = this
         , url = "/message/create.json"
-        , mid = (typeof mid === "object") ? $(event.target).attr("id").split("_")[1] : mid
+        , mid = mid ? mid : $(event.target).attr("id").split("_")[1]
         , text = $("#reply_" + mid)
         , fd = new FormData();
 
@@ -487,7 +517,7 @@
       fd.append("content", _.escape(text.val()));
 
       smart.dopostData(url, fd, function(err, result){
-        self.fetchReply(mid, true);
+        self.fetchReply(null, mid, true);
         text.val("");
         //alert("reply");
       });
@@ -496,17 +526,17 @@
     /**
      * 检索回复消息
      */
-    fetchReply: function(mid, show) {
+    fetchReply: function(event, mid, show) {
 
       var self = this
-        , mid = (typeof mid === "object") ? $(event.target).attr("id").split("_")[1] : mid;
+        , mid = mid ? mid : $(event.target).attr("id").split("_")[1];
 
       if(!show && !$("#replyBox_" + mid).is(":hidden")) {
         $("#replyBox_" + mid).addClass("hidden");
         return;
       }
 
-      var url = "/message/list/reply.json?mid=" + mid;
+      var url = "/message/list/reply.json?mid=" + mid + "&start=0&count=10";
       smart.doget(url, function(error, result){
         var self = this
           , tmpl = $('#reply-template').html()
@@ -515,7 +545,7 @@
         // 清除原来的内容
         container.html("");
 
-        $("#fetchreply_" + mid).html(i18n["message.list.button.reply"] + "(" + result.total + ")");
+        $("#fetchreply_" + mid).html(" " + result.total);
 
         _.each(result.items, function(msg){
           var uinfo = msg["part"].createby
@@ -534,7 +564,9 @@
         });
 
         $("#replyBox_" + mid).removeClass("hidden");
-
+        if(result.total > 10) {
+          $("#reply-more_" + mid).css("display","block");
+        }
       });
     },
 
