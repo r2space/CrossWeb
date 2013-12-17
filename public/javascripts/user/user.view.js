@@ -157,6 +157,7 @@
      */
     showMessage: function(curpage) {
       $("#searchArea").hide();
+      $("#pagination").html("");
 
       var self = this
         , curpage = (typeof curpage === "object" || typeof curpage === "undefined") ? 1 : curpage

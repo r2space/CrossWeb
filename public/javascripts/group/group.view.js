@@ -68,7 +68,7 @@
       $("#group-name").text(groupName);
       $("#group-description").text(groupDescription);
 
-      var image = groupImage ? "/picture/" + groupImage.big : "/images/user.png";
+      var image = groupImage ? "/picture/" + groupImage.big : "/images/group.png";
       $("#groupImage img").attr("src", image);
       $("#target-photo").attr("src", image);
 
@@ -251,6 +251,7 @@
     showMessage: function(curpage) {
       $("#searchArea").hide();
       $("#searchInput").val("");
+      $("#pagination").html("");
 
       var self = this
         , curpage = (typeof curpage === "object" || typeof curpage === "undefined") ? 1 : curpage
