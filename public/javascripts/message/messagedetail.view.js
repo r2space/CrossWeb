@@ -170,10 +170,12 @@
         , "uphoto": photo
         , "replyNums": msg["part"].replyNums
         , "forwardNums": msg["part"].forwardNums
+        , "likeNums": msg.likers ? msg.likers.length : 0
         , "content": smart.mutiLineHTML(msg["content"])
         , "range": range ? range.id : "1"
         , "rangeGroup": rangeGroup
         , "atAccounts": at
+        , "praised": _.contains(msg.likers || [], $("#userid").val())
       }));
 
       var attaches = msg["attach"];
@@ -182,6 +184,7 @@
       }
       self.renderAttach(contentType, msg["_id"], attaches);
 
+      $("#praise_" + msg["_id"]).on("click", self.praise);
       $("#forwardMsg_" + msg["_id"]).on("click", self.fetchForward);
       $("#forwardButton_" + msg["_id"]).on("click", self.forward);
       $("#replyButton_" + msg["_id"]).on("click", self.reply);
@@ -318,7 +321,7 @@
         // 清除原来的内容
         container.html("");
 
-        $("#forwardMsg_" + mid).html(i18n["message.list.button.forward"]+"("+result.total+")");
+        $("#forwardMsg_" + mid).html(" "+result.total);
         smart.pagination(result.total, limit, curpage, "page_forward_"+mid, function(){
           var pagenum = $(event.target).attr("id").split("_")[1];
           if(pagenum > 0){
@@ -371,6 +374,33 @@
 
       self.initializeScopeArea(mid);
       self.initializeFinder(mid);
+    },
+
+    /**
+     * 赞
+     */
+    praise: function(event) {
+
+      var self = this
+        , obj = $(event.target)
+        , mid = obj.attr("id").split("_")[1]
+        , praised = obj.hasClass("praised")
+        , url = praised ? "/message/unlike.json" : "/message/like.json";
+
+      smart.doput(url, {mid: mid}, function(err, result){
+        if(err) {
+          console.error(err);
+          return;
+        }
+
+        var likeNum = result.likers ? result.likers.length : 0;
+        obj.html(" " + likeNum);
+        if(praised) {
+          obj.removeClass("praised");
+        } else {
+          obj.addClass("praised");
+        }
+      });
     },
 
     forward: function(mid) {
@@ -476,7 +506,7 @@
         container.html("");
 
         var total = result.total;
-        $("#fetchreply_" + mid).html(i18n["message.list.button.reply"]+"("+total+")");
+        $("#fetchreply_" + mid).html(" " + total);
 
         smart.pagination(total, limit, curpage, "page_container_"+mid, function(){
           var pagenum = $(event.target).attr("id").split("_")[1];
@@ -546,7 +576,9 @@
             $("#keywordsText-selector-"+mid).val("");
             $("#keywordsText-selector-"+mid).attr("scope",uid);
             $("#textBoxNotice-selector-"+mid).find("ol").remove();
-          }   
+          } else {
+            $("#keywordsText-selector-"+mid).attr("scope",uid);
+          }
 
           $("#selectedscope-selector-"+mid).attr("uid", $(event.target).attr("uid"));
           $("#selectedscope-selector-"+mid).html($(event.target).html());

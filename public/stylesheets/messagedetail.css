@@ -38,3 +38,13 @@
   border-radius: 4px;
   width: 100px;
 }
+
+.operation {
+  display: inline-block;
+  width:50px;
+  font-size: 1.2em;
+  color: #C0B9B9 !important;
+}
+.praised {
+  color: #F7823A;
+}

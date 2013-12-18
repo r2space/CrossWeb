@@ -78,26 +78,29 @@
       <dl>
         <dd style="margin-left:0px;">
           <div style="margin-bottom: 6px;">
-            <span style="color: #BBB;">{{time}}</span>
+            <span style="color: #5C5A5A;margin-left:5px;">{{time}}</span>
             <span class="pull-right">
               <a class="hidden" href="javascript://" id="delete_{{mid}}"><%= i('message.list.button.delete') %></a>
               <a href="javascript://" class="hide"><%= i('message.list.button.totop') %></a>
-              <a href="javascript://" class="hide"><%= i('message.list.button.good') %></a>
-              <a href="javascript://" id="forwardMsg_{{mid}}">
-                <%= i('message.list.button.forward') %>({{ forwardNums }})
+              <a href="javascript://" class="operation">
+                <i id="praise_{{mid}}" class="icon-thumbs-up <$ if(praised) { $> praised <$ } $>" title="<%= i('message.list.button.good') %>">&nbsp;{{likeNums}}</i>
+              </a>
+              <a href="#message-selector" data-toggle="modal" class="operation">
+                <i id="forwardMsg_{{mid}}" class="icon-share" title="<%= i('message.list.button.forward') %>">&nbsp;{{forwardNums}}</i>
               </a>
               <a href="javascript://" class="hide"><%= i('message.list.button.mark') %></a>
-              <a href="javascript://" id="fetchreply_{{mid}}" class="toggle-replies">
-                <%= i('message.list.button.reply') %>({{ replyNums }})
+              <a href="javascript://" class="operation">
+                <i id="fetchreply_{{mid}}" class="icon-comment" title="<%= i('message.list.button.reply') %>">&nbsp;{{replyNums}}</i>
               </a>
+            </span>
           </div>
           <div id="replyBox_{{ mid }}" style="border-width: 1px;border-style:solid;padding: 10px 20px 10px;border-radius: 3px;border-color: #d9d9d9;">
-            <div style="margin: -18px 0 0 500px;">
+            <div style="margin: -18px 0 0 490px;">
               <em style="font-family: 'SimSun';font-size: 12px;line-height: 1.231;display: block;height: 12px;color: #d9d9d9;font-style: normal;font-weight: normal;">◆</em>
               <span style="margin: -11px 0 0;width: 22px;font-family: 'SimSun';overflow: hidden;font-size: 12px;line-height: 1.231;display: block;height: 12px;color: #fafafa;font-style: normal;font-weight: normal;">◆</span>
             </div>
             <p style="margin-bottom: -7px;">
-              <textarea id="reply_{{ mid }}" style="width:493px" rows="2" placeholder="<%= i('message.list.button.reply') %>" range={{ range}}></textarea>
+              <textarea id="reply_{{ mid }}" style="width:493px;height: 50px;border: 1px solid #d9d9d9;" rows="2" placeholder="<%= i('message.list.button.reply') %>" range={{ range}}></textarea>
             </p>
             <p style="margin-bottom: 5px;text-align: right;">
               <a id="replyButton_{{ mid }}" class="btn btn-mini btn-success"><%= i('message.list.button.reply') %></a>
@@ -110,7 +113,7 @@
           </div>
 
           <div id="forwardBox_{{ mid }}" class="hidden" style="border-width: 1px;border-style:solid;padding: 10px 20px 10px;border-radius: 3px;border-color: #d9d9d9;">
-            <div style="margin: -18px 0 0 460px;">
+            <div style="margin: -18px 0 0 435px;">
               <em style="font-family: 'SimSun';font-size: 12px;line-height: 1.231;display: block;height: 12px;color: #d9d9d9;font-style: normal;font-weight: normal;">◆</em>
               <span style="margin: -11px 0 0;width: 22px;font-family: 'SimSun';overflow: hidden;font-size: 12px;line-height: 1.231;display: block;height: 12px;color: #fafafa;font-style: normal;font-weight: normal;">◆</span>
             </div>
@@ -123,7 +126,7 @@
                 </div>
               </div>
             </p>
-            <div class="publish">
+            <div class="publish" style="padding-top: 0">
               <span id="selectedscope-selector-{{ mid }}" uid="1"><%= i('message.list.selector.scope') %></span>
               <a id="scopesetter-selector-{{ mid }}"><i class="icon-caret-down" style="padding: 5px;"></i></a>
               <ul id="scope-selector-{{ mid }}" class="scope">
@@ -160,7 +163,7 @@
     <p style="margin-bottom: 1px;">
       <img src="{{ uphoto }}" style="width:30px; height:30px;">
       <span><a href="/user/{{ uid }}">{{ uname }}</a> : {{ content }}</span>
-      <p style="color: #BBB;">{{ time }}  </p>
+      <p style="color: #5C5A5A;margin-left:5px;">{{ time }}  </p>
     </p>
     </script>
 
@@ -169,7 +172,7 @@
     <p style="margin-bottom: 1px;">
       <img src="{{ uphoto }}" style="width:30px; height:30px;">
       <a href="/user/{{ uid }}">{{ uname }}</a>{{rangeGroup}} : {{ content }} {{at}}
-      <br/><a href="/message/{{mid}}" style="color: #BBB;">{{ time }}</a>
+      <br/><a href="/message/{{mid}}" style="color: #5C5A5A;margin-left:5px;">{{ time }}</a>
     </p>
     </script>
 
