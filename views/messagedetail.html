@@ -62,14 +62,16 @@
     <% include common/footer.html %>
     <script type="text/template" id="message-template">
 
-      <dl style="background-color: #EEF; margin-bottom: 1px;">
+      <dl style="background-color: #FFFFFF; margin-bottom: 1px;">
         <dt><%= i('message.detail.label.range') %></dt>
         <dd style="margin-left:20px;">{{ rangeGroup }}</dd>
         <dt><%= i('message.detail.label.content') %></dt>
-        <dd style="margin-left:20px;">{{ content }}</dd>
+        <dd style="margin-left:20px;word-wrap: break-word;">{{ content }}</dd>
         <dt><%= i('message.detail.label.notice') %></dt>
         <dd style="margin-left:20px;">{{ atAccounts }}</dd>
       </dl>
+
+      <hr>
 
       <dl id="attach_container_{{ mid }}" style="margin-bottom: 1px;"/>
 
