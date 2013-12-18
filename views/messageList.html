@@ -111,19 +111,16 @@
           <a href="/user/{{uid}} "><img src="{{ uphoto }}" style="width: 56px;"></a>
         </dt>
         <dd class="message-content">
-          <p style="background-color: #EEF; margin-bottom: 1px;">
-            <a href="/user/{{uid}}" id="{{uid}}" class="userLink">{{ uname }}</a>:
-             <!--提到我--><%= i('message.list.lable.atme') %>   （{{ time }}）<br/>
-             
+          <p style="margin-bottom: 1px;">
+            <a href="/user/{{uid}}" id="{{uid}}" class="userLink">{{ uname }}</a>&nbsp;:&nbsp;
+             <!--提到我--><%= i('message.list.lable.atme') %>   
           </p>
           <p id="attach_container_{{ mid }}" style="margin-bottom: 1px;"></p>
-          <p class="message-info">
+          <p class="message-info" style="margin-bottom:1px;">
             <span style="color: #BBB;"><!--在微博中提到我--><%= i('message.list.lable.atmemsg') %> 
              #<a href="/message/{{mid}}" id="" class="userLink">{{ title }}</a>#</span>
-            <span class="pull-right">
-              <a href="/message/{{mid}}" id="delete_{{ mid }}"><!--回复--><%= i('message.list.button.replymsg') %></a>
-          </a></span>
           </p>
+          <p>{{ time }}</p>
         </dd>
         <a href="javascript://" id="fetchreply_51527ae461c7e27819000009" class="toggle-replies">
         <hr>
@@ -137,19 +134,16 @@
           <a href="/user/{{uid}} "><img src="{{ uphoto }}" style="width: 56px;"></a>
         </dt>
         <dd class="message-content">
-          <p style="background-color: #EEF; margin-bottom: 1px;">
+          <p style="margin-bottom: 1px;">
             <a href="/user/{{uid}}" id="{{uid}}" class="userLink">{{ uname }}</a>:
-             <!--回复我--><%= i('message.list.lable.replyme') %> （{{ time }}）<br/>
-             
+             <!--回复我--><%= i('message.list.lable.replyme') %>
           </p>
           <p id="attach_container_{{ mid }}" style="margin-bottom: 1px;"></p>
-          <p class="message-info">
+          <p class="message-info" style="margin-bottom:1px;">
             <span style="color: #BBB;"><!--回复我的微博 内容--><%= i('message.list.button.replycontent') %>
              #<a href="/message/{{mid}}" id="" class="userLink">{{ title }}</a>#</span>
-            <span class="pull-right">
-              <a href="/message/{{mid}}" id="delete_{{ mid }}"><!--回复--><%= i('message.list.button.replymsg') %></a>
-          </a></span>
           </p>
+          <p>{{ time }}</p>
         </dd>
         <a href="javascript://" id="fetchreply_51527ae461c7e27819000009" class="toggle-replies">
         <hr>
