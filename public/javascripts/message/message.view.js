@@ -404,7 +404,7 @@
         if(range){
           //sl_yang
           var rName = range.name && range.name.name_zh ? range.name.name_zh : "";
-          rangeGroup = " <a href='/group/" + range.id + "' id=" + range.id + " class='userLink'>(" + rName + ")</a>";
+          rangeGroup = " <a href='/group/" + range._id + "' id=" + range._id + " class='userLink'>(" + rName + ")</a>";
         }
 
         var at = "";
