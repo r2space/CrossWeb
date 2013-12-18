@@ -221,6 +221,16 @@
         , container = src.parent()
         , item = _.template(tmpl, {"uid": uid, "uname": uname, "type": type});
 
+      var exist = false;
+      container.find("li[uid]").each(function() {
+        if($(this).attr("uid") === uid) {
+          exist = true;
+        }
+      });
+      if(exist) {
+        return;
+      }
+
       item = item.replace(/\n/g, "").replace(/^[ ]*/, "");
       $(item).insertBefore(src);
 
