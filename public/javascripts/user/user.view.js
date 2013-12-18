@@ -185,7 +185,7 @@
 
             var rangeGroup = "";
             if(range){
-              rangeGroup = " <a href='/group/" + range.id + "' id=" + range.id + " class='userLink'>(" + range.name.name_zh + ")</a>";
+              rangeGroup = " <a href='/group/" + range._id + "' id=" + range._id + " class='userLink'>(" + range.name.name_zh + ")</a>";
             }
 
             var at = "";
