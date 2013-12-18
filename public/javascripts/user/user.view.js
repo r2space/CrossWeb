@@ -91,6 +91,7 @@
       $("#user_title").html(detail);
       $("#followingCount").html(this.model.get("following").length);
       $("#followerCount").html(this.model.get("follower").length);
+      $("#joinedGroupCount").html(this.model.get("groups").length);
 
       // 如果是自己，显示编辑按钮
       if (this.model.id === $("#userid").val()) {

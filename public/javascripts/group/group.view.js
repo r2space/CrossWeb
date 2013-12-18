@@ -65,7 +65,7 @@
         , loginId = $("#userid").val();
 
       var mainOwner = this.model.get("mainOwner");
-      $("#brief").append(_.template($("#groupbreif-template").html(), {
+      $("#brief").html(_.template($("#groupbreif-template").html(), {
           "name": groupName
         , "visibility": (groupSecure == 1 ? i18n["group.groupview.secure.1"] : i18n["group.groupview.secure.2"])
         , "ownerId": (mainOwner ? mainOwner._id : "" )
@@ -75,6 +75,8 @@
       var image = (groupImage && groupImage.big) ? "/picture/" + groupImage.big : "/images/group.png";
       $("#groupImage img").attr("src", image);
       $("#target-photo").attr("src", image);
+
+      $("#memberCount").html(groupMembers.length);
 
       // 组的操作按钮
       $("#editGroup").addClass("hide");

@@ -280,6 +280,8 @@ exports.getGroupList = function(handler, callback) {
           handler.addParams("gid", group._id.toString());
           handler.addParams("start", 0);
           handler.addParams("limit", Number.MAX_VALUE);
+          handler.removeParams("keywords");
+          handler.removeParams("firstLetter");
 
           exports.getMember(handler, function(err, resultUsers) {
             if(resultUsers) {
