@@ -27,11 +27,14 @@
                     </form-->
                     <ul class="nav pull-right">
                         <li class="dropdown">
-                            <a href="#" class="dropdown-toggle" data-toggle="dropdown"><img src="/images/butterfly.png" style="height: 20px;width: 20px;"><small>&nbsp;&nbsp; {{name}}</small></a>
+                            <a href="#" class="dropdown-toggle" data-toggle="dropdown">
+                              <img src="<%= (user.extend.photo && user.extend.photo.small)?('/picture/' + user.extend.photo.small):'/images/user.png' %>" style="height: 20px;width: 20px;">
+                              <small>&nbsp;&nbsp; <%= user.extend.name_zh %></small>
+                            </a>
                             <ul class="dropdown-menu">
-                                <li><a href="/usereditor"><i class="icon-cog"></i>&nbsp;&nbsp;Profile</a></li>
+                                <li><a href="/usereditor"><i class="icon-cog"></i>&nbsp;&nbsp;<%=i('navbar.user.editProfile')%></a></li>
                                 <li class="divider"></li>
-                                <li><a id="_logout" href="/simplelogout"><i class="icon-signout"></i>&nbsp;&nbsp;Logout</a></li>
+                                <li><a id="_logout" href="/simplelogout"><i class="icon-signout"></i>&nbsp;&nbsp;<%=i('navbar.user.logout')%></a></li>
                             </ul>
                         </li>
                     </ul>

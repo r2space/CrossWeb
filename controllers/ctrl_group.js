@@ -413,8 +413,6 @@ exports.getGroup = function(handler, callback) {
  */
 exports.addMember = function(handler, callback) {
 
-  // TODO 没有发通知
-
   if(!handler.params.uid) {
     handler.addParams("uid", handler.uid.toString());
   }
@@ -453,8 +451,6 @@ exports.addMember = function(handler, callback) {
  * 删除成员
  */
 exports.removeMember = function(handler, callback) {
-
-  // TODO 没有发通知
 
   if(!handler.params.uid) {
     handler.addParams("uid", handler.uid.toString());
