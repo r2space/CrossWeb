@@ -267,6 +267,17 @@ exports.getGroupList = function(handler, callback) {
       }
     }
 
+    var finalCondition = handler.params.condition;
+    if(_.isEmpty(finalCondition)) {
+      finalCondition = {"valid": 1};
+    } else {
+      finalCondition = {$and: [finalCondition, {"valid": 1}]};
+    }
+
+    handler.addParams("condition", finalCondition);
+    console.log(finalCondition);
+
+
     handler.addParams("skip", params.start || params.skip);
     handler.addParams("limit", params.limit || params.count);
     handler.addParams("order", "type name");
@@ -451,6 +462,7 @@ exports.addMember = function(handler, callback) {
  * 删除成员
  */
 exports.removeMember = function(handler, callback) {
+
 
   if(!handler.params.uid) {
     handler.addParams("uid", handler.uid.toString());
