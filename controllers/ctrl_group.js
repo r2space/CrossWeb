@@ -275,7 +275,6 @@ exports.getGroupList = function(handler, callback) {
     }
 
     handler.addParams("condition", finalCondition);
-    console.log(finalCondition);
 
 
     handler.addParams("skip", params.start || params.skip);
