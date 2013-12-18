@@ -3,9 +3,8 @@
  * 搜索用户，组
  */
 (function(Finder) {
-
   Finder.View = Backbone.View.extend({
-    
+
     /**
      * 初始化
      */
@@ -17,11 +16,9 @@
     /**
      * 显示用户一览
      */
-    render: function () {
+    render: function (users, groups) {
 
       var self = this
-        , users = this.model.get("user")
-        , groups = this.model.get("group")
         , tmpl = $('#_findresult-template').html()
         , resultlist = $('#_findresult ul')
         , finder = $('#_findresult');
@@ -80,7 +77,7 @@
         });
       });
     },
-        
+
     /**
      * 检索用户
      */
@@ -122,7 +119,7 @@
             Alertify.log.error(i18n["fail"]);
           },
           success: function() {
-            self.render();
+            self.render(self.model.get("user"), self.model.get("group"));
           }
         });
       }
@@ -139,19 +136,21 @@
         return;
       }
 
-      self.model.scope = scope;
-      self.model.keywords = "";
-      self.model.fetch({
-        error: function(){
-          Alertify.log.error(i18n["fail"]);
-        },
-        success: function() {
-          self.render();
+      var url = "/user/list.json?kind=following&start=0&limit=" + smart.defaultPageSize;
+      if(scope !== "1") {
+        url += "&gid=" + scope;
+      }
+      smart.doget(url, function(err, result){
+        if (err) {
+          console.error(err);
+          return;
         }
+
+        self.render(result.items, []);
       });
+
     }
 
   });
-  
 })(smart.view("finder"));
 

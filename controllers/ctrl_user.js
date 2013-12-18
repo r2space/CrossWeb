@@ -250,6 +250,13 @@ exports.getUserList = function(handler, callback){
         {"_id": {$in: result.extend.following}}
       ]};
 
+      if(gid) {
+        condition = {$and: [
+          condition,
+          {"groups": gid}
+        ]};
+      }
+
       handler.addParams("condition", condition);
       handler.addParams("skip", params.start || params.skip);
       handler.addParams("limit", params.limit || params.count);

@@ -184,6 +184,8 @@
             $("#keywordsDocument").val("");
             $("#keywordsDocument").attr("scope",uid);
             $("#documentBoxNotice").find("ol").remove();
+          } else {
+            $("#keywordsText").attr("scope", "1");
           }
          
           $("#selectedscope").attr("uid", uid);
