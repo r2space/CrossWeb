@@ -161,7 +161,7 @@
 
       var keyword = $("#searchInput").val();
       var self = this
-        , url = self.kind == 2 ? "/user/list.json?"
+        , url = self.kind == 2 ? "/user/list.json?needDept=false"
             : "/group/members.json?";
       if(keyword) {
         url += "&keywords=" + keyword;

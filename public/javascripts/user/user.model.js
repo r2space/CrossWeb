@@ -56,7 +56,7 @@
     url: function() {
 
       var result = this.urlRoot + "?start=" + (this.pagenum - 1)*smart.defaultPageSize +
-        "&count=" + smart.defaultPageSize;
+        "&count=" + smart.defaultPageSize + "&needDept=false";
 
       if (this.uid.length > 0) {
         result += "&uid=" + this.uid;

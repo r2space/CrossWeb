@@ -493,7 +493,7 @@
       $("#searchInput").attr("kind", kind);
 
       var self = this;
-      var url = "/user/list.json?kind=" + kind 
+      var url = "/user/list.json?needDept=false&kind=" + kind
         + "&uid=" + self.model.id + "&keywords=" + $("#searchInput").val() +
         "&start=" + start + "&limit=" + smart.defaultPageSize;
 
