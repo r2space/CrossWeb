@@ -114,7 +114,9 @@ initializeScopeArea : function () {
         $("#keywordsText-selector").val("");
         $("#keywordsText-selector").attr("scope",uid);
         $("#textBoxNotice-selector").find("ol").remove();
-      }     
+      } else {
+        $("#keywordsText-selector").attr("scope",uid);
+      }
       $("#selectedscope-selector").attr("uid", $(event.target).attr("uid"));
       $("#selectedscope-selector").html($(event.target).html());
       $("#scope-selector").hide();
