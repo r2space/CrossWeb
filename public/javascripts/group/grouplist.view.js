@@ -74,7 +74,7 @@
             , "members": group.get("member").length
             , "lastModify": group.get("editat").substr(0, 10)
             , "joined": _.contains(group.get("member"), uid)
-            , "canLeave": !(_.contains(group.get("owner"), uid) && group.get("owner").length === 1)
+            , "canLeave": !(_.contains(group.get("owner"), uid))
           }));
         });
 
