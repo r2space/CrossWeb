@@ -440,8 +440,13 @@ var smart = {
    *  position: 消息框出现的位置, 没设定则显示在画面中间
    */
   show: function(type, title, message, destroy, position) {
-    Alertify.log.success(message);
-    
+    if (type == "success") {
+      Alertify.log.success(message);
+    } else if (type == "warning"){
+      Alertify.log.warn(message);
+    } else if (type == "error") {
+      Alertify.log.error(message);
+    }
     var tmpl = $("#alert-template").html();
 
     // // 显示消息框

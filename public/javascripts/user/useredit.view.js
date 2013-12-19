@@ -90,12 +90,12 @@
       this.model.set({
         name: {name_zh: $("#user-name").val(), letter_zh: $("#user-last").val()},
         email: {email1: $("#user-email").val()},
-        title: $("#user-title").val(),
+        //title: $("#user-title").val(),
         custom: {memo: $("#user-memo").val()},
         tel: {mobile: $("#user-telephone").val()},
 
-        address: {country: $("#user-address").val()},
-        birthday:$("#user-birthday").val(),
+        //address: {country: $("#user-address").val()},
+        //birthday:$("#user-birthday").val(),
         lang: $("#user-language").val(),
         timezone: $("#user-timezone").val()
       });
@@ -127,17 +127,22 @@
       if(_pwd && _pwd1 && _pwd2){
         
         if(_pwd1 != _pwd2){
-          alert(i18n["user.error.diffentPwd"]);
+          smart.show("error", i18n["user.error.diffentPwd"], i18n["user.error.diffentPwd"]);
+          //alert(i18n["user.error.diffentPwd"]);
           return false;
         }
 
         this.model.set({
           password_new: {pwd: _pwd, pwd1: _pwd1}
         });
+        return true;
 
+      } else if(_pwd || _pwd1 || _pwd2){
+        smart.show("error", i18n["user.error.wrongPwd"], i18n["user.error.wrongPwd"]);
+        return false;
       }
-
       return true;
+
     },
 
     /**
