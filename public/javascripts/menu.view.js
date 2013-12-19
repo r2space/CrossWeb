@@ -224,7 +224,7 @@
      */
     initMqPushEvent: function() {
       var self = this;
-
+      return;
       try {
         var socket = io.connect('http://10.2.8.232:3001');
 
