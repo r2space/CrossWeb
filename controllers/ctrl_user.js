@@ -158,7 +158,7 @@ exports.getUserList = function(handler, callback){
     ];
   }
 
-  var needDept = params.needDept === "false" ? false : true;
+  var needDept = (params.needDept === "false" || params.needDept === false) ? false : true;
 
   // 获取所有用户
   if (kind_ == "all") {
@@ -181,6 +181,7 @@ exports.getUserList = function(handler, callback){
 
       user.getList(handler, function(err, result){
         var uList = [];
+        var groupCache = {};
         async.eachSeries(result.items, function(item, done){
           var u = trans_user_api(item);
           if (follower) {
@@ -188,12 +189,23 @@ exports.getUserList = function(handler, callback){
           }
 
           if(u.groups && u.groups.length > 0 && needDept) {
-            handler.addParams("gid", u.groups[0]);
-            group.getGroup(handler, function(err, result) {
-              u.department = result;
+            var tempGid = u.groups[0];
+            if(groupCache[tempGid]) {
+              u.department = groupCache[tempGid];
               uList.push(u);
-              done(err);
-            });
+              done(null);
+            } else {
+              handler.addParams("gid", tempGid);
+              handler.addParams("needMember", false);
+              group.getGroup(handler, function(err, result) {
+                if(result) {
+                  u.department = result;
+                  groupCache[tempGid] = result;
+                }
+                uList.push(u);
+                done(err);
+              });
+            }
           } else {
             u.department = null;
             uList.push(u);
@@ -215,18 +227,28 @@ exports.getUserList = function(handler, callback){
     handler.addParams("limit", params.limit || params.count);
     user.getList(handler, function(err, result){
       var uList = [];
+      var groupCache = {};
       async.eachSeries(result.items, function(item, done){
         var u = trans_user_api(item);
         if(u.groups && u.groups.length > 0 && needDept) {
-          handler.addParams("gid", u.groups[0]);
-          group.getGroup(handler, function(err, result) {
-            if(err) {
-              return done(err);
-            }
-            u.department = result;
+          var tempGid = u.groups[0];
+          if(groupCache[tempGid]) {
+            u.department = groupCache[tempGid];
             uList.push(u);
-            return done();
-          });
+            done(null);
+          } else {
+            handler.addParams("gid", tempGid);
+            handler.addParams("needMember", false);
+            group.getGroup(handler, function(err, result) {
+              if(err) {
+                return done(err);
+              }
+              u.department = result;
+              groupCache[tempGid] = result;
+              uList.push(u);
+              return done();
+            });
+          }
         } else {
           uList.push(u);
           return done();
@@ -265,18 +287,28 @@ exports.getUserList = function(handler, callback){
 
       user.getList(handler, function(err, result){
         var uList = [];
+        var groupCache = {};
         async.eachSeries(result.items, function(item, done){
           var u = trans_user_api(item);
           if(u.groups && u.groups.length > 0 && needDept) {
-            handler.addParams("gid", u.groups[0]);
-            group.getGroup(handler, function(err, result) {
-              if(err) {
-                return done(err);
-              }
-              u.department = result;
+            var tempGid = u.groups[0];
+            if(groupCache[tempGid]) {
+              u.department = groupCache[tempGid];
               uList.push(u);
-              return done();
-            });
+              done(null);
+            } else {
+              handler.addParams("gid", tempGid);
+              handler.addParams("needMember", false);
+              group.getGroup(handler, function(err, result) {
+                if(err) {
+                  return done(err);
+                }
+                u.department = result;
+                groupCache[tempGid] = result;
+                uList.push(u);
+                return done();
+              });
+            }
           } else {
             uList.push(u);
             return done();

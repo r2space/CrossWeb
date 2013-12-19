@@ -292,17 +292,10 @@ exports.getGroupList = function(handler, callback) {
         async.eachSeries(resultGroups.items, function(group, done) {
 
           handler.addParams("gid", group._id.toString());
-          handler.addParams("start", 0);
-          handler.addParams("limit", Number.MAX_VALUE);
-          handler.removeParams("keywords");
-          handler.removeParams("firstLetter");
 
-          exports.getMember(handler, function(err, resultUsers) {
+          exports.getAllMemberIds(handler, function(err, resultUsers) {
             if(resultUsers) {
-              group.member = [];
-              _.each(resultUsers.items, function(user) {
-                group.member.push(user._id.toString());
-              });
+              group.member = resultUsers;
             }
 
             done(err);
@@ -374,6 +367,7 @@ exports.updateGroup = function(handler, callback) {
 exports.getGroup = function(handler, callback) {
 
   handler.addParams("gid", handler.params._id || handler.params.gid);
+  var needMember = (handler.params.needMember === false || handler.params.needMember === "false") ? false : true;
 
   ctrlGroup.get(handler, function(err, resultGroup) {
     if(err) {
@@ -381,6 +375,10 @@ exports.getGroup = function(handler, callback) {
     }
 
     var resultGroup = transResult(resultGroup);
+
+    if(!needMember) {
+      return callback(err, resultGroup);
+    }
 
     var condition = {
       groups: resultGroup._id.toString()
@@ -551,6 +549,46 @@ exports.getMember = function(handler, callback) {
 
       return callback(err, transUserResult(result));
     });
+  });
+
+};
+
+/**
+ * 获取组成员一览
+ */
+exports.getAllMemberIds = function(handler, callback) {
+
+  var params = handler.params;
+
+  handler.addParams("recursive", false);
+  handler.addParams("skip", 0);
+  handler.addParams("limit", Number.MAX_VALUE);
+
+  ctrlGroup.getUsersInGroup(handler, function(err, resultUsers) {
+
+    if(err) {
+      return callback(err);
+    }
+
+    return callback(err, resultUsers.items);
+  });
+
+};
+
+/**
+ * 获取组成员数目
+ */
+exports.getMemberCount = function(handler, callback) {
+
+  handler.addParams("recursive", false);
+
+  ctrlGroup.getUsersInGroup(handler, function(err, resultUsers) {
+
+    if(err) {
+      return callback(err);
+    }
+
+    return callback(err, resultUsers.totalItems);
   });
 
 };
