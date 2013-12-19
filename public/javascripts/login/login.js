@@ -38,7 +38,7 @@ function login() {
 
     smart.doget("/simplelogin?name=" + username + "&password=" + password, function(err, result) {
       if (err) {
-        return smart.show("error", "Not correct password", "Not correct password");
+        return smart.show("error", "Not correct", "UserID or Password is not correct.");
         //return Alertify.log.info("Not correct");
       }
 
