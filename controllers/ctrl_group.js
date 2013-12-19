@@ -200,6 +200,7 @@ exports.getGroupList = function(handler, callback) {
 
   var params = handler.params;
   var joined = params.joined;
+  var needMember = params.needMember;
 
   var targetUid = params.uid || handler.uid.toString();
 
@@ -284,6 +285,9 @@ exports.getGroupList = function(handler, callback) {
     ctrlGroup.getList(handler, function(err, resultGroups) {
       if(resultGroups) {
         resultGroups = transResult(resultGroups);
+        if(needMember === false || needMember === "false") {
+          return callback(err, resultGroups);
+        }
         // 设置成员
         async.eachSeries(resultGroups.items, function(group, done) {
 
@@ -623,6 +627,9 @@ exports.getAllGroupByUid = function(uid, callback) {
   var handler = new context().bind({ session: { user: { _id: constant.DEFAULT_USER } } }, {});
   handler.addParams("uid", uid);
   handler.addParams("joined", true);
+  handler.addParams("start", 0);
+  handler.addParams("limit", Number.MAX_VALUE);
+  handler.addParams("needMember", false);
   exports.getGroupList(handler, function(err, result) {
     if(err) {
       return callback(err);

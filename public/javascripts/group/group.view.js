@@ -102,7 +102,7 @@
           $("#editGroup").removeClass("hide");
         }
 
-        if(groupSecure === "1" && !_.contains(groupOwners, loginId)) {
+        if((groupSecure === "1" && !_.contains(groupOwners, loginId)) || !_.contains(groupMembers, loginId)) {
           $("#showAllUser").hide();
         }
       }
