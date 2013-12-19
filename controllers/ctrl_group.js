@@ -367,6 +367,7 @@ exports.updateGroup = function(handler, callback) {
 exports.getGroup = function(handler, callback) {
 
   handler.addParams("gid", handler.params._id || handler.params.gid);
+  var needMember = (handler.params.needMember === false || handler.params.needMember === "false") ? false : true;
 
   ctrlGroup.get(handler, function(err, resultGroup) {
     if(err) {
@@ -374,6 +375,10 @@ exports.getGroup = function(handler, callback) {
     }
 
     var resultGroup = transResult(resultGroup);
+
+    if(!needMember) {
+      return callback(err, resultGroup);
+    }
 
     var condition = {
       groups: resultGroup._id.toString()
