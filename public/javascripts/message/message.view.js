@@ -152,7 +152,7 @@
     initializeScopeArea: function() {
 
       // 获取部门/组
-      var url = "/group/list.json?joined=true&uid=" + smart.uid();
+      var url = "/group/list.json?joined=true&uid=" + smart.uid() + "&needMember=false";
       smart.doget(url, function(err, result){
         var scope = $("#scope")
           , tmpl = $("#message-scope-template").html();
