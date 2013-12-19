@@ -144,7 +144,7 @@
 
       var rangeGroup = i18n["message.list.selector.scope"];
       if(range){
-        rangeGroup = " <a href='/group/" + range.id + "' id=" + range.id + " class='userLink'>" + range.name.name_zh + "</a>";
+        rangeGroup = " <a href='/group/" + range._id + "' id=" + range._id + " class='userLink'>" + range.name.name_zh + "</a>";
       }
 
       var at = "";
@@ -558,7 +558,7 @@
       }
 
       // 获取部门/组
-      var url = "/group/list.json?joined=true&uid=" + smart.uid();
+      var url = "/group/list.json?joined=true&uid=" + smart.uid() + "&needMember=false";
       smart.doget(url, function(err, result){
         var scope = $("#scope-selector-"+mid)
           , tmpl = $("#message-scope-template").html();
@@ -617,6 +617,16 @@
       var tmpl = $("#selected-user-template").html()
         , container = src.parent()
         , item = _.template(tmpl, {"uid": uid, "uname": uname, "type": type});
+
+      var exist = false;
+      container.find("li[uid]").each(function() {
+        if($(this).attr("uid") === uid) {
+          exist = true;
+        }
+      });
+      if(exist) {
+        return;
+      }
 
       item = item.replace(/\n/g, "").replace(/^[ ]*/, "");
       $(item).insertBefore(src);

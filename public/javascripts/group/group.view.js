@@ -65,7 +65,7 @@
         , loginId = $("#userid").val();
 
       var mainOwner = this.model.get("mainOwner");
-      $("#brief").append(_.template($("#groupbreif-template").html(), {
+      $("#brief").html(_.template($("#groupbreif-template").html(), {
           "name": groupName
         , "visibility": (groupSecure == 1 ? i18n["group.groupview.secure.1"] : i18n["group.groupview.secure.2"])
         , "ownerId": (mainOwner ? mainOwner._id : "" )
@@ -75,6 +75,8 @@
       var image = (groupImage && groupImage.big) ? "/picture/" + groupImage.big : "/images/group.png";
       $("#groupImage img").attr("src", image);
       $("#target-photo").attr("src", image);
+
+      $("#memberCount").html(groupMembers.length);
 
       // 组的操作按钮
       $("#editGroup").addClass("hide");
@@ -100,7 +102,7 @@
           $("#editGroup").removeClass("hide");
         }
 
-        if(groupSecure === "1" && !_.contains(groupOwners, loginId)) {
+        if((groupSecure === "1" && !_.contains(groupOwners, loginId)) || !_.contains(groupMembers, loginId)) {
           $("#showAllUser").hide();
         }
       }
@@ -161,7 +163,7 @@
 
       var keyword = $("#searchInput").val();
       var self = this
-        , url = self.kind == 2 ? "/user/list.json?"
+        , url = self.kind == 2 ? "/user/list.json?needDept=false"
             : "/group/members.json?";
       if(keyword) {
         url += "&keywords=" + keyword;
@@ -283,7 +285,7 @@
 
             var rangeGroup = "";
             if(range){
-              rangeGroup = " <a href='/group/" + range.id + "' id=" + range.id + " class='userLink'>(" + range.name.name_zh + ")</a>";
+              rangeGroup = " <a href='/group/" + range._id + "' id=" + range._id + " class='userLink'>(" + range.name.name_zh + ")</a>";
             }
 
             var at = "";

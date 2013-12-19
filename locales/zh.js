@@ -35,6 +35,8 @@
 	"navbar.menu.calendar": "日程",
 	"navbar.search.moreResult": "显示更多的搜索结果",
 	"navbar.search.more": "显示更多...",
+  "navbar.user.editProfile": "基本信息",
+  "navbar.user.logout": "退出",
 	"window.title.messageDetail": "消息详细",
 	"window.title.fileDetail": "文书详细",
 	"window.title.fulltextsearch": "检索结果",

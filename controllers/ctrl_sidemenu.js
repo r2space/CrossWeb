@@ -111,6 +111,7 @@ exports.group = function(uid, callback_) {
   var handler = new context().bind({ session: { user: { _id: constant.DEFAULT_USER } } }, {});
   handler.addParams("uid", uid);
   handler.addParams("joined", true);
+  handler.addParams("needMember", false);
 
   group.getGroupList(handler, function(err, result){
     

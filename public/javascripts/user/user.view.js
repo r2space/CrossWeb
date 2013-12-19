@@ -91,6 +91,7 @@
       $("#user_title").html(detail);
       $("#followingCount").html(this.model.get("following").length);
       $("#followerCount").html(this.model.get("follower").length);
+      $("#joinedGroupCount").html(this.model.get("groups").length);
 
       // 如果是自己，显示编辑按钮
       if (this.model.id === $("#userid").val()) {
@@ -185,7 +186,7 @@
 
             var rangeGroup = "";
             if(range){
-              rangeGroup = " <a href='/group/" + range.id + "' id=" + range.id + " class='userLink'>(" + range.name.name_zh + ")</a>";
+              rangeGroup = " <a href='/group/" + range._id + "' id=" + range._id + " class='userLink'>(" + range.name.name_zh + ")</a>";
             }
 
             var at = "";
@@ -493,7 +494,7 @@
       $("#searchInput").attr("kind", kind);
 
       var self = this;
-      var url = "/user/list.json?kind=" + kind 
+      var url = "/user/list.json?needDept=false&kind=" + kind
         + "&uid=" + self.model.id + "&keywords=" + $("#searchInput").val() +
         "&start=" + start + "&limit=" + smart.defaultPageSize;
 

@@ -200,6 +200,7 @@ exports.getGroupList = function(handler, callback) {
 
   var params = handler.params;
   var joined = params.joined;
+  var needMember = params.needMember;
 
   var targetUid = params.uid || handler.uid.toString();
 
@@ -267,6 +268,16 @@ exports.getGroupList = function(handler, callback) {
       }
     }
 
+    var finalCondition = handler.params.condition;
+    if(_.isEmpty(finalCondition)) {
+      finalCondition = {"valid": 1};
+    } else {
+      finalCondition = {$and: [finalCondition, {"valid": 1}]};
+    }
+
+    handler.addParams("condition", finalCondition);
+
+
     handler.addParams("skip", params.start || params.skip);
     handler.addParams("limit", params.limit || params.count);
     handler.addParams("order", "type name");
@@ -274,12 +285,17 @@ exports.getGroupList = function(handler, callback) {
     ctrlGroup.getList(handler, function(err, resultGroups) {
       if(resultGroups) {
         resultGroups = transResult(resultGroups);
+        if(needMember === false || needMember === "false") {
+          return callback(err, resultGroups);
+        }
         // 设置成员
         async.eachSeries(resultGroups.items, function(group, done) {
 
           handler.addParams("gid", group._id.toString());
           handler.addParams("start", 0);
           handler.addParams("limit", Number.MAX_VALUE);
+          handler.removeParams("keywords");
+          handler.removeParams("firstLetter");
 
           exports.getMember(handler, function(err, resultUsers) {
             if(resultUsers) {
@@ -411,8 +427,6 @@ exports.getGroup = function(handler, callback) {
  */
 exports.addMember = function(handler, callback) {
 
-  // TODO 没有发通知
-
   if(!handler.params.uid) {
     handler.addParams("uid", handler.uid.toString());
   }
@@ -452,7 +466,6 @@ exports.addMember = function(handler, callback) {
  */
 exports.removeMember = function(handler, callback) {
 
-  // TODO 没有发通知
 
   if(!handler.params.uid) {
     handler.addParams("uid", handler.uid.toString());
@@ -614,6 +627,9 @@ exports.getAllGroupByUid = function(uid, callback) {
   var handler = new context().bind({ session: { user: { _id: constant.DEFAULT_USER } } }, {});
   handler.addParams("uid", uid);
   handler.addParams("joined", true);
+  handler.addParams("start", 0);
+  handler.addParams("limit", Number.MAX_VALUE);
+  handler.addParams("needMember", false);
   exports.getGroupList(handler, function(err, result) {
     if(err) {
       return callback(err);

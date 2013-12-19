@@ -152,7 +152,7 @@
     initializeScopeArea: function() {
 
       // 获取部门/组
-      var url = "/group/list.json?joined=true&uid=" + smart.uid();
+      var url = "/group/list.json?joined=true&uid=" + smart.uid() + "&needMember=false";
       smart.doget(url, function(err, result){
         var scope = $("#scope")
           , tmpl = $("#message-scope-template").html();
@@ -220,6 +220,16 @@
       var tmpl = $("#user-template").html()
         , container = src.parent()
         , item = _.template(tmpl, {"uid": uid, "uname": uname, "type": type});
+
+      var exist = false;
+      container.find("li[uid]").each(function() {
+        if($(this).attr("uid") === uid) {
+          exist = true;
+        }
+      });
+      if(exist) {
+        return;
+      }
 
       item = item.replace(/\n/g, "").replace(/^[ ]*/, "");
       $(item).insertBefore(src);

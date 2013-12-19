@@ -32,6 +32,8 @@
 	"navbar.menu.calendar": "スケジュール",
 	"navbar.search.moreResult": "全ての検索結果を表示する",
 	"navbar.search.more": "すべて表示",
+  "navbar.user.editProfile": "プロフィール",
+  "navbar.user.logout": "ログアウト",
 	"window.title.messageDetail": "メッセージ詳細",
 	"window.title.fileDetail": "文書詳細",
 	"window.title.fulltextsearch": "検索結果",

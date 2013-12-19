@@ -158,6 +158,8 @@ exports.getUserList = function(handler, callback){
     ];
   }
 
+  var needDept = params.needDept === "false" ? false : true;
+
   // 获取所有用户
   if (kind_ == "all") {
     exports.at(uid_, function(err, follower) {
@@ -185,7 +187,7 @@ exports.getUserList = function(handler, callback){
             u.followed = _.some(follower.following, function(u){return u == item._id;});
           }
 
-          if(u.groups && u.groups.length > 0) {
+          if(u.groups && u.groups.length > 0 && needDept) {
             handler.addParams("gid", u.groups[0]);
             group.getGroup(handler, function(err, result) {
               u.department = result;
@@ -215,7 +217,7 @@ exports.getUserList = function(handler, callback){
       var uList = [];
       async.eachSeries(result.items, function(item, done){
         var u = trans_user_api(item);
-        if(u.groups && u.groups.length > 0) {
+        if(u.groups && u.groups.length > 0 && needDept) {
           handler.addParams("gid", u.groups[0]);
           group.getGroup(handler, function(err, result) {
             if(err) {
@@ -265,7 +267,7 @@ exports.getUserList = function(handler, callback){
         var uList = [];
         async.eachSeries(result.items, function(item, done){
           var u = trans_user_api(item);
-          if(u.groups && u.groups.length > 0) {
+          if(u.groups && u.groups.length > 0 && needDept) {
             handler.addParams("gid", u.groups[0]);
             group.getGroup(handler, function(err, result) {
               if(err) {

@@ -136,7 +136,7 @@
         return;
       }
 
-      var url = "/user/list.json?kind=following&start=0&limit=" + smart.defaultPageSize;
+      var url = "/user/list.json?needDept=false&kind=following&start=0&limit=" + smart.defaultPageSize;
       if(scope !== "1") {
         url += "&gid=" + scope;
       }
