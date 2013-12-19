@@ -352,16 +352,49 @@ exports.add = function(handler, callback) {
 
 exports.update = function(handler, callback) {
 
-  trans_user_db(handler);
+  var updateFunc = function(handler, callback) {
 
-  user.update(handler, function(err, result) {
+    trans_user_db(handler);
 
-    if (err) {
-      return callback(err);
-    }
+    user.update(handler, function(err, result) {
 
-    return callback(err, true);
-  });
+      if (err) {
+        return callback(err);
+      }
+
+      return callback(err, result ? true : false);
+    });
+
+  };
+
+
+  var password = handler.params.password_new;
+  // change password
+  if (password && password.pwd && password.pwd1) {
+
+    var pass = auth.sha256(password.pwd);
+    var name = handler.params.name;
+    handler.addParams("name", handler.user.userName);
+    handler.addParams("password", pass);
+    user.isPasswordRight(handler, function(err, data) {
+      if (data) {
+        handler.addParams("password", password.pwd1);
+        handler.addParams("name", name);
+        handler.removeParams("password_new");
+
+        updateFunc(handler, callback);
+
+      } else {
+
+        return callback(new error.BadRequest(__("user.error.wrongPwd")));
+      }
+    });
+
+  // without password
+  } else {
+
+    updateFunc(handler, callback);
+  }
 
 };
 
@@ -529,4 +562,3 @@ function trans_user_db(handler) {
     , photo : photo
   });
 }
-
