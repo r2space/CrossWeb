@@ -810,7 +810,7 @@ exports.getForwardList = function(mid_, start_, count_, callback_){
     async.forEach(msgs.items, function(msg, cb_) {
       if(msg.range != "1"){
         group.at(msg.range, function(err, u) {
-          msg.part.range = {id: u._id, name: u.name, photo: u.photo};
+          msg.part.range = {id: u._id, name: u.name, photo: u.photo, type: u.type};
           cb_(err);
         });
       } else {
@@ -847,7 +847,7 @@ exports.getForwardList = function(mid_, start_, count_, callback_){
           if(togroups) {
             group.find({"_id": {$in: togroups}}, function(err, groups) {
               var array = [];
-              _.each(groups,function(u){array.push({id: u._id, name: u.name, photo: u.photo});});
+              _.each(groups,function(u){array.push({id: u._id, name: u.name, photo: u.photo, type: u.type});});
               msg.part.atgroups = array;
               callback(err);
             });

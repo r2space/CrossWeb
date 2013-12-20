@@ -341,7 +341,8 @@
 
           var rangeGroup = "";
           if(range){
-            rangeGroup = " <a href='/group/" + range.id + "' id=" + range.id + " class='userLink'>(" + range.name.name_zh + ")</a>";
+            var rIcon = "<i class='" + ((range.type === "1")?"icon-group":"icon-sitemap") + "' style='font-size: 3px;'></i>";
+            rangeGroup = "&nbsp;&nbsp;" + rIcon + "<a href='/group/" + range.id + "' id=" + range.id + " class='userLink'>" + range.name.name_zh + "</a>";
           }
 
           var at = "";
