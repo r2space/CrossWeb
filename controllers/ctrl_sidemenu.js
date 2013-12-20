@@ -58,6 +58,12 @@ exports.notification = function(callback_) {
     , "title": __("sidemenu.message.replyme")
     });
 
+  sidemenu.submenus.push({
+      "item": "sysmsg"
+    , "type": "notification"
+    , "title": __("message.list.sidemenu.sysmsg")
+    });
+
   callback_(null, {items: [sidemenu]});
 };
 

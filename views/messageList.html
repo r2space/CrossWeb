@@ -184,18 +184,17 @@
           <a href="/user/{{uid}} "><img src="{{ uphoto }}" style="width: 56px;"></a>
         </dt>
         <dd class="message-content">
-          <p style="background-color: #EEF; margin-bottom: 1px;">
+          <p style=" margin-bottom: 1px;">
             <a href="/user/{{uid}}" id="{{uid}}" class="userLink">{{ uname }}</a>:
-             <!--关注我--><%= i('ctrl.notifiction.js.label.follow') %>（{{ time }}）<br/>
-             
+             <!--关注我--><%= i('ctrl.notifiction.js.label.follow') %><br/>
           </p>
           <p id="attach_container_{{ mid }}" style="margin-bottom: 1px;"></p>
-          <p class="message-info">
+          <p class="message-info" style="margin-bottom: 1px;">
             <span style="color: #BBB;">
             <a href="/user/{{mid}}" id="delete_{{ mid }}"><!--查看--><%= i('message.list.button.viewuser') %></a>
-
           </a></span>
           </p>
+          <p>{{ time }}</p>
         </dd>
         <a href="javascript://" id="fetchreply_51527ae461c7e27819000009" class="toggle-replies">
         <hr>
@@ -237,13 +236,13 @@
           <a href="/user/{{uid}} "><img src="{{ uphoto }}" style="width: 56px;"></a>
         </dt>
         <dd class="message-content">
-          <p style="background-color: #EEF; margin-bottom: 1px;">
+          <p style="margin-bottom: 1px;">
             <a href="/user/{{uid}}" id="{{uid}}" class="userLink">{{ uname }}</a>:
-             <!--邀请--><%= i('notifiction.js.label.invite') %> （{{ time }}）<br/>
+             <!--邀请--><%= i('notifiction.js.label.invite') %><br/>
              
           </p>
           <p id="attach_container_{{ mid }}" style="margin-bottom: 1px;"></p>
-          <p class="message-info">
+          <p class="message-info" style="margin-bottom: 1px;">
             <span style="color: #BBB;"><!--消息：--><%= i('message.list.lable.msg') %>
                 <a href="/group/{{mid}}" id="" class="userLink">
                 <%= i('notifiction.label.sinvite')%>{{ title }}#</a></span>
@@ -252,6 +251,7 @@
               <a href="/group/{{mid}}" id="delete_{{ mid }}"><!--查看--><%= i('message.list.button.viewuser') %></a>
           </a></span>
           </p>
+          <p>{{ time }}</p>
         </dd>
         <a href="javascript://" id="fetchreply_51527ae461c7e27819000009" class="toggle-replies">
         <hr>
@@ -265,13 +265,13 @@
           <a href="/user/{{uid}} "><img src="{{ uphoto }}" style="width: 56px;"></a>
         </dt>
         <dd class="message-content">
-          <p style="background-color: #EEF; margin-bottom: 1px;">
+          <p style="margin-bottom: 1px;">
             <a href="/user/{{uid}}" id="{{uid}}" class="userLink">{{ uname }}</a>:
-             <!--移除--><%= i('notifiction.js.label.remove') %> （{{ time }}）<br/>
+             <!--移除--><%= i('notifiction.js.label.remove') %><br/>
              
           </p>
           <p id="attach_container_{{ mid }}" style="margin-bottom: 1px;"></p>
-          <p class="message-info">
+          <p class="message-info" style="margin-bottom: 1px;">
             <span style="color: #BBB;"><!--消息：--><%= i('message.list.lable.msg') %>
                 <a href="/group/{{mid}}" id="" class="userLink">
                 <%= i('notifiction.label.sremove')%>{{ title }}<%= i('notifiction.label.eremove')%></a></span>
@@ -280,6 +280,7 @@
               <a href="/group/{{mid}}" id="delete_{{ mid }}"><!--查看--><%= i('message.list.button.viewuser') %></a>
           </a></span>
           </p>
+          <p>{{ time }}</p>
         </dd>
         <a href="javascript://" id="fetchreply_51527ae461c7e27819000009" class="toggle-replies">
         <hr>

@@ -33,13 +33,25 @@
             this.model.type="group";
             this.fetchGroup(self,1);
         }
-        
-
-
-    	
+        if(type == "sysmsg"){
+            this.model.type="sysmsg";
+            this.fetchSysMsg(self,1);
+        }	
     },
 
-    fetchBox : function(self,pagenum){
+
+    fetchSysMsg:function(self,pagenum){
+        this.model.start = (pagenum - 1) * this.model.limit;
+        this.model.curpage = pagenum; 
+        this.model.type = "invite,remove,follow";
+        this.model.fetch({
+            success: function(){
+              self.replySysMsg(self);
+            }
+
+        });
+    },
+    fetchBox:function(self,pagenum){
         this.model.start = (pagenum - 1) * this.model.limit;
         this.model.curpage = pagenum; 
         this.model.type = "box";
@@ -236,8 +248,59 @@
         } else {
             $("#messages-container").html(i18n["message.list.lable.nothing"]);
         }
-        
+    },
+    replySysMsg:function(self){
+        //渲染画面  
+        var c = $("#messages-container").html('');
+        var invitetmpl = $('#msg-invite-content-template').html();
+        var removetmpl = $('#msg-remove-content-template').html();
+        var followtmpl = $('#msg-follow-content-template').html();
+        if(parseInt(this.model.total) != 0){
+            $("#messages-container").prepend();
+            //result.reverse();
+            _.each(this.model.items, function(mmsg){
+                if(mmsg.type == "invite"){
+                    c.append(_.template(invitetmpl, {'uname':mmsg.user.name.name_zh
+                        ,'title':mmsg.content
+                        ,'mid':mmsg.objectid
+                        ,"time": smart.date(mmsg.createat)
+                        ,"uid":mmsg.user._id
+                        ,"uphoto":mmsg.user.photo && mmsg.user.photo.big? "/picture/" + mmsg.user.photo.big : "/images/user.png"
+                    }));
+                }else if(mmsg.type == "remove"){
+                    c.append(_.template(removetmpl, {'uname':mmsg.user.name.name_zh
+                        ,'title':mmsg.content
+                        ,'mid':mmsg.objectid
+                        ,"time": smart.date(mmsg.createat)
+                        ,"uid":mmsg.user._id
+                        ,"uphoto":mmsg.user.photo && mmsg.user.photo.big? "/picture/" + mmsg.user.photo.big : "/images/user.png"
+                    }));
+                }else{
+                    c.append(_.template(followtmpl, {'uname':mmsg.user.name.name_zh
+                        ,'title':mmsg.content
+                        ,'mid':mmsg.objectid
+                        ,"time": smart.date(mmsg.createat)
+                        ,"uid":mmsg.user._id
+                        ,"uphoto":mmsg.user.photo && mmsg.user.photo.big? "/picture/" + mmsg.user.photo.big : "/images/user.png"
+                    }));
+                }
+                 
 
+            });
+            this.replyRead(this.model.items);
+            smart.pagination(parseInt(this.model.total),this.model.limit, this.model.curpage, "messagelist-home", function(){
+                
+                var pagenum = $(event.target).attr("id").split("_")[1];
+                if(pagenum > 0){
+                    
+                    self.fetchGroup(self,pagenum);
+                    return false;
+               
+                }
+              });
+        } else {
+            $("#messages-container").html(i18n["message.list.lable.nothing"]);
+        }
     },
     replyRemove:function(self){
 
