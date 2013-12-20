@@ -671,7 +671,7 @@
 
         var tempVal = msgbox.val().replace(/(^\s*)|(\s*$)/g, "");
         if(tempVal.length == 0 && (!self.files || self.files.length == 0)){
-          Alertify.dialog.alert(i18n["message.list.message.nomessage"]);
+          smart.show("information", null, i18n["message.list.message.nomessage"]);
           return false;
         }
 
@@ -744,7 +744,7 @@
       smart.dopost(url, param, function(err, result){
         self.fetchMessage();
         self.cleanMessageBox();
-        Alertify.dialog.alert(i18n["success"]);
+        smart.show("success", null, i18n["success"]);
       });
     },
 
