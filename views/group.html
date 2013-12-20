@@ -156,15 +156,15 @@
         <td><a href="/user/{{ id }}">{{ name }}</a></td>
         <td>{{ mail }}</td>
         <td style="text-align: right">
-          <$ if (groupType == 1 && loginUserIsOwner) { $>
-            <$ if (!isOwner) { $>
-              <$ if (isMember) { $>
-                  <a class="btn btn-small" name="remove" uid="{{id}}"><%= i('group.groupview.button.remove') %></a>
-              <$ } else { $>
-                  <a class="btn btn-small btn-success" name="add" uid="{{id}}"><%= i('group.groupview.button.add') %></a>
-              <$ } $>
-            <$ } $>
+
+          <$ if (canRemove) { $>
+          <a class="btn btn-small" name="remove" uid="{{id}}"><%= i('group.groupview.button.remove') %></a>
           <$ } $>
+
+          <$ if (canAdd) { $>
+          <a class="btn btn-small btn-success" name="add" uid="{{id}}"><%= i('group.groupview.button.add') %></a>
+          <$ } $>
+
         </td>
       </tr>
     </script>

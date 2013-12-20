@@ -179,6 +179,7 @@
           , members = self.model.get("member")
           , owners = self.model.get("owner")
           , loginUserIsOwner = _.contains(owners, currentuser)
+          , loginUserIsMember = _.contains(members, currentuser)
           , secure = self.model.get("secure");
 
         container.html("");
@@ -187,7 +188,10 @@
           _.each(result.items, function(user) {
             var name = user.name
               , photo = user.photo
-              , isMember = _.contains(members, user._id);
+              , isMember = _.contains(members, user._id)
+              , isPublic = secure === "2"
+              , isOwner = _.contains(owners, user._id)
+              , isSelf = (currentuser == user._id);
 
             // 邀请页里如果已经是成员的话，就不显示该用户
             // TODO: 获取数据时，就应该把他去掉
@@ -197,12 +201,8 @@
                 , "name": name.name_zh
                 , "photo": (photo && photo.small) ? "/picture/" + photo.small : "/images/user.png"
                 , "mail": user.email.email1
-                , "isMember": isMember
-                , "isOwner": _.contains(owners, user._id)
-                , "isSelf": (currentuser == user._id)
-                , "groupType": self.model.get("type")
-                , "loginUserIsOwner": loginUserIsOwner
-                , "isPublic": secure === "2"
+                , "canAdd": !isMember && (loginUserIsOwner || (isPublic && loginUserIsMember))
+                , "canRemove": isMember && loginUserIsOwner && !isOwner
               }));
             }
           });
