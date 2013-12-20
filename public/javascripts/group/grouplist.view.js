@@ -66,7 +66,7 @@
         self.collection.each(function(group) {
           container.append(_.template(tmpl, {
             "id": group.get("_id")
-            , "photo": (group.get("photo") && group.get("photo").big) ? ("/picture/" + group.get("photo")["big"]) : "/images/group.png"
+            , "photo": (group.get("photo") && group.get("photo").small) ? ("/picture/" + group.get("photo")["small"]) : "/images/group.png"
             , "name": _.isObject(group.get("name"))?group.get("name")["name_zh"]:group.get("name")
             , "secure":group.secure
             , "secure": group.get("secure")

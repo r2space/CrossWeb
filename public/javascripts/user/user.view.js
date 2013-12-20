@@ -524,7 +524,7 @@
                 , followed = _.contains(followingOfLoginUser, user._id);
               var photo = user.photo;
 
-              photo = photo && photo.big ? "/picture/" + photo.big : "/images/user.png"
+              photo = photo && photo.small ? "/picture/" + photo.small : "/images/user.png"
 
               container.append(_.template(tmpl, {
                 "id": user._id
@@ -598,7 +598,7 @@
 
             container.append(_.template(tmpl, {
               "id": group._id
-              , "photo": group.photo && group.photo.big ? ("/picture/" + group.photo.big) : "/images/group.png"
+              , "photo": group.photo && group.photo.small ? ("/picture/" + group.photo.small) : "/images/group.png"
               , "groupName": group.name.name_zh
               , "secure":group.secure
               , "groupMembers": group.member.length
