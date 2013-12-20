@@ -510,7 +510,7 @@
         , fd = new FormData();
 
       if(text.val().trim().length == 0){
-        Alertify.dialog.alert(i18n["message.list.message.noreply"]);
+        smart.show("information", null, i18n["message.list.message.noreply"]);
         text.val("");
         text.focus();
         return false;
