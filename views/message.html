@@ -114,7 +114,7 @@
 
                 <div id="messagearea">
                   <!-- 消息的分类 -->
-                  <ul id="msgtype" class="messageType">
+                  <ul id="msgtype" class="messageType" style="display: none;" >
                     <li><a title="<%= i('message.list.type.text') %>" id="textBox" style="font-size:1.5em;"><i class="icon-font"></i></a></li>
                     <li><a title="<%= i('message.list.type.image') %>" id="imageBox" style="font-size:1.5em;"><i class="icon-picture"></i></a></li>
                     <!--li><a title="<%= i('message.list.type.file') %>" id="fileBox"><i class="icon-file icon-2x"></i></a></li>
@@ -124,7 +124,7 @@
                   </ul>
 
                   <!-- 消息输入框 -->
-                  <div class="textBox popover bottom" style="display: block;">
+                  <div class="textBox popover bottom" >
                       <div class="arrow" style="left:7.5%;"></div>
                       <div class="popover-content">
                           <textarea id="textBoxMsg" class="comment" rows="3" placeholder="<%= i('message.list.placeholder.text') %>"></textarea>
@@ -135,8 +135,8 @@
                   </div>
 
                   <!-- 图片选择 -->
-                  <div class="imageBox popover bottom">
-                      <div class="arrow" style="left:20%;"></div>
+                  <div class="imageBox popover bottom" style="display: block;">
+                      <!--<div class="arrow" style="left:20%;"></div>-->
                       <div class="popover-content">
                           <div id="imageBoxerContainer"></div>
                           <div id="imageBoxSelector" class="image selector">

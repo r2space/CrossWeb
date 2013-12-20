@@ -43,6 +43,8 @@
       finder.view.onUserSelected = this.onUserSelectedCallback;
       finder.view.bindSearchBox($("#keywordsText, #keywordsImage, #keywordsFile, #keywordsVideo, #keywordsDocument"));
 
+      $("#imageBox i").click();
+
       window.sidemenu.view.onSideMenuClicked = this.sideMenuClicked;
     },
 
@@ -603,6 +605,8 @@
       $("#textBoxNotice").find("ol").remove();
       $("#keywordsImage").val("");
       $("#imageBoxNotice").find("ol").remove();
+      $("#imageBoxerContainer").html("");
+      $("#uploadfile").val("");
       $("#keywordsFile").val("");
       $("#fileBoxNotice").find("ol").remove();
       $("#keywordsVideo").val("");
@@ -660,21 +664,32 @@
       }
 
       if (self.kind == "imageBox" || self.kind == "videoBox" || self.kind == "fileBox") {
-        if(!self.files || self.files.length == 0){
-           Alertify.dialog.alert(i18n["message.list.message.no"+self.kind]);
-           return false;
-        }
-        self.uploadFiles(self.files, function(err, result) {
+//        if(!self.files || self.files.length == 0){
+//           Alertify.dialog.alert(i18n["message.list.message.no"+self.kind]);
+//           return false;
+//        }
 
-          var attach = [];
-          _.each(result.data.items, function(item) {
-            var data = {};
-            data["fileid"] = item._id;
-            data["filename"] = item.filename;
-            attach.push(data);
+        var tempVal = msgbox.val().replace(/(^\s*)|(\s*$)/g, "");
+        if(tempVal.length == 0 && (!self.files || self.files.length == 0)){
+          Alertify.dialog.alert(i18n["message.list.message.nomessage"]);
+          return false;
+        }
+
+        if(!self.files || self.files.length == 0){
+          self.uploadMsg(param);
+        } else {
+          self.uploadFiles(self.files, function(err, result) {
+
+            var attach = [];
+            _.each(result.data.items, function(item) {
+              var data = {};
+              data["fileid"] = item._id;
+              data["filename"] = item.filename;
+              attach.push(data);
+            });
+            self.uploadMsg(param, attach);
           });
-          self.uploadMsg(param, attach);
-        });
+        }
       }
 
       if (self.kind == "documentBox") {
