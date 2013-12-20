@@ -341,7 +341,7 @@
 
           var rangeGroup = "";
           if(range){
-            var rIcon = "<i class='" + ((range.type === "1")?"icon-group":"icon-sitemap") + "' style='font-size: 3px;'></i>";
+            var rIcon = "<i class='" + ((range.type === "1")?"icon-group":"icon-sitemap") + "'></i>";
             rangeGroup = "&nbsp;&nbsp;" + rIcon + "<a href='/group/" + range.id + "' id=" + range.id + " class='userLink'>" + range.name.name_zh + "</a>";
           }
 
