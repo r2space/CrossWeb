@@ -77,7 +77,7 @@
 
       // 切换消息类型
       $("#msgtype a").bind("click", function(event){
-        $(".textBox").hide();
+        $("#textMsgArea").hide();
         $(".imageBox").hide();
 //        $(".fileBox").hide();
 //        $(".videoBox").hide();

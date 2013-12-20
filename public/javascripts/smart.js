@@ -446,6 +446,8 @@ var smart = {
       Alertify.log.warn(message);
     } else if (type == "error") {
       Alertify.log.error(message);
+    } else if (type == "information") {
+      Alertify.log.info(message);
     }
     var tmpl = $("#alert-template").html();
 
