@@ -7,6 +7,7 @@
 "use strict";
 
 var ctrlFile     = smart.ctrl.file
+  , image        = smart.framework.image
   , _            = smart.util.underscore;
 
 /**
@@ -65,3 +66,35 @@ exports.get = function(handler, callback) {
     return callback(err, result);
   });
 };
+
+/**
+ * 裁剪并生成缩略图
+ * @param {Object} handler 上下文对象
+ * @param {Function} callback 回调函数，返回图片文件信息
+ */
+exports.cropAndThumb = function(handler, callback) {
+
+  var params = handler.params;
+
+  handler.addParams("crops", [
+    {key: "crop", width: Number(params.width), height: Number(params.width), x: Number(params.x), y: Number(params.y)}
+  ]);
+  handler.addParams("thumbs", [
+    {key: "big", width: 100}
+    , {key: "middle", width: 50}
+    , {key: "small", width: 30}
+  ]);
+
+  image.cropAndThumb(handler, 0, function(err, result) {
+    if(err) {
+      return callback(err);
+    }
+
+    console.log(JSON.stringify(result));
+
+    return callback(err, result);
+  });
+};
+
+
+

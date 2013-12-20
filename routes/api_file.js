@@ -32,6 +32,10 @@ exports.guiding = function(app){
      file.save(req, res);
   });
 
+  app.post('/image/cropAndThumb.json', function(req, res){
+    file.cropAndThumb(req, res);
+  });
+
   // app.put('/file/follow.json', function(req, res){
   //   common.follow(req, res);
   // });

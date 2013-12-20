@@ -204,40 +204,48 @@
       for (var i = 0; i < this.files.length; i++) {
         fd.append("files", this.files[i]);
       }
-      smart.dopostData("/gridfs/save.json", fd, function(err, result){
-        var fid = result.data.items[0]._id;
 
-        var realWidth = $("#realPhoto").width();
-        var width = $("#jcropPhoto").width();
-        var r = realWidth / width;
+      var realWidth = $("#realPhoto").width();
+      var width = $("#jcropPhoto").width();
+      var r = realWidth / width;
 
-        var realheight = $("#realPhoto").height();
-        var height = $("#jcropPhoto").height();
-        var rh = realheight / height;
+      var realheight = $("#realPhoto").height();
+      var height = $("#jcropPhoto").height();
+      var rh = realheight / height;
 
-        var x = parseInt($("#jcropData").attr("x")*r);
-        var y = parseInt($("#jcropData").attr("y")*r);
-        var w = parseInt($("#jcropData").attr("w")*r);
+      var x = parseInt($("#jcropData").attr("x")*r);
+      var y = parseInt($("#jcropData").attr("y")*r);
+      var w = parseInt($("#jcropData").attr("w")*r);
 
-        // 防止超过图片真实的长度和高度
-        if(x+w > realWidth){
-          alert(x+w);
-          x = realWidth - w;
-        }
-        if(y+w > realheight){
-          alert(y+w);
-          y = realheight - w;
+      // 防止超过图片真实的长度和高度
+      if(x+w > realWidth){
+        alert(x+w);
+        x = realWidth - w;
+      }
+      if(y+w > realheight){
+        alert(y+w);
+        y = realheight - w;
+      }
+
+      fd.append("width", w);
+      fd.append("x", x);
+      fd.append("y", y);
+
+      smart.dopostData("/image/cropAndThumb.json", fd, function(err, result){
+        if(err) {
+          console.err(err);
+          alert(i18n["fail"]);
+          return;
         }
 
         var photo = {
-          "fid":fid,
-          "width":w+"",
-          "x":x+"",
-          "y":y+""
+          "big": result.data.big[0]._id,
+          "middle": result.data.middle[0]._id,
+          "small": result.data.small[0]._id
         };
 
         self.model.set({
-          "photo": photo
+          "photo":photo
         });
 
       });

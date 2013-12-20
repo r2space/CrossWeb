@@ -37,3 +37,18 @@ exports.image = function(req, res) {
   });
 
 };
+
+exports.cropAndThumb = function(req, res) {
+
+  var handler = new context().bind(req, res);
+
+  ctrlFile.cropAndThumb(handler, function(err, result){
+
+    if (err) {
+      return response.send(res, err);
+    }
+
+    return response.send(res, err, result);
+  });
+
+};
