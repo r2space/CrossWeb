@@ -410,9 +410,10 @@ exports.getGroup = function(handler, callback) {
  */
 exports.addMember = function(handler, callback) {
 
-  if(!handler.params.uid) {
-    handler.addParams("uid", handler.uid.toString());
-  }
+  var loginUid = handler.uid.toString();
+  var targetUid = handler.params.uid ? handler.params.uid : loginUid;
+
+  handler.addParams("uid", targetUid);
 
   ctrlGroup.addUser(handler, function(err, result) {
 
@@ -423,11 +424,11 @@ exports.addMember = function(handler, callback) {
     exports.getGroup(handler, function(err, result) {
 
       if(!err) {
-        if(handler.params.uid !== handler.uid.toString()){
+        if(targetUid !== loginUid){
           //发通知
           var invite = {
-              uid       : handler.params.uid
-            , userid    : handler.uid.toString()
+              uid       : targetUid
+            , userid    : loginUid
             , type      : "invite"
             , msg       : "被加入"
             , groupName : result.name.name_zh
@@ -449,10 +450,10 @@ exports.addMember = function(handler, callback) {
  */
 exports.removeMember = function(handler, callback) {
 
+  var loginUid = handler.uid.toString();
+  var targetUid = handler.params.uid ? handler.params.uid : loginUid;
 
-  if(!handler.params.uid) {
-    handler.addParams("uid", handler.uid.toString());
-  }
+  handler.addParams("uid", targetUid);
 
   ctrlGroup.removeUser(handler, function(err, result) {
 
@@ -463,11 +464,11 @@ exports.removeMember = function(handler, callback) {
     exports.getGroup(handler, function(err, result) {
 
       if(!err) {
-        if(handler.params.uid !== handler.uid.toString()){
+        if(targetUid !== loginUid){
           //发通知
           var invite = {
-              uid       : handler.params.uid
-            , userid    : handler.uid.toString()
+              uid       : targetUid
+            , userid    : loginUid
             , type      : "remove"
             , msg       : "被加入"
             , groupName : result.name.name_zh
