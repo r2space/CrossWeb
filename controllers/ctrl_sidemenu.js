@@ -11,7 +11,7 @@ var sync      = smart.util.async
 /**
  * 消息
  */
-exports.message = function(uid_, callback_) {
+exports.message = function(uid_, callback_, fetchAll) {
 
   var sidemenus = [];
 
@@ -29,7 +29,7 @@ exports.message = function(uid_, callback_) {
       exports.group(uid_, function(err, result){
         sidemenus.push(result.items[0]);
         callback(err);
-      });
+      }, fetchAll);
     }
   ],
     
@@ -115,12 +115,15 @@ exports.user = function(uid_, callback_, fetchAll) {
 /**
  * 组
  */
-exports.group = function(uid, callback_) {
+exports.group = function(uid, callback_, fetchAll) {
 
   var handler = new context().bind({ session: { user: { _id: constant.DEFAULT_USER } } }, {});
   handler.addParams("uid", uid);
   handler.addParams("joined", true);
   handler.addParams("needMember", false);
+  if(fetchAll) {
+    handler.addParams("limit", Number.MAX_VALUE);
+  }
 
   group.getGroupList(handler, function(err, result){
     
@@ -128,6 +131,7 @@ exports.group = function(uid, callback_) {
         "item": "groups"
       , "title": __("sidemenu.group")
       , "type": "folder"
+      , "hasMore": result.totalItems > result.items.length
       , "submenus": []
       };
     

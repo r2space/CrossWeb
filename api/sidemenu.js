@@ -24,13 +24,13 @@ exports.list = function(req_, res_) {
   if (name === "group") {
     sidemenu.group(uid, function(err, result){
       return response.send(res_, err, result);
-    });
+    }, req_.query.fetchAll);
   }
 
   if (name === "messages" || name === "home") {
     sidemenu.message(uid, function(err, result){
       return response.send(res_, err, result);
-    });
+    }, req_.query.fetchAll);
   }
 
   if (name === "shortmail") {

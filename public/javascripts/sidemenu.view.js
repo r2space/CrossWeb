@@ -45,10 +45,8 @@
 
     fetchAll: function(event) {
       var src = $(event.target);
-      var type = src.attr("type");
-      if(type === 'user') {
-        this.model.fetch({"name": 'user', "fetchAll": true});
-      }
+      var type = $("#bright").val();
+      this.model.fetch({"name": type, "fetchAll": true});
     },
 
     activeMenu: {}
