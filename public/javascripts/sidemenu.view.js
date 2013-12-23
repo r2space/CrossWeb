@@ -6,7 +6,7 @@
     el: $('#docmenu'),
     
     initialize: function() {
-      _.bindAll(this, "render", "onMenuClick");
+      _.bindAll(this, "render", "onMenuClick", "fetchAll");
       this.model.on("change", this.render);
       
       // 设定缺省的菜单项
@@ -19,10 +19,12 @@
 
       var sidemenu = this.model.attributes;
       // console.log("sidemenu：" + sidemenu);
-      $("#sidemenu").append(template({"menus":sidemenu}));
+      $("#sidemenu").html(template({"menus":sidemenu.items}));
 
       // 
       $("#sidemenu a").bind("click", this.onMenuClick);
+      $("a[fetchAll]").unbind("click");
+      $("a[fetchAll]").click(this.fetchAll);
     },
 
     onMenuClick: function() {
@@ -39,6 +41,14 @@
       this.activeMenu.parent().addClass("active");
 
       return false;
+    },
+
+    fetchAll: function(event) {
+      var src = $(event.target);
+      var type = src.attr("type");
+      if(type === 'user') {
+        this.model.fetch({"name": 'user', "fetchAll": true});
+      }
     },
 
     activeMenu: {}

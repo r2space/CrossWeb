@@ -284,6 +284,7 @@ exports.getUserList = function(handler, callback){
       handler.addParams("condition", condition);
       handler.addParams("skip", params.start || params.skip);
       handler.addParams("limit", params.limit || params.count);
+      handler.addParams("order", "extend.name_zh");
 
       user.getList(handler, function(err, result){
         var uList = [];

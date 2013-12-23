@@ -67,14 +67,16 @@ exports.notification = function(callback_) {
   callback_(null, {items: [sidemenu]});
 };
 
-exports.user = function(uid_, callback_) {
+exports.user = function(uid_, callback_, fetchAll) {
 
+  var totalItems;
   sync.waterfall([
 
     // 获取给定用户的好友
     function(callback) {
-
-      user.getUserList({"kind":"following", "firstLetter":"", "uid":uid_, "start":0, "limit":20, "needDept":false}, function(err, result) {
+      var limit = fetchAll ? Number.MAX_VALUE : 20;
+      user.getUserList({"kind":"following", "firstLetter":"", "uid":uid_, "start":0, "limit":limit, "needDept":false}, function(err, result, total) {
+        totalItems = total;
         callback(err, result);
       });
     },
@@ -94,6 +96,7 @@ exports.user = function(uid_, callback_) {
         "item": "following"
       , "type": "folder"
       , "title": __("sidemenu.user.following")
+      , "hasMore": totalItems > result.length
       , "submenus": []
       };
     

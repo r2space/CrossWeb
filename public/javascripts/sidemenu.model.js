@@ -8,6 +8,9 @@
     sync: function(method, model, options){
       var name = "name=" + options.name;
       options.url = "/sidemenu.json?" + name;
+      if(options.fetchAll) {
+        options.url += "&fetchAll=true";
+      }
       Backbone.sync(method, model, options);
     },
 
@@ -17,7 +20,7 @@
     // 
     parse: function(response) {
       // this.set("sidemenu", response.data);
-      return response.data.items;
+      return response.data;
     }
 
   });

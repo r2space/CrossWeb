@@ -19,6 +19,15 @@
 				</a>
 			</li>
 		<$ }); $>
+
+    <$ if(menu.hasMore){ $>
+    <li title="<%=i('message.list.button.morereply') %>">
+      <a fetchAll="true" type="{{ menu.submenus[0].type }}" href="#" style="padding-left: 38px;">
+        ･･･
+      </a>
+    </li>
+    <$ } $>
+
 		</ul></li>
 	<$ } else { $>
 		<li><a item="{{ menu.item }}" href="#" >{{ menu.title }}</a></li>

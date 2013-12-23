@@ -18,7 +18,7 @@ exports.list = function(req_, res_) {
   if (name === "user") {
     sidemenu.user(uid, function(err, result){
       return response.send(res_, err, result);
-    });
+    }, req_.query.fetchAll);
   }
 
   if (name === "group") {
