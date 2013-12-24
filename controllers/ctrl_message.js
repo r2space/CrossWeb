@@ -156,9 +156,21 @@ exports.deleteMessage = function (mid_, callback_){
     return callback_(new error.BadRequest("消息ID不能为空"));
   }
 
-  message.remove(mid_, function(err, msg){
+  message.forwardListNum(mid_, function(err, forwardNums) {
     err = err ? new error.InternalServer(err) : null;
-    return callback_(err, msg);
+    if(err) {
+      callback_(err);
+      return;
+    }
+
+    if(forwardNums == 0) {
+      message.remove(mid_, function(err, msg){
+        err = err ? new error.InternalServer(err) : null;
+        return callback_(err, msg);
+      });
+    } else {
+      return callback_(new error.BadRequest(__("message.delete.check.forward")));
+    }
   });
 };
 

@@ -252,6 +252,7 @@
 	"message.list.sidemenu.category": "分类",
 	"message.list.sidemenu.outcomment":"发出的评论",
 	"message.forward.label.forward": "<br>【原消息】",
+  "message.delete.check.forward": "消息被转发过，不能删除。",
 	"usereditor.setting.label.set": "设置",
 	"usereditor.setting.label.notice": "通知设定：",
 	"usereditor.setting.label.share": "共享设定：",

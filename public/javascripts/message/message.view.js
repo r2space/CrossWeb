@@ -453,7 +453,10 @@
           , "rangeGroup": rangeGroup
           , "atAccounts": at
           , "praised": _.contains(msg.get("likers") || [], $("#userid").val())
+          , "canDelete": uinfo.id == $("#userid").val() && msg.get("part").forwardNums == 0
         }));
+
+        console.log(msg.get("part").forwardNums);
 
         var attaches = msg.get("attach");
         if(contentType == "documentBox"){
