@@ -40,9 +40,9 @@ exports.guiding = function(app){
     message.getGroupHomePageMessageList(req, res);
   });
 
-  // app.delete('/message/delete.json', function(req, res){
-  //   message.deleteMessage(req, res);
-  // });
+  app.delete('/message/delete.json', function(req, res){
+     message.deleteMessage(req, res);
+  });
 
   app.get("/message/list/reply.json", function(req, res){
     message.getReplyList(req, res);

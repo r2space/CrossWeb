@@ -142,11 +142,11 @@ exports.deleteMessage = function(req_, res_){
 	message.deleteMessage(mid, function(err, result){
     if(err){
       return res_.send({
-          "code": err.code
+        "code": err.code
         , "msg": err.message
-        });
+      });
     }else{
-      return res_.send(result);
+      response.send(res_, err, result);
     }
   });
 };

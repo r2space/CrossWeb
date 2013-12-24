@@ -230,6 +230,7 @@
 	"message.list.lable.atme": "自分宛て",
 	"message.list.lable.atmemsg": "メッセージ",
 	"message.list.label.replyloading": "読み込み......",
+  "message.list.label.deletemsg": "メッセージを削除していいですか。",
 	"message.list.sidemenu.atmemsg": "受信したコメント",
 	"message.list.sidemenu.replymemsg": "自分宛て",
 	"message.list.sidemenu.category": "カテゴリ",

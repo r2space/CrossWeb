@@ -243,6 +243,7 @@
 	"message.list.lable.atme": "提到我",
 	"message.list.lable.atmemsg": "在微博中提到我",
 	"message.list.label.replyloading": "正在努力为你读取......",
+  "message.list.label.deletemsg": "确定要删除此消息吗？",
 	"message.list.sidemenu.atmemsg": "评论我的",
 	"message.list.sidemenu.replymemsg": "提到我的",
 	"message.list.sidemenu.followmsg":"关注我的",

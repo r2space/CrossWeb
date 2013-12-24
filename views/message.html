@@ -13,6 +13,7 @@
       i18n["message.list.message.novideoBox"] = "<%=i('message.list.message.novideoBox') %>";
       i18n["message.list.message.nofileBox"] = "<%=i('message.list.message.nofileBox') %>";
       i18n["message.list.message.nodocumentBox"] = "<%=i('message.list.message.nodocumentBox') %>";
+      i18n["message.list.label.deletemsg"] = "<%=i('message.list.label.deletemsg') %>";
     </script>
 
     <script type='text/javascript' src='/javascripts/menu.model.js'></script>
@@ -336,8 +337,8 @@
           <p class="message-info">
             <span style="color: #5C5A5A;padding-left:5px;">{{time}}</span>
             <span class="pull-right">
-              <a class="hidden" href="javascript://" id="delete_{{mid}}"><%= i('message.list.button.delete') %></a>
               <a href="javascript://" class="hide"><%= i('message.list.button.totop') %></a>
+
               <a href="javascript://" class="operation">
                 <i id="praise_{{mid}}" class="icon-thumbs-up <$ if(praised) { $> praised <$ } $>" title="<%= i('message.list.button.good') %>">&nbsp;{{likeNums}}</i>
               </a>
@@ -372,6 +373,11 @@
             </div>
           </div>
         </dd>
+        <$ if(forwardNums == 0) { $>
+          <a class="delete hide" href="javascript://" class="operation">
+            <i id="delete_{{mid}}" class="icon-remove" title="<%= i('message.list.button.delete') %>"></i>
+          </a>
+        <$ } $>
         <div style="border:1px solid #F9F4FA"></div>
       </dl>
     </script>

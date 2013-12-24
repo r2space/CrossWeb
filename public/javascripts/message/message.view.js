@@ -466,6 +466,8 @@
         $("#replyButton_" + msg.get("_id")).on("click", self.reply);
         $("#fetchreply_" + msg.get("_id")).on("click", self.fetchReply);
         $("#delete_" + msg.get("_id")).on("click", self.deleteMessage);
+        $("#message-" + msg.get("_id")).on("mouseenter", self.inMessage);
+        $("#message-" + msg.get("_id")).on("mouseleave", self.outMessage);
       });
       smart.imageLoader();
     },
@@ -818,6 +820,22 @@
       });
     },
 
+    inMessage: function(event) {
+
+      var self = this
+        , mid = $(this).attr("id").split("-")[1];
+
+      $("#delete_" + mid).parent().show();
+    },
+
+    outMessage: function(event) {
+
+      var self = this
+        , mid = $(this).attr("id").split("-")[1];
+
+      $("#delete_" + mid).parent().hide();
+    },
+
     /**
      * 检索消息一览
      */
@@ -854,12 +872,23 @@
         , url = "/message/delete.json"
         , mid = (typeof mid === "object") ? $(event.target).attr("id").split("_")[1] : mid
         , fd = new FormData();
+      fd.append("mid", mid);
 
-      fd.append("mid", mid); 
-      smart.dodelete(url, fd, function(err, result){
-        self.fetchMessage();
-        //alert("delete");
-      });
+      Alertify.dialog.confirm(i18n["message.list.label.deletemsg"], function () {
+
+        smart.dodelete(url, fd, function(err, result){
+          if(err) {
+            console.log(err);
+            smart.show("error", null, i18n["fail"]);
+            return;
+          }
+
+          smart.show("success", null, i18n["success"]);
+          $("#message-" + mid).fadeOut("slow");
+          //$("#message-" + mid).remove();
+        });
+
+      }, function () {});
     },
 
     /**
