@@ -164,7 +164,10 @@ exports.updateMessage = function(params_, callback_){
     , range = params_.range || 1
     , at = params_.at
     , currentdate = Date.now();
-
+    
+  if(!target){
+    target = params_._id;
+  }
   var newMessage = {};
   newMessage.content = content;
   newMessage.contentType = contentType;
