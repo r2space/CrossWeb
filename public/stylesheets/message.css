@@ -326,6 +326,7 @@ div.publish .scope .divider {
 }
 .message {
   clear: right;
+  position: relative;
 }
 .message {
   /* 消息头像 */
@@ -349,6 +350,14 @@ div.publish .scope .divider {
 }
 .message .praised {
   color: #F7823A;
+}
+.message .delete {
+  position: absolute;
+  top: 0px;
+  right: 10px;
+  text-decoration: none;
+  color: #FC887E;
+  font-size: 15px;
 }
 .message .reply-area {
   margin-left: 60px;

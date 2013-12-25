@@ -140,14 +140,7 @@ exports.deleteMessage = function(req_, res_){
   var mid = util.checkString(req_.body.mid);
 
 	message.deleteMessage(mid, function(err, result){
-    if(err){
-      return res_.send({
-          "code": err.code
-        , "msg": err.message
-        });
-    }else{
-      return res_.send(result);
-    }
+    response.send(res_, err, result);
   });
 };
 
