@@ -245,6 +245,7 @@
   "message.list.message.nodocumentBox": "文書を選択してください。",
 	"message.forward.label.forward": "<br>「元メッセージ」",
   "message.delete.check.forward": "メッセージはもう転送されましたので削除できません。",
+  "message.edit.check.forward": "メッセージはもう転送されましたので編集できません。",
 	"usereditor.setting.label.set": "設定",
 	"usereditor.setting.label.notice": "通知の設定：",
 	"usereditor.setting.label.share": "転送設定：",

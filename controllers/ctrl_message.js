@@ -173,31 +173,43 @@ exports.updateMessage = function(params_, callback_){
   }
   newMessage.editat = currentdate;
 
-  message.update(target, newMessage, function(err, msg){
-    if (err) {
-      return callback_(new error.InternalServer(err));
-    }
-    ctrl_notification.createForMessage(msg);
-
-
-    // 更新全文检索索引
-    if(msg.attach.length > 0){
-      var fids = [];
-      for(var i =0 ;i <msg.attach.length;i++){
-        fids.push(msg.attach[i].fileid);
-      }
-      if(fids.length > 0){
-        amqp.send(conf.mq.queue_thumb, {
-          fids:fids.join()
-          , msg_id:msg._id
-          , code: conf.db.dbname
-          , collection:"messages"
-          , width:"500"
-        });
-      }
+  message.forwardListNum(target, function(err, forwardNums) {
+    err = err ? new error.InternalServer(err) : null;
+    if(err) {
+      callback_(err);
+      return;
     }
 
-    callback_(err, msg);
+    if(forwardNums == 0) {
+      message.update(target, newMessage, function(err, msg){
+        if (err) {
+          return callback_(new error.InternalServer(err));
+        }
+        ctrl_notification.createForMessage(msg);
+
+
+        // 更新全文检索索引
+        if(msg.attach.length > 0){
+          var fids = [];
+          for(var i =0 ;i <msg.attach.length;i++){
+            fids.push(msg.attach[i].fileid);
+          }
+          if(fids.length > 0){
+            amqp.send(conf.mq.queue_thumb, {
+              fids:fids.join()
+              , msg_id:msg._id
+              , code: conf.db.dbname
+              , collection:"messages"
+              , width:"500"
+            });
+          }
+        }
+
+        callback_(err, msg);
+      });
+    } else {
+      return callback_(new error.BadRequest(__("message.edit.check.forward")));
+    }
   });
 };
 
