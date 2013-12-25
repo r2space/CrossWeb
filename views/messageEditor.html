@@ -176,9 +176,8 @@
           var tmpl = $("#message-image-template-editor").html();
           var imageId = _.uniqueId();
           _.each(attachs, function(attach) {
-            var img = _.template(tmpl, {"id": imageId});
+            var img = _.template(tmpl, {"id": imageId, "src": "/picture/" + attach.fileid});
             $("#imageBoxerContainer_editor").append($(img));
-            $("#" + imageId).attr("src", "/picture/" + attach.fileid);
           });
         }
       });
@@ -288,7 +287,7 @@
         var id = _.uniqueId();
 
         // 创建image框
-        var img = _.template(tmpl, {"id": id, "index": i++});
+        var img = _.template(tmpl, {"id": id, "index": i++, "src": ""});
         img = img.replace(/\n/g, "").replace(/^[ ]*/, "");
         $("#imageBoxerContainer_editor").append($(img));
 
@@ -317,7 +316,7 @@
 
 <script type="text/template" id="message-image-template-editor">
   <div style="width: 100px;height: 100px;display: inline-block;margin:1px;">
-    <img id="{{id}}" src="" style="width: 100px;height: 100px;">
+    <img id="{{id}}" src="{{src}}" style="width: 100px;height: 100px;">
   </div>
 </script>
 
