@@ -7,6 +7,7 @@
 
     <script>
       i18n["message.list.button.reply"] = "<%=i('message.list.button.reply') %>";
+      i18n["message.list.button.edit"] = "<%=i('message.list.button.edit') %>";
       i18n["message.list.message.nomessage"] = "<%=i('message.list.message.nomessage') %>";
       i18n["message.list.message.noimageBox"] = "<%=i('message.list.message.noimageBox') %>";
       i18n["message.list.message.noreply"] = "<%=i('message.list.message.noreply') %>";
@@ -276,6 +277,8 @@
 
     <% include messageSelector.html %>
 
+    <% include messageEditor.html %>
+
     <script type="text/template" id="message-image-template">
       <div class="image{{index == 0 ? ' first' : ''}}">
         <img id="{{id}}" src="">
@@ -373,11 +376,18 @@
             </div>
           </div>
         </dd>
-        <$ if(canDelete) { $>
-          <a class="delete hide" href="javascript://" class="operation">
-            <i id="delete_{{mid}}" class="icon-remove" title="<%= i('message.list.button.delete') %>"></i>
+        <span id="editSpan_{{ mid }}" class="editSpan hide">
+          <$ if(canEdit) { $>
+          <a class="edit" href="#message-editor" data-toggle="modal">
+            <i id="edit_{{mid}}" class="icon-edit" title="<%= i('message.list.button.edit') %>"></i>
           </a>
-        <$ } $>
+          <$ } $>
+          <$ if(canDelete) { $>
+            <a class="delete" href="javascript://">
+              <i id="delete_{{mid}}" class="icon-remove" title="<%= i('message.list.button.delete') %>"></i>
+            </a>
+          <$ } $>
+        </span>
         <div style="border:1px solid #F9F4FA"></div>
       </dl>
     </script>

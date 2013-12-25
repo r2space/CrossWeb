@@ -212,6 +212,7 @@
 	"message.list.document.update": "最終更新日時",
 	"message.list.button.select": "選択",
 	"message.list.button.delete": "削除",
+  "message.list.button.edit": "編集",
 	"message.list.button.totop": "置顶",
 	"message.list.button.good": "いいね",
 	"message.list.button.forward": "転送",

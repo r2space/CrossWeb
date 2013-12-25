@@ -215,6 +215,7 @@
 	"message.list.document.update": "最终更新日",
 	"message.list.button.select": "选择",
 	"message.list.button.delete": "删除",
+  "message.list.button.edit": "编辑",
 	"message.list.button.totop": "置顶",
 	"message.list.button.good": "赞一个",
 	"message.list.button.forward": "转发",

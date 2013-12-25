@@ -351,13 +351,24 @@ div.publish .scope .divider {
 .message .praised {
   color: #F7823A;
 }
-.message .delete {
+.message .editSpan {
   position: absolute;
-  top: 0px;
-  right: 10px;
+  top: 0;
+  right: 30px;
+}
+.message .delete {
   text-decoration: none;
   color: #FC887E;
-  font-size: 15px;
+  font-size: 1.2em;
+  width: 18px;
+  display: inline-block;
+}
+.message .edit {
+  text-decoration: none;
+  color: #6EB7FC;
+  font-size: 1.2em;
+  width: 18px;
+  display: inline-block;
 }
 .message .reply-area {
   margin-left: 60px;

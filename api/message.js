@@ -53,6 +53,13 @@ exports.copyMessage = function(req_, res_){
   });
 };
 
+exports.updateMessage = function(req_, res_){
+
+  message.updateMessage(req_.body, function(err, result) {
+    response.send(res_, err, result);
+  });
+};
+
 
 /*
   我发出的评论的Api
