@@ -1,15 +1,45 @@
+<style>
+  #imageBoxSelector_editor {
+    width: 515px;
+    height: 50px;
+    line-height: 50px;
+    text-align: center;
+    cursor: pointer;
+    margin-bottom: 6px;
+    margin-left: 6px;
+    margin-top: 6px;
+    border: 1px dotted #999;
+  }
+  #imageBoxerContainer_editor {
+    padding: 3px;
+    text-align: center;
+  }
+</style>
+
 <script type="text/javascript">
 
   var messageEditor = {
 
     target : "",
     fetchMessage : "",
+    files : [],
+    oldMsg : null,
 
     initializeEditBox : function (fetchMessage){
       this.fetchMessage = fetchMessage;
       this.initializeScopeArea();
       this.initializeFinder();
       $("#messageEditorButton").on("click", this.updateMessage);
+
+      // 选择图片文件
+      $("#imageBoxSelector_editor").bind("click", function(){
+        var src = $("#uploadfile_editor");
+        src.attr("accept", "image/*");
+        src.attr("multiple", "multiple");
+        src.trigger('click');
+      });
+
+      $("#uploadfile_editor").bind("change", this.previewImage);
     },
 
     updateMessage : function () {
@@ -27,8 +57,6 @@
         }
       });
 
-      var url = "/message/update.json";
-
       var msg = {};
       msg["content"] = content;
       msg["target"] = messageEditor.target;
@@ -40,7 +68,37 @@
       };
       msg["at"] = at;
 
-      smart.dopost(url, msg, function(err, result){
+      var self = messageEditor;
+      if(self.files.length == 0){
+        msg.contentType = self.oldMsg.contentType;
+        msg.attach = self.oldMsg.attach;
+        self.doUpdate(msg);
+      } else {
+        self.uploadFiles(self.files, function(err, result) {
+          if(err) {
+            console.log(err);
+            smart.show("error", null, i18n["fail"]);
+            return;
+          }
+
+          var attach = [];
+          _.each(result.data.items, function(item) {
+            var data = {};
+            data["fileid"] = item._id;
+            data["filename"] = item.filename;
+            attach.push(data);
+          });
+
+          msg.contentType = "imageBox";
+          msg.attach = attach;
+
+          self.doUpdate(msg);
+        });
+      }
+    },
+
+    doUpdate : function(msg) {
+      smart.dopost("/message/update.json", msg, function(err, result){
         messageEditor.fetchMessage();
         $("#message-editor").modal('hide');
         $("#textBoxMsg-editor").val("");
@@ -49,8 +107,26 @@
         $("#selectedscope-editor").attr("uid", "1");
         $("#selectedscope-editor").html("<%= i('message.list.selector.scope') %>");
       });
+    },
 
-      return false;
+    /**
+     * 上传文件
+     */
+    uploadFiles: function(files, callback) {
+
+      var self = this;
+      if (!files || files.length <= 0) {
+        return false;
+      }
+
+      var fd = new FormData();
+      for (var i = 0; i < files.length; i++) {
+        fd.append("files", files[i]);
+      }
+
+      smart.dopostData("/gridfs/save.json", fd, function(err, result){
+        callback(err, result);
+      });
     },
 
     initMessage : function (mid) {
@@ -62,6 +138,8 @@
       $("#selectedscope-editor").attr("uid", "1")
       $("#selectedscope-editor").text("<%= i('message.list.selector.scope') %>");
       $("#keywordsText-editor").attr("scope", "1");
+      $("#imageBoxerContainer_editor").html("");
+      $("#uploadfile_editor").val("");
 
       smart.doget("/message/get.json?mid=" + mid, function(err, result){
         if(err) {
@@ -70,8 +148,10 @@
           return;
         }
 
+        messageEditor.oldMsg = result;
         var range = result.part.range;
         var content = result.content;
+        var attachs = result.attach;
         var atUsers = result.part.atusers;
 
         $("#textBoxMsg-editor").val(content);
@@ -90,6 +170,15 @@
           // 删除用户按钮的事件绑定
           $(".users a").on("click", function(){
             $(this).parent().parent().remove();
+          });
+        }
+        if(attachs && attachs.length > 0) {
+          var tmpl = $("#message-image-template-editor").html();
+          var imageId = _.uniqueId();
+          _.each(attachs, function(attach) {
+            var img = _.template(tmpl, {"id": imageId});
+            $("#imageBoxerContainer_editor").append($(img));
+            $("#" + imageId).attr("src", "/picture/" + attach.fileid);
           });
         }
       });
@@ -174,6 +263,41 @@
       $(".users a").on("click", function(){
         $(event.target).parent().parent().remove(); return false;
       });
+    },
+
+    /**
+     * 文件上传
+     */
+    previewImage: function(event) {
+      var self = this;
+
+      var files = [];
+      if (event.target.files) {
+        files = event.target.files;
+      } else {
+        if (event.target.value) {
+          files.push(event.target.value);
+        }
+      }
+
+      var tmpl = $("#message-image-template-editor").html();
+      $("#imageBoxerContainer_editor").html("");
+
+      var i = 0;
+      _.each(files,function(file) {
+        var id = _.uniqueId();
+
+        // 创建image框
+        var img = _.template(tmpl, {"id": id, "index": i++});
+        img = img.replace(/\n/g, "").replace(/^[ ]*/, "");
+        $("#imageBoxerContainer_editor").append($(img));
+
+        // 预览图片
+        smart.localPreview(file, $("#" + id));
+      })
+
+      var self = messageEditor;
+      self.files = files;
     }
 
   };
@@ -191,6 +315,12 @@
   </ol>
 </script>
 
+<script type="text/template" id="message-image-template-editor">
+  <div style="width: 100px;height: 100px;display: inline-block;margin:1px;">
+    <img id="{{id}}" src="" style="width: 100px;height: 100px;">
+  </div>
+</script>
+
 <div class="modal" id="message-editor" role="dialog" aria-hidden="true" style="display:none;">
   <div class="modal-header">
     <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
@@ -199,7 +329,12 @@
   <div class="modal-body">
     <!-- textBox -->
     <div class="textBox">
-      <textarea id="textBoxMsg-editor" class="comment" style="width:500px;" rows="3" placeholder="<%= i('message.list.placeholder.text') %>"></textarea>
+      <input type="file" id="uploadfile_editor" style="display: none" multiple="multiple" accept="image/*" />
+      <div id="imageBoxerContainer_editor"></div>
+      <div id="imageBoxSelector_editor">
+        <span><%= i('message.list.selector.image') %></span>
+      </div>
+      <textarea id="textBoxMsg-editor" class="comment" style="width:515px;" rows="3" placeholder="<%= i('message.list.placeholder.text') %>"></textarea>
       <div id="textBoxNotice-editor" class="users">
         <input id="keywordsText-editor" scope="1" placeholder="<%= i('message.list.placeholder.notice') %>" />
       </div>

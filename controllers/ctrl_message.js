@@ -158,6 +158,7 @@ exports.copyMessage = function(currentuid_, params_, callback_){
 exports.updateMessage = function(params_, callback_){
 
   var content = params_.content
+    , contentType = params_.contentType
     , attach = params_.attach
     , target = params_.target
     , range = params_.range || 1
@@ -166,10 +167,13 @@ exports.updateMessage = function(params_, callback_){
 
   var newMessage = {};
   newMessage.content = content;
+  newMessage.contentType = contentType;
   newMessage.range = range;
   newMessage.at = at;
   if(attach){
     newMessage.attach = attach;
+  } else {
+    newMessage.attach = [];
   }
   newMessage.editat = currentdate;
 
