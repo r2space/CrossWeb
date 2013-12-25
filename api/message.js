@@ -145,7 +145,9 @@ exports.getTopPageMessageList = function(req_, res_) {
  */
 exports.deleteMessage = function(req_, res_){
   var mid = util.checkString(req_.body.mid);
-
+  if(!mid){
+    mid = req_.query.mid;
+  }
 	message.deleteMessage(mid, function(err, result){
     response.send(res_, err, result);
   });
