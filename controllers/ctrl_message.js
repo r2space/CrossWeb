@@ -151,6 +151,72 @@ exports.copyMessage = function(currentuid_, params_, callback_){
   });
 };
 
+/**
+ *
+ * 更新消息
+ */
+exports.updateMessage = function(params_, callback_){
+
+  var content = params_.content
+    , contentType = params_.contentType
+    , attach = params_.attach
+    , target = params_.target
+    , range = params_.range || 1
+    , at = params_.at
+    , currentdate = Date.now();
+
+  var newMessage = {};
+  newMessage.content = content;
+  newMessage.contentType = contentType;
+  newMessage.range = range;
+  newMessage.at = at;
+  if(attach){
+    newMessage.attach = attach;
+  } else {
+    newMessage.attach = [];
+  }
+  newMessage.editat = currentdate;
+
+  message.forwardListNum(target, function(err, forwardNums) {
+    err = err ? new error.InternalServer(err) : null;
+    if(err) {
+      callback_(err);
+      return;
+    }
+
+    if(forwardNums == 0) {
+      message.update(target, newMessage, function(err, msg){
+        if (err) {
+          return callback_(new error.InternalServer(err));
+        }
+        ctrl_notification.createForMessage(msg);
+
+
+        // 更新全文检索索引
+        if(msg.attach.length > 0){
+          var fids = [];
+          for(var i =0 ;i <msg.attach.length;i++){
+            fids.push(msg.attach[i].fileid);
+          }
+          if(fids.length > 0){
+            amqp.send(conf.mq.queue_thumb, {
+              fids:fids.join()
+              , msg_id:msg._id
+              , code: conf.db.dbname
+              , collection:"messages"
+              , width:"500"
+            });
+          }
+        }
+
+        callback_(err, msg);
+      });
+    } else {
+      return callback_(new error.BadRequest(__("message.edit.check.forward")));
+    }
+  });
+};
+
 exports.deleteMessage = function (mid_, callback_){
   if(!mid_){
     return callback_(new error.BadRequest("消息ID不能为空"));

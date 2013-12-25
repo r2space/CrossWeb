@@ -19,6 +19,10 @@ exports.guiding = function(app){
     message.copyMessage(req, res);
   });
 
+  app.post('/message/update.json', function(req, res){
+    message.updateMessage(req, res);
+  });
+
   app.get("/message/get.json", function(req, res){
     message.getMessage(req, res);
   });

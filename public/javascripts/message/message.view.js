@@ -34,6 +34,7 @@
 
       messageSelector.initializeForwardBox(this.fetchMessage);
 
+      messageEditor.initializeEditBox(this.fetchMessage);
 
       this.initializeScopeArea();
       this.initializeMessageTypeArea();
@@ -454,9 +455,9 @@
           , "atAccounts": at
           , "praised": _.contains(msg.get("likers") || [], $("#userid").val())
           , "canDelete": uinfo.id == $("#userid").val() && msg.get("part").forwardNums == 0
+          , "canEdit": uinfo.id == $("#userid").val() && msg.get("part").forwardNums == 0
+            && msg.get("type") == 1 && !msg.get("target")
         }));
-
-        console.log(msg.get("part").forwardNums);
 
         var attaches = msg.get("attach");
         if(contentType == "documentBox"){
@@ -469,6 +470,7 @@
         $("#replyButton_" + msg.get("_id")).on("click", self.reply);
         $("#fetchreply_" + msg.get("_id")).on("click", self.fetchReply);
         $("#delete_" + msg.get("_id")).on("click", self.deleteMessage);
+        $("#edit_" + msg.get("_id")).on("click", self.editMessage);
         $("#message-" + msg.get("_id")).on("mouseenter", self.inMessage);
         $("#message-" + msg.get("_id")).on("mouseleave", self.outMessage);
       });
@@ -682,6 +684,7 @@
         }
 
         if(!self.files || self.files.length == 0){
+          param.contentType = "textBox";
           self.uploadMsg(param);
         } else {
           self.uploadFiles(self.files, function(err, result) {
@@ -828,7 +831,7 @@
       var self = this
         , mid = $(this).attr("id").split("-")[1];
 
-      $("#delete_" + mid).parent().show();
+      $("#editSpan_" + mid).show();
     },
 
     outMessage: function(event) {
@@ -836,7 +839,7 @@
       var self = this
         , mid = $(this).attr("id").split("-")[1];
 
-      $("#delete_" + mid).parent().hide();
+      $("#editSpan_" + mid).hide();
     },
 
     /**
@@ -892,6 +895,12 @@
         });
 
       }, function () {});
+    },
+
+    editMessage: function() {
+      var mid = $(this).attr("id").split("_")[1];
+
+      messageEditor.initMessage(mid);
     },
 
     /**

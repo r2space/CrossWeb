@@ -216,6 +216,7 @@
               , "rangeGroup": rangeGroup
               , "atAccounts": at
               , "praised": _.contains(msg.likers || [], $("#userid").val())
+              , "canDelete": uinfo.id == $("#userid").val() && msg.part.forwardNums == 0
             }));
 
             var attaches = msg["attach"];
@@ -229,6 +230,8 @@
             $("#replyButton_" + msg["_id"]).on("click", self.reply);
             $("#fetchreply_" + msg["_id"]).on("click", self.fetchReply);
             $("#delete_" + msg["_id"]).on("click", self.deleteMessage);
+            $("#message-" + msg["_id"]).on("mouseenter", self.inMessage);
+            $("#message-" + msg["_id"]).on("mouseleave", self.outMessage);
 
             smart.pagination(result.total, limit, curpage, "messagelist-user", function(){
               var pagenum = $(event.target).attr("id").split("_")[1];
@@ -475,12 +478,39 @@
         , url = "/message/delete.json"
         , mid = (typeof mid === "object") ? $(event.target).attr("id").split("_")[1] : mid
         , fd = new FormData();
+      fd.append("mid", mid);
 
-      fd.append("mid", mid); 
-      smart.dopostData(url, fd, function(err, result){
-        self.showMessage();
-        //alert("delete");
-      });
+      Alertify.dialog.confirm(i18n["message.list.label.deletemsg"], function () {
+
+        smart.dodelete(url, fd, function(err, result){
+          if(err) {
+            console.log(err);
+            smart.show("error", null, i18n["fail"]);
+            return;
+          }
+
+          smart.show("success", null, i18n["success"]);
+          $("#message-" + mid).fadeOut("slow");
+          //$("#message-" + mid).remove();
+        });
+
+      }, function () {});
+    },
+
+    inMessage: function(event) {
+
+      var self = this
+        , mid = $(this).attr("id").split("-")[1];
+
+      $("#delete_" + mid).parent().show();
+    },
+
+    outMessage: function(event) {
+
+      var self = this
+        , mid = $(this).attr("id").split("-")[1];
+
+      $("#delete_" + mid).parent().hide();
     },
 
     // ---------------------------- message -------------------------------------------------
