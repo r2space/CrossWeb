@@ -397,7 +397,7 @@ exports.update = function(handler, callback) {
         return callback(err);
       }
 
-      return callback(err, result ? true : false);
+      return callback(err, result);
     });
 
   };
@@ -564,8 +564,10 @@ function trans_user_api(result) {
     , createby  : result.createBy
     , editat    : result.updateAt
     , editby    : result.updateBy
-    , photo : result.extend.photo
-    , groups : result.groups
+    , photo     : result.extend.photo
+    , groups    : result.groups
+    , timezone  : result.timezone
+    , lang      : result.lang
   };
   return userData;
 }

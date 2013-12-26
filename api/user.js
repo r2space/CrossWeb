@@ -37,21 +37,7 @@ exports.simpleLogin = function(req, res){
       log.audit("login succeed.", result._id);
     }
 
-    // add cross property
-    var user =  req.session.user;
-    req.session.user.uid = user.userName;
-    req.session.user.email={
-      email1 : user.email
-    };
-    req.session.user.name = {
-      name_zh : user.extend.name_zh,
-      letter_zh: user.extend.letter_zh
-    };
-    req.session.user.tel = {
-      mobile : user.extend.mobile
-    };
-    req.session.user.following = user.extend.following;
-    req.session.user.uid = user.userName;
+    updateSession(req);
 
     response.send(res, err, result);
   });
@@ -167,6 +153,11 @@ exports.update = function(req, res) {
     if (err) {
       return response.send(res, err);
     }
+
+    // update session when succeed
+    req.session.user = result;
+    updateSession(req);
+
     return response.send(res, err, {isSuccess: result ? true : false});
 
   });
@@ -222,6 +213,24 @@ exports.updatePassword = function(req, res) {
 
   });
 };
+
+function updateSession(req){
+  // add cross property
+  var user =  req.session.user;
+  req.session.user.uid = user.userName;
+  req.session.user.email={
+    email1 : user.email
+  };
+  req.session.user.name = {
+    name_zh : user.extend.name_zh,
+    letter_zh: user.extend.letter_zh
+  };
+  req.session.user.tel = {
+    mobile : user.extend.mobile
+  };
+  req.session.user.following = user.extend.following;
+
+}
 
 
 

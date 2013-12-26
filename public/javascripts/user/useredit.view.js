@@ -51,7 +51,7 @@
         , name = this.model.get("name")
         , email = this.model.get("email")
         , custom = this.model.get("custom")
-        , address = this.model.get("address")
+        //, address = this.model.get("address")
         , photo = this.model.get("photo");
 
       $("#user-name").val(name.name_zh);
@@ -61,8 +61,8 @@
       $("#user-email").val(email ? email.email1 : "");
       $("#user-memo").val(custom ? custom.memo : "");
 
-      $("#user-address").val(address ? address.country : "");
-      $("#user-birthday").val(this.model.get("birthday"));
+      //$("#user-address").val(address ? address.country : "");
+      //$("#user-birthday").val(this.model.get("birthday"));
       $("#user-language").val(this.model.get("lang"));
       $("#user-timezone").val(this.model.get("timezone"));
 
@@ -112,6 +112,7 @@
           alert("更新失败，"+message);
         },
         success: function(a, b){
+          window.location.reload();
           smart.show("success", i18n["success"], i18n["success"], 3);
           //alert("");
         }
